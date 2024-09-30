@@ -1,0 +1,39 @@
+ErrorDocument 404 /
+ErrorDocument 403 /
+
+RewriteEngine On
+RewriteCond $1 !^(index\.php|public|\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+
+#Header always edit Set-Cookie (.*) "$1; SameSite=None;Secure"
+
+#php_value upload_max_filesize 50M
+#php_value post_max_size 50M
+#php_value max_input_time 300
+#php_value max_execution_time 300
+
+php_value session.cookie_httponly 1
+php_value session.cookie_secure 1
+
+ServerSignature Off
+ServerTokens Prod
+
+<IfModule mod_headers.c> 
+  	Header set X-XSS-Protection "1; mode=block"
+	Header always append X-Frame-Options SAMEORIGIN
+	Header set X-Content-Type-Options nosniff
+	Header set X-Download-Options: noopen
+	Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+	Header always unset "X-Powered-By"
+</IfModule>
+
+### If mod_rewrite is true...
+<IfModule mod_rewrite.c>
+### Prevent Apache from showing its server signature...
+ServerSignature off
+### Prevent phpinfo from showing details...
+RewriteCond %{QUERY_STRING} =PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC] RewriteRule .* - [F]
+</IfModule>
