@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/favicon.png">
+    <title>WBSFDA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+
+    <!-- for Gallery-->
+    <link href="assets/css/simplelightbox.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/demo.css" rel="stylesheet" type="text/css">
+    <!-- / for Gallery-->
+
+    <link rel="stylesheet" type="text/css" href="assets/css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/owl.theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/stellarnav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+
+
+</head>
+
+<body role="document">
+    <!-- Navbar Start -->
+    <header>
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+
+                <a href="index.html" class="logo_area"><img src="assets/img/logo.png" alt=""></a>
+
+                <div class="stellarnav">
+                    <ul>
+                        <li class="active"><a href="">Home</a></li>
+                        <li><a href="">Destination</a>
+                            <ul>
+                                <li><a href="">Sub menu</a></li>
+                                <li><a href="">Sub menu</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="">Book Safari</a>
+                            <ul>
+                                <li><a href="">Sub menu</a></li>
+                                <li><a href="">Sub menu</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="">What’s New</a></li>
+                        <li><a href="">Important Information</a></li>
+                        <li class="drop-left"><a href="">Dos & Don’ts</a> </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-7">
+
+                    <div class="checkout-wrap">
+                        <div class="checkout-body">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <h5 class="text-center fw-bold mb-3">Please Login to continue with the booking.</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group text-center">
+                                        <input id="checkbox" type="checkbox" checked="checked" class="checkbox-custom" autocomplete="off">
+                                        <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" id="viewTerms">I accept Cancellation Policy, Refund Policy and Terms &amp; Conditions.</a><!--  <a style="text-decoration:underline; cursor:pointer; color:#8080FF;" data-toggle="modal" data-target="#termsModal" id="view_terms">View terms</a> --></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group text-center">
+                                        <a href="#" id="booking_login" class="btn-green" data-toggle="modal" data-target="#login" data-redirect="1">Login to Continue</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- 1st Step Checkout -->
+                    <div class="checkout-wrap">
+
+                        <div class="checkout-head">
+                            <ul>
+                                <li class="active"><span><i class="bi bi-check-lg"></i></span>Customer Detail</li>
+                                <li><span>2</span>Payment Information</li>
+                                <li><span>3</span>Confirmation!</li>
+                            </ul>
+                        </div>
+
+                        <form action="" method="post" id="paymentForm" autocomplete="off">
+                            <input type="hidden" name="" value="" autocomplete="off">
+                            <div class="checkout-body">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group text-center ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <h5 class="mb-3 fw-bold thm-txt">Guest Detail</h5>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="guest_type" id="guestType1" value="1" checked="checked" autocomplete="off">
+                                            <label class="form-check-label" for="guestType1">Individual</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="guest_type" id="guestType2" value="2" autocomplete="off">
+                                            <label class="form-check-label" for="guestType2">Organization</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Full Name Of The Primary Guest <i class="req">*</i></label>
+                                            <input type="text" name="booking_fname" id="booking_fname" class="form-control text_capitalized" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Last Name<i class="req">*</i></label>
+										<input type="text" name="booking_lname" id="booking_lname" class="form-control text_capitalized">
+									</div>
+								</div>-->
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Gender <i class="req">*</i></label>
+                                            <select class="form-control" name="booking_gender" id="booking_gender">
+											<option value="">Select Gender</option>
+											<option value="Male" selected="selected">Male</option>
+											<option value="Female">Female</option>
+											<option value="Other">Transgender</option>
+										</select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Age <i class="req">*</i></label>
+                                            <select class="form-control" name="booking_age" id="booking_age">
+											<option value="">Select Age</option>
+																					<option value="18">18</option>
+																					<option value="19">19</option>
+																					<option value="20">20</option>
+																					<option value="21">21</option>
+																					<option value="22">22</option>
+																					<option value="23">23</option>
+																					<option value="24">24</option>
+																					<option value="25">25</option>
+																					<option value="26">26</option>
+																					<option value="27">27</option>
+																					<option value="28">28</option>
+																					<option value="29">29</option>
+																					<option value="30">30</option>
+																					<option value="31">31</option>
+																					<option value="32">32</option>
+																					<option value="33">33</option>
+																					<option value="34">34</option>
+																					<option value="35">35</option>
+																					<option value="36">36</option>
+																					<option value="37">37</option>
+																					<option value="38">38</option>
+																					<option value="39">39</option>
+																					<option value="40">40</option>
+																					<option value="41">41</option>
+																					<option value="42">42</option>
+																					<option value="43">43</option>
+																					<option value="44">44</option>
+																					<option value="45">45</option>
+																					<option value="46">46</option>
+																					<option value="47">47</option>
+																					<option value="48">48</option>
+																					<option value="49">49</option>
+																					<option value="50">50</option>
+																					<option value="51">51</option>
+																					<option value="52">52</option>
+																					<option value="53">53</option>
+																					<option value="54">54</option>
+																					<option value="55">55</option>
+																					<option value="56">56</option>
+																					<option value="57">57</option>
+																					<option value="58">58</option>
+																					<option value="59">59</option>
+																					<option value="60">60</option>
+																					<option value="61">61</option>
+																					<option value="62">62</option>
+																					<option value="63">63</option>
+																					<option value="64">64</option>
+																					<option value="65">65</option>
+																					<option value="66">66</option>
+																					<option value="67">67</option>
+																					<option value="68">68</option>
+																					<option value="69">69</option>
+																					<option value="70">70</option>
+																					<option value="71">71</option>
+																					<option value="72">72</option>
+																					<option value="73">73</option>
+																					<option value="74">74</option>
+																					<option value="75">75</option>
+																					<option value="76">76</option>
+																					<option value="77">77</option>
+																					<option value="78">78</option>
+																					<option value="79">79</option>
+																					<option value="80">80</option>
+																					<option value="81">81</option>
+																					<option value="82">82</option>
+																					<option value="83">83</option>
+																					<option value="84">84</option>
+																					<option value="85">85</option>
+																					<option value="86">86</option>
+																					<option value="87">87</option>
+																					<option value="88">88</option>
+																					<option value="89">89</option>
+																					<option value="90">90</option>
+																					<option value="91">91</option>
+																					<option value="92">92</option>
+																					<option value="93">93</option>
+																					<option value="94">94</option>
+																					<option value="95">95</option>
+																					<option value="96">96</option>
+																					<option value="97">97</option>
+																					<option value="98">98</option>
+																					<option value="99">99</option>
+																					<option value="100">100</option>
+																					<option value="101">101</option>
+																					<option value="102">102</option>
+																					<option value="103">103</option>
+																					<option value="104">104</option>
+																					<option value="105">105</option>
+																					<option value="106">106</option>
+																					<option value="107">107</option>
+																					<option value="108">108</option>
+																					<option value="109">109</option>
+																					<option value="110">110</option>
+																					<option value="111">111</option>
+																					<option value="112">112</option>
+																					<option value="113">113</option>
+																					<option value="114">114</option>
+																					<option value="115">115</option>
+																					<option value="116">116</option>
+																					<option value="117">117</option>
+																					<option value="118">118</option>
+																					<option value="119">119</option>
+																					<option value="120">120</option>
+																				</select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Email <i class="req">*</i></label>
+                                            <input type="email" name="booking_email" id="booking_email" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Mobile No.<i class="req">*</i></label>
+                                            <input type="number" name="booking_mobile" id="booking_mobile" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Whether any of the guest is a foreign national? <i class="req">*</i></label><br>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="guest_type_foreign" id="guestTypeForeign1" value="2" checked="checked" autocomplete="off">
+                                                <label class="form-check-label text-dark fw-normal" for="guestTypeForeign1">No</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="guest_type_foreign" id="guestTypeForeign2" value="1" autocomplete="off">
+                                                <label class="form-check-label text-dark fw-normal" for="guestTypeForeign2">Yes</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-12" id="show_when_foreigner" style="display:none;">
+
+                                        <div class="col-12">
+
+                                            <div class="table-responsive applicants-data-add-table" id="after_accommo_change_show">
+                                                <table class="table table-sm align-middle table-bordered mb-0" id="myTableForeigner">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Age</th>
+                                                            <th>Gender</th>
+                                                            <th>Nationality</th>
+                                                            <th></th>
+                                                        </tr>
+
+                                                        <tr class="text-box">
+                                                            <td><input type="text" class="form-control" name="foreigner_name[]" id="foreigner_name" placeholder="Name" required="" autocomplete="off">
+                                                            </td>
+
+                                                            <td>
+                                                                <select class="form-control" name="foreigner_age[]" id="foreigner_age" required="">
+																<option value="">Age</option>
+																															<option value="1">1</option>
+																															<option value="2">2</option>
+																															<option value="3">3</option>
+																															<option value="4">4</option>
+																															<option value="5">5</option>
+																															<option value="6">6</option>
+																															<option value="7">7</option>
+																															<option value="8">8</option>
+																															<option value="9">9</option>
+																															<option value="10">10</option>
+																															<option value="11">11</option>
+																															<option value="12">12</option>
+																															<option value="13">13</option>
+																															<option value="14">14</option>
+																															<option value="15">15</option>
+																															<option value="16">16</option>
+																															<option value="17">17</option>
+																															<option value="18">18</option>
+																															<option value="19">19</option>
+																															<option value="20">20</option>
+																															<option value="21">21</option>
+																															<option value="22">22</option>
+																															<option value="23">23</option>
+																															<option value="24">24</option>
+																															<option value="25">25</option>
+																															<option value="26">26</option>
+																															<option value="27">27</option>
+																															<option value="28">28</option>
+																															<option value="29">29</option>
+																															<option value="30">30</option>
+																															<option value="31">31</option>
+																															<option value="32">32</option>
+																															<option value="33">33</option>
+																															<option value="34">34</option>
+																															<option value="35">35</option>
+																															<option value="36">36</option>
+																															<option value="37">37</option>
+																															<option value="38">38</option>
+																															<option value="39">39</option>
+																															<option value="40">40</option>
+																															<option value="41">41</option>
+																															<option value="42">42</option>
+																															<option value="43">43</option>
+																															<option value="44">44</option>
+																															<option value="45">45</option>
+																															<option value="46">46</option>
+																															<option value="47">47</option>
+																															<option value="48">48</option>
+																															<option value="49">49</option>
+																															<option value="50">50</option>
+																															<option value="51">51</option>
+																															<option value="52">52</option>
+																															<option value="53">53</option>
+																															<option value="54">54</option>
+																															<option value="55">55</option>
+																															<option value="56">56</option>
+																															<option value="57">57</option>
+																															<option value="58">58</option>
+																															<option value="59">59</option>
+																															<option value="60">60</option>
+																															<option value="61">61</option>
+																															<option value="62">62</option>
+																															<option value="63">63</option>
+																															<option value="64">64</option>
+																															<option value="65">65</option>
+																															<option value="66">66</option>
+																															<option value="67">67</option>
+																															<option value="68">68</option>
+																															<option value="69">69</option>
+																															<option value="70">70</option>
+																															<option value="71">71</option>
+																															<option value="72">72</option>
+																															<option value="73">73</option>
+																															<option value="74">74</option>
+																															<option value="75">75</option>
+																															<option value="76">76</option>
+																															<option value="77">77</option>
+																															<option value="78">78</option>
+																															<option value="79">79</option>
+																															<option value="80">80</option>
+																															<option value="81">81</option>
+																															<option value="82">82</option>
+																															<option value="83">83</option>
+																															<option value="84">84</option>
+																															<option value="85">85</option>
+																															<option value="86">86</option>
+																															<option value="87">87</option>
+																															<option value="88">88</option>
+																															<option value="89">89</option>
+																															<option value="90">90</option>
+																															<option value="91">91</option>
+																															<option value="92">92</option>
+																															<option value="93">93</option>
+																															<option value="94">94</option>
+																															<option value="95">95</option>
+																															<option value="96">96</option>
+																															<option value="97">97</option>
+																															<option value="98">98</option>
+																															<option value="99">99</option>
+																															<option value="100">100</option>
+																															<option value="101">101</option>
+																															<option value="102">102</option>
+																															<option value="103">103</option>
+																															<option value="104">104</option>
+																															<option value="105">105</option>
+																															<option value="106">106</option>
+																															<option value="107">107</option>
+																															<option value="108">108</option>
+																															<option value="109">109</option>
+																															<option value="110">110</option>
+																															<option value="111">111</option>
+																															<option value="112">112</option>
+																															<option value="113">113</option>
+																															<option value="114">114</option>
+																															<option value="115">115</option>
+																															<option value="116">116</option>
+																															<option value="117">117</option>
+																															<option value="118">118</option>
+																															<option value="119">119</option>
+																															<option value="120">120</option>
+																														</select>
+                                                            </td>
+
+                                                            <td>
+                                                                <select class="form-control" name="foreigner_gender[]" id="foreigner_gender" required="">
+																<option value="">Gender</option>
+																<option value="Male">Male</option>
+																<option value="Female">Female</option>
+																<option value="Other">Transgender</option>
+															</select>
+                                                            </td>
+
+                                                            <td>
+                                                                <select class="form-control" name="foreigner_nationality[]" id="foreigner_nationality" required="">
+																<option value="">Nationality</option>
+																																<option value="Afghan">Afghan</option>
+																																<option value="Åland Island">Åland Island</option>
+																																<option value="Albanian">Albanian</option>
+																																<option value="Algerian">Algerian</option>
+																																<option value="American">American</option>
+																																<option value="American">American</option>
+																																<option value="American Samoan">American Samoan</option>
+																																<option value="Andorran">Andorran</option>
+																																<option value="Angolan">Angolan</option>
+																																<option value="Anguillan">Anguillan</option>
+																																<option value="Antarctic">Antarctic</option>
+																																<option value="Antiguan or Barbudan">Antiguan or Barbudan</option>
+																																<option value="Argentine">Argentine</option>
+																																<option value="Armenian">Armenian</option>
+																																<option value="Aruban">Aruban</option>
+																																<option value="Australian">Australian</option>
+																																<option value="Austrian">Austrian</option>
+																																<option value="Azerbaijani, Azeri">Azerbaijani, Azeri</option>
+																																<option value="Bahamian">Bahamian</option>
+																																<option value="Bahraini">Bahraini</option>
+																																<option value="Bangladeshi">Bangladeshi</option>
+																																<option value="Barbadian">Barbadian</option>
+																																<option value="Barthélemois">Barthélemois</option>
+																																<option value="Basotho">Basotho</option>
+																																<option value="Belarusian">Belarusian</option>
+																																<option value="Belgian">Belgian</option>
+																																<option value="Belizean">Belizean</option>
+																																<option value="Beninese, Beninois">Beninese, Beninois</option>
+																																<option value="Bermudian, Bermudan">Bermudian, Bermudan</option>
+																																<option value="Bhutanese">Bhutanese</option>
+																																<option value="BIOT">BIOT</option>
+																																<option value="Bissau-Guinean">Bissau-Guinean</option>
+																																<option value="Bolivian">Bolivian</option>
+																																<option value="Bonaire">Bonaire</option>
+																																<option value="Bosnian or Herzegovinian">Bosnian or Herzegovinian</option>
+																																<option value="Bouvet Island">Bouvet Island</option>
+																																<option value="Brazilian">Brazilian</option>
+																																<option value="British Virgin Island">British Virgin Island</option>
+																																<option value="British, UK">British, UK</option>
+																																<option value="Bruneian">Bruneian</option>
+																																<option value="Bulgarian">Bulgarian</option>
+																																<option value="Burkinabé">Burkinabé</option>
+																																<option value="Burmese">Burmese</option>
+																																<option value="Burundian">Burundian</option>
+																																<option value="Cabo Verdean">Cabo Verdean</option>
+																																<option value="Cambodian">Cambodian</option>
+																																<option value="Cameroonian">Cameroonian</option>
+																																<option value="Canadian">Canadian</option>
+																																<option value="Caymanian">Caymanian</option>
+																																<option value="Central African">Central African</option>
+																																<option value="Chadian">Chadian</option>
+																																<option value="Channel Island">Channel Island</option>
+																																<option value="Channel Island">Channel Island</option>
+																																<option value="Chilean">Chilean</option>
+																																<option value="Chinese">Chinese</option>
+																																<option value="Chinese, Taiwanese">Chinese, Taiwanese</option>
+																																<option value="Christmas Island">Christmas Island</option>
+																																<option value="Cocos Island">Cocos Island</option>
+																																<option value="Colombian">Colombian</option>
+																																<option value="Comoran, Comorian">Comoran, Comorian</option>
+																																<option value="Congolese">Congolese</option>
+																																<option value="Congolese">Congolese</option>
+																																<option value="Cook Island">Cook Island</option>
+																																<option value="Costa Rican">Costa Rican</option>
+																																<option value="Croatian">Croatian</option>
+																																<option value="Cuban">Cuban</option>
+																																<option value="Curaçaoan">Curaçaoan</option>
+																																<option value="Cypriot">Cypriot</option>
+																																<option value="Czech">Czech</option>
+																																<option value="Danish">Danish</option>
+																																<option value="Djiboutian">Djiboutian</option>
+																																<option value="Dominican">Dominican</option>
+																																<option value="Dominican">Dominican</option>
+																																<option value="Dutch, Netherlandic">Dutch, Netherlandic</option>
+																																<option value="Ecuadorian">Ecuadorian</option>
+																																<option value="Egyptian">Egyptian</option>
+																																<option value="Emirati, Emirian, Emiri">Emirati, Emirian, Emiri</option>
+																																<option value="Equatorial Guinean, Equatoguinean">Equatorial Guinean, Equatoguinean</option>
+																																<option value="Eritrean">Eritrean</option>
+																																<option value="Estonian">Estonian</option>
+																																<option value="Ethiopian">Ethiopian</option>
+																																<option value="Falkland Island">Falkland Island</option>
+																																<option value="Faroese">Faroese</option>
+																																<option value="Fijian">Fijian</option>
+																																<option value="Finnish">Finnish</option>
+																																<option value="French">French</option>
+																																<option value="French Guianese">French Guianese</option>
+																																<option value="French Polynesian">French Polynesian</option>
+																																<option value="French Southern Territories">French Southern Territories</option>
+																																<option value="Gabonese">Gabonese</option>
+																																<option value="Gambian">Gambian</option>
+																																<option value="Georgian">Georgian</option>
+																																<option value="German">German</option>
+																																<option value="Ghanaian">Ghanaian</option>
+																																<option value="Gibraltar">Gibraltar</option>
+																																<option value="Greek, Hellenic">Greek, Hellenic</option>
+																																<option value="Greenlandic">Greenlandic</option>
+																																<option value="Grenadian">Grenadian</option>
+																																<option value="Guadeloupe">Guadeloupe</option>
+																																<option value="Guamanian, Guambat">Guamanian, Guambat</option>
+																																<option value="Guatemalan">Guatemalan</option>
+																																<option value="Guinean">Guinean</option>
+																																<option value="Guyanese">Guyanese</option>
+																																<option value="Haitian">Haitian</option>
+																																<option value="Heard Island or McDonald Islands">Heard Island or McDonald Islands</option>
+																																<option value="Honduran">Honduran</option>
+																																<option value="Hong Kong, Hong Kongese">Hong Kong, Hong Kongese</option>
+																																<option value="Hungarian, Magyar">Hungarian, Magyar</option>
+																																<option value="I-Kiribati">I-Kiribati</option>
+																																<option value="Icelandic">Icelandic</option>
+																																<option value="Indonesian">Indonesian</option>
+																																<option value="Iranian, Persian">Iranian, Persian</option>
+																																<option value="Iraqi">Iraqi</option>
+																																<option value="Irish">Irish</option>
+																																<option value="Israeli">Israeli</option>
+																																<option value="Italian">Italian</option>
+																																<option value="Ivorian">Ivorian</option>
+																																<option value="Jamaican">Jamaican</option>
+																																<option value="Japanese">Japanese</option>
+																																<option value="Jordanian">Jordanian</option>
+																																<option value="Kazakhstani, Kazakh">Kazakhstani, Kazakh</option>
+																																<option value="Kenyan">Kenyan</option>
+																																<option value="Kittitian or Nevisian">Kittitian or Nevisian</option>
+																																<option value="Kuwaiti">Kuwaiti</option>
+																																<option value="Kyrgyzstani, Kyrgyz, Kirgiz, Kirghiz">Kyrgyzstani, Kyrgyz, Kirgiz, Kirghiz</option>
+																																<option value="Lao, Laotian">Lao, Laotian</option>
+																																<option value="Latvian">Latvian</option>
+																																<option value="Lebanese">Lebanese</option>
+																																<option value="Liberian">Liberian</option>
+																																<option value="Libyan">Libyan</option>
+																																<option value="Liechtenstein">Liechtenstein</option>
+																																<option value="Lithuanian">Lithuanian</option>
+																																<option value="Luxembourg, Luxembourgish">Luxembourg, Luxembourgish</option>
+																																<option value="Macanese, Chinese">Macanese, Chinese</option>
+																																<option value="Macedonian">Macedonian</option>
+																																<option value="Mahoran">Mahoran</option>
+																																<option value="Malagasy">Malagasy</option>
+																																<option value="Malawian">Malawian</option>
+																																<option value="Malaysian">Malaysian</option>
+																																<option value="Maldivian">Maldivian</option>
+																																<option value="Malian, Malinese">Malian, Malinese</option>
+																																<option value="Maltese">Maltese</option>
+																																<option value="Manx">Manx</option>
+																																<option value="Marshallese">Marshallese</option>
+																																<option value="Martiniquais, Martinican">Martiniquais, Martinican</option>
+																																<option value="Mauritanian">Mauritanian</option>
+																																<option value="Mauritian">Mauritian</option>
+																																<option value="Mexican">Mexican</option>
+																																<option value="Micronesian">Micronesian</option>
+																																<option value="Moldovan">Moldovan</option>
+																																<option value="Monégasque, Monacan">Monégasque, Monacan</option>
+																																<option value="Mongolian">Mongolian</option>
+																																<option value="Montenegrin">Montenegrin</option>
+																																<option value="Montserratian">Montserratian</option>
+																																<option value="Moroccan">Moroccan</option>
+																																<option value="Motswana, Botswanan">Motswana, Botswanan</option>
+																																<option value="Mozambican">Mozambican</option>
+																																<option value="Namibian">Namibian</option>
+																																<option value="Nauruan">Nauruan</option>
+																																<option value="Nepali, Nepalese">Nepali, Nepalese</option>
+																																<option value="New Caledonian">New Caledonian</option>
+																																<option value="New Zealand, NZ">New Zealand, NZ</option>
+																																<option value="Ni-Vanuatu, Vanuatuan">Ni-Vanuatu, Vanuatuan</option>
+																																<option value="Nicaraguan">Nicaraguan</option>
+																																<option value="Nigerian">Nigerian</option>
+																																<option value="Nigerien">Nigerien</option>
+																																<option value="Niuean">Niuean</option>
+																																<option value="Norfolk Island">Norfolk Island</option>
+																																<option value="North Korean">North Korean</option>
+																																<option value="Northern Marianan">Northern Marianan</option>
+																																<option value="Norwegian">Norwegian</option>
+																																<option value="Omani">Omani</option>
+																																<option value="Pakistani">Pakistani</option>
+																																<option value="Palauan">Palauan</option>
+																																<option value="Palestinian">Palestinian</option>
+																																<option value="Panamanian">Panamanian</option>
+																																<option value="Papua New Guinean, Papuan">Papua New Guinean, Papuan</option>
+																																<option value="Paraguayan">Paraguayan</option>
+																																<option value="Peruvian">Peruvian</option>
+																																<option value="Philippine, Filipino">Philippine, Filipino</option>
+																																<option value="Pitcairn Island">Pitcairn Island</option>
+																																<option value="Polish">Polish</option>
+																																<option value="Portuguese">Portuguese</option>
+																																<option value="Puerto Rican">Puerto Rican</option>
+																																<option value="Qatari">Qatari</option>
+																																<option value="Réunionese, Réunionnais">Réunionese, Réunionnais</option>
+																																<option value="Romanian">Romanian</option>
+																																<option value="Russian">Russian</option>
+																																<option value="Rwandan">Rwandan</option>
+																																<option value="Sahrawi, Sahrawian, Sahraouian">Sahrawi, Sahrawian, Sahraouian</option>
+																																<option value="Saint Helenian">Saint Helenian</option>
+																																<option value="Saint Lucian">Saint Lucian</option>
+																																<option value="Saint Vincentian, Vincentian">Saint Vincentian, Vincentian</option>
+																																<option value="Saint-Martinoise">Saint-Martinoise</option>
+																																<option value="Saint-Pierrais or Miquelonnais">Saint-Pierrais or Miquelonnais</option>
+																																<option value="Salvadoran">Salvadoran</option>
+																																<option value="Sammarinese">Sammarinese</option>
+																																<option value="Samoan">Samoan</option>
+																																<option value="São Toméan">São Toméan</option>
+																																<option value="Saudi, Saudi Arabian">Saudi, Saudi Arabian</option>
+																																<option value="Senegalese">Senegalese</option>
+																																<option value="Serbian">Serbian</option>
+																																<option value="Seychellois">Seychellois</option>
+																																<option value="Sierra Leonean">Sierra Leonean</option>
+																																<option value="Singaporean">Singaporean</option>
+																																<option value="Sint Maarten">Sint Maarten</option>
+																																<option value="Slovak">Slovak</option>
+																																<option value="Slovenian, Slovene">Slovenian, Slovene</option>
+																																<option value="Solomon Island">Solomon Island</option>
+																																<option value="Somali, Somalian">Somali, Somalian</option>
+																																<option value="South African">South African</option>
+																																<option value="South Georgia or South Sandwich Islands">South Georgia or South Sandwich Islands</option>
+																																<option value="South Korean">South Korean</option>
+																																<option value="South Sudanese">South Sudanese</option>
+																																<option value="Spanish">Spanish</option>
+																																<option value="Sri Lankan">Sri Lankan</option>
+																																<option value="Sudanese">Sudanese</option>
+																																<option value="Surinamese">Surinamese</option>
+																																<option value="Svalbard">Svalbard</option>
+																																<option value="Swazi">Swazi</option>
+																																<option value="Swedish">Swedish</option>
+																																<option value="Swiss">Swiss</option>
+																																<option value="Syrian">Syrian</option>
+																																<option value="Tajikistani">Tajikistani</option>
+																																<option value="Tanzanian">Tanzanian</option>
+																																<option value="Thai">Thai</option>
+																																<option value="Timorese">Timorese</option>
+																																<option value="Togolese">Togolese</option>
+																																<option value="Tokelauan">Tokelauan</option>
+																																<option value="Tongan">Tongan</option>
+																																<option value="Trinidadian or Tobagonian">Trinidadian or Tobagonian</option>
+																																<option value="Tunisian">Tunisian</option>
+																																<option value="Turkish">Turkish</option>
+																																<option value="Turkmen">Turkmen</option>
+																																<option value="Turks and Caicos Island">Turks and Caicos Island</option>
+																																<option value="Tuvaluan">Tuvaluan</option>
+																																<option value="U.S. Virgin Island">U.S. Virgin Island</option>
+																																<option value="Ugandan">Ugandan</option>
+																																<option value="Ukrainian">Ukrainian</option>
+																																<option value="Uruguayan">Uruguayan</option>
+																																<option value="Uzbekistani, Uzbek">Uzbekistani, Uzbek</option>
+																																<option value="Vatican">Vatican</option>
+																																<option value="Venezuelan">Venezuelan</option>
+																																<option value="Vietnamese">Vietnamese</option>
+																																<option value="Wallis and Futuna, Wallisian or Futunan">Wallis and Futuna, Wallisian or Futunan</option>
+																																<option value="Yemeni">Yemeni</option>
+																																<option value="Zambian">Zambian</option>
+																																<option value="Zimbabwean">Zimbabwean</option>
+																														</select>
+                                                            </td>
+                                                            <td></td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="text-end mt-3">
+                                                <button type="button" class="btn btn-info text-white" id="add_row_foreigner"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12" id="org_name" style="display: none;">
+                                        <div class="form-group">
+                                            <label>Organisation Name</label>
+                                            <input type="text" name="booking_organisation_name" id="booking_organisation_name" class="form-control text_capitalized" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12" id="org_gstin" style="display: none;">
+                                        <div class="form-group">
+                                            <label>GSTIN</label>
+                                            <input type="text" name="booking_organisation_gstin" id="booking_organisation_gstin" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <!--
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>Country<i class="req">*</i></label>
+										<select name="booking_country" id="country" class="form-control">
+											<option value="101" selected>India</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>State<i class="req">*</i></label>
+										<select name="booking_state" id="choose-state" class="form-control">
+																				</select>
+									</div>
+								</div>
+	
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="form-group">
+										<label>City<i class="req">*</i></label>
+										<input type="text" name="booking_city" class="form-control">
+									</div>
+								</div>
+	
+								<div class="col-lg-12 col-md-12 col-sm-12">
+									<div class="form-group">
+										<label>Address</label>
+										<textarea name="booking_address" class="form-control"></textarea>
+									</div>
+								</div>-->
+
+
+
+                                    <div class="col-lg-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input id="checkbox" type="checkbox" checked="checked" class="checkbox-custom" autocomplete="off">
+                                            <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept the Cancellation Policy, Refund Policy and Terms &amp; Conditions.</a><!--  <a style="text-decoration:underline; cursor:pointer; color:#8080FF;" data-toggle="modal" data-target="#termsModal" id="view_terms">View terms</a> --></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group text-center">
+                                            <input type="submit" class="btn btn-green" value="Proceed to Pay" id="pay_btn" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-5">
+                    <div class="checkout-side">
+                        <div class="booking-short">
+                            <img src="assets/images/hotel/hotel-inner-1.jpg" class="img-fluid" alt="">
+                            <h5 class="thm-txt fw-bold">Amrapali Guest House Complex</h5>
+                            <p>Eral, Purba Burdwan PURBA BARDHAMAN Bardhaman 713144, , Bardhaman</p>
+                            <p>
+                                <span class="text-dark fw-bold">Total Length of Stay:</span><br>
+                                <span>1 Night 2 Days</span>
+                            </p>
+                        </div>
+
+                        <div class="booking-short-side">
+
+                            <div class="card border-0 rounded-0">
+                                <div class="card-header thm-bg rounded-0" id="bookinDet">
+                                    <h5 class="text-white mb-0">Booking Details</h5>
+                                </div>
+                                <div id="bookinSer" class="collapse show" aria-labelledby="bookinDet" data-parent="#accordionExample">
+                                    <div class="card-body p-0 paybox">
+                                        <ul class="booking-detail-list">
+                                            <li>
+                                                Check in - Check out:
+                                                <span class="w-100">29 Sep 2024 - 30 Sep 2024</span>
+                                            </li>
+                                            <li>
+                                                Total Length of Stay:
+                                                <span class="w-100">1 Night 2 Days</span>
+                                            </li>
+                                            <li>Adults:<span>2</span></li>
+                                            <li>Children:<span>0</span></li>
+                                            <li>Price: <span class="h6">₹600.00</span></li>
+                                            <li>
+                                                <!--<div>Coupon: </div>-->
+                                                <div class="input-group">
+                                                    <input type="hidden" name="coupon_property_id" id="coupon_property_id" value="9" autocomplete="off">
+                                                    <input type="text" name="coupon" id="coupon" class="form-control" placeholder="Add Coupon" style="height:42px;border:1px solid #e6eaf3;border-radius:0;" autocomplete="off">
+                                                    <div class="btn-green pt-2"><span id="coupon_action" data-type="apply" class="text-white">Apply</span> </div>
+                                                </div>
+                                                <p id="coupon_msg"></p>
+                                            </li>
+                                            <li>GST: <span class="h6">₹72.00</span></li>
+                                            <li class="totalprice">Total Payment <span class="h5">₹672.00</span></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="big_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="" class="footer_logo"><img src="assets/img/logo.png" alt=""></a>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <h4>Quick Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Home </a></li>
+                            <li><a href="">About Us </a></li>
+                            <li><a href="">Gallery </a></li>
+                            <li><a href="">Holiday Calender </a></li>
+                            <li><a href="">Disclaimer </a></li>
+                            <li><a href="">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h4>Related Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Wild Bengal  </a></li>
+                            <li><a href="">West Bengal Forest Development Corporation  </a></li>
+                            <li><a href="">West Bengal Pulpwood Development Corporation  </a></li>
+                            <li><a href="">West Bengal Zoo Authority  </a></li>
+                            <li><a href="">West Bengal Forest and Biodiversity Conservation Project  </a></li>
+                            <li><a href="">West Bengal Wasteland Development Corporation </a></li>
+                            <li><a href="">West Bengal State Forest Development Agency </a></li>
+                            <li><a href="">Bengal Nature Trails</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 Contact_list">
+                        <h4>Contact Us</h4>
+                        <p class="map-ico"><img src="assets/img/map_ico.png" alt="">Aranya Bhavan,BLock LA-10A, Sector- III, Salt Lake, Kolkata, West Bengal 700106</p>
+                        <p><img src="assets/img/ph_ico.png" alt=""> <a href="tel:+918337066882">+91 8337066882</a></p>
+                        <p><img src="assets/img/mail_ico.png" alt=""> <a href="mailto:wbsfdaecotourism@gmail.com">wbsfdaecotourism@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy_footer">
+            <div class="container">
+                <div class="col-md-12">
+                    <hr class="mb-0">
+                    <p>© Copyright 2024 All Rights Reserved by <a href="">WBSFDA</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--View Terms Modal -->
+    <div class="modal fade" id="viewTerms" tabindex="-1" aria-labelledby="viewTermsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="viewTermsModalLabel">Cancellation Policy, Refund Policy and Terms & Conditions</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Content will be added soon.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="assets/js/jquery-3.4.1.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- For Gallery-->
+    <script type="text/javascript" src="assets/js/simple-lightbox.js"></script>
+    <!-- / For Gallery-->
+
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/jquery4a5f.js"></script>
+    <script src="assets/js/owl.carousel.js"></script>
+    <script src="assets/js/stellarnav.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/wow.js"></script>
+
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            jQuery('.stellarnav').stellarNav({
+                //theme: 'dark',
+                breakpoint: 767,
+                position: 'right',
+                //phoneBtn: '18009997788',
+                //locationBtn: 'https://www.google.com/maps'
+            });
+        });
+    </script>
+    <script>
+        wow = new WOW({
+            animateClass: 'animated',
+            offset: 100,
+            mobile: false,
+        });
+        wow.init();
+    </script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+            $("#datepicker1").datepicker();
+        });
+    </script>
+    <script>
+        $(function() {
+            var $gallery = $('.gallery a').simpleLightbox();
+
+            $gallery.on('show.simplelightbox', function() {
+                    console.log('Requested for showing');
+                })
+                .on('shown.simplelightbox', function() {
+                    console.log('Shown');
+                })
+                .on('close.simplelightbox', function() {
+                    console.log('Requested for closing');
+                })
+                .on('closed.simplelightbox', function() {
+                    console.log('Closed');
+                })
+                .on('change.simplelightbox', function() {
+                    console.log('Requested for change');
+                })
+                .on('next.simplelightbox', function() {
+                    console.log('Requested for next');
+                })
+                .on('prev.simplelightbox', function() {
+                    console.log('Requested for prev');
+                })
+                .on('nextImageLoaded.simplelightbox', function() {
+                    console.log('Next image loaded');
+                })
+                .on('prevImageLoaded.simplelightbox', function() {
+                    console.log('Prev image loaded');
+                })
+                .on('changed.simplelightbox', function() {
+                    console.log('Image changed');
+                })
+                .on('nextDone.simplelightbox', function() {
+                    console.log('Image changed to next');
+                })
+                .on('prevDone.simplelightbox', function() {
+                    console.log('Image changed to prev');
+                })
+                .on('error.simplelightbox', function(e) {
+                    console.log('No image found, go to the next/prev');
+                    console.log(e);
+                });
+        });
+    </script>
+    <script type='text/javascript'>
+        jQuery(document).ready(function(e) {
+            var n;
+            e(".numbercount").counterUp({
+                delay: 10,
+                time: 1e3
+            })
+        });
+        // jQuery(document).ready(function () {
+
+        // 	jQuery(".numbercount").after('<h2 style="margin: 0px;display: inline-block;color: white;"><sup>+</sup></h2>');
+        // });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            customerSection();
+        });
+
+        function customerSection() {
+            var guestType = $('input:radio[name="guest_type"]:checked').val();
+            var firstName = "s";
+            var lastName = "";
+            var gender = "Male";
+            var age = "";
+            var email = "sourabhsyscentric@gmail.com";
+            var mobile = "7980717449";
+
+            if (guestType == "1") {
+                $("#booking_fname").val(firstName);
+                $("#booking_lname").val(lastName);
+                $('#booking_gender [value=' + gender + ']').attr('selected', 'true');
+                $('#booking_age [value=' + +']').attr('selected', 'true');
+                $("#booking_email").val("sourabhsyscentric@gmail.com");
+                $("#booking_mobile").val(mobile);
+
+                //$("#booking_fname").attr("readonly", "true");
+                //$("#booking_lname").attr("readonly", "true");
+                //$("#booking_gender").attr("readonly", "true");
+                //$("#booking_age").attr("readonly", "true");
+                //$("#booking_email").attr("readonly", "true");
+                //$("#booking_mobile").attr("readonly", "true");
+                $("#org_name").css("display", "none");
+                $("#org_gstin").css("display", "none");
+            }
+            if (guestType == "2") {
+                $("#booking_fname").val("");
+                $("#booking_lname").val("");
+                //$("#booking_gender").val("");
+                //$("#booking_age").val("");
+                $("#booking_email").val("");
+                $("#booking_mobile").val("");
+                $("#booking_organisation_name").val("");
+                $("#booking_organisation_gstin").val("");
+
+                //$("#booking_fname").removeAttr("readonly");
+                //$("#booking_lname").removeAttr("readonly");
+                //$("#booking_gender").removeAttr("disabled");
+                //$("#booking_age").removeAttr("disabled");
+                //$("#booking_email").removeAttr("readonly");
+                //$("#booking_mobile").removeAttr("readonly");
+                $("#org_name").css("display", "block");
+                $("#org_gstin").css("display", "block");
+            }
+        }
+    </script>
+</body>
+
+</html>

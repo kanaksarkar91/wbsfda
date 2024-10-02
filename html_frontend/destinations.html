@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/favicon.png">
+    <title>WBSFDA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+
+    <!-- for Gallery-->
+    <link href="assets/css/simplelightbox.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/demo.css" rel="stylesheet" type="text/css">
+    <!-- / for Gallery-->
+
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/stellarnav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+
+
+</head>
+
+<body role="document">
+    <!-- Navbar Start -->
+    <header class="fixed-header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <a href="index.html" class="logo_area"><img src="assets/img/logo.png" alt=""></a>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center">
+                        <div class="stellarnav">
+                            <ul>
+                                <li class="active"><a href="">Home</a></li>
+                                <li><a href="">Destination</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">Book Safari</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">What’s New</a></li>
+                                <li><a href="">Information</a></li>
+                                <li class="drop-left"><a href="">Dos & Don’ts</a> </li>
+                            </ul>
+                        </div>
+                        <ul class="log_list">
+                            <li><button type="button" class="btn btn-yellow" data-bs-toggle="modal" data-bs-target="#LoginModal">Login</button></li>
+                            <li><button type="button" class="btn btn-yellow" data-bs-toggle="modal" data-bs-target="#SignnModal">Sign Up</button></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </header>
+    <!--Header Top End"-->
+    <section class="inner-banner-section" style="background: url(assets/img/destinations-banner.png); background-size: cover; background-position: center;">
+        <div class="container-xxl">
+            <h1 class="text-center">Eco Tourism Destinations</h1>
+
+            <div class="tab_area rounded-4">
+                <div class="form-content" id="">
+                    <form action="" class="row g-2 align-items-center">
+                        <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
+                            <div class="select_area">
+                                <select name="" id="" class="form-control">
+									<option value="" disabled>Select Park</option>
+									<option value="" selected>National Park</option>
+								</select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
+                            <div class="select_area">
+                                <select name="" id="" class="form-control">
+								<option value="" disabled>Select Type</option>
+								<option value="" selected>Safari</option>
+							</select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                            <div class="calenadr_area">
+                                <input type="text" class="form-control" id="datepicker2" placeholder="From Date">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                            <div class="calenadr_area">
+                                <input type="text" class="form-control" id="datepicker3" placeholder="To Date">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                            <div class="select_area">
+                                <select name="" id="" class="form-control">
+								<option value="" disabled>Select Nationality</option>
+								<option value="" selected>Indian</option>
+								<option value="" >Foreigner</option>
+							</select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-3 col-xl-2 mb-3">
+                            <button class="w-100 btn btn-green">Search Availability</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <div class="destination_slider_area row g-0">
+                        <div class="destination_slider_img col-md-12 col-lg-6 col-xl-4">
+                            <ul class="destination-carousel owl-carousel slider_list">
+                                <li>
+                                    <img src="assets/img/destination_slider.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_01.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_02.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="destination_slider_txt col-md-12 col-lg-6 col-xl-8">
+                            <h3>Beharinath ETC</h3>
+                            <p class="map_ico"><i class="fas fa-map-marker-alt"></i> Bihari, PO: Bamuntore, Bankura Beharinath ETC Dist: Bankura Pin code: 722101</p>
+                            <h4>Description:</h4>
+                            <p class="destination_p">Biharinath Ecotourism centre is located near Biharinath Temple and is at the foot hills of Biharinath Hills. Biharinath Hill is the tallest Hill in Bankura District with an altitude of 451mts. Biharinath is the other name of
+                                lord Mahadev or Shiva. </p>
+                            <div class="row price_area">
+                                <div class="col-md-5">
+                                    <h5>Price starts from</h5>
+                                    <h4><b>₹300.00</b> <span>per night</span></h4>
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>Timing:</h5>
+                                    <p>Check in: <b>12:00 PM</b> Check out: <b>11:00 AM</b></p>
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-end">
+                                <a href="#" class="btn btn-green px-5 py-2">Select</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    <div class="destination_slider_area row g-0">
+                        <div class="destination_slider_img col-md-12 col-lg-6 col-xl-4">
+                            <ul class="destination-carousel owl-carousel slider_list">
+                                <li>
+                                    <img src="assets/img/destination_slider1.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_01.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_02.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="destination_slider_txt col-md-12 col-lg-6 col-xl-8">
+                            <h3>Parimal Kanan</h3>
+                            <p class="map_ico"><i class="fas fa-map-marker-alt"></i> Chandrakona Road Urban Recreation Forestry ETC Dist: Pachim Medinipur Pin code: 745230</p>
+                            <h4>Description:</h4>
+                            <p class="destination_p">It is located about half km from Chandrakona Road railway station. The park is spread over 30 ha with small forests. There is rose garden, flower garden, Aviary, medicinal plants garden, arboretum, boating, Aquarium,children
+                                garden, toy train and picnic sheds.</p>
+                            <div class="row price_area">
+                                <div class="col-md-5">
+                                    <h5>Price starts from</h5>
+                                    <h4><b>₹300.00</b> <span>per night</span></h4>
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>Timing:</h5>
+                                    <p>Check in: <b>12:00 PM</b> Check out: <b>11:00 AM</b></p>
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-end">
+                                <a href="#" class="btn btn-green px-5 py-2">Select</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    <div class="destination_slider_area row g-0">
+                        <div class="destination_slider_img col-md-12 col-lg-6 col-xl-4">
+                            <ul class="destination-carousel owl-carousel slider_list">
+                                <li>
+                                    <img src="assets/img/destination_slider2.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_01.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_02.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="destination_slider_txt col-md-12 col-lg-6 col-xl-8">
+                            <h3>Matha Tree House</h3>
+                            <p class="map_ico"><i class="fas fa-map-marker-alt"></i> RO Matha Range, PS: Bagmundi, Purulia Matha Tree House Dist: Purulia Pin code: 723143</p>
+                            <h4>Description:</h4>
+                            <p class="destination_p">Matha Tree House is situated at Matha Range Complex, infront of Mathaburu Hills under the jurisdiction of Purulia Forest Division.Matha Tree House/Rest shed is constructed about 10' above the ground  level over Sal trres with
+                                one double beded attached toilet room, one dining room.</p>
+                            <div class="row price_area">
+                                <div class="col-md-5">
+                                    <h5>Price starts from</h5>
+                                    <h4><b>₹300.00</b> <span>per night</span></h4>
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>Timing:</h5>
+                                    <p>Check in: <b>12:00 PM</b> Check out: <b>11:00 AM</b></p>
+                                </div>
+
+                            </div>
+                            <div class="row justify-content-end">
+                                <a href="#" class="btn btn-green px-5 py-2">Select</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    <div class="destination_slider_area row g-0">
+                        <div class="destination_slider_img col-md-12 col-lg-6 col-xl-4">
+                            <ul class="destination-carousel owl-carousel slider_list">
+                                <li>
+                                    <img src="assets/img/destination_slider3.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_01.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_02.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="destination_slider_txt col-md-12 col-lg-6 col-xl-8">
+                            <h3>Khudiram Bose Park</h3>
+                            <p class="map_ico"><i class="fas fa-map-marker-alt"></i> Chandrakona Road Urban Recreation Forestry ETC Dist: Pachim Medinipur Pin code: 745230</h4>
+                                <h4>Description:</h4>
+                                <p class="destination_p">It is located about 2 km from Midnapur railway station. The park is spread over 6 ha with small forests and gardens on the bank of river Kangsabati. There is flower garden, boating, children garden. Threecottages(6beds)
+                                    available inside the park for stay.</p>
+                                <div class="row price_area">
+                                    <div class="col-md-5">
+                                        <h5>Price starts from</h5>
+                                        <h4><b>₹300.00</b> <span>per night</span></h4>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <h5>Timing:</h5>
+                                        <p>Check in: <b>12:00 PM</b> Check out: <b>11:00 AM</b></p>
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-end">
+                                    <a href="#" class="btn btn-green px-5 py-2">Select</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    <div class="destination_slider_area row g-0">
+                        <div class="destination_slider_img col-md-12 col-lg-6 col-xl-4">
+                            <ul class="destination-carousel owl-carousel slider_list">
+                                <li>
+                                    <img src="assets/img/destination_slider4.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_01.png" alt="">
+                                </li>
+                                <li>
+                                    <img src="assets/img/destination_slider_02.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="destination_slider_txt col-md-12 col-lg-6 col-xl-8">
+                            <h3>Duarsini Eco-tourism Centre</h3>
+                            <p class="map_ico"><i class="fas fa-map-marker-alt"></i> Asanpani, Bandwan, Purulia Duarsini Kangsabati (South) Division Dist: Purulia Pin code: 723128</h4>
+                                <h4>Description:</h4>
+                                <p class="destination_p">One can spend hours on the end sitting right next to the river bank and enjoying mesmerising beauty of adjoining landscape. Its location near forests and hills makes it an ideal destination for people looking for a break
+                                    from derelict urban regular lives. </p>
+                                <div class="row price_area">
+                                    <div class="col-md-5">
+                                        <h5>Price starts from</h5>
+                                        <h4><b>₹300.00</b> <span>per night</span></h4>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <h5>Timing:</h5>
+                                        <p>Check in: <b>12:00 PM</b> Check out: <b>11:00 AM</b></p>
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-end">
+                                    <a href="#" class="btn btn-green px-5 py-2">Select</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="big_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="" class="footer_logo"><img src="assets/img/logo.png" alt=""></a>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <h4>Quick Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Home </a></li>
+                            <li><a href="">About Us </a></li>
+                            <li><a href="">Gallery </a></li>
+                            <li><a href="">Holiday Calender </a></li>
+                            <li><a href="">Disclaimer </a></li>
+                            <li><a href="">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h4>Related Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Wild Bengal  </a></li>
+                            <li><a href="">West Bengal Forest Development Corporation  </a></li>
+                            <li><a href="">West Bengal Pulpwood Development Corporation  </a></li>
+                            <li><a href="">West Bengal Zoo Authority  </a></li>
+                            <li><a href="">West Bengal Forest and Biodiversity Conservation Project  </a></li>
+                            <li><a href="">West Bengal Wasteland Development Corporation </a></li>
+                            <li><a href="">West Bengal State Forest Development Agency </a></li>
+                            <li><a href="">Bengal Nature Trails</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 Contact_list">
+                        <h4>Contact Us</h4>
+                        <p class="map-ico"><img src="assets/img/map_ico.png" alt="">Aranya Bhavan,BLock LA-10A, Sector- III, Salt Lake, Kolkata, West Bengal 700106</p>
+                        <p><img src="assets/img/ph_ico.png" alt=""> <a href="tel:+918337066882">+91 8337066882</a></p>
+                        <p><img src="assets/img/mail_ico.png" alt=""> <a href="mailto:wbsfdaecotourism@gmail.com">wbsfdaecotourism@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy_footer">
+            <div class="container">
+                <div class="col-md-12">
+                    <hr class="mb-0">
+                    <p>© Copyright 2024 All Rights Reserved by <a href="">WBSFDA</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="LoginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Log In </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="login-form">
+                        <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
+                            <div class="mb-3">
+                                <label>Phone no</label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Phone no" id="login_mobile" name="login_mobile" autocomplete="off">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-green w-100 mt-4" id="">Get OTP</button>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>OTP</label>
+                                <div class="input-with-icon">
+                                    <input type="password" class="form-control" id="" name="" placeholder="ENTER OTP" autocomplete="off">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <button type="button" id="" class="btn btn-green w-100 mt-4">Login</button>
+                            </div>
+
+                        </form>
+                        <div class="text-center">
+                            <p class="my-3 fw-bold text-dark">
+                                <a data-bs-toggle="modal" data-bs-target="#SignnModal" data-dismiss="modal" class="link">Don't Have an Account. Signup</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="SignnModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Create An Account </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="login-form">
+                        <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
+                            <div class="mb-3">
+                                <label>Full Name <span class="text-danger">*</span></label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Full Name" id="" name="" autocomplete="off">
+                                    <i class="fas fa-user"></i>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <label>Phone No <span class="text-danger">*</span></label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Phone no" id="" name="" autocomplete="off">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Email ID <span class="text-danger">*</span></label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Email ID" id="" name="" autocomplete="off">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" id="" class="btn btn-green w-100 mt-4">Signup</button>
+                            </div>
+
+                        </form>
+                        <!-- <div class="text-center">
+					<p class="my-3 fw-bold text-dark">
+					<a data-toggle="modal" data-target="#LoginModal" data-dismiss="modal" class="link">Already Have an Account? Login</a>
+					</p>
+				</div> -->
+                        <div class="text-center">
+                            <p class="my-3 fw-bold text-dark">
+                                <a data-bs-toggle="modal" data-bs-target="#LoginModal" data-dismiss="modal" class="link">Already Have an Account? Login</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="assets/js/jquery-3.4.1.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var header = $(".fixed-header");
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();
+                if (scroll >= 1 && $(this).width() > 769) {
+                    header.addClass("fixed-header-top");
+                } else {
+                    header.removeClass('fixed-header-top');
+                }
+            });
+        });
+    </script>
+
+    <script src="assets/js/owl.carousel.js"></script>
+    <!-- For Gallery-->
+    <script type="text/javascript" src="assets/js/simple-lightbox.js"></script>
+    <!-- / For Gallery-->
+
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/jquery4a5f.js"></script>
+    <script src="assets/js/stellarnav.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/wow.js"></script>
+
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            jQuery('.stellarnav').stellarNav({
+                //theme: 'dark',
+                breakpoint: 767,
+                position: 'right',
+                //phoneBtn: '18009997788',
+                //locationBtn: 'https://www.google.com/maps'
+            });
+        });
+    </script>
+    <script>
+        wow = new WOW({
+            animateClass: 'animated',
+            offset: 100,
+            mobile: false,
+        });
+        wow.init();
+    </script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+            $("#datepicker1").datepicker();
+            $("#datepicker2").datepicker();
+            $("#datepicker3").datepicker();
+        });
+    </script>
+    <script>
+        $(function() {
+            $("#from").datepicker({
+                dateFormat: 'dd-mm-yy',
+                onSelect: function(selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                dateFormat: 'dd-mm-yy',
+                onSelect: function(selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(function() {
+            var $gallery = $('.gallery a').simpleLightbox();
+
+            $gallery.on('show.simplelightbox', function() {
+                    console.log('Requested for showing');
+                })
+                .on('shown.simplelightbox', function() {
+                    console.log('Shown');
+                })
+                .on('close.simplelightbox', function() {
+                    console.log('Requested for closing');
+                })
+                .on('closed.simplelightbox', function() {
+                    console.log('Closed');
+                })
+                .on('change.simplelightbox', function() {
+                    console.log('Requested for change');
+                })
+                .on('next.simplelightbox', function() {
+                    console.log('Requested for next');
+                })
+                .on('prev.simplelightbox', function() {
+                    console.log('Requested for prev');
+                })
+                .on('nextImageLoaded.simplelightbox', function() {
+                    console.log('Next image loaded');
+                })
+                .on('prevImageLoaded.simplelightbox', function() {
+                    console.log('Prev image loaded');
+                })
+                .on('changed.simplelightbox', function() {
+                    console.log('Image changed');
+                })
+                .on('nextDone.simplelightbox', function() {
+                    console.log('Image changed to next');
+                })
+                .on('prevDone.simplelightbox', function() {
+                    console.log('Image changed to prev');
+                })
+                .on('error.simplelightbox', function(e) {
+                    console.log('No image found, go to the next/prev');
+                    console.log(e);
+                });
+        });
+    </script>
+    <script type='text/javascript'>
+        jQuery(document).ready(function(e) {
+            var n;
+            e(".numbercount").counterUp({
+                delay: 10,
+                time: 1e3
+            })
+        });
+        // jQuery(document).ready(function () {
+
+        // 	jQuery(".numbercount").after('<h2 style="margin: 0px;display: inline-block;color: white;"><sup>+</sup></h2>');
+        // });
+    </script>
+
+</body>
+
+</html>

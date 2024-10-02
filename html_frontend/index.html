@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/favicon.png">
+    <title>WBSFDA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+
+    <!-- for Gallery-->
+    <link href="assets/css/simplelightbox.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/demo.css" rel="stylesheet" type="text/css">
+    <!-- / for Gallery-->
+
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/stellarnav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+
+
+</head>
+
+<body role="document">
+    <!-- Navbar Start -->
+    <header class="fixed-header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+
+                <a href="index.html" class="logo_area"><img src="assets/img/logo.png" alt=""></a>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center">
+                        <div class="stellarnav">
+                            <ul>
+                                <li class="active"><a href="">Home</a></li>
+                                <li><a href="">Destination</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">Book Safari</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">What’s New</a></li>
+                                <li><a href="">Information</a></li>
+                                <li class="drop-left"><a href="">Dos & Don'ts</a> </li>
+                            </ul>
+                        </div>
+                        <ul class="log_list">
+                            <li><button type="button" class="btn btn-yellow" data-bs-toggle="modal" data-bs-target="#LoginModal">Login</button></li>
+                            <li><button type="button" class="btn btn-yellow" data-bs-toggle="modal" data-bs-target="#SignnModal">Sign Up</button></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </header>
+
+    <section class="banner_sec p-0">
+        <div class="container-xxl facilitySec">
+            <h1>BOOK OUR FACILITIES</h1>
+            <h2>EXPLORE THE WILD</h2>
+            <div class="tab_area rounded-4">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link  active" id="car-safari-tab" data-bs-toggle="tab" data-bs-target="#car-safari" type="button" role="tab" aria-controls="car-safari" aria-selected="true"><i class="fas fa-truck-pickup me-2"></i> Car Safari</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="elephant-safari-tab" data-bs-toggle="tab" data-bs-target="#elephant-safari" type="button" role="tab" aria-controls="elephant-safari" aria-selected="false"><i class="fas fa-republican me-2"></i> Elephant Safari</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="eco-tourism-tab" data-bs-toggle="tab" data-bs-target="#eco-tourism" type="button" role="tab" aria-controls="eco-tourism" aria-selected="false"><i class="fas fa-hotel me-2"></i> Eco Tourism</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="car-safari" role="tabpanel" aria-labelledby="car-safari-tab">
+                        <form action="" class="row g-2 align-items-center">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+										<option value="" disabled>Select Park</option>
+										<option value="" selected>National Park</option>
+									</select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+										<option value="" disabled>Select Safari</option>
+										<option value="" selected>Safari 1</option>
+									</select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="calenadr_area">
+                                    <input type="text" class="form-control" id="datepicker" placeholder="Date">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+									<option value="" disabled>Select Nationality</option>
+									<option value="" selected>Indian</option>
+									<option value="" selected>Foreigner</option>
+								</select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <button class="w-100 btn btn-green">Search Availability</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="elephant-safari" role="tabpanel" aria-labelledby="elephant-safari-tab">
+                        <form action="" class="row g-2 align-items-center">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+										<option value="" disabled>Select Park</option>
+										<option value="" selected>National Park</option>
+									</select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+									<option value="" disabled>Select Safari</option>
+									<option value="" selected>Safari 1</option>
+								</select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="calenadr_area">
+                                    <input type="text" class="form-control" id="datepicker1" placeholder="Date">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+									<option value="" disabled>Select Nationality</option>
+									<option value="" selected>Indian</option>
+									<option value="" selected>Foreigner</option>
+								</select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <button class="w-100 btn btn-green">Search Availability</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="eco-tourism" role="tabpanel" aria-labelledby="eco-tourism-tab">
+                        <form action="" class="row g-2 align-items-center">
+                            <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+										<option value="" disabled>Select Park</option>
+										<option value="" selected>National Park</option>
+									</select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+									<option value="" disabled>Select Type</option>
+									<option value="" selected>Safari</option>
+								</select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                                <div class="calenadr_area">
+                                    <input type="text" class="form-control" id="datepicker2" placeholder="From Date">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                                <div class="calenadr_area">
+                                    <input type="text" class="form-control" id="datepicker3" placeholder="To Date">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                                <div class="select_area">
+                                    <select name="" id="" class="form-control">
+									<option value="" disabled>Select Nationality</option>
+									<option value="" selected>Indian</option>
+									<option value="" >Foreigner</option>
+								</select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-3 col-xl-2 mb-3">
+                                <button class="w-100 btn btn-green">Search Availability</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="white_bg_area"><img src="assets/img/banner-bottom-bg.png" class="w-100" alt=""></div>
+    </section>
+
+    <section class="pt-0 destination_sec">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center headline">
+                    <h2>Destination</h2>
+                </div>
+                <div class="col-md-12">
+                    <div class="owl-carousel owl-theme destinationCarousel destination_list">
+                        <div class="item">
+                            <div class="destination_area">
+                                <img src="assets/img/destination_image.png" alt="">
+                                <div class="destination_txt">
+                                    <h4>Beharinath ETC</h4>
+                                    <a href="" class="btn btn-yellow">Book&nbsp;now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="destination_area">
+                                <img src="assets/img/destination_image1.png" alt="">
+                                <div class="destination_txt">
+                                    <h4>Matha Tree House</h4>
+                                    <a href="" class="btn btn-yellow">Book&nbsp;now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="destination_area">
+                                <img src="assets/img/destination_image2.png" alt="">
+                                <div class="destination_txt">
+                                    <h4>Duarsini</h4>
+                                    <a href="" class="btn btn-yellow">Book&nbsp;now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="destination_area">
+                                <img src="assets/img/destination_image3.png" alt="">
+                                <div class="destination_txt">
+                                    <h4>Chandrakona <br>Road</h4>
+                                    <a href="" class="btn btn-yellow">Book&nbsp;now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section class="book_safari_sec">
+        <div class="container z-index2">
+            <div class="row">
+                <div class="col-md-12 headline text-center">
+                    <h2>Book Safari</h2>
+                </div>
+                <div class="col-md-9 mx-auto z-index2">
+                    <div class="book_safari_area">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="nav-booksafari-tab" data-bs-toggle="tab" data-bs-target="#nav-booksafari" type="button" role="tab" aria-controls="nav-booksafari" aria-selected="true">Car Safari</button>
+                                <button class="nav-link" id="nav-booksafari1-tab" data-bs-toggle="tab" data-bs-target="#nav-booksafari1" type="button" role="tab" aria-controls="nav-booksafari1" aria-selected="false">Elephant Safari</button>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-booksafari" role="tabpanel" aria-labelledby="nav-booksafari-tab">
+                                <div class="row">
+                                    <div class="col-md-6 px-4">
+                                        <div class="destination_area">
+                                            <img src="assets/img/book_safari_img.png" alt="">
+                                            <div class="destination_txt">
+                                                <h4>Jaldapara National Park</h4>
+                                                <a href="" class="btn btn-yellow"><i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 px-4">
+                                        <div class="destination_area">
+                                            <img src="assets/img/book_safari_img1.png" alt="">
+                                            <div class="destination_txt">
+                                                <h4>Gorumara National Park</h4>
+                                                <a href="" class="btn btn-yellow"><i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-booksafari1" role="tabpanel" aria-labelledby="nav-booksafari1-tab">
+                                <div class="row">
+                                    <div class="col-md-6 px-4">
+                                        <div class="destination_area">
+                                            <img src="assets/img/book_safari_img.png" alt="">
+                                            <div class="destination_txt">
+                                                <h4>Jaldapara National Park</h4>
+                                                <a href="" class="btn btn-yellow"><i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 px-4">
+                                        <div class="destination_area">
+                                            <img src="assets/img/book_safari_img1.png" alt="">
+                                            <div class="destination_txt">
+                                                <h4>Gorumara National Park</h4>
+                                                <a href="" class="btn btn-yellow"><i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery_sec">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 headline text-center">
+                    <h2>Our Trips Gallery</h2>
+                </div>
+                <div class="col-md-12">
+                    <ul class="gallery_list gallery">
+                        <li>
+                            <div class="gallery_area">
+                                <a href="assets/img/galler_img.png" class="big ">
+                                    <div class="gallery-img">
+                                        <img src="assets/img/galler_img.png" width="100%" alt="" title="Khudiram Bose Park" />
+                                    </div>
+                                </a>
+                                <div class="gallery_txt">
+                                    <h4>Khudiram Bose Park</h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gallery_area">
+                                <a href="assets/img/galler_img1.png" class="big ">
+                                    <div class="gallery-img">
+                                        <img src="assets/img/galler_img1.png" width="100%" alt="" title="Beharinath ETC" />
+                                    </div>
+                                </a>
+                                <div class="gallery_txt">
+                                    <h4>Beharinath ETC</h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gallery_area">
+                                <a href="assets/img/galler_img2.png" class="big ">
+                                    <div class="gallery-img">
+                                        <img src="assets/img/galler_img2.png" width="100%" alt="" title="Duarsini Eco-tourism Centre" />
+                                    </div>
+                                </a>
+                                <div class="gallery_txt">
+                                    <h4>Duarsini Eco-tourism Centre</h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gallery_area">
+                                <a href="assets/img/galler_img3.png" class="big ">
+                                    <div class="gallery-img">
+                                        <img src="assets/img/galler_img3.png" width="100%" alt="" title="Parimal Kanan" />
+                                    </div>
+                                </a>
+                                <div class="gallery_txt">
+                                    <h4>Parimal Kanan</h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gallery_area">
+                                <a href="assets/img/galler_img4.png" class="big ">
+                                    <div class="gallery-img">
+                                        <img src="assets/img/galler_img4.png" width="100%" alt="" title="Matha Tree House" />
+                                    </div>
+                                </a>
+                                <div class="gallery_txt">
+                                    <h4>Matha Tree House</h4>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-0 counter_sec">
+        <ul class="counter_list">
+            <li>
+                <div class="counter">
+                    <div class="counter_ico"><img src="assets/img/counter_ico.png" alt=""></div>
+                    <h2 class="numbercount count-title">28874</h2>
+                    <p class="count-text ">TOTAL TOURISTS</p>
+                </div>
+            </li>
+            <li>
+                <div class="counter">
+                    <div class="counter_ico"><img src="assets/img/counter_ico1.png" alt=""></div>
+                    <h2 class="numbercount count-title">4</h2>
+                    <p class="count-text ">DESTINATIONS</p>
+                </div>
+            </li>
+            <li>
+                <div class="counter">
+                    <div class="counter_ico"><img src="assets/img/counter_ico2.png" alt=""></div>
+                    <h2 class="numbercount count-title">5</h2>
+                    <p class="count-text ">ECO TOURISM CENTRES</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="map_sec">
+        <div class="map_txt">
+            <h3>Eco Tourism Center</h3>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117925.21689619735!2d88.2649499507587!3d22.535564937865654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882db4908f667%3A0x43e330e68f6c2cbc!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1727481846773!5m2!1sen!2sin"
+            width="" height="" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <footer>
+        <div class="big_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="" class="footer_logo"><img src="assets/img/logo.png" alt=""></a>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <h4>Quick Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Home </a></li>
+                            <li><a href="">About Us </a></li>
+                            <li><a href="">Gallery </a></li>
+                            <li><a href="">Holiday Calender </a></li>
+                            <li><a href="">Disclaimer </a></li>
+                            <li><a href="">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h4>Related Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Wild Bengal  </a></li>
+                            <li><a href="">West Bengal Forest Development Corporation  </a></li>
+                            <li><a href="">West Bengal Pulpwood Development Corporation  </a></li>
+                            <li><a href="">West Bengal Zoo Authority  </a></li>
+                            <li><a href="">West Bengal Forest and Biodiversity Conservation Project  </a></li>
+                            <li><a href="">West Bengal Wasteland Development Corporation </a></li>
+                            <li><a href="">West Bengal State Forest Development Agency </a></li>
+                            <li><a href="">Bengal Nature Trails</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 Contact_list">
+                        <h4>Contact Us</h4>
+                        <p class="map-ico"><img src="assets/img/map_ico.png" alt="">Aranya Bhavan,BLock LA-10A, Sector- III, Salt Lake, Kolkata, West Bengal 700106</p>
+                        <p><img src="assets/img/ph_ico.png" alt=""> <a href="tel:+918337066882">+91 8337066882</a></p>
+                        <p><img src="assets/img/mail_ico.png" alt=""> <a href="mailto:wbsfdaecotourism@gmail.com">wbsfdaecotourism@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy_footer">
+            <div class="container">
+                <div class="col-md-12">
+                    <hr class="mb-0">
+                    <p>© Copyright 2024 All Rights Reserved by <a href="">WBSFDA</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="LoginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Log In </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="login-form">
+                        <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
+                            <div class="mb-3">
+                                <label>Phone no</label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Phone no" id="login_mobile" name="login_mobile" autocomplete="off">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-green w-100 mt-4" id="">Get OTP</button>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>OTP</label>
+                                <div class="input-with-icon">
+                                    <input type="password" class="form-control" id="" name="" placeholder="ENTER OTP" autocomplete="off">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <button type="button" id="" class="btn btn-green w-100 mt-4">Login</button>
+                            </div>
+
+                        </form>
+                        <div class="text-center">
+                            <p class="my-3 fw-bold text-dark">
+                                <a data-bs-toggle="modal" data-bs-target="#SignnModal" data-dismiss="modal" class="link">Don't Have an Account. Signup</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="SignnModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Create An Account </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="login-form">
+                        <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
+                            <div class="mb-3">
+                                <label>Full Name <span class="text-danger">*</span></label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Full Name" id="" name="" autocomplete="off">
+                                    <i class="fas fa-user"></i>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <label>Phone No <span class="text-danger">*</span></label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Phone no" id="" name="" autocomplete="off">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Email ID <span class="text-danger">*</span></label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="Email ID" id="" name="" autocomplete="off">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" id="" class="btn btn-green w-100 mt-4">Signup</button>
+                            </div>
+
+                        </form>
+                        <!-- <div class="text-center">
+					<p class="my-3 fw-bold text-dark">
+					<a data-toggle="modal" data-target="#LoginModal" data-dismiss="modal" class="link">Already Have an Account? Login</a>
+					</p>
+				</div> -->
+                        <div class="text-center">
+                            <p class="my-3 fw-bold text-dark">
+                                <a data-bs-toggle="modal" data-bs-target="#LoginModal" data-dismiss="modal" class="link">Already Have an Account? Login</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="assets/js/jquery-3.4.1.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var header = $(".fixed-header");
+            $(window).scroll(function() {
+                var scroll = $(window).scrollTop();
+                if (scroll >= 1 && $(this).width() > 769) {
+                    header.addClass("fixed-header-top");
+                } else {
+                    header.removeClass('fixed-header-top');
+                }
+            });
+        });
+    </script>
+    <script src="assets/js/owl.carousel.js"></script>
+    <!-- For Gallery-->
+    <script type="text/javascript" src="assets/js/simple-lightbox.js"></script>
+    <!-- / For Gallery-->
+
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/jquery4a5f.js"></script>
+    <!-- <script src="assets/js/owl.carousel.js"></script> -->
+
+    <script src="assets/js/stellarnav.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/wow.js"></script>
+
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            jQuery('.stellarnav').stellarNav({
+                //theme: 'dark',
+                breakpoint: 767,
+                position: 'right',
+                //phoneBtn: '18009997788',
+                //locationBtn: 'https://www.google.com/maps'
+            });
+        });
+    </script>
+
+    <script>
+        wow = new WOW({
+            animateClass: 'animated',
+            offset: 100,
+            mobile: false,
+        });
+        wow.init();
+    </script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+            $("#datepicker1").datepicker();
+            $("#datepicker2").datepicker();
+            $("#datepicker3").datepicker();
+        });
+    </script>
+    <script>
+        $(function() {
+            $('.destinationCarousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 3
+                    },
+                    1200: {
+                        items: 4
+                    }
+                }
+            })
+        });
+    </script>
+    <script>
+        $(function() {
+            var $gallery = $('.gallery a').simpleLightbox();
+
+            $gallery.on('show.simplelightbox', function() {
+                    console.log('Requested for showing');
+                })
+                .on('shown.simplelightbox', function() {
+                    console.log('Shown');
+                })
+                .on('close.simplelightbox', function() {
+                    console.log('Requested for closing');
+                })
+                .on('closed.simplelightbox', function() {
+                    console.log('Closed');
+                })
+                .on('change.simplelightbox', function() {
+                    console.log('Requested for change');
+                })
+                .on('next.simplelightbox', function() {
+                    console.log('Requested for next');
+                })
+                .on('prev.simplelightbox', function() {
+                    console.log('Requested for prev');
+                })
+                .on('nextImageLoaded.simplelightbox', function() {
+                    console.log('Next image loaded');
+                })
+                .on('prevImageLoaded.simplelightbox', function() {
+                    console.log('Prev image loaded');
+                })
+                .on('changed.simplelightbox', function() {
+                    console.log('Image changed');
+                })
+                .on('nextDone.simplelightbox', function() {
+                    console.log('Image changed to next');
+                })
+                .on('prevDone.simplelightbox', function() {
+                    console.log('Image changed to prev');
+                })
+                .on('error.simplelightbox', function(e) {
+                    console.log('No image found, go to the next/prev');
+                    console.log(e);
+                });
+        });
+    </script>
+
+    <script type='text/javascript'>
+        jQuery(document).ready(function(e) {
+            var n;
+            e(".numbercount").counterUp({
+                delay: 10,
+                time: 1e3
+            })
+        });
+        // jQuery(document).ready(function () {
+
+        // 	jQuery(".numbercount").after('<h2 style="margin: 0px;display: inline-block;color: white;"><sup>+</sup></h2>');
+        // });
+    </script>
+
+
+
+
+</body>
+
+</html>
