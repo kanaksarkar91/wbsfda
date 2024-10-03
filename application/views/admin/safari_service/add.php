@@ -125,6 +125,11 @@ body {
 								<textarea name="route_desc" id="route_desc" class="form-control" placeholder="Route Description" rows="3" required></textarea>
 							</div>
 							
+							<div class="col-lg-12 col-sm-12 col-md-12">
+								<label for="route_desc" class="form-label">Additional Information <span class="asterisk"> </span></label>
+								<textarea name="additional_info" id="additional_info" class="form-control" placeholder="Additional Information" rows="3"></textarea>
+							</div>
+							
 							<div class="col-lg-4 col-sm-12 col-md-6">
                                 <label for="service_status" class="form-label">Status<span class="asterisk"> *</span></label>
                                 <select name="service_status" class="form-select" id="service_status" required>

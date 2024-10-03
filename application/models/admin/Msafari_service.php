@@ -8,145 +8,123 @@ class Msafari_service extends CI_Model {
 
     }
 	
-	public function get_property_type($condn = null){
-        $this->db->select('property_types.*');
-        $this->db->from('property_types');
-		$this->db->where($condn);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-	
-	public function get_property_terrain($condn = null){
-        $this->db->select('terrain_master.*');
-        $this->db->from('terrain_master');
-		$this->db->where($condn);
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-	
-	public function get_property_state($condn = null){
-        $this->db->select('state_master.*');
-        $this->db->from('state_master');
-		$this->db->where($condn);
-		$this->db->order_by('state_name', 'ASC');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-	
-	public function get_property_district($condn = null){
-        $this->db->select('district_master.*');
-        $this->db->from('district_master');
-		$this->db->where($condn);
-		$this->db->order_by('district_name', 'ASC');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-	
-	public function get_property_unit($condn = null){
-        $this->db->select('property_unit_master.*');
-        $this->db->from('property_unit_master');
-		$this->db->where($condn);
-		$this->db->order_by('unit_name', 'ASC');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-	
-	public function get_property_facility($condn = null){
-        $this->db->select('facility_master.*');
-        $this->db->from('facility_master');
-		$this->db->where($condn);
-		$this->db->order_by('facility_name', 'ASC');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
-    public function get_property($where = array()){
-        $this->db->select('property_master.*, district_name as district, state_name as state,ifnull(property_types.is_hall,0) as is_hall');
-        $this->db->from('property_master');
-		$this->db->join('state_master', 'property_master.state_id = state_master.state_id', 'LEFT');
-		$this->db->join('district_master', 'property_master.district_id = district_master.district_id', 'LEFT');
-		$this->db->join('property_types', 'property_master.property_type_id = property_types.id', 'LEFT');
-        $this->db->order_by('property_master.property_name');
+	public function get_services($where = []){
+        $this->db->select('a.*, b.division_name, c.type_name');
+        $this->db->from('safari_service_header a');
+		$this->db->join('division_master b', 'a.division_id = b.division_id', 'INNER');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'INNER');
         if(!empty($where)){
             $this->db->where($where);
         }
-        $query = $this->db->get();
+		/*if (isset($param['company_ids']) && $param['company_ids'] != '' && $param['company_ids'] != '0') {
+			$this->db->where_in('a.company_id', $param['company_ids'], false);
+		}*/
+		$this->db->order_by('a.safari_service_header_id','DESC');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
         return $query->result_array();
     }
-
-    public function submit_property($data){
-        $this->db->insert('property_master', $data);
-		//echo $this->db->last_query(); die;
-        return $this->db->insert_id();
-    }
-
-    public function edit_property($property_id){
-        $this->db->select('property_master.*, lv.*');
-        $this->db->from('property_master');
-		$this->db->join('property_unit_list_view lv', 'property_master.property_unit_master_id = lv.id', 'LEFT OUTER');
-		$this->db->where('property_id',$property_id);
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-    public function update_property($condition, $data){
-        $result=$this->db->update('property_master', $data, $condition);
-        return $result;
-    }
-
-    public function delete_property($condition,$data){
-        $result=$this->db->update('property_master', $data, $condition);
-        return $result;
-    }
-
-    public function get_property_details_by_sp($property_id ='', $start_date='', $end_date ='')
-    {
-        $query = $this->db->query("call get_property_available_accomm($property_id, '$start_date', '$end_date', 0, 0, 1)");
-        return $query->result();
-    }
-    
-	public function get_user_property_details($user_id) {
-		$stored_procedure = "CALL get_user_property_details(?,0);";
-        $data = array('p_user_id' => $user_id);
-		
-        $result = $this->db->query($stored_procedure, $data);
-		//echo $this->db->last_query(); die;
-        if ($result !== NULL) {
-			$response = $result->result_array();
-			
-			$result->free_result();
-			mysqli_next_result( $this->db->conn_id);
-			
-            return $response;
+	public function getSeasonsServiceWise($where = []){
+        $this->db->select('a.service_period_master_id, b.showing_desc');
+        $this->db->from('safari_service_period_slot_mapping a');
+		$this->db->join('safari_service_period_master b', 'a.service_period_master_id = b.service_period_master_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
         }
-        return FALSE;
-	}
-	
-	public function get_user_property_details_view($property_id = null){
-        $this->db->select('property_master.*, lv.*');
-        $this->db->from('property_master');
-		$this->db->join('property_unit_list_view lv', 'property_master.property_unit_master_id = lv.id', 'LEFT OUTER');
-		if (!is_null($property_id))
-			$this->db->where('property_id', $property_id);
-        $query = $this->db->get();
+		$this->db->order_by('b.service_period_master_id','ASC');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
         return $query->result_array();
     }
-	
-	public function get_property_accommodation_availability($property_id, $accommodation_id = 0, $start_date, $end_date) {
-		$stored_procedure = "CALL get_property_accomm_availability_proc(?,?,?,?);";
-        $data = array('p_property_id' => $property_id, 'p_accom_id' => $accommodation_id, 'p_start_date' => $start_date, 'p_end_date' => $end_date);
-		
-        $result = $this->db->query($stored_procedure, $data);
-		
-        if ($result !== NULL) {
-			$response = $result->result_array();
-			
-			$result->free_result();
-			mysqli_next_result( $this->db->conn_id);
-			
-            return $response;
+	public function capacityBatchInsert($getArray) {
+        $sql = $this->db->insert_batch('safari_service_slot_capacity_mapping', $getArray);
+        if($sql){
+            return true;
         }
-        return FALSE;
-	}
+
+    }
+	public function get_service_capacities($where = []){
+        $this->db->select('a.*, b.service_definition, c.type_name, d.division_name, e.showing_desc');
+        $this->db->from('safari_service_slot_capacity_mapping a');
+		$this->db->join('safari_service_header b', 'a.safari_service_header_id = b.safari_service_header_id', 'INNER');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'INNER');
+		$this->db->join('division_master d', 'b.division_id = d.division_id', 'INNER');
+		$this->db->join('safari_service_period_master e', 'a.service_period_master_id = e.service_period_master_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+		$this->db->group_by('a.safari_service_header_id, a.service_period_master_id');
+		$this->db->order_by('DATE(a.created_ts)','DESC');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
+	public function get_service_capacity_details($where = []){
+        $this->db->select('a.*, b.service_definition, c.type_name, d.division_name, e.showing_desc, f.quota, g.slot_desc, g.start_time, g.end_time');
+        $this->db->from('safari_service_slot_capacity_mapping a');
+		$this->db->join('safari_service_header b', 'a.safari_service_header_id = b.safari_service_header_id', 'INNER');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'INNER');
+		$this->db->join('division_master d', 'b.division_id = d.division_id', 'INNER');
+		$this->db->join('safari_service_period_master e', 'a.service_period_master_id = e.service_period_master_id', 'INNER');
+		$this->db->join('safari_quota_master f', 'a.safari_quota_id = f.safari_quota_id', 'INNER');
+		$this->db->join('safari_service_period_slot_detail g', 'a.period_slot_dtl_id = g.period_slot_dtl_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
+	public function pricingBatchInsert($getArray) {
+        $sql = $this->db->insert_batch('safari_service_slot_price_mapping', $getArray);
+        if($sql){
+            return true;
+        }
+
+    }
+	public function get_service_pricing($where = []){
+        $this->db->select('a.*, b.service_definition, c.type_name, d.division_name, e.showing_desc');
+        $this->db->from('safari_service_slot_price_mapping a');
+		$this->db->join('safari_service_header b', 'a.safari_service_header_id = b.safari_service_header_id', 'INNER');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'INNER');
+		$this->db->join('division_master d', 'b.division_id = d.division_id', 'INNER');
+		$this->db->join('safari_service_period_master e', 'a.service_period_master_id = e.service_period_master_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+		$this->db->group_by('a.safari_service_header_id, a.service_period_master_id');
+		$this->db->order_by('DATE(a.created_ts)','DESC');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
+	public function get_service_pricing_details($where = []){
+        $this->db->select('a.*, b.service_definition, c.type_name, d.division_name, e.showing_desc, f.cat_name, g.slot_desc, g.start_time, g.end_time');
+        $this->db->from('safari_service_slot_price_mapping a');
+		$this->db->join('safari_service_header b', 'a.safari_service_header_id = b.safari_service_header_id', 'INNER');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'INNER');
+		$this->db->join('division_master d', 'b.division_id = d.division_id', 'INNER');
+		$this->db->join('safari_service_period_master e', 'a.service_period_master_id = e.service_period_master_id', 'INNER');
+		$this->db->join('safari_category_master f', 'a.safari_cat_id = f.safari_cat_id', 'INNER');
+		$this->db->join('safari_service_period_slot_detail g', 'a.period_slot_dtl_id = g.period_slot_dtl_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+		$this->db->group_by('a.safari_service_header_id, a.period_slot_dtl_id');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
+	public function get_cat_price_detail($where = []){
+        $this->db->select('a.*, b.cat_name');
+        $this->db->from('safari_service_slot_price_mapping a');
+		$this->db->join('safari_category_master b', 'a.safari_cat_id = b.safari_cat_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
 
 }
