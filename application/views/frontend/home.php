@@ -92,44 +92,49 @@
                 </div>
 
                 <div class="tab-pane fade" id="eco-tourism" role="tabpanel" aria-labelledby="eco-tourism-tab">
-                    <form action="" class="row g-2 align-items-center">
+                    <form action="<?= base_url('frontend/booking/search/'); ?>" method="get" class="row g-2 align-items-center">
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                         <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
                             <div class="select_area">
-                                <select name="" id="" class="form-control">
-                                    <option value="" disabled>Select Park</option>
-                                    <option value="" selected>National Park</option>
+                                <select name="landscape" id="landscape" class="form-control">
+                                    <option value="" disabled>Select Property</option>
+                                    <?php foreach ($terrains as $key => $value) { ?>
+                                        <option value="<?= $value['terrain_id']; ?>"><?= $value['terrain_name']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
+                        <!-- <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
                             <div class="select_area">
                                 <select name="" id="" class="form-control">
                                     <option value="" disabled>Select Type</option>
                                     <option value="" selected>Safari</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
                             <div class="calenadr_area">
-                                <input type="text" class="form-control" id="datepicker2" placeholder="From Date">
+                                <input type="text" class="form-control" id="checkIn" value="<?= date('d/m/Y', strtotime('+1 day')); ?>" placeholder="From Date">
+                                <input type="hidden" class="form-control check-in-out" name="checkindt" id="checkindt" value="<?= date('dmY', strtotime('+1 day')); ?>" />
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
                             <div class="calenadr_area">
-                                <input type="text" class="form-control" id="datepicker3" placeholder="To Date">
+                                <input type="text" class="form-control" id="checkOut" placeholder="To Date" value="<?= date('d/m/Y', strtotime('+2 days')); ?>">
+                                <input type="hidden" class="form-control check-in-out" name="checkoutdt" id="checkoutdt" value="<?= date('dmY', strtotime('+2 days')); ?>" />
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
                             <div class="select_area">
-                                <select name="" id="" class="form-control">
+                                <select name="nationality" id="nationality" class="form-control">
                                     <option value="" disabled>Select Nationality</option>
-                                    <option value="" selected>Indian</option>
-                                    <option value="">Foreigner</option>
+                                    <option value="indian" selected>Indian</option>
+                                    <option value="foreigner">Foreigner</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-3 col-xl-2 mb-3">
-                            <button class="w-100 btn btn-green">Search Availability</button>
+                            <button type="submit" class="w-100 btn btn-green">Search Availability</button>
                         </div>
                     </form>
                 </div>
@@ -362,3 +367,41 @@
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117925.21689619735!2d88.2649499507587!3d22.535564937865654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882db4908f667%3A0x43e330e68f6c2cbc!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1727481846773!5m2!1sen!2sin"
         width="" height="" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </section>
+
+<script>
+    $(function() {
+        var today = new Date();
+        var maxcheckoutdt = new Date();
+        maxcheckoutdt.setMonth(today.getMonth() + 3);
+        var mincheckoutdate = new Date();
+        mincheckoutdate.setDate(today.getDate() + 2);
+
+        $("#checkIn").datepicker({
+            minDate: new Date,
+            maxDate: maxcheckoutdt,
+            dateFormat: "dd/mm/yy",
+            onSelect: function(selectedDate) {
+                var minDate = $(this).datepicker('getDate'); // Get selected date
+                minDate.setDate(minDate.getDate() + 1); // Add one day
+                $("#checkOut").datepicker("option", "minDate", minDate); // Set minimum date for check-out
+
+                var dateWithoutSlash = selectedDate.replace(/\//g, "");
+                $("#checkindt").val(dateWithoutSlash);
+            }
+        });
+
+        $("#checkOut").datepicker({
+            minDate: mincheckoutdate,
+            maxDate: maxcheckoutdt,
+            dateFormat: "dd/mm/yy",
+            onSelect: function(selectedDate) {
+                var maxDate = $(this).datepicker('getDate'); // Get selected date
+                maxDate.setDate(maxDate.getDate() - 1); // Subtract one day
+                $("#checkIn").datepicker("option", "maxDate", maxDate); // Set maximum date for check-in
+
+                var dateWithoutSlash = selectedDate.replace(/\//g, "");
+                $("#checkoutdt").val(dateWithoutSlash);
+            }
+        });
+    });
+</script>

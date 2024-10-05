@@ -59,7 +59,7 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body">
+            <div class="modal-body" id="login-modal-body">
                 <div class="login-form">
                     <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
@@ -218,7 +218,7 @@
     }
 </style>
 <!-- Bootstrap core JavaScript -->
-<script src="<?= base_url(); ?>public/frontend_assets/assets/js/jquery-3.4.1.js"></script>
+
 <script src="<?= base_url(); ?>public/frontend_assets/assets/js/bootstrap.bundle.min.js"></script>
 <script>
     var $ = jQuery.noConflict();
@@ -471,7 +471,7 @@
                     }, 1000);
                 } else {
                     current_obj.prop('disabled', false);
-                    $('#signup-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+                    $('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
 
                 }
 

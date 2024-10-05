@@ -36,32 +36,40 @@
 
 <body role="document">
     <!-- Navbar Start -->
-    <header>
+    <header class="fixed-header">
         <div class="container">
             <div class="row align-items-center justify-content-between">
-
                 <a href="index.html" class="logo_area"><img src="assets/img/logo.png" alt=""></a>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center">
+                        <div class="stellarnav">
+                            <ul>
+                                <li class="active"><a href="">Home</a></li>
+                                <li><a href="">Destination</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">Book Safari</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">What’s New</a></li>
+                                <li><a href="">Information</a></li>
+                                <li class="drop-left"><a href="">Dos & Don’ts</a> </li>
+                            </ul>
+                        </div>
+                        <ul class="log_list">
+                            <li><button type="button" class="btn btn-yellow" data-bs-toggle="modal" data-bs-target="#LoginModal">Login</button></li>
+                            <li><button type="button" class="btn btn-yellow" data-bs-toggle="modal" data-bs-target="#SignnModal">Sign Up</button></li>
+                        </ul>
+                    </div>
 
-                <div class="stellarnav">
-                    <ul>
-                        <li class="active"><a href="">Home</a></li>
-                        <li><a href="">Destination</a>
-                            <ul>
-                                <li><a href="">Sub menu</a></li>
-                                <li><a href="">Sub menu</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">Book Safari</a>
-                            <ul>
-                                <li><a href="">Sub menu</a></li>
-                                <li><a href="">Sub menu</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="">What’s New</a></li>
-                        <li><a href="">Important Information</a></li>
-                        <li class="drop-left"><a href="">Dos & Don’ts</a> </li>
-                    </ul>
                 </div>
+
 
             </div>
         </div>
@@ -83,14 +91,14 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group text-center">
                                         <input id="checkbox" type="checkbox" checked="checked" class="checkbox-custom" autocomplete="off">
-                                        <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" id="viewTerms">I accept Cancellation Policy, Refund Policy and Terms &amp; Conditions.</a><!--  <a style="text-decoration:underline; cursor:pointer; color:#8080FF;" data-toggle="modal" data-target="#termsModal" id="view_terms">View terms</a> --></label>
+                                        <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept Terms & Conditions, Privacy Policy and Cancellation Rules.</a></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group text-center">
-                                        <a href="#" id="booking_login" class="btn-green" data-toggle="modal" data-target="#login" data-redirect="1">Login to Continue</a>
+                                        <a href="#" id="booking_login" class="btn-green px-4" data-toggle="modal" data-target="#login" data-redirect="1">Login to Continue</a>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +112,7 @@
 
                         <div class="checkout-head">
                             <ul>
-                                <li class="active"><span><i class="bi bi-check-lg"></i></span>Customer Detail</li>
+                                <li class="active"><span><i class="bi bi-check-lg"></i></span>Guest Detail</li>
                                 <li><span>2</span>Payment Information</li>
                                 <li><span>3</span>Confirmation!</li>
                             </ul>
@@ -290,16 +298,16 @@
 
 
                                     <div class="col-12">
-                                        <div class="form-group">
+                                        <div class="form-group mb-0">
                                             <label>Whether any of the guest is a foreign national? <i class="req">*</i></label><br>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="guest_type_foreign" id="guestTypeForeign1" value="2" checked="checked" autocomplete="off">
-                                                <label class="form-check-label text-dark fw-normal" for="guestTypeForeign1">No</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="guest_type_foreign" id="guestTypeForeign2" value="1" autocomplete="off">
-                                                <label class="form-check-label text-dark fw-normal" for="guestTypeForeign2">Yes</label>
-                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline mb-3">
+                                            <input class="form-check-input" type="radio" name="guest_type_foreign" id="guestTypeForeign1" value="2" checked="checked" autocomplete="off">
+                                            <label class="form-check-label text-dark fw-normal" for="guestTypeForeign1">No</label>
+                                        </div>
+                                        <div class="form-check form-check-inline mb-3">
+                                            <input class="form-check-input" type="radio" name="guest_type_foreign" id="guestTypeForeign2" value="1" autocomplete="off">
+                                            <label class="form-check-label text-dark fw-normal" for="guestTypeForeign2">Yes</label>
                                         </div>
                                     </div>
 
@@ -742,48 +750,16 @@
                                         </div>
                                     </div>
 
-                                    <!--
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>Country<i class="req">*</i></label>
-										<select name="booking_country" id="country" class="form-control">
-											<option value="101" selected>India</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>State<i class="req">*</i></label>
-										<select name="booking_state" id="choose-state" class="form-control">
-																				</select>
-									</div>
-								</div>
-	
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="form-group">
-										<label>City<i class="req">*</i></label>
-										<input type="text" name="booking_city" class="form-control">
-									</div>
-								</div>
-	
-								<div class="col-lg-12 col-md-12 col-sm-12">
-									<div class="form-group">
-										<label>Address</label>
-										<textarea name="booking_address" class="form-control"></textarea>
-									</div>
-								</div>-->
-
-
 
                                     <div class="col-lg-12 col-sm-12">
                                         <div class="form-group">
                                             <input id="checkbox" type="checkbox" checked="checked" class="checkbox-custom" autocomplete="off">
-                                            <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept the Cancellation Policy, Refund Policy and Terms &amp; Conditions.</a><!--  <a style="text-decoration:underline; cursor:pointer; color:#8080FF;" data-toggle="modal" data-target="#termsModal" id="view_terms">View terms</a> --></label>
+                                            <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept Terms & Conditions, Privacy Policy and Cancellation Rules.</a></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="form-group text-center">
-                                            <input type="submit" class="btn btn-green" value="Proceed to Pay" id="pay_btn" autocomplete="off">
+                                        <div class="form-group">
+                                            <input type="submit" class="btn btn-green px-4" value="Proceed To Pay" id="pay_btn" autocomplete="off">
                                         </div>
                                     </div>
 
@@ -796,8 +772,7 @@
                 <div class="col-lg-4 col-md-5">
                     <div class="checkout-side">
                         <div class="booking-short">
-                            <img src="assets/images/hotel/hotel-inner-1.jpg" class="img-fluid" alt="">
-                            <h5 class="thm-txt fw-bold">Amrapali Guest House Complex</h5>
+                            <h5 class="thm-txt fw-bold pt-3">Amrapali Guest House Complex</h5>
                             <p>Eral, Purba Burdwan PURBA BARDHAMAN Bardhaman 713144, , Bardhaman</p>
                             <p>
                                 <span class="text-dark fw-bold">Total Length of Stay:</span><br>
@@ -808,7 +783,7 @@
                         <div class="booking-short-side">
 
                             <div class="card border-0 rounded-0">
-                                <div class="card-header thm-bg rounded-0" id="bookinDet">
+                                <div class="card-header bg-dark rounded-0" id="bookinDet">
                                     <h5 class="text-white mb-0">Booking Details</h5>
                                 </div>
                                 <div id="bookinSer" class="collapse show" aria-labelledby="bookinDet" data-parent="#accordionExample">
@@ -824,18 +799,9 @@
                                             </li>
                                             <li>Adults:<span>2</span></li>
                                             <li>Children:<span>0</span></li>
-                                            <li>Price: <span class="h6">₹600.00</span></li>
-                                            <li>
-                                                <!--<div>Coupon: </div>-->
-                                                <div class="input-group">
-                                                    <input type="hidden" name="coupon_property_id" id="coupon_property_id" value="9" autocomplete="off">
-                                                    <input type="text" name="coupon" id="coupon" class="form-control" placeholder="Add Coupon" style="height:42px;border:1px solid #e6eaf3;border-radius:0;" autocomplete="off">
-                                                    <div class="btn-green pt-2"><span id="coupon_action" data-type="apply" class="text-white">Apply</span> </div>
-                                                </div>
-                                                <p id="coupon_msg"></p>
-                                            </li>
-                                            <li>GST: <span class="h6">₹72.00</span></li>
-                                            <li class="totalprice">Total Payment <span class="h5">₹672.00</span></li>
+                                            <li>Price (Rs.): <span class="h6">600.00</span></li>
+                                            <li>GST: <span class="h6">0.00</span></li>
+                                            <li class="totalprice">Total Payment (Rs.) <span class="h5">0.00</span></li>
 
                                         </ul>
                                     </div>
@@ -905,12 +871,40 @@
     <div class="modal fade" id="viewTerms" tabindex="-1" aria-labelledby="viewTermsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="viewTermsModalLabel">Cancellation Policy, Refund Policy and Terms & Conditions</h1>
+                <div class="modal-header light-grn-bg">
+                    <h1 class="modal-title fw-bold thm-txt fs-5" id="viewTermsModalLabel">Terms & Conditions, Privacy Policy and Cancellation Rules.</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Content will be added soon.
+                    <h5>Terms & Conditions:</h5>
+                    <ol class="small text-justify">
+                        <li>Visitors are required to carry the same ID proof in original at the time of visiting the national park.</li>
+                        <li>The reservations of safari/ride are not transferable. The visitor should carry with him/her Print-out of the Electronic Reservation Slip.</li>
+                        <li>One child below 5 years of age may ride with parents without additional charges.</li>
+                        <li>Reservation may be cancelled in acute administrative requirement. No cancellation charge will be deducted in such case.</li>
+                        <li>WBSFDA will not be liable against non-availability of amenities/services caused by irreparable technical faults or natural inconvenience.</li>
+                    </ol>
+
+                    <h5>Privacy Policy:</h5>
+                    <ol class="small text-justify">
+                        <li>As a general rule, this web site does not collect personal Information about you when you visit the site. You can generally visit this site, without revealing any personal information, unless you choose to provide such information.</li>
+                        <li>Any personal information collected shall be used only for the stated purpose and shall NOT be shared with any other department/organization (Public/private).</li>
+                        <li>This site may contain links to Governmental/Non-governmental sites whose data protection and privacy practices may differ from ours. We are not responsible for the content and privacy practices of these other websites and encourage
+                            you to consult the privacy notices of those sites.</li>
+                    </ol>
+
+                    <h5>Cancellation Rules :</h5>
+                    <ol class="small text-justify">
+                        <li>More than clear 16 (Sixteen) days: 20% of the entry fee will be deducted.</li>
+                        <li>Between Clear 08(Eight) to clear15(Fifteen)days:40% of the entry fee will be deducted.</li>
+                        <li>Between Clear04(Four)to clear 07(Seven)days:80% of the entry fee will be deducted.</li>
+                        <li>Less than or equal to 3 (Three)days: No refund.</li>
+                        <li>"Clear Days" means that the date of occupation and the date of cancellation would not be counted. Moreover, Sunday & Holiday would not be excluded for calculation of cancellation charges.</li>
+                        <li>For part cancellation, normal refund rules will be charged as per rules.</li>
+                        <li>Refund admissible only upon production of the original reservation ticket.</li>
+                        <li>Visitors have to pay vehicle entry free, Guide charge, Vehicle hiring charge and other requires charges at the entry gate/reporting point.</li>
+                        <li>Visitors have to pay other charges for Folk dance, Handicrafts etc. for afternoon trips of Gorumara at the entry gate/reporting point.</li>
+                    </ol>
                 </div>
             </div>
         </div>

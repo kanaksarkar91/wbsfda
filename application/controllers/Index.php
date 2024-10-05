@@ -18,9 +18,13 @@ class Index extends CI_Controller
 	{
 		$data = array();
 		// $data['districts'] = $this->mbooking->get_property_districts(array('is_active' => 1, 'district_id <>' => 21));
-		// $data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1));
-		// $data['landscape_properties'] = $this->mbooking->get_landscape_properties(array('terrain_master.is_active' => 1, 'property_master.is_active' => 1, 'property_master.is_venue' => '1'));
-		// $data['property_types'] = $this->mbooking->get_property_types(array('is_active' => 1));
+		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1));
+		$data['landscape_properties'] = $this->mbooking->get_landscape_properties(array('terrain_master.is_active' => 1, 'property_master.is_active' => 1, 'property_master.is_venue' => '1'));
+		$data['property_types'] = $this->mbooking->get_property_types(array('is_active' => 1));
+
+		// echo '<pre>';
+		// print_r($data);
+		// die;
 		$data['content'] = 'frontend/home';
 		$this->load->view('frontend/layouts/index', $data);
 	}

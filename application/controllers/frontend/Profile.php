@@ -21,9 +21,9 @@ class Profile extends CI_Controller
 		$data = array();
 		$data['customer_details'] = $this->mcommon->getRow('customer_master', array('customer_id' => $this->session->userdata('customer_id')));
 		$data['countries'] = $this->mcommon->getDetails('country_master', array());
-		echo "<pre>";
-		print_r($data);
-		die;
+		// echo "<pre>";
+		// print_r($data);
+		// die;
 		$data['content'] = 'frontend/myProfile';
 		$this->load->view('frontend/layouts/index', $data);
 	}
