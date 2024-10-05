@@ -36,15 +36,15 @@ body {
 
         <div class="row g-3 mb-2 align-items-center justify-content-between">
             <div class="col-auto">
-                <h1 class="app-page-title mb-0">Edit Property</h1>
+                <h1 class="app-page-title mb-0">Add Safari Service </h1>
             </div>
             <div class="col-auto">
                 <div class="page-utilities">
                     <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                         <!--//col-->
                         <div class="col-auto">
-                            <a class="btn app-btn-primary" href="<?= base_url('admin/property'); ?>">
-                                View All Property 
+                            <a class="btn app-btn-primary" href="<?= base_url('admin/safari_service'); ?>">
+                                View All Safari Service
                             </a>
                         </div>
                     </div>
@@ -58,281 +58,382 @@ body {
 
         <div class="app-card app-card-settings shadow-sm p-3">
 
-            <form class="settings-form" method="post" action="<?= base_url('admin/property/update_property'); ?>" enctype="multipart/form-data" autocomplete="off">
+            <form class="settings-form" method="post" action="<?= base_url('admin/safari_service/update_service'); ?>" enctype="multipart/form-data" autocomplete="off">
             <input type="hidden" name="<?= $this->csrf['name']; ?>" value="<?= $this->csrf['hash']; ?>">
-			<input type="hidden" name="property_id" value="<?= $property['property_id'];?>">
+			<input type="hidden" name="safari_service_header_id" value="<?= encode_url($service['safari_service_header_id']);?>" readonly="">
 
                 <div class="app-card-body">
                         <div class="row g-3">
-                            <div class="col-md-12">
-                                <h4>Property details</h4>
-                            </div>
-                            <div class="col-lg-12 col-sm-12 col-md-12">
-                                <label for="property_name" class="form-label">Property Name <span class="asterisk"> *</span></label>
-                                <input type="text" class="form-control" name="property_name" placeholder="Property Name" value="<?= $property['property_name']; ?>" required>
-                                
-                            </div>
                             <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_type" class="form-label">Property Type <span class="asterisk"> *</span></label>
-                                <select name="property_type" class="form-select select2" id="property_type" required>
-                                    <option value="">Select Property Type</option>
-									<?php
-									if (isset($property_types))
-										foreach($property_types as $property_type) {
-									?>
-                                    <option value="<?= $property_type['id']; ?>" <?= set_select('property_type', $property_type['id'], $property_type['id'] == $property['property_type_id'] ? true : false); ?>><?= $property_type['property_type_name']; ?></option>
-									<?php } ?>
-                                </select>
-                            </div>
-							<div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="terrain_type" class="form-label">Location  <span class="asterisk"> *</span></label>
-                                <select name="terrain_type" class="form-select" id="terrain_type" required>
-                                    <option value="">Select Location</option>
-									<?php
-									if (isset($terrain_types))
-										foreach($terrain_types as $terrain_type) {
-									?>
-                                    <option value="<?= $terrain_type['terrain_id']; ?>" <?= set_select('terrain_type', $terrain_type['terrain_id'], $terrain_type['terrain_id'] == $property['terrain_id'] ? true : false); ?>><?= $terrain_type['terrain_name']; ?></option>
-									<?php } ?>
-                                </select>
-                            </div>
-							
-							<div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_gstin" class="form-label">GSTIN<span class="asterisk"> *</span></label>
-                                <input type="text" class="form-control" name="property_gstin" placeholder="GSTIN" value="<?= $property['gst_no']; ?>" required>
-                            </div>
-							
-							<div class="col-lg-12 col-sm-12 col-md-12">
-								<label for="property_description" class="form-label">Property Description <span class="asterisk"> *</span></label>
-								<textarea name="property_description" id="property_description" class="form-control" placeholder="Property Description" rows="3" required><?= $property['property_desc']; ?></textarea>
-							</div>
-                            
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_phn_no" class="form-label">Contact No. 1 <span class="asterisk"> *</span></label>
-                                <input type="number" class="form-control" name="property_phn_no" placeholder="Phone Number" value="<?= $property['phone_no']; ?>" required>
-                            </div>
-
-
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_mobile_no" class="form-label">Contact No. 2<span class="asterisk"> </span></label>
-                                <input type="number" class="form-control" name="property_mobile_no" placeholder="Mobile Number" value="<?= $property['mobile_no']; ?>" >
-                            </div>
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_email" class="form-label">E-mail<span class="asterisk"> *</span></label>
-                                <input type="text" class="form-control" name="property_email" placeholder="E-mail" value="<?= $property['email']; ?>" required>
-                            </div>
-                            <div class="col-lg-8 col-sm-12 col-md-6">
-                                <label for="property_address_line_1" class="form-label">Address<span class="asterisk"> *</span></label>
-								<textarea name="property_address_line_1" id="property_address_line_1" class="form-control" placeholder="Address" rows="3" required><?= $property['address_line_1']; ?></textarea>
-                            </div>
-
-
-                            <?php /*?><div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_address_line_2" class="form-label">Address Line 2<span class="asterisk"></span></label>
-                                <input type="text" class="form-control" name="property_address_line_2" placeholder="Address Line 2" value="<?= $property['address_line_2']; ?>" >
-                            </div><?php */?>
-
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_city" class="form-label">City/Village<span class="asterisk"> </span></label>
-                                <input type="text" class="form-control" name="property_city" placeholder="City" value="<?= $property['city']; ?>">
-                            </div>
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_state" class="form-label">State<span class="asterisk"> *</span></label>
-                                <select name="property_state" class="form-select select2" id="property_state" required>
-									<?php
-									if (isset($states))
-										foreach($states as $s) {
-									?>
-                                    <option value="<?= $s['state_id']; ?>" selected><?= $s['state_name']; ?></option>
-									<?php } ?>
-                                </select>
-                            </div>
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_district" class="form-label">District<span class="asterisk"> *</span></label>
-                                <select name="property_district" class="form-select select2" id="property_district" required>
+                                <label for="property_type" class="form-label">District <span class="asterisk"> *</span></label>
+                                <select name="district_id" class="form-select select2" id="district_id" required>
                                     <option value="">Select District</option>
 									<?php
 									if (isset($districts))
-										foreach ($districts as $d) { 
+										foreach($districts as $dRow) {
 									?>
-                                    <option value="<?= $d['district_id']; ?>" <?= set_select('property_district', $d['district_id'], $d['district_id'] == $property['district_id'] ? true : false); ?>><?= $d['district_name']; ?></option>
+                                    <option value="<?= $dRow['district_id']; ?>" <?php echo ($dRow['district_id'] == $service['district_id']) ? 'selected' : ''; ?>><?= $dRow['district_name']; ?></option>
 									<?php } ?>
-                                   
                                 </select>
                             </div>
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_pin_code" class="form-label">Pin Code<span class="asterisk"> *</span></label>
-                                <input type="text" class="form-control" name="property_pin_code" placeholder="Pin Code" value="<?= $property['pincode']; ?>" required>
-                            </div>
-                            
-
-                             <div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="property_status" class="form-label">Status<span class="asterisk"> *</span></label>
-                                <select name="property_status" class="form-select" id="property_status" required>
-                                    <option value="1" <?= set_select('property_status', 1, $property['is_active'] == '1' ? true : false); ?>>Active</option>
-                                    <option value="0" <?= set_select('property_status', 0, $property['is_active'] == '0' ? true : false); ?>>Inactive</option>
+							<div class="col-lg-4 col-sm-12 col-md-6">
+                                <label for="terrain_type" class="form-label">Division<span class="asterisk"> *</span></label>
+                                <select name="division_id" class="form-select select2" id="division_id">                               
+                                    <option value="">All Division</option>
+                                    <?php
+                                    if ($divisions)
+                                        foreach($divisions as $row) {
+                                    ?>
+                                    <option value="<?= $row['division_id']; ?>" <?php echo ($row['division_id'] == $service['division_id']) ? 'selected' : ''; ?>><?= $row['division_name']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
 							
 							<div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="checkin_time" class="form-label">Check In<span class="asterisk"> *</span></label>
-                                <input type="text" class="form-control timepicker" name="checkin_time" value="<?= $property['checkin_time']; ?>" placeholder="Check In" required="" readonly="">
+                                <label for="property_type" class="form-label">Safari Type <span class="asterisk"> *</span></label>
+                                <select name="safari_type_id" class="form-select select2" id="safari_type_id" required>
+                                    <option value="">Select Safari Type</option>
+									<?php
+									if (isset($safariTypes))
+										foreach($safariTypes as $stRow) {
+									?>
+                                    <option value="<?= $stRow['safari_type_id']; ?>" <?php echo ($stRow['safari_type_id'] == $service['safari_type_id']) ? 'selected' : ''; ?>><?= $stRow['type_name']; ?></option>
+									<?php } ?>
+                                </select>
+                            </div>
+							
+							<div class="col-lg-12 col-sm-12 col-md-6">
+                                <label for="service_definition" class="form-label">Service Definition<span class="asterisk"> *</span></label>
+                                <input type="text" class="form-control" name="service_definition" value="<?= $service['service_definition'];?>" placeholder="Service Definition" required>
+                            </div>
+							
+							<!--<div class="col-lg-4 col-sm-12 col-md-6">
+                                <label for="service_route" class="form-label">Route <span class="asterisk"> *</span></label>
+                                <input type="text" class="form-control" name="service_route" placeholder="Route" required>
+                            </div>-->
+							
+							<div class="col-lg-4 col-sm-12 col-md-6">
+                                <label for="start_point" class="form-label">Start Point <span class="asterisk"> *</span></label>
+                                <input type="text" class="form-control" name="start_point" value="<?= $service['start_point'];?>" placeholder="Start Point" required>
                             </div>
 							
 							<div class="col-lg-4 col-sm-12 col-md-6">
-                                <label for="checkout_time" class="form-label">Check Out<span class="asterisk"> *</span></label>
-                                <input type="text" class="form-control timepicker" name="checkout_time" value="<?= $property['checkout_time']; ?>" placeholder="Check Out" required="" readonly="">
+                                <label for="end_point" class="form-label">End Point <span class="asterisk"> *</span></label>
+                                <input type="text" class="form-control" name="end_point" value="<?= $service['end_point'];?>" placeholder="End Point" required>
                             </div>
-
+							
+							<div class="col-lg-4 col-sm-12 col-md-6">
+                                <label for="reporting_place" class="form-label">Reporting Place <span class="asterisk"> *</span></label>
+                                <input type="text" class="form-control" name="reporting_place" value="<?= $service['reporting_place'];?>" placeholder="Reporting Place" required>
+                            </div>
+							
+							<div class="col-lg-12 col-sm-12 col-md-12">
+								<label for="route_desc" class="form-label">Route Description <span class="asterisk"> *</span></label>
+								<textarea name="route_desc" id="route_desc" class="form-control" placeholder="Route Description" rows="3" required><?= $service['route_desc'];?></textarea>
+							</div>
+							
+							<div class="col-lg-12 col-sm-12 col-md-12">
+								<label for="route_desc" class="form-label">Additional Information <span class="asterisk"> </span></label>
+								<textarea name="additional_info" id="additional_info" class="form-control" placeholder="Additional Information" rows="3"><?= $service['additional_info'];?></textarea>
+							</div>
+							
+							<div class="col-lg-4 col-sm-12 col-md-6">
+                                <label for="service_status" class="form-label">Status<span class="asterisk"> *</span></label>
+                                <select name="service_status" class="form-select" id="service_status" required>
+                                    <option value="1" <?= ($service['service_status'] ==1) ? 'selected' : '' ?>>Active</option>
+                                    <option value="0" <?= ($service['service_status'] ==0) ? 'selected' : '' ?>>Inactive</option>
+                                </select>
+                            </div>
+							
 							<div class="col-md-12 mt-0">
                                 <hr class="ex_bold">
-								<h4>Facilities</h4>
+                                <h4>Season Information</h4>
                             </div>
-							<div class="col-lg-12 col-sm-12 col-md-12">
-								<div class="d-flex flex-wrap">
+							
+							<div class="text-end mb-1">
+								<button type="button" class="btn btn-success text-white" id="add_row_period">Add Season</button>
+							</div>
+							
+							<div class="col-12">
 								<?php
-								$facility_arr = explode(',', $property['facilities']);
-								if (isset($facilities))
-									foreach ($facilities as $f) {
+								if(!empty($safari_service_details)){
+									foreach($safari_service_details as $key => $val){
 								?>
-									<div class="p-2 me-2">
-										<label><input type="checkbox" name="property_facilities[]" value="<?= $f['facility_id']; ?>" class="me-1" <?= set_checkbox('property_facilities', $f['facility_id'], in_array($f['facility_id'], $facility_arr) ? true : false); ?>><?= $f['facility_name']; ?></label>
-									</div>
-								<?php } ?>
+								<div class="table-responsive" id="myDivPeriod">
+								<table class="table table-sm align-middle table-bordered mb-0">
+									<tr>
+										<th>
+										<h5>Season</h5>
+										<select class="form-select">
+											<option value="">Select Season</option>
+											<?php
+											if ($periods){
+												foreach($periods as $period) {
+											?>
+											<option value="<?= $period['service_period_master_id']; ?>" <?php echo ($period['service_period_master_id'] == $val['service_period_master_id']) ? 'selected' : ''; ?>><?= $period['showing_desc']; ?></option>
+											<?php } } ?>
+										</select>
+										
+										<input type="hidden" name="season_id[]" value="<?= $val['service_period_master_id'];?>" readonly="" />
+										</th>
+									</tr>
+									
+									<tr class="m-text-box">
+										<td>
+											<table class="table table-sm align-middle table-bordered mb-0" id="myTableSlot<?= ($key + 1);?>">
+												<tr>
+													<th>Slot Desc.</th>
+													<th>Start Time</th>
+													<th>End Time</th>
+													<th>Reporting Time</th>
+													<th>Ticket Sale Closing Time</th>
+													<th>
+														<div class="text-end mt-3">
+															<button type="button" class="btn btn-success text-white add_row_slot" id="add_row_slot1" data-tableid="<?= ($key + 1);?>"><i class="fa fa-plus"></i></button>
+														</div>
+													</th>
+												</tr>
+												<?php
+												if(!empty($val['service_details'])){
+													foreach($val['service_details'] as $key2 => $serviceDtl){
+												?>
+												<tr>
+													<td><input type="text" class="form-control" value="<?= $serviceDtl['slot_desc'];?>" placeholder="Slot Desc."></td>
+													<td><input type="text" class="form-control timepickerStart" value="<?= $serviceDtl['start_time'];?>" placeholder="Start Time"></td>
+													<td><input type="text" class="form-control timepickerEnd" value="<?= $serviceDtl['end_time'];?>" placeholder="End Time"></td>
+													<td><input type="text" class="form-control" value="<?= $serviceDtl['reporting_time'];?>" placeholder="Reporting Time"></td>
+													<td><input type="checkbox" value="2" <?php echo ($serviceDtl['ticket_sale_closing_flag'] == 2) ? 'checked' : ''; ?> /> Previous Day<input type="text" class="form-control timepicker" value="<?= $serviceDtl['ticket_sale_closing_time'];?>" placeholder="Ticket Sale Closing Time"></td>
+													<td></td>
+												</tr>
+												<?php
+													}
+												}
+												?>
+											</table>
+										</td>
+									</tr>
+								</table>
+									
 								</div>
+								<?php
+									}
+								}
+								?>
 							</div>
-
-                            <div class="col-md-12 mt-0">
-                                <hr class="ex_bold">
-								<h4>Search</h4>
-                            </div>
-				
+                            
                             <div class="col-lg-12 col-sm-12 col-md-12">
-                                <label for="property_search_keywords" class="form-label">Search Keywords<span class="asterisk"> </span></label>
-                                <input type="text" class="form-control" name="property_search_keywords" id="property_search_keywords" placeholder="property search keywords" value="<?= $property['search_keywords']; ?>" >
-                            </div>
-
-
-                            <!--<div class="col-md-12 mt-0">
-                                <hr class="ex_bold">
-								<h4>Location</h4>
-                            </div>
-							
-							<div class="col-lg-12 col-sm-12 col-md-12">
-			   
-							  <div class="form-group">
-								<input type="text" class="form-control" id="pac-input" placeholder="Search Location in Google Maps" name="location_name" value="<?= $property['google_map_address']; ?>" required>
-							   </div>
-							  <input type="hidden" id="geo_latitude" name="geo_latitude" value="<?= $property['geo_latitude']; ?>"> 
-							  <input type="hidden" id="geo_longitude" name="geo_longitude" value="<?= $property['geo_longitude']; ?>"> 
-							  <div id="infowindow-content">
-								<img src="" width="16" height="16" id="place-icon">
-								<span id="place-name"  class="title"></span><br>
-								<span id="place-address"></span>
-							  </div>			   
-						   
-							</div>
-							
-							<div class="col-sm-12"> 
-								<div id="googleMap" style="width:100%;height:200px;"></div>
-							</div>-->
-
-
-                            <div class="col-md-12">
-                                <h4>Images</h4>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 1<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image1']) ? base_url('public/admin_images/' . $property['image1']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image1" alt="" height="50" width="75">
-								<input id="image1Upload" style="display:none;" class="imageUpload" type="file"  accept="image/*" name="image1" placeholder="Photo" capture>	
-								<div id="delete_image1_div" style="display:none;">
-									<button id="delete_image1" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-								<input type="hidden" id="imageUpload_base64" value="">	
-                            </div>
-                            <div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 2<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image2']) ? base_url('public/admin_images/' . $property['image2']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image2" alt="" height="50" width="75">
-								<input id="image2Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image2" placeholder="Photo" >	
-								<div id="delete_image2_div" style="display:none;">
-									<button id="delete_image2" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 3<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image3']) ? base_url('public/admin_images/' . $property['image3']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image3" alt="" height="50" width="75">
-								<input id="image3Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image3" placeholder="Photo" >	
-								<div id="delete_image3_div" style="display:none;">
-									<button id="delete_image3" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 5<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image5']) ? base_url('public/admin_images/' . $property['image5']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image5" alt="" height="50" width="75">
-								<input id="image5Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image5" placeholder="Photo" >	
-								<div id="delete_image5_div" style="display:none;">
-									<button id="delete_image5" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-							<div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 6<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image6']) ? base_url('public/admin_images/' . $property['image6']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image6" alt="" height="50" width="75">
-								<input id="image6Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image6" placeholder="Photo" >	
-								<div id="delete_image6_div" style="display:none;">
-									<button id="delete_image6" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-							<div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 7<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image7']) ? base_url('public/admin_images/' . $property['image7']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image7" alt="" height="50" width="75">
-								<input id="image7Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image7" placeholder="Photo" >	
-								<div id="delete_image7_div" style="display:none;">
-									<button id="delete_image7" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-							<div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 8<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image8']) ? base_url('public/admin_images/' . $property['image8']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image8" alt="" height="50" width="75">
-								<input id="image8Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image8" placeholder="Photo" >	
-								<div id="delete_image8_div" style="display:none;">
-									<button id="delete_image8" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-							<div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 9<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image9']) ? base_url('public/admin_images/' . $property['image9']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image9" alt="" height="50" width="75">
-								<input id="image9Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image9" placeholder="Photo" >	
-								<div id="delete_image9_div" style="display:none;">
-									<button id="delete_image9" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-							<div class="col-lg-3 col-sm-12 col-md-6">
-                                <label for="" class="form-label">Image 10<span class="asterisk"> </span></label>
-                                <img src="<?= !is_null($property['image10']) ? base_url('public/admin_images/' . $property['image10']) : 'https://jmd.syscentricdev.com/hotel_pms/assets/images/property_default_image.png'; ?>" id="image10" alt="" height="50" width="75">
-								<input id="image10Upload" style="display:none;" class="imageUpload" type="file" accept="image/*" name="image10" placeholder="Photo" >	
-								<div id="delete_image4_div" style="display:none;">
-									<button id="delete_image10" class="btn btn-theme-warn" style="margin-top: 10px;"><i class="fa fa-trash"></i></button>
-								</div>
-                            </div>
-							
-							<div class="col-lg-12 col-sm-12 col-md-12">
-                                <label for="property_bank_name" class="form-label">YouTube Video Link<span class="asterisk"> </span></label>
-                                <input type="text" class="form-control" name="youtube_video_link" placeholder="YouTube Video Link" value="<?= $property['youtube_video_link']; ?>" >
-                            </div>
-							<div class="col-lg-12 col-sm-12 col-md-12">
-                                <button type="submit" class="btn app-btn-primary">Update</button>
-                                <a class="btn app-btn-danger" href="<?= base_url('admin/property'); ?>">CANCEL</a>
+                                <button type="submit" class="btn app-btn-primary">SUBMIT</button>
+                                <a class="btn app-btn-danger" href="<?= base_url('admin/safari_service'); ?>">CANCEL</a>
                             </div>
                         </div>
                 </div>
-                
             </form>
         </div>
         <!--//app-card-body-->
 
     </div>
 </div>
+
 <script>
+$(document).ready(function(){
+
+	$('#add_row_period').click(function () {
+		
+		var counter = $('.m-text-box').length + 1;
+		console.log(counter);
+		
+		$('#myDivPeriod').prepend('<table class="table table-sm align-middle table-bordered mb-0"><tr><th><h5>Season</h5><select name="service_period_master_id[]" class="form-select" id="service_period_master_id" required><option value="">Select Season</option><?php if ($periods) { foreach($periods as $period) { ?><option value="<?= $period['service_period_master_id']; ?>"><?= $period['showing_desc']; ?></option><?php } } ?></select></th></tr><tr class="m-text-box"><td><table class="table table-sm align-middle table-bordered mb-0" id="myTableSlot'+counter+'"><tr><th>Slot Desc.</th><th>Start Time</th><th>End Time</th><th>Reporting Time</th><th>Ticket Sale Closing Time</th><th><div class="text-end mt-3"><button type="button" class="btn btn-success text-white add_row_slot" id="add_row_slot'+counter+'" data-tableid="'+counter+'"><i class="fa fa-plus"></i></button></div></th></tr><?php $counter++;?><tr class="text-box"><td><input type="text" class="form-control" name="slot_desc'+counter+'[]" placeholder="Slot Desc." required></td><td><input type="text" class="form-control timepickerStart" name="start_time'+counter+'[]" placeholder="Start Time" required></td><td><input type="text" class="form-control timepickerEnd" name="end_time'+counter+'[]" placeholder="End Time" required></td><td><input type="text" class="form-control" name="reporting_time'+counter+'[]" placeholder="Reporting Time" required></td><td><input type="checkbox" value="2" name="ticket_sale_closing_flag'+counter+'[]" /> Previous Day<input type="text" class="form-control timepicker" name="ticket_sale_closing_time'+counter+'[]" placeholder="Ticket Sale Closing Time" required></td><td></td></tr></table></td></tr></table>');
+		
+		$('.timepicker').timepicker({
+			timeFormat: 'hh:mm p',
+			interval: 30,
+			minTime: '4:00Am',
+			maxTime: '12:00Pm',
+			//defaultTime: '5:00Am',
+			startTime: '4:00Am',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
+		});
+		
+		$('.timepickerStart').timepicker({
+			timeFormat: 'hh:mm p',
+			interval: 30,
+			minTime: '4:00Am',
+			maxTime: '6:00Pm',
+			//defaultTime: '5:00Am',
+			startTime: '4:00Am',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true,
+			change: function(time) {
+				var startTime = $(this).timepicker('getTime'); // Get selected Start Time
+				$('.timepickerEnd').timepicker('option', 'minTime', startTime); // Set minTime for End Time
+			}
+		});
+		
+		$('.timepickerEnd').timepicker({
+			timeFormat: 'hh:mm p',
+			interval: 30,
+			minTime: '4:00Am',
+			maxTime: '6:00Pm',
+			//defaultTime: '5:00pm',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
+		});
+		
+	
+	});
+	
+	
+	$(document).on('click', '.delete_row_plot', function() {
+		var tableID = $(this).data('tableid');
+		$(this).closest('tr').remove();
+	});
+	
+	
+	$(document).on('click', '.add_row_slot', function() {
+		
+		var tableID = $(this).data('tableid');
+		console.log(tableID);
+		
+		
+		$('#myTableSlot'+tableID).append('<tr><td><input type="text" class="form-control" name="slot_desc'+tableID+'[]" placeholder="Slot Desc."></td><td><input type="text" class="form-control timepickerStart" name="start_time'+tableID+'[]" placeholder="Start Time"></td><td><input type="text" class="form-control timepickerEnd" name="end_time'+tableID+'[]" placeholder="End Time" required></td><td><input type="text" class="form-control" name="reporting_time'+tableID+'[]" placeholder="Reporting Time" required></td><td><input type="checkbox" value="2" name="ticket_sale_closing_flag'+tableID+'[]" /> Previous Day<input type="text" class="form-control timepicker" name="ticket_sale_closing_time'+tableID+'[]" placeholder="Ticket Sale Closing Time" required></td><td><button type="button" class="btn btn-danger btn-sm text-white delete_row_plot" id="delete_row_plot" data-tableid="'+tableID+'"><i class="fa fa-sm fa-trash"></i></button></td></tr>');
+		
+		$('.timepicker').timepicker({
+			timeFormat: 'hh:mm p',
+			interval: 30,
+			minTime: '4:00Am',
+			maxTime: '12:00Pm',
+			//defaultTime: '5:00Am',
+			startTime: '4:00Am',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
+		});
+		
+		$('.timepickerStart').timepicker({
+			timeFormat: 'hh:mm p',
+			interval: 30,
+			minTime: '4:00Am',
+			maxTime: '6:00Pm',
+			//defaultTime: '5:00Am',
+			startTime: '4:00Am',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true,
+			change: function(time) {
+				var startTime = $(this).timepicker('getTime'); // Get selected Start Time
+				$('.timepickerEnd').timepicker('option', 'minTime', startTime); // Set minTime for End Time
+			}
+		});
+		
+		$('.timepickerEnd').timepicker({
+			timeFormat: 'hh:mm p',
+			interval: 30,
+			minTime: '4:00Am',
+			maxTime: '6:00Pm',
+			//defaultTime: '5:00pm',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
+		});
+		
+	});
+	
+	$("#district_id").change(function(){ 
+		var district_id = $(this).val();
+		var result = '';
+		$.ajax({
+			type: 'POST',	
+			url: '<?= base_url("admin/safari_service/getDivision"); ?>',
+			data: {
+				district_id: district_id,
+				csrf_test_name: '<?= $this->csrf['hash']; ?>'
+			},
+			dataType: 'json',
+			encode: true,
+			async: false
+		})
+		//ajax response
+		.done(function(response){
+			if(response.status){
+				result +='<option value="">Select Division</option>';
+                $.each(response.list,function(key,value){
+                    result +='<option value="'+value.division_id+'">'+value.division_name+'</option>';
+                });
+			}
+			else{
+                result +='<option value="">No Data found</option>'
+            }
+			$("#division_id").html(result);
+		});
+	});
+	
+	$('.datepicker').datepicker({
+		dateFormat: 'dd-mm'  // Month-Day format
+	});
+	
+	$('.timepicker').timepicker({
+		timeFormat: 'hh:mm p',
+		interval: 30,
+		minTime: '4:00Am',
+		maxTime: '12:00Pm',
+		//defaultTime: '5:00Am',
+		startTime: '4:00Am',
+		dynamic: false,
+		dropdown: true,
+		scrollbar: true
+	});
+	
+	$('.timepickerStart').timepicker({
+		timeFormat: 'hh:mm p',
+		interval: 30,
+		minTime: '4:00Am',
+		maxTime: '6:00Pm',
+		//defaultTime: '5:00Am',
+		startTime: '4:00Am',
+		dynamic: false,
+		dropdown: true,
+		scrollbar: true,
+		change: function(time) {
+			var startTime = $(this).timepicker('getTime'); // Get selected Start Time
+			$('.timepickerEnd').timepicker('option', 'minTime', startTime); // Set minTime for End Time
+		}
+	});
+	
+	$('.timepickerEnd').timepicker({
+		timeFormat: 'hh:mm p',
+		interval: 30,
+		minTime: '4:00Am',
+		maxTime: '6:00Pm',
+		//defaultTime: '5:00pm',
+		dynamic: false,
+		dropdown: true,
+		scrollbar: true
+	});
+	
+	$("#image1").click(function(e) {
+		$("#image1Upload").click();
+	});	
+	$("#image2").click(function(e) {
+		$("#image2Upload").click();
+	});
+	$("#image3").click(function(e) {
+		$("#image3Upload").click();
+	});
+	$("#image4").click(function(e) {
+		$("#image4Upload").click();
+	});	
+	$("#image5").click(function(e) {
+		$("#image5Upload").click();
+	});
+
+});
+</script>
+
+<script type="text/javascript">
 
 function fasterPreview( uploader) {
     if ( uploader.files && uploader.files[0] ){        
@@ -357,92 +458,16 @@ $("#image3Upload").change(function(){
 	fasterPreview( this );
     
 });
+
 $("#image4Upload").change(function(){
 	//$("#delete_profile_image_div").show();
 	fasterPreview( this );
     
 });
+
 $("#image5Upload").change(function(){
 	//$("#delete_profile_image_div").show();
 	fasterPreview( this );
     
-});
-$("#image6Upload").change(function(){
-	//$("#delete_profile_image_div").show();
-	fasterPreview( this );
-    
-});
-$("#image7Upload").change(function(){
-	//$("#delete_profile_image_div").show();
-	fasterPreview( this );
-    
-});
-$("#image8Upload").change(function(){
-	//$("#delete_profile_image_div").show();
-	fasterPreview( this );
-    
-});
-$("#image9Upload").change(function(){
-	//$("#delete_profile_image_div").show();
-	fasterPreview( this );
-    
-});
-$("#image10Upload").change(function(){
-	//$("#delete_profile_image_div").show();
-	fasterPreview( this );
-    
-});
-
-</script>
-<script>
-$(document).ready(function(){
-
-	$('.timepicker').timepicker({
-		timeFormat: 'HH:mm',
-		interval: 30,
-		minTime: '7',
-		maxTime: '18:00',
-		/*defaultTime: '11',*/
-		startTime: '7:00',
-		dynamic: false,
-		dropdown: true,
-		scrollbar: true
-	});
-	
-	
-	$("#image1").click(function(e) {
-		$("#image1Upload").click();
-	});	
-	$("#image2").click(function(e) {
-		$("#image2Upload").click();
-	});
-	$("#image3").click(function(e) {
-		$("#image3Upload").click();
-	});
-	$("#image4").click(function(e) {
-		$("#image4Upload").click();
-	});
-	$("#image5").click(function(e) {
-		$("#image5Upload").click();
-	});
-	$("#image6").click(function(e) {
-		$("#image6Upload").click();
-	});
-	$("#image7").click(function(e) {
-		$("#image7Upload").click();
-	});
-	$("#image8").click(function(e) {
-		$("#image8Upload").click();
-	});
-	$("#image9").click(function(e) {
-		$("#image9Upload").click();
-	});
-	$("#image10").click(function(e) {
-		$("#image10Upload").click();
-	});
-
-	  
-	initMap();
-
 });
 </script>

@@ -28,10 +28,6 @@
 
 <!-- Javascript --> 
 
-<?php /*?><script src="<?=base_url('public/admin_assets/plugins/chart.js/chart.min.js')?>"></script>
-<script src="<?=base_url('public/admin_assets/js/index-charts.js')?>"></script>
-<script src="<?=base_url('public/admin_assets/js/app.js')?>"></script><?php */?>
-
 <script src="<?=base_url('public/admin_assets/js/jquery.dataTables.min.js')?>"></script>
 <script src="<?=base_url('public/admin_assets/js/dataTables.buttons.min.js')?>"></script>
 <script type="text/javascript" src="<?=base_url('public/admin_assets/js/jszip.min.js')?>"></script>
@@ -47,6 +43,7 @@
 <script src="<?=base_url('public/admin_assets/js/script.js')?>"></script>
 <script type="text/javascript" src="<?=base_url('public/admin_assets/js/jquery.datetimepicker.js')?>"></script>
 <script src="<?= base_url('public/admin_assets/js/jquery.timepicker.min.js');?>"></script>
+<script src="<?= base_url('public/admin_assets/js/sweetalert.min.js');?>"></script>
 
 <script>
 $(document).ready(function(){

@@ -16,7 +16,7 @@
 
                 <div class="row g-3 mb-2 align-items-center justify-content-between">
                     <div class="col-auto">
-                        <h1 class="app-page-title mb-0">Safari Services List</h1>
+                        <h1 class="app-page-title mb-0">Safari Services Pricing</h1>
                     </div>
                     <div class="col-auto">
                         <div class="page-utilities">
@@ -43,8 +43,8 @@
                                     <?php
                                         if(check_user_permission($menu_id, 'add_flag')){
                                     ?>
-                                    <a class="btn app-btn-primary" href="<?= base_url('admin/safari_service/add_safari_service'); ?>">
-                                        Add Safari Service 
+                                    <a class="btn app-btn-primary" href="<?= base_url('admin/safari_service_pricing/add_service_pricing'); ?>">
+                                        Add Safari Service Pricing
                                     </a>
                                     <?php
                                         }
@@ -96,9 +96,8 @@
                                     <th class="cell">SL No.</th>
                                         <th class="cell">Division</th>
                                         <th class="cell">Service Type</th>
-                                        <th class="cell">Service Definition</th>
-                                        <th class="cell">Start Point</th>
-                                        <th class="cell">End Point</th>
+                                        <th class="cell">Service</th>
+                                        <th class="cell">Season</th>
                                         <th class="cell">Status</th>
                                         <th class="cell">Action</th>
                                     </tr>
@@ -106,22 +105,21 @@
                                 <tbody>
                                 <?php
 								$i = 1;
-								if (isset($services))
-									foreach($services as $row) {
+								if (isset($servicePricing))
+									foreach($servicePricing as $row) {
 								?>
                                     <tr>
                                         <td class="cell"><?= $i++; ?></td>
                                         <td class="cell"><?= $row['division_name']; ?></td>
                                         <td class="cell"><?= $row['type_name']; ?></td>
                                         <td class="cell"><?= $row['service_definition']; ?></td>
-                                        <td class="cell"><?= $row['start_point']; ?></td>
-                                        <td class="cell"><?= $row['end_point']; ?></td>
-                                        <td class="cell"><span class="<?= ($row['service_status'] != 0) ? 'badge bg-success' : 'badge bg-secondary' ?>"><?= ($row['service_status'] != 0) ? 'Active' : 'Inactive' ?></span></td>
+                                        <td class="cell"><?= $row['showing_desc']; ?></td>
+                                        <td class="cell"><span class="<?= ($row['is_active'] != 0) ? 'badge bg-success' : 'badge bg-secondary' ?>"><?= ($row['is_active'] != 0) ? 'Active' : 'Inactive' ?></span></td>
                                         <td class="cell">
                                         <?php
                                             if(check_user_permission($menu_id, 'edit_flag')){
                                         ?>
-                                            <a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_service/edit_safari_service/' . encode_url($row['safari_service_header_id'])) ?>">Edit</a>
+                                            <a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_service_pricing/edit_service_pricing/' . encode_url($row['safari_service_header_id']).'/'.encode_url($row['service_period_master_id'])) ?>">View & Terminate</a>
                                         <?php
                                             }
                                         ?>
