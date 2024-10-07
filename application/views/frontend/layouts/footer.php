@@ -219,7 +219,7 @@
 </style>
 <!-- Bootstrap core JavaScript -->
 
-<script src="<?= base_url(); ?>public/frontend_assets/assets/js/bootstrap.bundle.min.js"></script>
+
 <script>
     var $ = jQuery.noConflict();
     $(document).ready(function() {

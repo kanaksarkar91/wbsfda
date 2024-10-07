@@ -433,7 +433,7 @@ class Booking extends CI_Controller
 		$daysDifference = $differenceInSeconds / (60 * 60 * 24);
 
 		//echo "<pre>"; print_r($this->session->userdata('accommodation_cart'));
-
+		$___total_extra_bed_price = 0;
 		if ($this->session->userdata('accommodation_cart') != '') {
 			foreach ($this->session->userdata('accommodation_cart') as $k => $v) {
 				$accommodation_id = $_SESSION["accommodation_cart"][$k]['accommodation_id'];
@@ -492,7 +492,7 @@ class Booking extends CI_Controller
 				$quantity = $_SESSION["accommodation_cart"][$k]['quantity'];
 
 				$rates_json_arr = $accomm_cost[0]['day_wise_rates_json'];
-
+				$_total_extra_bed_price = 0;
 				if ($_SESSION["accommodation_cart"][$k]["is_select_extra_bed"] > 0) {
 					if ($quantity == $_SESSION["accommodation_cart"][$k]["is_select_extra_bed"]) {
 						for ($i = 1; $i <= $quantity; $i++) {
@@ -602,8 +602,10 @@ class Booking extends CI_Controller
 		$checkOut_dt_arr = explode('/', $_stay_dates[1]);
 		$checkOutDt = date('Y-m-d', strtotime($checkOut_dt_arr[2] . '-' . $checkOut_dt_arr[1] . '-' . $checkOut_dt_arr[0]));
 
-		//echo $checkInDt.'<br>'.$checkOutDt; die;
-		//print_r($_SESSION["accommodation_cart"]); die;
+		// echo $checkInDt . '<br>' . $checkOutDt;
+		// die;
+		// print_r($_SESSION["accommodation_cart"]);
+		// die;
 
 		if (!empty($_SESSION["accommodation_cart"])) {
 			foreach ($_SESSION["accommodation_cart"] as $key => $value) {
@@ -614,7 +616,6 @@ class Booking extends CI_Controller
 
 				$totalPaxCount = ($adultCount + $childCount) * $_SESSION["accommodation_cart"][$key]['quantity'];
 			}
-
 
 			$total_pax = $adult_pax + $child_pax;
 
@@ -637,9 +638,6 @@ class Booking extends CI_Controller
 				foreach ($search_room_data as $search_room_key => $search_room) {
 					$search_room_data2[$search_room['accommodation_id']] =  $search_room['day_wise_rates_json'];
 				}
-
-				// print_r($search_room_data2);
-				//die;
 
 				$this->session->set_userdata('day_wise_rates_json', $search_room_data2);
 
@@ -680,9 +678,13 @@ class Booking extends CI_Controller
 
 	public function booking_information_entry($param1)
 	{
+		echo "<pre>";
+		print_r($param1);
+		die;
 		$det_arr = unserialize($this->encryption->decrypt(base64_decode($param1)));
 
-		//print_r($this->session->userdata('day_wise_rates_json')); die;
+		// print_r($this->session->userdata('day_wise_rates_json'));
+		// die;
 
 		$property_det = $this->mbooking->get_property_details(array('property_id' => $det_arr['property_id']));
 

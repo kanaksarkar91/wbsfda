@@ -123,591 +123,353 @@
 
 <!-- ============================ Hero Banner End ================================== -->
 
-<!-- ============================ Property Detail Start ================================== -->
-<section class="gray pt-3">
+<section>
     <div class="container">
         <div class="row">
-
-
-
-            <div class="col-md-12 room_details bg_grey mt-3">
-                <div class="block-wrap mb-3 pb-0">
-                    <div class="block-header border-0 mb-0">
-                        <h3 class="block-title fw-normal mb-3 thm-txt"><?= $property['property_name']; ?></h3>
-                        <h5 class="mb-0"><i class="ti-location-pin"></i><?= $property['address_line_1'] . ', ' . $property['address_line_2'] . ', ' . $property['city']; ?></h5>
+            <div class="col-md-12 mb-4">
+                <div class="destination_slider_area p-4 row g-0">
+                    <div class="col-md-12">
+                        <h3><?= $property['property_name']; ?></h3>
+                        <p class="map_ico"><i class="fas fa-map-marker-alt"></i> <?= $property['address_line_1'] . ', ' . $property['address_line_2'] . ', ' . $property['city']; ?></p>
+                        <p class="text-green"><small>* Below rates are exclusive of GST</small></p>
                     </div>
-                    <div class="row">
-                        <div class="col-12 p-0">
-                            <p class="small fw-bold text-primary my-2 mx-3">* Below rates are exclusive of GST</p>
-                            <div class="table-responsive availability-table p-3 pt-0">
-                                <?= $available_html; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="col-md-12 room_details bg_grey mt-3">
-				<div class="row">
-					<div class="table-responsive">
-						<?= $available_html; ?>
-					</div>
-				</div>
-			</div> -->
-
-            <!-- property main detail -->
-            <div class="col-lg-8 col-md-8 col-sm-12"><!--order-lg-1 order-md-2 order-2-->
-                <!-- Single Block Wrap -->
-                <div class="block-wrap mb-3">
-                    <!-- <div class="block-header">
-					<?php
-                    //echo '<pre>'; print_r($property); die;
-                    ?>
-						<h3 class="block-title fw-normal mb-3 thm-txt"><?= $property['property_name']; ?></h3>
-						<h5 class="mb-3"><i class="ti-location-pin"></i><?= $property['address_line_1'] . ', ' . $property['address_line_1'] . ', ' . $property['city']; ?></h5>
-					</div> -->
-
-                    <div class="details-contents-header p-0">
-                        <div id="carouselExampleFade" class="carousel slide carousel-fade">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active"><img src="<?= ($property['image1'] != '') ? base_url('public/admin_images/' . $property['image1']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="..."></div>
-                                <div class="carousel-item"><img src="<?= ($property['image2'] != '') ? base_url('public/admin_images/' . $property['image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="..."></div>
-                                <div class="carousel-item"><img src="<?= ($property['image3'] != '') ? base_url('public/admin_images/' . $property['image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="..."></div>
-                                <div class="carousel-item"><img src="<?= ($property['image4'] != '') ? base_url('public/admin_images/' . $property['image4']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="..."></div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
-                        </div>
-                        <!-- <div class="details-contents-thumb details-contents-main-thumb bg-image">
-							<img src="<?= ($property['image1'] != '') ? base_url('public/admin_images/' . $property['image1']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" alt="img" class="img-fluid d-block mx-auto">
-						</div>
-						<div class="details-contents-header-flex">
-							<div class="details-contents-header-thumb">
-								<img src="<?= ($property['image2'] != '') ? base_url('public/admin_images/' . $property['image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" alt="img">
-							</div>
-							<div class="details-contents-header-thumb">
-								<img src="<?= ($property['image3'] != '') ? base_url('public/admin_images/' . $property['image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" alt="img">
-							</div>
-						</div> -->
-                    </div>
-
-                    <div class="block-body mt-3">
-                        <p><?= $property['property_desc']; ?></p>
-                    </div>
-                    <div class="mt-3">
-                        <?php /*?><span style="font-weight:bold;">Contact Person:</span> <?= $property['contact_person_1_name']; ?><br /><?php */ ?>
-                        <span style="font-weight:bold;">Contact Mobile:</span> <?= $property['phone_no']; ?><br />
-                        <span style="font-weight:bold;">Contact Email:</span> <?= $property['email']; ?>
-                    </div>
-                </div>
-                <!-- Single Block Wrap -->
-                <div class="block-wrap">
-                    <div class="block-header">
-                        <h4 class="block-title">Ameneties</h4>
-                    </div>
-                    <div class="block-body">
-                        <ul class="avl-features third">
-                            <?php
-                            if (isset($facilities))
-                                foreach ($facilities as $f) {
-                            ?>
-                                <li><?= $f['facility_name']; ?></li>
-                            <?php } ?>
+                    <div class="clearfix w-100"></div>
+                    <div class="destination_slider_img col-md-12 col-lg-6 col-xl-4">
+                        <ul class="destination-carousel owl-carousel slider_list">
+                            <li>
+                                <img src="<?= ($property['image1'] != '') ? base_url('public/admin_images/' . $property['image1']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="...">
+                            </li>
+                            <li>
+                                <img src="<?= ($property['image2'] != '') ? base_url('public/admin_images/' . $property['image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="...">
+                            </li>
+                            <li>
+                                <img src="<?= ($property['image3'] != '') ? base_url('public/admin_images/' . $property['image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="...">
+                            </li>
+                            <li>
+                                <img src="<?= ($property['image4'] != '') ? base_url('public/admin_images/' . $property['image4']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="d-block w-100" alt="...">
+                            </li>
                         </ul>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="block-wrap">
-                    <div id="map"></div>
-                    <iframe width="100%" height="380" frameborder="0" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDK4rMTf9bUlqpg1g8SF2zUnV4HQmatsVo&q=<?= $property['google_map_address']; ?>" allowfullscreen></iframe><br /><br />
-                </div>
-                <style>
-                    /*.youtube_video a::before {
-				  content: "\25B6";
-				  position: relative;
-				  color: white;
-				  left: 105px;
-				  top: 27px;
-				  z-index: 999;
-				  font-size: 80px;
-				  opacity: 0.7;
-				  text-shadow: 0 3px #666666;
-				  margin-right:-44px;
-				}*/
-
-                    .youtube_video a {
-                        background: red;
-                        border-radius: 50% / 10%;
-                        color: #FFFFFF;
-                        font-size: 1em;
-                        /* change this to change size */
-                        height: 3em;
-                        margin: 20px auto;
-                        padding: 0;
-                        position: relative;
-                        text-align: center;
-                        text-indent: 0.1em;
-                        transition: all 150ms ease-out;
-                        width: 4em;
-                    }
-
-                    .youtube_video a::before {
-                        background: inherit;
-                        border-radius: 5% / 50%;
-                        bottom: -61%;
-                        content: "";
-                        left: 38%;
-                        position: absolute;
-                        right: 39%;
-                        top: -61%;
-                    }
-
-                    .youtube_video a::after {
-                        border-style: solid;
-                        border-width: 1em 0 1em 1.732em;
-                        border-color: transparent transparent transparent rgba(255, 255, 255, 0.75);
-                        content: ' ';
-                        font-size: 0.75em;
-                        height: 0;
-                        margin: -1em 0 0 -0.75em;
-                        top: 50%;
-                        left: 50%;
-                        position: absolute;
-                        width: 0;
-                    }
-                </style>
-                <?php
-                if ($property['youtube_video_link'] != '') {
-                ?>
-                    <div class="youtube_video">
-                        <h4 style="margin-bottom:10px;">Property Video:</h4>
-                        <a href="<?= $property['youtube_video_link']; ?>" target="_blank"><img src="https://img.youtube.com/vi/<?= $videoId; ?>/hqdefault.jpg" width="370" /></a>
+                    <div class="destination_slider_txt col-md-12 col-lg-6 col-xl-8">
+                        <h4>Description:</h4>
+                        <p class="destination_p"><?= $property['property_desc']; ?>
+                        </p>
+                        <hr>
+                        <p>Centre in charge Mobile No: <b class="text-green"><?= $property['phone_no']; ?></b></p>
+                        <p>Division Office Ph. No: <b class="text-green"><?= $property['phone_no']; ?></b></p>
+                        <div class="ameneties_area mt-5">
+                            <h4>Ameneties:</h4>
+                            <hr>
+                            <ul class="ameneties_list">
+                                <?php
+                                if (isset($facilities))
+                                    foreach ($facilities as $f) {
+                                ?>
+                                    <li>
+                                        <a href="">
+                                            <div class="ameneties_list_ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/children-park-ico.png" alt=""></div>
+                                            <?= $f['facility_name']; ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <!-- <li>
+                                    <a href="">
+                                        <div class="ameneties_list_ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/conference-hall-ico.png" alt=""></div>
+                                        Conference Hall
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <div class="ameneties_list_ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/dining-facilities-ico.png" alt=""></div>
+                                        Dining Facilities
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <div class="ameneties_list_ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/free-parking-ico.png" alt=""></div>
+                                        Free Parking
+                                    </a>
+                                </li> -->
+                            </ul>
+                        </div>
                     </div>
-                <?php
-                }
-                ?>
+                    <!-- <div class="col-md-12">
+                        <div class="map_area mt-5">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29331.052309848426!2d87.04244631508028!3d23.229199144672805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f7a58c5fc2b411%3A0xfdbd0b45c0b4aa70!2sBankura%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1727674582452!5m2!1sen!2sin"
+                                width="" height="" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div> -->
+
+                </div>
             </div>
-            <!-- property Sidebar -->
-            <div class="col-lg-12 col-md-12 col-sm-12"><!-- order-lg-2 order-md-1 order-1-->
-                <div class="side-booking-wraps mt-3">
-                    <div class="side-booking-wrap hotel-booking mb-0">
-                        <div class="side-booking-body pb-0">
-                            <form id="room_search_form" action="" method="post">
-                                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                                <input type="hidden" name="property_id" id="property_id" value="<?= isset($property_id) && $property_id != '' ? $property_id : ''; ?>">
-                                <input type="hidden" name="rate_category" id="rate_category" value="<?= isset($rate_category_id) && $rate_category_id != '' ? $rate_category_id : ''; ?>">
-                                <div class="row mb-4">
 
-                                    <!--<div class="col-lg-3 col-md-3 col-sm-6">
-									<div class="form-group">
-										<label class="thm-txt">Stay Date(s)</label>
-										<div class="cld-box">
-											<input type="text" name="dates" id="dates" class="form-control" <?= isset($check_in_date) && $check_in_date != '' && isset($check_out_date) && $check_out_date != '' ? 'value="' . set_value("dates", ($check_in_date . ' - ' . $check_out_date)) . '"' : ''; ?> />
-											<i class="ti-calendar"></i>
-										</div>
-									</div>
-								</div>-->
+            <div class="col-md-12 mb-4">
+                <div class="destination_slider_area d-block">
+                    <form id="room_search_form" action="" method="post">
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                        <input type="hidden" name="property_id" id="property_id" value="<?= isset($property_id) && $property_id != '' ? $property_id : ''; ?>">
+                        <input type="hidden" name="rate_category" id="rate_category" value="<?= isset($rate_category_id) && $rate_category_id != '' ? $rate_category_id : ''; ?>">
+                        <div class=" col-md-12 p-4 pb-1">
+                            <div class="row align-items-end">
+                                <div class="col-md-3 px-2 mb-3">
+                                    <label for="" class="text-green">Check-In</label>
+                                    <div class="calenadr_area">
+                                        <input type="hidden" name="dates" id="dates" class="form-control" <?= isset($check_in_date) && $check_in_date != '' && isset($check_out_date) && $check_out_date != '' ? 'value="' . set_value("dates", ($check_in_date . ' - ' . $check_out_date)) . '"' : ''; ?> />
 
-                                    <div class="col-lg-2 col-md-2 col-sm-6">
-                                        <div class="form-group">
-                                            <label class="thm-txt">Check-In Date</label>
-                                            <div class="cld-box">
-                                                <i class="ti-calendar"></i>
-                                                <input type="hidden" name="dates" id="dates" class="form-control" <?= isset($check_in_date) && $check_in_date != '' && isset($check_out_date) && $check_out_date != '' ? 'value="' . set_value("dates", ($check_in_date . ' - ' . $check_out_date)) . '"' : ''; ?> />
-
-                                                <input type="text" readonly="" name="checkIn" id="checkIn" class="form-control check-in-out" <?= isset($check_in_date) && $check_in_date != '' ? 'value="' . set_value("checkIn", $check_in_date) . '"' : ''; ?> />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-2 col-md-2 col-sm-6">
-                                        <div class="form-group">
-                                            <label class="thm-txt">Check-Out Date</label>
-                                            <div class="cld-box">
-                                                <i class="ti-calendar"></i>
-                                                <input type="text" readonly="" name="checkOut" id="checkOut" class="form-control check-in-out" <?= isset($check_out_date) && $check_out_date != '' ? 'value="' . set_value("checkOut", $check_out_date) . '"' : ''; ?> />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <?php if (isset($property['property_type_id']) && !in_array($property['property_type_id'], array(7, 8, 9, 14))) { ?>
-                                        <div class="col-lg-2 col-md-2 col-sm-6 border-right dropdown form-select-guests mnbr" <?= isset($property['property_type_id']) && in_array($property['property_type_id'], array(7, 8, 9, 14)) ? 'style="display: none;"' : ''; ?>>
-                                            <div class="form-group">
-                                                <label class="thm-txt">Guests</label>
-                                                <div class="form-content dropdown-toggle" data-toggle="dropdown" style="height:39px!important; padding:5px;">
-                                                    <div class="wrapper-more">
-
-                                                        <div class="render">
-                                                            <span class="adults"><span class="one "><?= isset($adult_pax) && $adult_pax != '' ? $adult_pax : '1'; ?> Adult</span> <span class=" d-none  multi" data-html=":count Adults"><?= isset($adult_pax) && $adult_pax != '' ? $adult_pax : '1'; ?> Adults</span></span>-
-                                                            <span class="children">
-                                                                <span class="one " data-html=":count Child"><?= isset($child_pax) && $child_pax != '' ? $child_pax : '0'; ?> Child</span>
-                                                                <span class="multi  d-none" data-html=":count Children"><?= isset($child_pax) && $child_pax != '' ? $child_pax : '0'; ?> Children</span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="dropdown-menu select-guests-dropdown">
-                                                    <input type="hidden" name="adults" id="adults" value="<?= isset($adult_pax) && $adult_pax != '' ? $adult_pax : '1'; ?>" min="1" max="20">
-                                                    <input type="hidden" name="children" id="children" value="<?= isset($child_pax) && $child_pax != '' ? $child_pax : '0'; ?>" min="0" max="20">
-                                                    <div class="dropdown-item-row">
-                                                        <div class="label">Adults</div>
-                                                        <div class="val">
-                                                            <span class="btn-minus" data-input="adults"><i class="ti-minus"></i></span>
-                                                            <span class="count-display"><?= isset($adult_pax) && $adult_pax != '' ? $adult_pax : '1'; ?></span>
-                                                            <span class="btn-add" data-input="adults"><i class="ti-plus"></i></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="dropdown-item-row">
-                                                        <div class="label">Children</div>
-                                                        <div class="val">
-                                                            <span class="btn-minus" data-input="children"><i class="ti-minus"></i></span>
-                                                            <span class="count-display"><?= isset($child_pax) && $child_pax != '' ? $child_pax : '0'; ?></span>
-                                                            <span class="btn-add" data-input="children"><i class="ti-plus"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                    <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="form-group">
-                                            <label>&nbsp;</label>
-                                            <button type="submit" class="btn btn-dark btn-sm p-2">Search</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="form-group">
-                                            <label>&nbsp;</label><?= validation_errors(); ?>
-                                        </div>
+                                        <input type="text" readonly="" name="checkIn" id="checkIn" class="form-control check-in-out" <?= isset($check_in_date) && $check_in_date != '' ? 'value="' . set_value("checkIn", $check_in_date) . '"' : ''; ?> />
                                     </div>
                                 </div>
-                            </form>
-                            <div class="row no-gutters">
-                                <?php
-                                if (isset($accommodations) && count($accommodations) > 0) {
-                                ?>
-                                    <div class="col-md-9">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-bordered mb-0 room-type-tbl">
-                                                <tr>
-                                                    <th scope="col">Room Type</th>
-                                                    <th scope="col">Price for <?= isset($no_of_nights) && $no_of_nights != '' ? $no_of_nights . ($no_of_nights <= 1 ? ' night' : ' nights') : ''; ?></th>
-                                                    <th scope="col">Select Required Room(s)</th>
-                                                </tr>
-                                                <?php
-                                                $i = $j = 1;
-                                                foreach ($accommodations as $accommodation) {
-                                                ?>
-                                                    <tr <?php if ($accommodation['is_offline'] == 2) { ?> style="display:none;" <?php } ?>>
-                                                        <td class="p-2">
-                                                            <div class="d-flex flex-column flex-md-row" data-toggle="modal" data-target="#accomodation_detailModal<?= $j; ?>">
-                                                                <!-- <div>
-															<?php if (isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '') { ?>
-															<img src="<?= base_url('public/admin_images/' . $accommodation['accomm_image1']); ?>" class="mr-2" width="108" alt="..." />
-															<?php } elseif (isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '') { ?>
-															<img src="<?= base_url('public/admin_images/' . $accommodation['accomm_image2']); ?>" class="mr-2" width="108" alt="..." />
-															<?php } elseif (isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '') { ?>
-															<img src="<?= base_url('public/admin_images/' . $accommodation['accomm_image3']); ?>" class="mr-2" width="108" alt="..." />
-															<?php } elseif (isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '') { ?>
-															<img src="<?= base_url('public/admin_images/' . $accommodation['accomm_image4']); ?>" class="mr-2" width="108" alt="..." />
-															<?php } else { ?>
-															<img src="<?= base_url('public/admin_images/property_images/no-image.jpg'); ?>" class="mr-2" width="108" alt="...">
-															<?php } ?>
-														</div> -->
-                                                                <div class="media-body">
-                                                                    <h5 class="mt-1"><?= $accommodation['accommodation_name']; ?></h5>
-                                                                    <!--<p class="mb-0"><i class="fas fa-bed text-primary"></i> 1 Kingsize Bed, 1 Single Bed</p>-->
-                                                                    <?php
-                                                                    if ($accommodation['is_dormitory'] == 'No') {
-                                                                        if (isset($accommodation['adult']) || isset($accommodation['child'])) {
-                                                                    ?>
-                                                                            <p class="mb-1 text-dark"><i class="fas fa-users thm-txt"></i>
-                                                                                <?php if (isset($property['property_type_id']) && in_array($property['property_type_id'], array(7, 8, 9, 14))) { ?>
-                                                                                    <span style="display:none;">Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] : 'N/A'; ?>
-                                                                                    <?php } else { ?></span>
-                                                                                    Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] . ' Adult(s)' : ''; ?><?= isset($accommodation['child']) && $accommodation['child'] != '' ? ', ' . $accommodation['child'] . ($accommodation['child'] <= 1 ? ' Child' : ' Children') : ''; ?>
-                                                                                <?php } ?>
-                                                                            </p>
-                                                                    <?php
-                                                                        }
-                                                                    }
-                                                                    ?>
+                                <div class="col-md-3 px-2 mb-3">
+                                    <label for="" class="text-green">Check-Out</label>
+                                    <div class="calenadr_area">
+                                        <input type="text" readonly="" name="checkOut" id="checkOut" class="form-control check-in-out" <?= isset($check_out_date) && $check_out_date != '' ? 'value="' . set_value("checkOut", $check_out_date) . '"' : ''; ?> />
+                                    </div>
+                                </div>
+                                <div class="col-md-3 px-2 mb-3">
+                                    <label for="" class="text-green">Nationality</label>
+                                    <div class="select_area">
+                                        <select name="nationality" id="nationality" class="form-control">
+                                            <option value="" disabled>Select Nationality</option>
+                                            <option value="indian" <?= isset($nationality) && $nationality == 'indian' ? 'selected' : ''; ?>>Indian</option>
+                                            <option value="foreigner" <?= isset($nationality) && $nationality == 'foreigner' ? 'selected' : ''; ?>>Foreigner</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                                                                    <?php if (isset($accommodation['facilities']) && $accommodation['facilities'] != '') { ?>
-                                                                        <p class="mb-1"><i class="fas fa-hotel thm-txt"></i> <?= ucwords(str_replace(',', ', ', $accommodation['facilities'])); ?></p>
-                                                                    <?php } ?>
+                                <div class="col-auto mb-3">
+                                    <button type="submit" class="ms-2 btn btn-green">Search Availability</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
-                                                                    <?php
-                                                                    if ($accommodation['is_dormitory'] == 'No') {
-                                                                        if ($accommodation['extra_bed_price'] > 1) {
-                                                                    ?>
-                                                                            <p class="mb-1 small text-dark lh-sm">Only 1 (one) extra person is allowed in addition to the mentioned capacity of this type of room at the rate of Rs. 100.00 + applicable GST for each day.<!-- Maximum 1 extra Pax allowed in a room (if required) --></p>
-                                                                    <?php
-                                                                        }
-                                                                    }
-                                                                    ?>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td data-label="Price" class="p-1">₹ <?= isset($accommodation['base_price']) && $accommodation['base_price'] != '' ? $accommodation['base_price'] : ''; ?>
-                                                            <?php
-                                                            if ($accommodation['is_dormitory'] == 'Yes') {
-                                                                echo '/ Per Bed';
-                                                            } else {
-                                                                echo '/ Per Room';
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <?php
+                            if (isset($accommodations) && count($accommodations) > 0) {
+                            ?>
+                                <table class="table table-roomtype table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="55%">Room Type</th>
+                                            <th width="22%">Price for <?= isset($no_of_nights) && $no_of_nights != '' ? $no_of_nights . ($no_of_nights <= 1 ? ' night' : ' nights') : ''; ?> night</th>
+                                            <th width="23%">Select Required Room(s)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $i = $j = 1;
+                                        foreach ($accommodations as $accommodation) {
+                                        ?>
+                                            <tr <?php if ($accommodation['is_offline'] == 2) { ?> style="display:none;" <?php } ?>>
+                                                <td>
+                                                    <h4><a data-bs-toggle="modal" data-bs-target="#accomodation_detailModal<?= $j; ?>"><?= $accommodation['accommodation_name']; ?></a></h4>
+                                                    <h5><img src="<?= base_url(); ?>public/frontend_assets/assets/img/table_user_ico.png" alt="" class="me-2">
+                                                        <?php
+                                                        if ($accommodation['is_dormitory'] == 'No') {
+                                                            if (isset($accommodation['adult']) || isset($accommodation['child'])) {
+                                                        ?>
+                                                                <?php if (isset($property['property_type_id']) && in_array($property['property_type_id'], array(7, 8, 9, 14))) { ?>
+                                                                    <span style="display:none;">Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] : 'N/A'; ?>
+                                                                    <?php } else { ?></span>
+                                                                    Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] . ' Adult(s)' : ''; ?><?= isset($accommodation['child']) && $accommodation['child'] != '' ? ', ' . $accommodation['child'] . ($accommodation['child'] <= 1 ? ' Child' : ' Children') : ''; ?>
+                                                                <?php } ?>
+                                                        <?php
                                                             }
-                                                            ?>
-                                                            <br />
+                                                        }
+                                                        ?>
+                                                    </h5>
+                                                    <?php if (isset($accommodation['facilities']) && $accommodation['facilities'] != '') { ?>
+                                                        <p class="mb-1"><i class="fas fa-hotel thm-txt"></i> <?= ucwords(str_replace(',', ', ', $accommodation['facilities'])); ?></p>
+                                                    <?php } ?>
 
-                                                            <?php
+                                                    <!-- <?php
+                                                            if ($accommodation['is_dormitory'] == 'No') {
+                                                                if ($accommodation['extra_bed_price'] > 1) {
+                                                            ?>
+                                                            <p class="mb-1 small text-dark lh-sm">Only 1 (one) extra person is allowed in addition to the mentioned capacity of this type of room at the rate of Rs. 100.00 + applicable GST for each day.</p>
+                                                    <?php
+                                                                }
+                                                            }
+                                                    ?> -->
+                                                </td>
+                                                <td data-label="Price">
+                                                    <h5>₹ <?= isset($accommodation['base_price']) && $accommodation['base_price'] != '' ? $accommodation['base_price'] : ''; ?>
+                                                        <?php
+                                                        if ($accommodation['is_dormitory'] == 'Yes') {
+                                                            echo '/ Per Bed';
+                                                        } else {
+                                                            echo '/ Per Room';
+                                                        }
+                                                        ?>
+                                                    </h5>
+                                                    <br />
+
+                                                    <!-- <?php
                                                             if ($accommodation['is_dormitory'] == 'No') {
                                                                 if ($accommodation['extra_bed_price'] > 1) {
                                                             ?>
 
-                                                                    <select name="choose_extra_pax" id="choose_extra_pax<?= $accommodation['accommodation_id']; ?>" class="form-select form-select-sm choose_extra_pax" data-extra-pax="<?= $j; ?>">
-                                                                        <option value="">Select extra pax here (if required)</option>
-                                                                        <?php
-                                                                        if (isset($accommodation['no_of_accomm']))
-                                                                            for ($e = 1; $e <= $accommodation['no_of_accomm']; $e++) { ?>
-                                                                            <option value="<?= $e; ?>"><?= $e; ?></option>
-                                                                        <?php } ?>
-                                                                    </select>
-
-                                                                    <?php /*?><input type="number" name="choose_extra_pax" id="choose_extra_pax<?= $accommodation['accommodation_id'];?>" class="form-control choose_extra_pax<?= $j;?>" data-extra-pax="<?= $j;?>" onkeyup="return extra_bed_keypress(<?= $j;?>);" onkeydown="return extra_bed_keypress(<?= $j;?>);" max="<?= $accommodation['no_of_accomm'];?>" placeholder="Enter extra Pax here (if required)" /><?php */ ?>
-
-
-                                                            <?php
-                                                                }
-                                                            }
-                                                            ?>
-                                                        </td>
-                                                        <td data-label="Select Rooms" class="p-1">
-                                                            <select name="no_of_rooms" id="no_of_rooms<?= $j; ?>" class="form-select form-select-sm" data-roomid="<?= $accommodation['accommodation_id']; ?>">
+                                                            <select name="choose_extra_pax" id="choose_extra_pax<?= $accommodation['accommodation_id']; ?>" class="form-select form-select-sm choose_extra_pax" data-extra-pax="<?= $j; ?>">
+                                                                <option value="">Select extra pax here (if required)</option>
                                                                 <?php
-                                                                if (isset($accommodation['no_of_accomm']))
-                                                                    for ($i = 0; $i <= $accommodation['no_of_accomm']; $i++) { ?>
-                                                                    <option value="<?= $i; ?>"><?= $i; ?></option>
+                                                                    if (isset($accommodation['no_of_accomm']))
+                                                                        for ($e = 1; $e <= $accommodation['no_of_accomm']; $e++) { ?>
+                                                                    <option value="<?= $e; ?>"><?= $e; ?></option>
                                                                 <?php } ?>
                                                             </select>
-                                                        </td>
-                                                    </tr>
-                                                <?php
-                                                    $j++;
-                                                }
-                                                ?>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="side-booking-footer light">
-                                            <div class="stbooking-footer-top">
-                                                <div class="stbooking-left">
-                                                    <h5 class="st-subtitle">Total Amount</h5>
-                                                    <!--<span>Expected Tax</span>-->
-                                                </div>
-                                                <h4 class="stbooking-title">₹ 0.00</h4>
-                                            </div>
-                                            <div class="stbooking-footer-bottom">
-                                                <input type="hidden" id="tots" value="" />
-                                                <input type="button" id="booknow" class="btn btn-block btn-theme" value="Book Now">
-                                                <!-- <a href="#" class="books-btn black">Instant Booking</a> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="col-md-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-bordered mb-0">
-                                                <tr>
-                                                    <td>
-                                                        <h4 class="text-info" style="line-height: 2rem;">No rooms found for your search criteria.</h4>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
+
+                                                            <?php /*?><input type="number" name="choose_extra_pax" id="choose_extra_pax<?= $accommodation['accommodation_id'];?>" class="form-control choose_extra_pax<?= $j;?>" data-extra-pax="<?= $j;?>" onkeyup="return extra_bed_keypress(<?= $j;?>);" onkeydown="return extra_bed_keypress(<?= $j;?>);" max="<?= $accommodation['no_of_accomm'];?>" placeholder="Enter extra Pax here (if required)" /><?php */ ?>
+
+
+                                                    <?php
+                                                                }
+                                                            }
+                                                    ?> -->
+                                                </td>
+                                                <td data-label="Select Rooms">
+                                                    <div class="select_area">
+                                                        <select name="no_of_rooms" id="no_of_rooms<?= $j; ?>" class="form-control" data-roomid="<?= $accommodation['accommodation_id']; ?>">
+                                                            <?php
+                                                            if (isset($accommodation['no_of_accomm']))
+                                                                for ($i = 0; $i <= $accommodation['no_of_accomm']; $i++) { ?>
+                                                                <option value="<?= $i; ?>"><?= $i; ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                            $j++;
+                                        }
+                                        ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>
+                                                <h3>Total Amount <span>(Inclusive of GST)</span></h3>
+                                            </th>
+                                            <th>
+                                                <h3 class="stbooking-title">₹ 0.00</h3>
+                                            </th>
+                                            <th><button class="w-100 btn btn-green" id="booknow">Book Now</button></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            <?php } else { ?>
+                                <table class="table table-roomtype table-bordered">
+                                    <tfoot>
+                                        <tr>
+                                            <th>
+                                                <h3>No rooms found for your search criteria.</span></h3>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            <?php } ?>
                         </div>
-                        </form>
                     </div>
+
                 </div>
             </div>
+
+
+
         </div>
     </div>
 </section>
+
+
 <?php
 $j = 1;
 foreach ($accommodations as $accommodation) {
 ?>
-    <div class="modal fade" id="accomodation_detailModal<?= $j; ?>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content" style="width: 100%;">
+    <div class="modal" id="accomodation_detailModal<?= $j; ?>">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Room Name</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h4 class="modal-title">Room Name </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body p-3">
-                    <div class="row">
-                        <div class="col-md-7 col-sm-12">
-                            <div id="sync1_<?= $j; ?>" class="owl-carousel owl-theme hotelroom_lg_carousel">
-                                <?php if (isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= base_url('public/admin_images/' . $accommodation['accomm_image1']); ?>" />
-                                    </div>
-                                <?php } ?>
-                                <?php if (isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
-                                    </div>
-                                <?php } ?>
-                                <?php if (isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
-                                    </div>
-                                <?php } ?>
-                                <?php if (isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image4']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
-                                    </div>
-                                <?php } ?>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="sync1" class="owl-carousel owl-theme">
+                        <?php if (isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image1']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
                             </div>
-                            <div id="sync2_<?= $j; ?>" class="owl-carousel owl-theme hotelroom_sm_carousel">
-                                <?php if (isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= base_url('public/admin_images/' . $accommodation['accomm_image1']); ?>" />
-                                    </div>
-                                <?php } ?>
-                                <?php if (isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
-                                    </div>
-                                <?php } ?>
-                                <?php if (isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
-                                    </div>
-                                <?php } ?>
-                                <?php if (isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '') { ?>
-                                    <div class="item">
-                                        <img src="<?= isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image4']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
-                                    </div>
-                                <?php } ?>
+                        <?php } ?>
+                        <?php if (isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
                             </div>
-                        </div>
-                        <div class="col-md-5 col-sm-12">
-                            <h4><?= $accommodation['accommodation_name']; ?></h4><br>
-                            <h6><i class="fas fa-users text-primary"></i> Room capacity:</h6>
-                            <p>
-                                <?php if (isset($property['property_type_id']) && in_array($property['property_type_id'], array(7, 8, 9, 14))) { ?>
-                                    <span style="display:none;">Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] : 'N/A'; ?>
-                                    <?php } else { ?></span>
-                                    Sleeps: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] . ' Adult(s)' : ''; ?><?= isset($accommodation['child']) && $accommodation['child'] != '' ? ', ' . $accommodation['child'] . ($accommodation['child'] <= 1 ? ' Child' : ' Children') : ''; ?>
-                                <?php } ?>
-                            </p>
-                            <h6><i class="fas fa-hotel text-primary"></i> Amenities:</h6>
-                            <p><?= str_replace(',', ', ', $accommodation['facilities']); ?></p>
-                            <h6><i class="fas fa-rupee-sign text-primary"></i> Room Price:</h6>
-                            <p>₹ <?= isset($accommodation['base_price']) && $accommodation['base_price'] != '' ? $accommodation['base_price'] : ''; ?><?= isset($property['property_type_id']) && !in_array($property['property_type_id'], array(7, 8, 9, 14)) ? '/per night' : ''; ?></p>
-                        </div>
+                        <?php } ?>
+                        <?php if (isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image4']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
+                            </div>
+                        <?php } ?>
+                    </div>
+
+                    <div id="sync2" class="owl-carousel owl-theme">
+                        <?php if (isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image1']) && $accommodation['accomm_image1'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image1']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image2']) && $accommodation['accomm_image2'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image2']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image3']) && $accommodation['accomm_image3'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image3']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '') { ?>
+                            <div class="item">
+                                <img src="<?= isset($accommodation['accomm_image4']) && $accommodation['accomm_image4'] != '' ? base_url('public/admin_images/' . $accommodation['accomm_image4']) : base_url('public/admin_images/property_images/no-image.jpg'); ?>">
+                            </div>
+                        <?php } ?>
+
+                    </div>
+                    <div class="col-md-12">
+                        <h3><?= $accommodation['accommodation_name']; ?></h3>
+                        <h4><b>Room capacity:</b> <?php
+                                                    if ($accommodation['is_dormitory'] == 'No') {
+                                                        if (isset($accommodation['adult']) || isset($accommodation['child'])) {
+                                                    ?>
+                                    <?php if (isset($property['property_type_id']) && in_array($property['property_type_id'], array(7, 8, 9, 14))) { ?>
+                                        <span style="display:none;">Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] : 'N/A'; ?>
+                                        <?php } else { ?></span>
+                                        Capacity: <?= isset($accommodation['adult']) && $accommodation['adult'] != '' ? $accommodation['adult'] . ' Adult(s)' : ''; ?><?= isset($accommodation['child']) && $accommodation['child'] != '' ? ', ' . $accommodation['child'] . ($accommodation['child'] <= 1 ? ' Child' : ' Children') : ''; ?>
+                                    <?php } ?>
+                            <?php
+                                                        }
+                                                    }
+                            ?> <span class="ms-3"><b>Room Price:</b> ₹ <?= isset($accommodation['base_price']) && $accommodation['base_price'] != '' ? $accommodation['base_price'] : ''; ?>
+                                <?php
+                                if ($accommodation['is_dormitory'] == 'Yes') {
+                                    echo ' / Per Bed';
+                                } else {
+                                    echo ' / Per Room';
+                                }
+                                ?> / per night</span>
+                        </h4>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" integrity="sha512-0V10q+b1Iumz67sVDL8LPFZEEavo6H/nBSyghr7mm9JEQkOAm91HNoZQRvQdjennBb/oEuW+8oZHVpIKq+d25g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js" integrity="sha512-zP5W8791v1A6FToy+viyoyUUyjCzx+4K8XZCKzW28AnCoepPNIXecxh9mvGuy3Rt78OzEsU+VCvcObwAMvBAww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.applyBtn', function() {
-                $('#room_search_form').submit();
-            });
-        });
-    </script>
-
-
-    <script>
-        $(document).ready(function() {
-
-            var sync1 = $("#sync1_<?= $j; ?>");
-            var sync2 = $("#sync2_<?= $j; ?>");
-            var slidesPerPage = 4;
-            var syncedSecondary = true;
-
-            sync1.owlCarousel({
-                items: 1,
-                slideSpeed: 2000,
-                nav: true,
-                autoplay: false,
-                dots: false,
-                loop: true,
-                responsiveRefreshRate: 200,
-                navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
-            }).on('changed.owl.carousel', syncPosition);
-
-            sync2.on('initialized.owl.carousel', function() {
-                sync2.find(".owl-item.center").eq(0).addClass("current");
-            })
-
-            /* centered items */
-            sync2.find('.owl-item').each(function(index) {
-                var item = $(this).attr('data-position', index);
-            })
-
-            sync2.owlCarousel({
-                items: slidesPerPage,
-                dots: false,
-                nav: false,
-                loop: true,
-                center: true,
-                smartSpeed: 200,
-                slideSpeed: 1000,
-                slideBy: slidesPerPage,
-                responsiveRefreshRate: 100
-            }).on('click', '.owl-item', function(e) {
-                var carouselSync1 = $('#sync1').data('owl.carousel');
-                e.preventDefault();
-
-                var current = $(this).index();
-                carouselSync1.to(carouselSync1.relative(current));
-
-                /* centered items */
-                sync2.trigger('to.owl-carousel', $(this).data('position'));
-            });
-
-            function syncPosition(el) {
-
-                var current = el.item.index;
-
-                sync2.find(".owl-item").removeClass("current").eq(current).addClass("current");
-                var onscreen = sync2.find('.owl-item.active').length - 1;
-                var start = sync2.find('.owl-item.active').first().index();
-                var end = sync2.find('.owl-item.active').last().index();
-
-                console.log('currentSync1: ' + current)
-
-                if (current > end) {
-                    sync2.data('owl.carousel').to(current, 100, true);
-                }
-                if (current < start) {
-                    sync2.data('owl.carousel').to(current - onscreen, 100, true);
-                }
-            }
-
-            function syncPosition2(el) {
-                if (syncedSecondary) {
-                    var number = el.item.index;
-                    sync1.data('owl.carousel').to(number, 100, true);
-                }
-            }
-        });
-    </script>
 <?php
     $j++;
 }

@@ -13,7 +13,8 @@ class Mbooking extends CI_Model
 
 
 		$sql = "CALL get_property_available_accomm_disc (" . $request_data['property_id'] . ",'" . $request_data['check_in_date'] . "','" . $request_data['check_out_date'] . "',0,0,1," . $request_data['discount_perc'] . ");";
-		//echo $sql;die;
+		// echo $sql;
+		// die;
 
 
 
@@ -21,6 +22,7 @@ class Mbooking extends CI_Model
 		// FROM accommodation a 
 		// INNER JOIN booking_detail bd ON bd.accommodation_id = a.accommodation_id AND bd.in_date 
 		// WHERE a.property_id = 1 AND (bd.in_date NOT BETWEEN '2022-09-10' AND '2022-09-11') AND () AND is_active = 1 GROUP BY a.accommodation_id ORDER BY bd.booking_id DESC;
+
 
 
 		$query = $this->db->query($sql);

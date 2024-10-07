@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>public/frontend_assets/assets/css/responsive.css">
 
     <script src="<?= base_url(); ?>public/frontend_assets/assets/js/jquery-3.4.1.js"></script>
+    <script src="<?= base_url(); ?>public/frontend_assets/assets/js/bootstrap.bundle.min.js"></script>
 
 
 </head>
