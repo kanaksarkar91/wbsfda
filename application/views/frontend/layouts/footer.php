@@ -48,25 +48,23 @@
     </div>
 </footer>
 
-<div class="modal" id="LoginModal">
-    <div class="modal-dialog">
+<!-- Log In Modal -->
+<div class="modal" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog login-box">
         <div class="modal-content">
-
-            <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Log In </h4>
+                <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" id="login-modal-body">
+            <div class="modal-body icon-form pb-0" id="login-modal-body">
                 <div class="login-form">
-                    <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
-                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                        <div class="mb-3">
+                <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="loginForm" autocomplete="off">
+				<input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+
+                        <div class="form-group">
                             <label>Phone no</label>
                             <div class="input-with-icon">
-                                <input type="text" class="form-control" placeholder="Phone no" id="login_mobile" name="login_mobile" autocomplete="off">
+                                <input autocomplete="off" type="text" class="form-control" placeholder="Phone no" id="login_mobile" name="login_mobile">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                             <p id="login_mobile-valid" class="hidden mob">
@@ -79,109 +77,121 @@
 
 
 
-                        <div class="mb-3">
-                            <button type="button" class="btn btn-green w-100 mt-4" id="login_getOTP" disabled>Get OTP</button>
+                        <div class="form-group login_otp_div">
+                            <button type="button" class="btn btn-green w-100 mt-4" id="login_getOTP" disabled="">Get OTP</button>
                             <div class="pull-right login_time-block">
                                 Resend OTP in
                                 <strong class="login_time">59s</strong>
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="form-group login_otp_div">
                             <label>OTP</label>
                             <div class="input-with-icon">
-                                <input type="password" class="form-control" id="login_otp" name="login_otp" placeholder="ENTER OTP" autocomplete="off">
+                                <input type="password" class="form-control" id="login_otp" name="login_otp" placeholder="ENTER OTP">
                                 <i class="fas fa-lock"></i>
                             </div>
                         </div>
+						
+						<div class="mb-3">
+							<button type="button" id="loginBtn" class="btn btn-green w-100 mt-4 pop-login" disabled>Login</button>
+						</div>
 
-
-                        <div class="mb-3">
-                            <button type="button" id="loginBtn" class="btn btn-green w-100 mt-4" disabled>Login</button>
-                        </div>
-
-                    </form>
-                    <div class="text-center">
-                        <p class="my-3 fw-bold text-dark">
-                            <a data-bs-toggle="modal" data-bs-target="#SignnModal" data-dismiss="modal" class="link">Don't Have an Account. Signup</a>
-                        </p>
-                    </div>
-                </div>
-
+                </form>
+				</div>
             </div>
-
-            <!-- Modal footer -->
-
-
+            <div class="text-center">
+                <p class="my-3 fw-bold text-dark">
+                <a data-toggle="modal" data-target="#signup" data-dismiss="modal" class="link">Don't Have an Account. Signup</a></p>
+            </div>
         </div>
     </div>
 </div>
+<!-- End Modal -->
 
-<div class="modal" id="SignnModal">
-    <div class="modal-dialog">
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-
-            <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Create An Account </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title" id="exampleModalLabel1">Create An Account</h5>
+                <span class="mod-close" data-dismiss="modal"><i class="ti-close"></i></span>
             </div>
-
-            <!-- Modal body -->
-            <div class="modal-body" id="signup-modal-body">
+            <div class="modal-body icon-form" id="signup-modal-body">
                 <div class="login-form">
-                    <form class="login-wrapper-contents-form custom-form" action="#" method="post" id="signupForm" autocomplete="off">
-                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                        <div class="mb-3">
-                            <label>Full Name <span class="text-danger">*</span></label>
+                    <form class="" action="#" method="post" id="signupForm" autocomplete="off">
+					<input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                            <!-- <div class="row"> -->
+							<div class="form-group">
+								<label>Full Name<i class="req">*</i></label>
+								<div class="input-with-icon">
+									<input autocomplete="off" type="text" class="form-control" placeholder="Full Name" name="first_name" required>
+									<i class="ti-user"></i>
+								</div>
+							</div>
+	
+							<!--<div class="form-group col-md-6 px-3">
+								<label>Last Name<i class="req">*</i></label>
+								<div class="input-with-icon">
+									<input type="text" class="form-control" placeholder="Last Name" name="last_name" required>
+									<i class="ti-user"></i>
+								</div>
+							</div>-->
+                        <!-- </div>   -->                      
+
+                        <div class="form-group">
+                            <label>Phone No<i class="req">*</i></label>
                             <div class="input-with-icon">
-                                <input type="text" class="form-control" placeholder="Full Name" id="first_name" name="first_name" required autocomplete="off">
-                                <i class="fas fa-user"></i>
-                            </div>
+                                <input autocomplete="off" type="text" class="form-control" placeholder="Phone no" id="mobile" name="mobile" maxlength="10">
+                                <i class="las la-phone"></i>
 
+                            </div>
+                            <p id="mobile-valid" class="hidden mob">
+                                <!-- Valid Mobile No -->
+                            </p>
+                            <p id="folio-invalid" class="hidden mob-helpers">
+                                Invalid mobile No
+                            </p>
                         </div>
-                        <div class="mb-3">
-                            <label>Phone No <span class="text-danger">*</span></label>
+
+                        <div class="form-group otp_div">
+                            <button type="button" class="submit-btn w-100 mt-4" id="getOTP" disabled="">Get OTP</button>
+                            <div class="pull-right time-block">
+                                Resend OTP in
+                                <strong class="time">59s</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-group otp_div">
+                            <label>OTP</label>
                             <div class="input-with-icon">
-                                <input type="text" class="form-control" placeholder="Phone no" id="mobile" name="mobile" maxlength="10" required autocomplete="off">
-                                <i class="fas fa-phone-alt"></i>
+                                <input autocomplete="off" type="password" class="form-control" id="otp" name="otp" placeholder="ENTER OTP">
+                                <i class="ti-unlock"></i>
                             </div>
-
                         </div>
-
-                        <div class="mb-3">
-                            <label>Email ID <span class="text-danger">*</span></label>
+						
+						<div class="form-group">
+                            <label>Email ID<i class="req">*</i></label>
                             <div class="input-with-icon">
-                                <input type="text" class="form-control" placeholder="Email ID" id="email" name="email" required autocomplete="off">
-                                <i class="fas fa-envelope"></i>
+                                <input autocomplete="off" type="text" class="form-control" placeholder="Email ID" name="email" required>
+                                <i class="ti-email"></i>
                             </div>
-
                         </div>
-                        <div class="mb-3">
-                            <button type="button" id="signupBtn" class="btn btn-green w-100 mt-4">Signup</button>
+
+                        <div class="form-group">
+                            <button type="button" class="submit-btn w-100 mt-4 pop-login" id="signupBtn" disabled="disabled">Signup</button>
                         </div>
 
                     </form>
-                    <!-- <div class="text-center">
-					<p class="my-3 fw-bold text-dark">
-					<a data-toggle="modal" data-target="#LoginModal" data-dismiss="modal" class="link">Already Have an Account? Login</a>
-					</p>
-				</div> -->
-                    <div class="text-center">
-                        <p class="my-3 fw-bold text-dark">
-                            <a data-bs-toggle="modal" data-bs-target="#LoginModal" data-dismiss="modal" class="link">Already Have an Account? Login</a>
-                        </p>
-                    </div>
                 </div>
-
+                <div class="text-center">
+                    <p class="mt-3 fw-bold text-dark"><a data-toggle="modal" data-dismiss="modal"  data-target="#login" class="link" >Already Have an Account? Login</a></p>
+                </div>
             </div>
-
-            <!-- Modal footer -->
-
-
         </div>
     </div>
 </div>
+<!-- End Modal -->
 
 <style type="text/css">
     .OTPBox,
@@ -218,8 +228,7 @@
     }
 </style>
 <!-- Bootstrap core JavaScript -->
-
-
+<script src="<?= base_url(); ?>public/frontend_assets/assets/js/bootstrap.bundle.min.js"></script>
 <script>
     var $ = jQuery.noConflict();
     $(document).ready(function() {
@@ -239,7 +248,6 @@
 <script type="text/javascript" src="<?= base_url(); ?>public/frontend_assets/assets/js/simple-lightbox.js"></script>
 <!-- / For Gallery-->
 
-<script src="<?= base_url(); ?>public/frontend_assets/assets/js/jquery-ui.js"></script>
 <script src="<?= base_url(); ?>public/frontend_assets/assets/js/jquery4a5f.js"></script>
 <!-- <script src="<?= base_url(); ?>public/frontend_assets/assets/js/owl.carousel.js"></script> -->
 
@@ -366,7 +374,12 @@
     // });
 </script>
 
-
+<script>
+$(document).ready(function(){
+	$('form').attr('autocomplete', 'off');
+	$("input").attr("autocomplete", "off"); 
+});
+</script>
 
 <script type="text/javascript">
     // $(document).on('click', '#loginBtn', function() {

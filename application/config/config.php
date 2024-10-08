@@ -465,7 +465,7 @@ $config['csrf_token_name'] = 'csrf_test_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = FALSE;
-$config['csrf_exclude_uris'] = array('frontend/booking/paymentBookingSuccess', 'frontend/booking/paymentBookingFailure', 'index/api_to_send_pos_bridge_notification_on_paytm_device', 'index/api_to_get_status_of_pos_bridge_notification_sent_on_paytm_device', 'app-parking-type', 'app-vehicle-type-rate', 'app-login', 'app-parking-data-save');
+$config['csrf_exclude_uris'] = array('frontend/booking/paymentBookingSuccess', 'frontend/booking/paymentBookingFailure', 'index/api_to_send_pos_bridge_notification_on_paytm_device', 'index/api_to_get_status_of_pos_bridge_notification_sent_on_paytm_device', 'app-parking-type', 'app-vehicle-type-rate', 'app-login', 'app-parking-data-save', 'safari-booking-payment-success', 'safari-booking-payment-failure');
 
 /*
 |--------------------------------------------------------------------------

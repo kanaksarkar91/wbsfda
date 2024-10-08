@@ -126,5 +126,45 @@ class Msafari_service extends CI_Model {
 		//echo nl2br($this->db->last_query());die;
         return $query->result_array();
     }
+	public function get_services_home($where = []){
+        $this->db->select('a.*, b.division_name, c.type_name');
+        $this->db->from('safari_service_header a');
+		$this->db->join('division_master b', 'a.division_id = b.division_id', 'INNER');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'INNER');
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+		/*if (isset($param['company_ids']) && $param['company_ids'] != '' && $param['company_ids'] != '0') {
+			$this->db->where_in('a.company_id', $param['company_ids'], false);
+		}*/
+		$this->db->group_by('a.division_id');
+		$this->db->order_by('a.safari_service_header_id','DESC');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
+	public function get_booking($where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null){ 
+        $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition')
+                                ->from('safari_booking_header a')
+								->join('customer_master b', 'a.customer_id = b.customer_id', 'LEFT')
+								->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT')
+								->join('division_master d', 'a.division_id = d.division_id', 'LEFT')
+								->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT');
+								
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+        if(!empty($safari_service_header_ids) && is_array($safari_service_header_ids)){
+            $this->db->where_in('pm.property_id', $property_ids);
+        }
+        if (!is_null($group_by)) {
+			$this->db->group_by($group_by);
+		}
+		if(!empty($order_by)){
+            $this->db->order_by($order_by,null);
+        }
+		
+        return $result = $sql->get()->result();
+    }
 
 }

@@ -100,17 +100,6 @@ define('SMS_ENTITY_ID','1201170124747205609');
 
 
 
-/*define('TEST_CCAVENUE_MERCHANT_DATA', '2825880');
-define('TEST_CCAVENUE_WORKING_KEY', '8D998B20F6199C11B7F5039F930C104E');
-define('TEST_CCAVENUE_ACCESS_CODE', 'AVAT09KI22AB88TABA');
-define('TEST_CCAVENUE_BASE_URL', 'https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction');
-define('TEST_CCAVENUE_API_BASE_URL', 'https://apitest.ccavenue.com/apis/servlet/DoWebTrans');*/
-
-
-//define('STAGING_PAYTM_MID','test2P31646591591214');
-//define('STAGING_PAYTM_MERCHANT_KEY','1hQr2VbJ2eI4k0@%');
-define('STAGING_PAYTM_CHANNEL_ID','EDC');
-define('STAGING_PAYTM_SALE_API_URL','https://securegw-edc.paytm.in/ecr/payment/request');
-define('STAGING_PAYTM_STATUS_API_URL','https://securegw-edc.paytm.in/ecr/V2/payment/status');
-define('STAGING_PAYTM_VOID_API_URL','https://securegw-edc.paytm.in/ecr/void');
-define('PAYTM_PAYMENT_RESPONSE_WAITING_TIME', 330);
+define('RAZORPAY_KEY', 'rzp_test_GLVplNVgSmDOes');
+define('RAZORPAY_KEY_SECRET', 'x3OKFMCdQbydwKyMDoP3Kum0');
+define('RAZORPAY_CHECKOUT_URL', 'https://api.razorpay.com/v1/checkout/embedded');

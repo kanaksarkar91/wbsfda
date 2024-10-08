@@ -47,8 +47,6 @@ class Profile extends CI_Controller
 		$data['customer_details'] = $this->mcommon->getRow('customer_master', array('customer_id' => $this->session->userdata('customer_id')));
 		$data['countries'] = $this->mcommon->getDetails('country_master', array());
 		$data['booking_details'] = $this->query->getBookingDetailsByUserIdNew($condn);
-		$data['venue_booking_details'] = $this->query->getVenueReservations($this->session->userdata('customer_id'));
-		$data['venue_event_types'] = $this->query->getVenueEventtype();
 		//echo "<pre>"; print_r($data['booking_details']); die;
 		$data['type'] = $type;
 		$data['content'] = 'frontend/my_booking';

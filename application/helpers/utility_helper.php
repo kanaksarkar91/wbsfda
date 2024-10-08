@@ -879,6 +879,40 @@ function IND_money_format($number){
     return $result;
 }
 
+if(!function_exists('formatIndianCurrency')){
+	function formatIndianCurrency($amount) {
+		// Ensure the number always has two decimal places
+   		 $amount = number_format($amount, 2, '.', '');
+		
+		// Convert the number to a string and check if it has a decimal point
+		$parts = explode('.', $amount);
+		
+		// Format the part before the decimal
+		$integerPart = $parts[0];
+		$decimalPart = isset($parts[1]) ? '.' . $parts[1] : '';
+		
+		// If the integer part is less than 1000, return it as is (no comma needed)
+		if ($integerPart < 1000) {
+			return $integerPart . $decimalPart;
+		}
+		
+		// Apply comma to the first three digits and then after every two digits
+		$lastThree = substr($integerPart, -3);
+		$remaining = substr($integerPart, 0, -3);
+		
+		// Format the remaining part with commas every two digits
+		if ($remaining != '') {
+			$remaining = preg_replace('/\B(?=(\d{2})+(?!\d))/', ',', $remaining);
+		}
+		
+		// Combine the formatted remaining part with the last three digits
+		$formatted = $remaining . ',' . $lastThree;
+		
+		return '₹' . $formatted . $decimalPart;
+	
+	}
+}
+
 
 //no to word--------------------------------------------------------------------------------------------
 function no_to_words($no)

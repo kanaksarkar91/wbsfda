@@ -120,13 +120,6 @@ class Mreservation extends CI_Model {
 								->join('customer_master', 'bh.customer_id = customer_master.customer_id', 'LEFT')
                                 ->join('property_master pm', 'pm.property_id=bh.property_id');
 								
-								
-        //$sql = $this->db->select('DISTINCT(bh.booking_id), bh.*, CONCAT(ifnull(bh.customer_title,""), " ", ifnull(bh.first_name,""), " ", ifnull(bh.middle_name,""), " ", bh.last_name) customer_name, pm.property_name, accommodation.accommodation_name')
-        //                        ->from('booking_header bh')
-        //                        ->join('property_master pm', 'pm.property_id=bh.property_id')
-		//						->join('booking_detail bd', 'bh.booking_id = bd.booking_id')
-		//						->join('accommodation', 'bd.accommodation_id = accommodation.accommodation_id');
-		//						
         if(!empty($where)){
             $this->db->where($where);
         }

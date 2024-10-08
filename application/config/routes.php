@@ -71,14 +71,14 @@ $route['reserve-facility/(:num)'] = 'frontend/facilities/reserveFacility/$1';
 $route['booking-facility'] = 'frontend/facilities/bookingFacility';
 $route['my-bookings'] = 'frontend/facilities/myBookings';
 $route['generate-txnid'] = 'frontend/facilities/generateTxnid';
-$route['save-gymnasium-profile'] = 'frontend/gymnasium/saveProfile';
-$route['apply-gymnasium'] = 'frontend/gymnasium/applyGymnasium';
-$route['save-gymnasium-members'] = 'frontend/gymnasium/addMemberToGymnasium';
-$route['generate-schedule'] = 'frontend/gymnasium/generateSchedule';
-$route['payment-schedule'] = 'frontend/gymnasium/paymentSchedule';
 $route['payment-reconcile'] = 'reconcile/payment';
-$route['my-subscription'] = 'frontend/gymnasium/mySubscription';
-$route['member-subscription/(:num)'] = 'frontend/gymnasium/memberSubscription/$1';
+
+$route['search-availability'] = 'frontend/safari_booking/searchAvailability';
+$route['safari-search-process'] = 'frontend/safari_booking/searchAvailabilityProcess';
+$route['initiate-booking'] = 'frontend/safari_booking/init_booking';
+$route['safari-booking-information-entry/(:any)'] = 'frontend/safari_booking/safari_booking_information_entry/$1';
+$route['safari-booking-payment-success'] = 'frontend/safari_booking/paymentSuccess';
+$route['safari-booking-payment-failure'] = 'frontend/safari_booking/paymentFailure';
 
 #----------------------------------------------
 

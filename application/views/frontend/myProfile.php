@@ -9,8 +9,8 @@
                 <div class="dashboard-navbar dashboard-left-content">
 
                     <div class="d-user-avater">
-                        <img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater" alt="">
-                        <h5 class="fw-bold thm-txt mt-3"><?= $customer_details['first_name'] ?></h5>
+                        <img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater w-75" alt="">
+                        <h5 class="fw-bold thm-txt mt-3"><?=$this->session->userdata('first_name')?> </h5>
                         <span></span>
                     </div>
 
@@ -27,10 +27,107 @@
 
             <div class="col-lg-9 col-md-8 col-sm-12">
                 <div class="dashboard-wraper single-reservation bg-white base-padding">
-                    <div class="col-lg-9 col-md-8 col-sm-12">
-                        <div class="dashboard-wraper single-reservation bg-white base-padding">
-                            <?php if ($this->session->flashdata('success_msg')) : ?>
-                                <div class="alert alert-success">
+				<?php if ($this->session->flashdata('success_msg')) : ?>
+				   <div class="alert alert-success">
+						 
+						<?= $this->session->flashdata('success_msg') ?>
+					</div>
+				<?php endif ?>
+				<?php if ($this->session->flashdata('error_msg')) : ?>
+					<div class="alert alert-danger">
+						
+						<?= $this->session->flashdata('error_msg') ?>
+					</div>
+				<?php endif ?>
+                    <!-- Basic Information -->
+                    <div class="form-submit">
+                        <h5 class="fw-bold thm-txt mb-4">My Account</h5>
+                        <form action="<?= base_url('update-profile') ?>" method="post" id="update_profile" enctype="multipart/form-data">
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+							<input type="hidden" class="form-control" name="customer_id" value="<?= $customer_details['customer_id'] ?>">
+
+                            <div class="submit-section">
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                        <label>Full Name<i class="req">*</i></label>
+                                        <input type="text" class="form-control text_capitalized" name="first_name" value="<?= $customer_details['first_name']; ?>">
+                                    </div>
+
+
+                                    <div class="form-group col-md-6">
+                                        <label>Gender<i class="req">*</i></label>
+                                        <select class="form-select" name="gender">
+											<option value="Male" <?= set_select('gender', 'Male', $customer_details['gender'] == 'Male' ? true : false); ?>>Male</option>
+											<option value="Female" <?= set_select('gender', 'Female', $customer_details['gender'] == 'Female' ? true : false); ?>>Female</option>
+											<option value="Other" <?= set_select('gender', 'Other', $customer_details['gender'] == 'Other' ? true : false); ?>>Transgender</option>
+										</select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Age<i class="req">*</i></label>
+                                        <select class="form-select" name="age" >
+											<?php for ($i = 18; $i <= 120; $i++) { ?>
+											<option value="<?= $i; ?>" <?= set_select('age', $i, $customer_details['age'] == $i ? true : false); ?>><?= $i; ?></option>
+											<?php } ?>
+										</select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Email<i class="req">*</i></label>
+                                        <input type="email" class="form-control" name="email" value="<?= $customer_details['email'] ?>" readonly="">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Phone<i class="req">*</i></label>
+                                        <input type="text" class="form-control" name="mobile" value="<?= $customer_details['mobile'] ?>" readonly="">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Your Address<i class="req">*</i></label>
+                                        <input type="text" class="form-control" name="address" value="<?= $customer_details['address'] ?>">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>City / Village<i class="req">*</i></label>
+                                        <input type="text" class="form-control" name="city" value="<?= $customer_details['city'] ?>">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Country<i class="req">*</i></label>
+                                        <select id="country_id" name="country_id" class="form-select">
+                                            <option value="">Select Country</option>
+                                            <?php foreach ($countries as $country) { ?>
+                                                <option value="<?= $country['country_id'] ?>" <?= ($country['country_id'] == $customer_details['country_id']) ? 'selected' : '' ?>><?= $country['country_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>State<i class="req">*</i></label>
+                                        <select id="state_id" name="state_id" class="form-select">
+                                            <option value="">Select State</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Pincode<i class="req">*</i></label>
+                                        <input type="text" class="form-control" name="pincode" value="<?= $customer_details['pincode'] ?>">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Profile Image</label>
+                                        <img src="<?= !is_null($customer_details['profile_pic']) ? base_url('public/customer_images/' . $customer_details['profile_pic']) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" id="profile_pic_img" alt="" class="img-fluid avater" height="78" width="78">
+                                        <input type="file" class="form-control" accept="image/*" id="profile_pic" name="profile_pic" style="display:none;" capture>
+                                    </div>
+
+
+                                    <div class="clearfix w-100"></div>
+
+                                    <div class="form-group col-md-6">
+                                        <button type="submit" class="btn-green">Update Changes</button>
+                                    </div>
+
 
                                     <?= $this->session->flashdata('success_msg') ?>
                                 </div>
@@ -259,7 +356,7 @@
                 method: 'post',
                 data: {
                     country_id: country_id,
-                    csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
+					csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
                 },
                 dataType: 'json',
                 async: false,

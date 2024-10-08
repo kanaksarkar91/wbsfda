@@ -11,7 +11,7 @@ class Index extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->helper(array('otp', 'sms', 'email', 'crypto'));
-		$this->load->model(array('mcommon', 'frontend/mbooking', 'frontend/query', 'admin/mreport', 'admin/mpos'));
+		$this->load->model(array('mcommon', 'frontend/mbooking', 'frontend/query', 'admin/mreport', 'admin/msafari_service'));
 	}
 
 	public function index()
@@ -25,8 +25,97 @@ class Index extends CI_Controller
 		// echo '<pre>';
 		// print_r($data);
 		// die;
+		// $data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1));
+		// $data['landscape_properties'] = $this->mbooking->get_landscape_properties(array('terrain_master.is_active' => 1, 'property_master.is_active' => 1, 'property_master.is_venue' => '1'));
+		//$data['property_types'] = $this->mbooking->get_property_types(array('is_active' => 1));
+		$data['safariTypes'] = $this->mcommon->getDetailsOrder('safari_type_master', array('is_active' => 1));
+		$data['safariCat'] = $this->mcommon->getDetailsOrder('safari_category_master', array('is_active' => 1));
+		$data['divisionData'] = $this->msafari_service->get_services_home(array('a.safari_type_id' => 1));
 		$data['content'] = 'frontend/home';
 		$this->load->view('frontend/layouts/index', $data);
+	}
+	public function getServices()
+	{
+		$data_list = array();
+		$safari_type_id = $this->input->post('safari_type_id');
+		$division_id = $this->input->post('division_id');
+		if(is_numeric($safari_type_id) && $safari_type_id > 0 && is_numeric($division_id) && $division_id > 0){
+			$data_list = $this->mcommon->getDetailsOrder('safari_service_header', array('service_status' => 1, 'safari_type_id' => $safari_type_id, 'division_id' => $division_id), 'service_definition', 'ASC');
+			
+			$response = array("status"=> true, "list"=>$data_list);
+		}
+		else{
+			$response = array("status"=> false, "list"=>$data_list);
+		}
+		
+		echo json_encode($response);
+		exit;
+	}
+	public function getTabHtml()
+	{
+		$data_list = [];
+		$html = '';
+		if($this->input->post()){
+			$safari_type_id = $this->input->post('safari_type_id');
+			if(is_numeric($safari_type_id) && $safari_type_id > 0){
+				$data_list = $this->msafari_service->get_services_home(array('a.safari_type_id' => $safari_type_id));
+				$safariCat = $this->mcommon->getDetailsOrder('safari_category_master', array('is_active' => 1));
+				
+				$html .= '<div class="tab-pane fade show active" id="safari" role="tabpanel" aria-labelledby="safari-tab">
+							<form action="" class="row g-2 align-items-center">
+							<input type="hidden" name="safari_type_id" id="safari_type_id" value="'.$safari_type_id.'"  />
+								<div class="col-md-6 col-lg-3 mb-3">
+									<div class="select_area">
+										<select name="division_id" id="division_id" class="form-control" required>
+											<option value="">Select Park</option>';
+											
+											if(!empty($data_list)){
+												foreach($data_list as $row){
+											
+													$html .= '<option value="'.$row['division_id'].'">'.$row['division_name'].'</option>';
+												} 
+											}
+										$html .= '</select>
+									</div>
+								</div>
+								<div class="col-md-6 col-lg-3 mb-3">
+									<div class="select_area">
+										<select name="safari_service_header_id" id="safari_service_header_id" class="form-control" required>
+											<option value="">Select Safari</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-4 col-lg-2 mb-3">
+									<div class="calenadr_area">
+										<input type="text" class="form-control" name="saf_booking_date" id="saf_booking_date" placeholder="Date" required>
+									</div>
+								</div>
+								<div class="col-md-4 col-lg-2 mb-3">
+									<div class="select_area">
+										<select name="safari_cat_id" id="safari_cat_id" class="form-control" required>';
+											
+											if(!empty($safariCat)){
+												foreach($safariCat as $row){
+											
+													$html .= '<option value="'.$row['safari_cat_id'].'">'.$row['cat_name'].'</option>';
+												}
+											}
+										$html .= '</select>
+									</div>
+								</div>
+								<div class="col-md-4 col-lg-2 mb-3">
+									<button type="submit" class="w-100 btn btn-green">Search Availability</button>
+								</div>
+							</form>
+						</div>';
+						
+						$response = array("status"=> true, "html"=>$html);
+				}else{
+					$response = array("status"=> false, "html"=>'Slot Not Found!!');
+				}
+			echo json_encode($response);
+			exit;
+		}
 	}
 	public function sendResetPasswordOtp()
 	{
