@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once APPPATH . "third_party/razorpay-php/Razorpay.php";
+
+use Razorpay\Api\Api;
+use Razorpay\Api\Errors\SignatureVerificationError;
+
 class Booking extends CI_Controller
 {
 	public function __construct()
@@ -678,9 +683,9 @@ class Booking extends CI_Controller
 
 	public function booking_information_entry($param1)
 	{
-		echo "<pre>";
-		print_r($param1);
-		die;
+		// echo "<pre>";
+		// print_r($param1);
+		// die;
 		$det_arr = unserialize($this->encryption->decrypt(base64_decode($param1)));
 
 		// print_r($this->session->userdata('day_wise_rates_json'));
@@ -1103,530 +1108,222 @@ class Booking extends CI_Controller
 		$this->load->view('frontend/layouts/index', $data);
 	}
 
-	public function booking_payment($value)
+	public function booking_payment($param1)
 	{
-		$data_record = unserialize($this->encryption->decrypt(base64_decode($value)));
-		$propertyIpsData = $this->mcommon->getRow('property_master', array('property_id' => $data_record['property_id']));
+		$post_fields = array();
+		$data_record = unserialize($this->encryption->decrypt(base64_decode($param1)));
+		$customer_id = $this->session->userdata('customer_id') != '' ? $this->session->userdata('customer_id') : 0;
 
-		//print_r($propertyIpsData); die;
+		//echo '<pre>'; print_r($data_record); die;
 
-		$ccavenue['tid'] = substr(hash('sha256', rand_string(6) . microtime()), 0, 20);
-		$ccavenue['merchant_id'] = $propertyIpsData['MERCHANT_ID'];
-		$ccavenue['order_id'] = crc32(time() . uniqid());
-		$ccavenue['amount'] = $data_record['total_amount'];
-		$ccavenue['currency'] = "INR";
-		$ccavenue['redirect_url'] 	= base_url('frontend/booking/paymentBookingSuccess');
-		$ccavenue['cancel_url'] 	= base_url('frontend/booking/paymentBookingFailure');
-		$ccavenue['language'] = 'EN';
-		$ccavenue['billing_name'] = $this->session->userdata('first_name');
-		$ccavenue['billing_email'] = $this->session->userdata('email');
-		$ccavenue['billing_tel'] = $this->session->userdata('mobile');
-		$ccavenue['merchant_param1'] = $this->session->userdata('customer_id');
+		$post_fields['entity_name'] = $this->session->userdata('first_name');
+		$post_fields['email'] = $this->session->userdata('email');
+		$post_fields['phone'] = $this->session->userdata('mobile');
+		$post_fields['amount'] = $data_record['total_amount'];
+		$post_fields['currency'] = "INR";
+		$post_fields['receipt_id'] = substr(hash('sha256', rand_string(6) . microtime()), 0, 20);
+		$post_fields['callback_url'] 	= base_url('frontend/booking/paymentBookingSuccess');
+		$post_fields['cancel_url'] 	= base_url('frontend/booking/paymentBookingFailure');
+		$post_fields['checkout_url'] 	= RAZORPAY_CHECKOUT_URL;
+		$post_fields['key_id'] = RAZORPAY_KEY;
+		//$post_fields['entity_name'] = $this->session->userdata('first_name');
+		//$post_fields['industrial_park'] = $application_detail['industrial_park'];
+		//$post_fields['memo_reference_no'] = $application_detail['memo_reference_no'];
 
 
-		if (isset($_SESSION['coupon']))
-			unset($_SESSION['coupon']);
+		$params1 = array();
+		$params1['amount'] = $data_record['total_amount'];
+		$params1['currency'] = $post_fields['currency'];
+		$params1['receipt_id'] = $post_fields['receipt_id'];
+		$params1['user_name'] = ucwords($this->session->userdata('first_name'));
+		$params1['email'] = $this->session->userdata('email');
+		$params1['phone'] = $this->session->userdata('mobile');
+		//$params1['entity_name'] = $this->session->userdata('first_name');
+		//$params1['industrial_park'] = $application_detail['industrial_park'];
+		//$params1['memo_reference_no'] = $application_detail['memo_reference_no'];
 
-		$merchant_data = '2';
-		$working_key = $propertyIpsData['WORKING_KEY'];
-		$data['access_code'] = $propertyIpsData['ACCESS_CODE'];
-		$data['ccavenue_redirect_url'] = $propertyIpsData['BASE_URL'];
+		$razorpay_returnvalue = $this->genRazorpayPayment($params1);
+		$razorpay_order_id = $razorpay_returnvalue["order_id"];
 
-		//echo $working_key.'<br>'.$data['access_code'].'<br>'.$data['ccavenue_redirect_url']; die;
+		$post_fields['order_id'] = $razorpay_returnvalue["order_id"];
 
-		$booking_id = $data_record['booking_id'];
-		$booking_det = $this->mbooking->get_booking_header(array('booking_header.booking_id' => $booking_id))->last_row();
-		$user_id = $booking_det->customer_id;
+		//echo $razorpay_order_id; die;
 
-		$ccavenue['merchant_param2'] = $booking_det->booking_no;
-		$ccavenue['merchant_param3'] = $booking_det->room_total_igst;
+		if ($razorpay_order_id != '') {
+			$this->db->trans_start();
 
-		foreach ($ccavenue as $key => $value) {
-			$merchant_data .= $key . '=' . $value . '&';
+			$payment_data = array(
+				'booking_id' => $data_record['booking_id'],
+				'customer_id' => $customer_id,
+				'payment_date' => date('Y-m-d'),
+				'txnid' => $post_fields['receipt_id'],
+				'order_id' => $razorpay_order_id,
+				'transaction_ref_id' => NULL,
+				'bank_ref_num' => NULL,
+				'amount' => $data_record['total_amount'],
+				'payment_mode' => '',
+				'remarks' => '',
+				'status' => 'PENDING',
+				'created_ts' => date('Y-m-d H:i:s'),
+			);
+			$payment_id = $this->mbooking->add_booking_payment_info($payment_data);
+
+			$txn_data = $this->mbooking->update_booking_header(array('booking_header.txnid' => $post_fields['receipt_id'], 'booking_header.order_id' => $razorpay_order_id), array('booking_header.booking_id' => $data_record['booking_id']));
+
+			$this->db->trans_complete();
+
+			$data['razorpaydata'] = $post_fields;
+			$data['content'] = 'frontend/booking/booking_payment';
+			$this->load->view('frontend/layouts/index', $data);
 		}
-		//echo $merchant_data; die;
-		$data['encrypted_data'] = encrypt($merchant_data, $working_key); // Method for encrypting the data.
+	}
 
-		$this->db->trans_start();
+	public function genRazorpayPayment($option)
+	{
+		$keyId = RAZORPAY_KEY;
+		$keySecret = RAZORPAY_KEY_SECRET;
 
-		$payment_data = array(
-			'booking_id' => $booking_id,
-			'customer_id' => $user_id,
-			'payment_date' => date('Y-m-d'),
-			'txnid' => $ccavenue['tid'],
-			'order_id' => $ccavenue['order_id'],
-			'transaction_ref_id' => NULL,
-			'bank_ref_num' => NULL,
-			'amount' => $booking_det->net_payable_amount,
-			'payment_mode' => '',
-			'remarks' => '',
-			'status' => 'PENDING',
-			'created_by' => $user_id,
-			'created_ts' => date('Y-m-d H:i:s'),
+		$api = new Api($keyId, $keySecret);
+
+		$recipt_id = $option['receipt_id'];
+		$order_currencey = $option['currency'];
+		$amount = $option['amount'];
+		$user = $option['user_name'];
+
+		$orderData = array(
+			'receipt'         => $recipt_id,
+			'amount'          => $amount * 100, // rupees in paise
+			'currency'        => $order_currencey,
+			'payment_capture' => 1 // auto capture
+		);
+		$razorpayOrder = $api->order->create($orderData);
+		$razorpayOrderId = $razorpayOrder['id'];
+
+		//echo "<pre>"; print_r($razorpayOrder); die;
+
+		$payable_amount = $orderData['amount'];
+		$data = array(
+			"key"               => $keyId,
+			"amount"            => $payable_amount,
+			"image"             => base_url() . "public/frontend_assets/assets/img/logo.png",
+			/*"notes"           => array(
+				"entity_name"              => $option['entity_name'],
+				"industrial_park"             => $option['industrial_park'],
+				"memo_reference_no"           => $option['memo_reference_no'],
+			),*/
+			"prefill"           => array(
+				"name"              => $user,
+				"email"             => $option['email'],
+				"contact"           => $option['phone'],
+			),
+
+			"theme"             => array(
+				"color"             => "#F37254"
+			),
+			"order_id"          => $razorpayOrderId,
 		);
 
-		$payment_id = $this->mbooking->add_booking_payment_info($payment_data);
-
-		$txn_data = $this->mbooking->update_booking_header(array('booking_header.txnid' => $ccavenue['tid'], 'booking_header.order_id' => $ccavenue['order_id']), array('booking_header.booking_id' => $booking_id));
-
-		$this->db->trans_complete();
-
-		$data['content'] = 'frontend/booking/booking_payment';
-		$this->load->view('frontend/layouts/index', $data);
+		return $data;
 	}
 
 	public function paymentBookingSuccess()
 	{
+		$success = false;
+		$razorpay_posted_data = $this->input->post();
+		$razorpay_posted_data['keyId'] = RAZORPAY_KEY;
+		$razorpay_posted_data['keySecret'] = RAZORPAY_KEY_SECRET;
 
-		$propertyIpsData = $this->mbooking->get_ips_data_property_wise(array('a.order_id' => $this->input->post('orderNo')));
+		//echo "<pre>"; print_r($razorpay_posted_data); die;
 
-		$working_key = $propertyIpsData['WORKING_KEY'];
-		$access_code = $propertyIpsData['ACCESS_CODE'];
-		$encResponse = $this->input->post('encResp');
-		$rcvdString = decrypt($encResponse, $working_key); //Crypto Decryption used as per the specified working key.
-		$order_status = "";
-		$decryptValues = explode('&', $rcvdString);
-		$dataSize = sizeof($decryptValues);
+		$api = new Api($razorpay_posted_data['keyId'], $razorpay_posted_data['keySecret']);
 
-		for ($i = 0; $i < $dataSize; $i++) {
-			$information = explode('=', $decryptValues[$i]);
-			$responseMap[$information[0]] = $information[1];
-			if ($i == 3)	$order_status = $information[1];
-		}
+		$bookingData = $this->mcommon->getRow('booking_header', array('order_id' => $razorpay_posted_data['razorpay_order_id']));
 
-		//echo $rcvdString; die;
-		//print_r($responseMap); die;
-		$log_desc = '';
-		$date = str_replace('/', '-', $responseMap['trans_date']);
-		$transaction_date =  date('Y-m-d H:i:s', strtotime($date));
+		if (!empty($bookingData)) {
 
-		if ($order_status === "Success") {
+			if ($razorpay_posted_data['razorpay_payment_id'] != '' && $razorpay_posted_data['razorpay_order_id'] != '') {
 
-			try {
-				$order_id = $responseMap['order_id'];
-				$data['booking_det'] = $booking_det = $this->mbooking->get_booking_header(array('booking_header.order_id' => $order_id))->last_row();
-				$booking_id = $booking_det->booking_id;
-				$user_id = $booking_det->customer_id;
+				$generated_signature = hash_hmac('sha256', $bookingData['order_id'] . "|" . $razorpay_posted_data['razorpay_payment_id'], $razorpay_posted_data['keySecret']);
 
-				//$session_array = array('customer_id' => $responseMap['merchant_param1'], 'logged_in' => 1, 'user_type' => 'frontend');
-				//$this->session->set_userdata($session_array);
-
-				//user details set in session------------------------------
-				$customer_det = $this->mcommon->getRow('customer_master', array('customer_id' => $user_id));
-				$session_data = $customer_det;
-				$session_data['user_type'] = 'frontend';
-				$session_data['logged_in'] = TRUE;
-				$this->session->set_userdata($session_data);
-				//end user details set in session--------------------------
-
-				if ($data['booking_det'] && ($data['booking_det']->booking_status == 'I' || $data['booking_det']->booking_status == '')) {
-
-					$payment_data = array();
-
-					if ($responseMap['amount'] == $data['booking_det']->net_payable_amount) {
-						$payment_data = array(
-							'booking_id' => $booking_id,
-							'customer_id' => $user_id,
-							'payment_date' => $transaction_date,
-							//'order_id' => $order_id,
-							//'txnid' => $txnid,
-							'transaction_ref_id' => $responseMap['tracking_id'],
-							'bank_ref_num' => $responseMap['bank_ref_no'],
-							'amount' => $responseMap['amount'],
-							'payment_mode' => $responseMap['payment_mode'],
-							'response_txt' => json_encode($responseMap),
-							'remarks' => 'Payment Successful',
-							'status' => $responseMap['order_status'],
-							'updated_by' => $user_id,
-							'updated_ts' => date('Y-m-d H:i:s'),
+				if ($generated_signature == $razorpay_posted_data['razorpay_signature']) {
+					try {
+						// Please note that the razorpay order ID must
+						// come from a trusted source (session here, but
+						// could be database or something else)
+						$attributes = array(
+							'razorpay_order_id' => $razorpay_posted_data['razorpay_order_id'],
+							'razorpay_payment_id' => $razorpay_posted_data['razorpay_payment_id'],
+							'razorpay_signature' => $razorpay_posted_data['razorpay_signature']
 						);
 
-						$bookingDates = date('d-m-Y', strtotime($booking_det->check_in)) . '%20To%20' . date('d-m-Y', strtotime($booking_det->check_out));
-						payment_confirmed($booking_det->mobile, $booking_det->property_name, $bookingDates, $booking_det->booking_no);
+						//print_r($attributes); die;
 
-						$booking_header_condn = array('booking_status' => 'A');
+						$api->utility->verifyPaymentSignature($attributes);
+						$success = true;
+					} catch (SignatureVerificationError $e) {
+						$success = false;
+						$error = 'Razorpay Error : ' . $e->getMessage();
+					}
+				}
+
+				if ($success === true) {
+					$this->mcommon->update('booking_payment', array('order_id' => $razorpay_posted_data['razorpay_order_id']), array('razorpay_payment_id' => $razorpay_posted_data['razorpay_payment_id'], 'razorpay_signature' => $razorpay_posted_data['razorpay_signature']));
+
+					$param = array();
+					$param['payment_id'] = $razorpay_posted_data['razorpay_payment_id'];
+					$param['order_id'] = $razorpay_posted_data['razorpay_order_id'];
+					$check_payment_status = $this->booking_payment_verify($param);
+
+					//echo "<pre>"; print_r($check_payment_status); die;
+
+					if ($check_payment_status['rtn'] === true) {
+						$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'SUCCESS', 'payment_status' => $check_payment_status['status'], 'order_id' => $razorpay_posted_data['razorpay_order_id'])))));
+						$data['content'] = 'frontend/booking/booking_payment_confirmation';
+						$this->load->view('frontend/layouts/index', $data);
 					} else {
-
-						$payment_data = array(
-							'booking_id' => $booking_id,
-							'customer_id' => $user_id,
-							'payment_date' => $transaction_date,
-							//'txnid' => $txnid,
-							'transaction_ref_id' => $responseMap['tracking_id'],
-							'bank_ref_num' => $responseMap['bank_ref_no'],
-							'amount' => $responseMap['amount'],
-							'payment_mode' => $responseMap['payment_mode'],
-							'response_txt' => json_encode($responseMap),
-							'remarks' => 'Payment Failed',
-							'status' => 'FAILURE',
-							'updated_by' => $user_id,
-							'updated_ts' => date('Y-m-d H:i:s'),
-						);
-
-						//$booking_header_condn = array('bank_ref_no' => $responseMap['bank_ref_no'], 'bank_ref_date' => $transaction_date);
+						$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $razorpay_posted_data['razorpay_order_id'])))));
+						$data['content'] = 'frontend/booking/booking_payment_confirmation';
+						$this->load->view('frontend/layouts/index', $data);
 					}
-
-					$this->db->trans_start(); # Starting Transaction
-
-					if ($order_id != '') {
-						$payment_id = $this->mbooking->update_booking_payment_info($payment_data, array('order_id' => $order_id));
-
-						$booking_header_det = $this->mbooking->update_booking_header($booking_header_condn, array('order_id' => $order_id));
-					}
-
-					$this->db->trans_complete(); # Completing transaction
-
-					$data['customer_det'] = $this->mbooking->get_customer_det(array('customer_master.customer_id' => $user_id))->last_row();
-
-					$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'SUCCESS', 'payment_status' => $responseMap['order_status'], 'order_id' => $order_id)))));
+				} else {
+					$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $razorpay_posted_data['razorpay_order_id'])))));
 					$data['content'] = 'frontend/booking/booking_payment_confirmation';
-
-					//Booking Slip PDF generate
-					$this->load->library('pdf');
-
-					$data['booking_header'] = $this->query->getBookingHeader($booking_id);
-					$data['customer_details'] = $this->query->getBookingDetailsOfCustomer($booking_id);
-					$data['booking_details'] = $this->mcommon->getDetails('booking_listing_view', array('booking_id' => $booking_id));
-					$data['booking_payment_listing'] = $this->mcommon->getRow('booking_payment_listing_view', array('booking_id' => $booking_id));
-					$data['property_details'] = $this->query->getPropertyDetails($booking_id);
-
-					$filename = 'booking-' . time() . '-' . $booking_id;
-					$html = $this->load->view('frontend/emailAttachment', $data, true);
-					// $this->pdf->create($html, $filename);
-					// echo $html;die;
-
-					$this->pdf->loadHtml($html);
-					$this->pdf->set_paper("A4", "landscape");
-					$this->pdf->render();
-
-					$output = $this->pdf->output();
-					file_put_contents(FCPATH . 'public/booking_confirmation_pdf/' . $filename . '.pdf', $output);
-
-					$attach_file = base_url() . 'public/booking_confirmation_pdf/' . $filename . '.pdf';
-					//End PDF 
-
-
-					/* Online Payment & Booking Confirmation Email Sending */
-
-					$property_details = $this->db->from('property_master')->where('property_id', $booking_det->property_id)->get()->row_array();
-
-					$config = email_config();
-					$email_from = $config['email_from'];
-					unset($config['email_from']);
-
-					$subject = 'Booking ID  ' . $booking_det->booking_no . ' is Confirmed.';
-
-					$message = '<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
-		<center style="width: 100%; background-color: #f1f1f1; font-family: Arial, Helvetica, sans-serif;">
-			<div style="max-width: 600px; margin: 0 auto;">
-				
-				<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-					<tr style="background-color: #FFF;">
-						<td valign="top" style="padding: 1em; border: 1px solid #00bdd6;">
-							<table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom: 0px;">
-								<tr>
-									<td style="text-align: left;padding:10px; width: 68px;">
-										<img src="https://wbsfdc.devserv.in/public/frontend_assets/assets/img/Biswa_Bangla_logo.png" width="48" alt="..."></img>
-									</td>
-									<td style="text-align: center;">
-										<h3 style="margin-top:10px; font-size:14px;margin-bottom: 0px;line-height:1;font-weight:600;">The State Fisheries Development Corporation Limited</h3>
-										<p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;">(A Government of West Bengal Undertaking)<br>An ISO: 9001:2015 Company</p>
-										<h2 style="text-align:center;font-size:12px;font-weight: 600; margin-top:10px; color: #00bdd6;">Email for confirmation of booking</h2>
-									</td>
-									<td style="text-align: right;padding-right:10px; width: 68px;">
-										<img src="https://wbsfdc.devserv.in/public/frontend_assets/assets/img/SFDC_logo.png" width="48" alt="..." style="margin-top:16px;"></img>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					
-					<tr>
-						<td>
-							<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #FFF;border-left: 1px solid #00bdd6; border-right: 1px solid #00bdd6;">
-								<tr>
-									<td>
-										<div style="text-align: left; padding: 0 15px; font-size: 13px; line-height: 1.5;">
-											<p>Sir/Madam</p>
-											
-											<p style="margin-bottom:0;">
-												Thank you for booking with SFDC at ' . $property_details['property_name'] . ', (' . $property_details['address_line_1'] . '). The booking confirmation receipt is attached herewith. Kindly produce the hard copy at the time of check-in. We aspire you to have a delightful sojourn with us.
-											</p>
-											<p style="margin-bottom:0;">Thanks and Regards,</p>
-											<p style="margin-top:0;">The S.F.D.C.Ltd.</p>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-	
-				<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #e9e9e9;">
-					<tr>
-						<td style="text-align: left; color: #000000; padding: 15px; font-size: 12px; border: 1px solid #00bdd6;">
-							<p style="margin-top: 0; margin-bottom: 5px;">
-								<b>Address:</b>
-								<span>Bikash Bhawan, North Block,1st Floor, Salt Lake, Kolkata-700091</span>
-							</p>
-							<p style="margin-bottom: 5px; margin-top:0;">
-								<b>Head Office:</b>
-								<span>(033) 23583123</span>
-							</p>
-							<p style="margin-bottom: 5px; margin-top:0;">
-								<b>Guest House Booking:</b>
-								<span>(033) 23376469</span>
-							</p>
-							<p style="margin-bottom: 0;margin-top:0;">
-								<b>Email Us On:</b>
-								<span>headoffice@wbsfdcltd.com / tourism@wbsfdcltd.com</span>
-							</p>
-						</td>
-					</tr>
-				</table>
-	
-				<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #00bdd6;">
-					<tr>
-						<td style="text-align: center; color: #FFF; padding: 5px 15px; font-size: 12px;">
-							<p>
-								<span>� ' . date('Y') . ' The State Fisheries Development Corporation Limited<br>  (Government of West Bengal Undertaking).All right reserved.
-								</span>
-							</p>
-						</td>
-					</tr>
-				</table>
-	
-			</div>
-		</center>
-	</body>';
-
-					$this->load->library('email', $config);
-					$this->email->set_newline("\r\n");
-					$this->email->from($email_from, EMAIL_FROM_NAME); // change it to yours
-					$this->email->to($booking_det->email); // change it to yours 
-
-					/*$cc_email = array();
-					if(!empty($property_details) && !empty($property_details['email'])){
-						$cc_email[]=$property_details['email'];
-					}
-					if(!empty($property_details) && !empty($property_details['contact_person_1_email'])){
-						$cc_email[]=$property_details['contact_person_1_email'];
-					}
-					if(!empty($property_details) && !empty($property_details['contact_person_2_email'])){
-						$cc_email[]=$property_details['contact_person_2_email'];
-					}
-					if(!empty($cc_email)){
-						
-						$this->email->cc($cc_email);
-	
-					}*/
-
-					$this->email->subject($subject);
-					$this->email->message($message);
-					$this->email->attach($attach_file);
-					$this->email->send();
-
-					/* End Online Payment & Booking Confirmation Email Sending */
-
-					//show_error($this->email->print_debugger());
 					$this->load->view('frontend/layouts/index', $data);
 				}
-			} catch (Exception $e) {
-				$this->db->trans_rollback();
-				$log_desc = $e->getMessage();
-				$addActivityLog = $this->mcommon->insert('activity_log', array('log_datetime' => date('Y-m-d H:i:s'), 'process_name' => 'booking-payment-success-method-success-response', 'log_desc' => $log_desc));
+			} else {
+				//echo "<pre>"; print_r($razorpay_posted_data['error']); die;
+				$responseMetadata = json_decode($razorpay_posted_data['error']['metadata'], true);
+				//echo $responseMetadata['payment_id']; die;
+				$this->mcommon->update('booking_payment', array('order_id' => $responseMetadata['order_id']), array('razorpay_payment_id' => $responseMetadata['payment_id']));
+
+				$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $responseMetadata['order_id'])))));
+				$data['content'] = 'frontend/booking/booking_payment_confirmation';
+				$this->load->view('frontend/layouts/index', $data);
 			}
 		} else {
-			//redirect(base_url('my-booking'));
+			//echo "<pre>"; print_r($razorpay_posted_data['error']); die;
+			$responseMetadata = json_decode($razorpay_posted_data['error']['metadata'], true);
+			//echo $responseMetadata['payment_id']; die;
+			$this->mcommon->update('booking_payment', array('order_id' => $responseMetadata['order_id']), array('razorpay_payment_id' => $responseMetadata['payment_id']));
 
-			try {
-				$order_id = $responseMap['order_id'];
-				if ($order_id != '') {
-
-					$data['booking_det'] = $booking_det = $this->mbooking->get_booking_header(array('booking_header.order_id' => $order_id))->last_row();
-
-					if ($data['booking_det']) {
-
-						$booking_id = $booking_det->booking_id;
-						$user_id = $booking_det->customer_id;
-
-						$saved_remarks = '';
-						$status_send_to_next_page = '';
-						$payment_date = '';
-
-						if ($order_status === "Aborted") {
-							$saved_remarks = 'Payment Canceled';
-							$status_send_to_next_page = 'CANCELED';
-							$payment_date = date('Y-m-d H:i:s');
-						} else {
-							$saved_remarks = 'Payment Failed';
-							$status_send_to_next_page = 'FAILURE';
-							$payment_date = $transaction_date;
-						}
-
-						$payment_data = array(
-							'payment_date' => $payment_date,
-							//'txnid' => $txnid,
-							'transaction_ref_id' => $responseMap['tracking_id'],
-							'bank_ref_num' => $responseMap['bank_ref_no'],
-							//'amount' => $posted_data['amount'],
-							'payment_mode' => $responseMap['payment_mode'],
-							'response_txt' => json_encode($responseMap),
-							'remarks' => $saved_remarks,
-							'status' => $responseMap['order_status'],
-							//'created_by' => $user_id,
-							//'created_ts' => date('Y-m-d H:i:s'),
-						);
-
-						$this->db->trans_start(); # Starting Transaction
-
-						if ($order_id != '') {
-							$payment_id = $this->mcommon->update('booking_payment', array('order_id' => $order_id), $payment_data);
-
-							$this->mbooking->update_booking_header(array('booking_status' => 'F'), array('order_id' => $order_id));
-						}
-
-						$this->db->trans_complete(); # Completing transaction
-
-						//user details set in session------------------------------
-						$customer_det = $this->mcommon->getRow('customer_master', array('customer_id' => $user_id));
-						$session_data = $customer_det;
-						$session_data['user_type'] = 'frontend';
-						$session_data['logged_in'] = TRUE;
-						$this->session->set_userdata($session_data);
-						//end user details set in session--------------------------
-
-						$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => $status_send_to_next_page, 'payment_status' => $responseMap['order_status'], 'order_id' => $order_id)))));
-						$data['content'] = 'frontend/booking/booking_payment_confirmation';
-						$this->load->view('frontend/layouts/index', $data);
-					} else {
-
-						$booking_det = $this->mbooking->get_booking_header(array('booking_header.order_id' => $responseMap['order_id']))->last_row();
-						$user_id = $booking_det->customer_id;
-
-						//user details set in session------------------------------
-						$customer_det = $this->mcommon->getRow('customer_master', array('customer_id' => $user_id));
-						$session_data = $customer_det;
-						$session_data['user_type'] = 'frontend';
-						$session_data['logged_in'] = TRUE;
-						$this->session->set_userdata($session_data);
-						//end user details set in session--------------------------
-
-						$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $responseMap['order_status'], 'order_id' => $order_id, 'msg' => 'Payment failed! Wrong transaction ID.')))));
-						$data['content'] = 'frontend/booking/booking_payment_confirmation';
-						$this->load->view('frontend/layouts/index', $data);
-					}
-				}
-			} catch (Exception $e) {
-				$this->db->trans_rollback();
-				$log_desc = $e->getMessage();
-				$addActivityLog = $this->mcommon->insert('activity_log', array('log_datetime' => date('Y-m-d H:i:s'), 'process_name' => 'booking-payment-success-method-other-response', 'log_desc' => $log_desc));
-			}
+			$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $responseMetadata['order_id'])))));
+			$data['content'] = 'frontend/booking/booking_payment_confirmation';
+			$this->load->view('frontend/layouts/index', $data);
 		}
 	}
 
 	public function paymentBookingFailure()
 	{
-		//echo "<pre>"; print_r($this->input->post()); die;
-		if (empty($_POST)) {
-			redirect(base_url('my-booking'));
-		}
+		$razorpay_posted_data = $this->input->post();  // Escapes the string to prevent SQL injection
 
-		$propertyIpsData = $this->mbooking->get_ips_data_property_wise(array('a.order_id' => $this->input->post('orderNo')));
+		//echo "<pre>"; print_r($razorpay_posted_data['error']); die;
+		$responseMetadata = json_decode($razorpay_posted_data['error']['metadata'], true);
+		//echo $responseMetadata['payment_id']; die;
+		$this->mcommon->update('booking_payment', array('order_id' => $responseMetadata['order_id']), array('razorpay_payment_id' => $responseMetadata['payment_id']));
 
-		$working_key = $propertyIpsData['WORKING_KEY'];
-		$encResponse = $this->input->post('encResp');
-		$rcvdString = decrypt($encResponse, $working_key); //Crypto Decryption used as per the specified working key.
-		$order_status = "";
-		$decryptValues = explode('&', $rcvdString);
-		$dataSize = sizeof($decryptValues);
-
-		for ($i = 0; $i < $dataSize; $i++) {
-			$information = explode('=', $decryptValues[$i]);
-			$responseMap[$information[0]] = $information[1];
-			if ($i == 3)	$order_status = $information[1];
-		}
-
-		// print_r($responseMap); die;
-
-		if (!empty($responseMap)) {
-
-			try {
-				$order_id = $responseMap['order_id'];
-				if ($order_id != '') {
-
-					$data['booking_det'] = $booking_det = $this->mbooking->get_booking_header(array('booking_header.order_id' => $order_id))->last_row();
-					$booking_id = $booking_det->booking_id;
-					$user_id = $booking_det->customer_id;
-
-					if ($data['booking_det']) {
-
-						$date = str_replace('/', '-', $responseMap['trans_date']);
-						$transaction_date =  date('Y-m-d H:i:s', strtotime($date));
-
-						$saved_remarks = '';
-						$status_send_to_next_page = '';
-						$payment_date = '';
-
-						if ($order_status === "Aborted") {
-							$saved_remarks = 'Payment Canceled';
-							$status_send_to_next_page = 'CANCELED';
-							$payment_date = date('Y-m-d H:i:s');
-						} else {
-							$saved_remarks = 'Payment Failed';
-							$status_send_to_next_page = 'FAILURE';
-							$payment_date = $transaction_date;
-						}
-
-						$payment_data = array(
-							'booking_id' => $booking_id,
-							'customer_id' => $user_id,
-							'payment_date' => $payment_date,
-							//'txnid' => $txnid,
-							'transaction_ref_id' => $responseMap['tracking_id'],
-							'bank_ref_num' => $responseMap['bank_ref_no'],
-							'amount' => $responseMap['amount'],
-							'payment_mode' => $responseMap['payment_mode'],
-							'response_txt' => json_encode($responseMap),
-							'remarks' => $saved_remarks,
-							'status' => strtoupper($responseMap['order_status']),
-							'created_by' => $user_id,
-							'created_ts' => date('Y-m-d H:i:s'),
-						);
-
-						$this->db->trans_start(); # Starting Transaction
-
-						if ($order_id != '') {
-							$payment_id = $this->mbooking->add_booking_payment_info($payment_data);
-
-							$this->mbooking->update_booking_header(array('booking_status' => 'F'), array('order_id' => $order_id));
-						}
-
-						$this->db->trans_complete(); # Completing transaction
-
-						$data['customer_det'] = $this->mbooking->get_customer_det(array('customer_master.customer_id' => $user_id))->last_row();
-
-						//user details set in session------------------------------
-						$customer_det = $this->mcommon->getRow('customer_master', array('customer_id' => $user_id));
-						$session_data = $customer_det;
-						$session_data['user_type'] = 'frontend';
-						$session_data['logged_in'] = TRUE;
-						$this->session->set_userdata($session_data);
-						//end user details set in session--------------------------
-					}
-
-					$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => $status_send_to_next_page, 'payment_status' => $responseMap['order_status'], 'order_id' => $order_id)))));
-					$data['content'] = 'frontend/booking/booking_payment_confirmation';
-					$this->load->view('frontend/layouts/index', $data);
-				}
-			} catch (Exception $e) {
-				$this->db->trans_rollback();
-				$log_desc = $e->getMessage();
-				$addActivityLog = $this->mcommon->insert('activity_log', array('log_datetime' => date('Y-m-d H:i:s'), 'process_name' => 'booking-payment-failed-method', 'log_desc' => $log_desc));
-			}
-		} else {
-			redirect(base_url('my-booking'));
-		}
+		$data['redirect'] = base_url('frontend/booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $responseMetadata['order_id'])))));
+		$data['content'] = 'frontend/booking/booking_payment_confirmation';
+		$this->load->view('frontend/layouts/index', $data);
 	}
 
 	public function booking_payment_complete($value1)
@@ -1648,6 +1345,186 @@ class Booking extends CI_Controller
 
 		$data['content'] = 'frontend/booking/booking_payment_complete';
 		$this->load->view('frontend/layouts/index', $data);
+	}
+
+	public function booking_payment_verify($option)
+	{
+		$return  = array();
+		$keyId = RAZORPAY_KEY;
+		$keySecret = RAZORPAY_KEY_SECRET;
+
+		$api = new Api($keyId, $keySecret);
+
+		try {
+			// Fetch order details
+			$order = $api->order->fetch($option['order_id'])->payments();
+			//echo $order->items[0]->id;
+			//echo "<pre>"; print_r($order); die;
+			// Fetch payment ID from order
+			$payment_id = $order->items[0]->id;
+
+			// Capture the payment
+			$payment = $api->payment->fetch($payment_id);
+			$getPaymentData = $this->mcommon->getRow('booking_payment', array('order_id' => $option['order_id']));
+			$capturedAmount = ($payment->amount / 100);
+			//echo "<pre>"; print_r($payment); die;
+			//$payJson = json_encode(serialize($payment));
+			//$payObject = unserialize(json_decode($payJson));
+
+			/*echo "Payment ID: " . $payment->id . "\n";
+			echo "Amount Captured: " . $payment->amount . "\n";
+			echo "Status: " . $payment->status . "\n";
+			echo "Captured: " . $payment->captured . "\n";
+			echo "method: " . $payment->method . "\n";
+			echo "email: " . $payment->email . "\n";
+			echo "contact: " . $payment->contact . "\n";
+			echo "created_at: " . date('m/d/Y H:i:s', $payment->created_at) . "\n";
+			echo "auth_code: " . $payment->acquirer_data->auth_code . "\n";*/
+
+			if (!empty($payment)) {
+				if (($payment->status == 'captured' && $payment->captured == 1) && ($payment->order_id != '') && ($getPaymentData['amount'] == $capturedAmount)) { //Success Payment
+					$payment_data = array(
+						'payment_date' => date('Y-m-d H:i:s', $payment->created_at),
+						'razorpay_payment_id' => $payment->id,
+						'payment_mode' => $payment->method,
+						'remarks' => 'Payment Successful',
+						'status' => ucwords($payment->status),
+						'updated_ts' => date('Y-m-d H:i:s'),
+					);
+
+					$booking_header_condn = array('booking_status' => 'A', 'payment_status' => 1);
+
+					if ($option['type'] == 'Cron') {
+						$payment_data['cronjob_data'] = json_encode(serialize($payment));
+						$payment_data['cronjob_status'] = 'COMPLETED';
+						$payment_data['cronjob_end_time'] = date('Y-m-d H:i:s');
+					} else {
+						$payment_data['response_txt'] = json_encode(serialize($payment));
+					}
+
+					$update = $this->mcommon->update('booking_payment', array('order_id' => $payment->order_id), $payment_data);
+					if ($update) {
+						$this->mcommon->update('booking_header', array('order_id' => $payment->order_id), $booking_header_condn);
+
+						$return['status'] = $payment->status;
+						$return['rtn'] = true;
+						return $return;
+					}
+				} else { //Failed Payment
+					$payment_data = array(
+						'payment_date' => date('Y-m-d H:i:s', $payment->created_at),
+						'razorpay_payment_id' => $payment->id,
+						'response_txt' => json_encode(serialize($payment)),
+						'remarks' => 'Payment Failed',
+						'status' => ucwords($payment->status),
+						'updated_ts' => date('Y-m-d H:i:s'),
+					);
+
+					$booking_header_condn = array('booking_status' => 'F', 'payment_status' => 0);
+
+					$update = $this->mcommon->update('booking_payment', array('order_id' => $payment->order_id), $payment_data);
+					if ($update) {
+						$this->mcommon->update('booking_header', array('order_id' => $payment->order_id), $booking_header_condn);
+
+						if ($option['type'] == 'Cron') {
+							if ($getPaymentData['payment_mode'] == 'NEFT') { //for NEFT mode
+								$start_date = strtotime($payment->created_ts);
+								$end_date = strtotime("+8 day", $start_date);
+								$last_date = date('Y-m-d', $end_date);
+
+								if ((date('Y-m-d') > $last_date) && ($payment->status != 'captured')) {
+									$booking_failed_det = $this->mbooking->move_booking_to_failed($getPaymentData['booking_id']);
+								}
+							} else { //for others mode
+
+								if (((strtotime(date('Y-m-d H:i:s')) - strtotime($getPaymentData['created_ts'])) > 1020) && ($payment->status != 'captured')) {
+									$booking_failed_det = $this->mbooking->move_booking_to_failed($getPaymentData['booking_id']);
+								}
+							}
+						}
+
+						$return['status'] = $payment->status;
+						return $return;
+					}
+				}
+			} else {
+
+				if ($option['type'] == 'Cron') {
+					if ($getPaymentData['payment_mode'] == 'NEFT') { //for NEFT mode
+						$start_date = strtotime($getPaymentData['created_ts']);
+						$end_date = strtotime("+8 day", $start_date);
+						$last_date = date('Y-m-d', $end_date);
+
+						if (date('Y-m-d') > $last_date) {
+							$booking_failed_det = $this->mbooking->move_booking_to_failed($getPaymentData['booking_id']);
+						}
+					} else { //for others mode
+
+						if (((strtotime(date('Y-m-d H:i:s')) - strtotime($getPaymentData['created_ts'])) > 1020)) {
+							$booking_failed_det = $this->mbooking->move_booking_to_failed($getPaymentData['booking_id']);
+						}
+					}
+				}
+
+				$return['status'] = 'Payment Not Found';
+				$return['rtn'] = false;
+				return $return;
+			}
+		} catch (Exception $e) {
+			$getPaymentData = $this->mcommon->getRow('booking_payment', array('order_id' => $option['order_id']));
+			if ($option['type'] == 'Cron') {
+				if ($getPaymentData['payment_mode'] == 'NEFT') { //for NEFT mode
+					$start_date = strtotime($getPaymentData['created_ts']);
+					$end_date = strtotime("+8 day", $start_date);
+					$last_date = date('Y-m-d', $end_date);
+
+					if (date('Y-m-d') > $last_date) {
+						$booking_failed_det = $this->mbooking->move_booking_to_failed($getPaymentData['booking_id']);
+					}
+				} else { //for others mode
+
+					if (((strtotime(date('Y-m-d H:i:s')) - strtotime($getPaymentData['created_ts'])) > 1020)) {
+						$booking_failed_det = $this->mbooking->move_booking_to_failed($getPaymentData['booking_id']);
+					}
+				}
+			}
+
+			// Handle any exceptions that occur during the capture process
+			$error = "Error capturing payment: " . $e->getMessage();
+			$return['status'] = $error;
+			$return['rtn'] = false;
+			return $return;
+		}
+	}
+
+	public function bookingPaymentVerifyCron()
+	{
+		$param = array();
+		$payments = $this->mbooking->get_booking_payment(array("status IN ('PENDING','NOT-FOUND','FAILURE', 'Failure', 'FAILED','AWAITED','INITIATED','UNSUCCESSFUL','Aborted', 'TIMEOUT') OR status IS NULL" => NULL, "booking_header.booking_status IN ('I','F')" => NULL));
+		//$payments = $this->mcommon->getDetails('payment_info', array('payment_id' => 46));
+		if ($payments->num_rows() > 0) {
+			foreach ($payments->result() as $payment) {
+				if ($payment->order_id != '') {
+					$cron_det = $this->mcommon->update('booking_payment', array('order_id' => $payment->order_id), array('cronjob_start_time' => date('Y-m-d H:i:s')));
+					$param['payment_id'] = $payment->razorpay_payment_id;
+					$param['order_id'] = $payment->order_id;
+					$param['type'] = 'Cron';
+					$check_app_payment_status = $this->booking_payment_verify($param);
+					if ($check_app_payment_status) {
+						$cron_status = "Update Successful for ORDER ID: " . $payment->order_id;
+					}
+				} else {
+					$cron_status = "No Payment ID found";
+				}
+
+				$add_data = $this->mcommon->insert('activity_log', array('log_datetime' => date('Y-m-d H:i:s'), 'process_name' => 'booking-payment-verify-cron', 'log_desc' => $cron_status));
+				echo $cron_status . "<br>";
+			}
+		} else {
+			$cron_status .= " No Pending transactions found.";
+			$add_data = $this->mcommon->insert('activity_log', array('log_datetime' => date('Y-m-d H:i:s'), 'process_name' => 'booking-payment-verify-cron', 'log_desc' => $cron_status));
+			echo $cron_status . "<br>";
+		}
 	}
 
 	public function booking_coupon()
@@ -1703,6 +1580,6 @@ class Booking extends CI_Controller
 		$this->pdf->render();
 
 		$output = $this->pdf->output();
-		file_put_contents(FCPATH . 'public/booking_confirmation_pdf/' . $filename . '.pdf', $output);
+		file_put_contents(FCPATH . 'public/booking_payment_confirmation_pdf/' . $filename . '.pdf', $output);
 	}
 }
