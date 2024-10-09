@@ -220,6 +220,34 @@ class Safari_booking extends MY_Controller
 		}
 		
 	}
+	public function delete($_blocked_id)
+	{
+		$blocked_id = decode_url($_blocked_id);
+		$row = $this->mcommon->getRow('safari_sdervice_blocked', array('blocked_id' => $blocked_id));
+        if(!empty($row)){
+            $data = array(
+				'blocked_id'=> $row['blocked_id'],
+				'archive_date' => date('Y-m-d H:i:s'),
+				'division_id'=> $row['division_id'],
+				'safari_type_id'=> $row['safari_type_id'],
+				'safari_service_header_id'=> $row['safari_service_header_id'],
+				'period_slot_dtl_id'=> $row['period_slot_dtl_id'],
+				'no_of_person'=> $row['no_of_person'],
+				'block_date'=> $row['block_date'],
+				'remarks'=> $row['remarks']
+			);
+
+			$result = $this->mcommon->insert('safari_sdervice_blocked_archive', $data);
+			//echo $this->db->last_query(); die;
+        }
+		
+		if($result){
+			$this->mcommon->delete('safari_sdervice_blocked', array('blocked_id' => $blocked_id));
+				
+			$this->session->set_flashdata('success_msg', 'Safari Block Deleted Successfully');
+			redirect('admin/safari_booking/block');
+		}
+	}
 
 
 }

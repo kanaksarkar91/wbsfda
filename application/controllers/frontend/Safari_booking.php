@@ -12,7 +12,7 @@ class Safari_booking extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model(array('mcommon', 'frontend/query', 'admin/msafari_service', 'admin/mcancellationpolicy', 'frontend/msafari_booking', 'frontend/mbooking'));
-		$this->load->helper(array('sms', 'email', 'common_helper', 'crypto', 'otp'));
+		$this->load->helper(array('sms', 'email', 'common_helper', 'crypto', 'otp', 'gst'));
 	}
 
 	public function searchAvailability()
@@ -300,7 +300,7 @@ class Safari_booking extends CI_Controller
 			
 			$data['price'] = $foundSlot['base_price'] * $det_arr['no_of_visitor'];
 			
-			$gstData = $this->msafari_booking->get_gst_slab($data['price']);
+			$gstData = getSafariGstPercentage($data['price']);
 			$data['gstAmt'] = (($data['price'] * $gstData['igst_percentage']) / 100);
 			$data['payable_amount'] = $data['price'] + $data['gstAmt'];
 			

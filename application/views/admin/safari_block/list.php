@@ -143,11 +143,18 @@
                                         <?php
                                             if(check_user_permission($menu_id, 'edit_flag')){
                                         ?>
-                                            <!--<a class="btn-sm app-btn-primary" href="<?= base_url('admin/accommodation/editaccommodation/' . $accommodation['accommodation_id']) ?>">Edit</a>-->
-                                        </td>
+                                            <!--<a class="btn-sm app-btn-primary" href="#">Edit</a>-->
+                                        
                                         <?php
                                             }
                                         ?>
+										
+										<?php
+										if($row->block_date >= date('Y-m-d')){
+										?>
+										<a class="btn-sm btn-danger text-white" href="<?= base_url('admin/safari_booking/delete/' . encode_url($row->blocked_id));?>" onclick="return confirm('Are you sure to delete this?')">Delete</a>
+										<?php } ?>
+										</td>
                                     </tr>
                                     <?php } 
                                     }else{ ?>

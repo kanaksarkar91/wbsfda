@@ -37,7 +37,8 @@
 	function generateotp($phone, $type)
 	{
         $data = array();
-        $otp = rand_string(6);
+        //$otp = rand_string(6);
+		$otp = random_int(100000, 999999);
         $data= sendsms($otp, $phone, $type);
         $data['otp'] = $otp;
         return $data;
