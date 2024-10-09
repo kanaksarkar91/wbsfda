@@ -62,8 +62,9 @@ class Index extends CI_Controller
 				$safariCat = $this->mcommon->getDetailsOrder('safari_category_master', array('is_active' => 1));
 				
 				$html .= '<div class="tab-pane fade show active" id="safari" role="tabpanel" aria-labelledby="safari-tab">
-							<form action="" class="row g-2 align-items-center">
+							<form action="'.base_url('search-availability').'" class="row g-2 align-items-center" method="post">
 							<input type="hidden" name="safari_type_id" id="safari_type_id" value="'.$safari_type_id.'"  />
+							<input type="hidden" name="'.$this->security->get_csrf_token_name().'" value="'.$this->security->get_csrf_hash().'">
 								<div class="col-md-6 col-lg-3 mb-3">
 									<div class="select_area">
 										<select name="division_id" id="division_id" class="form-control" required>

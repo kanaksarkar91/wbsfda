@@ -63,7 +63,7 @@
 								</div>
 							</div>
 							<div class="col-md-4 col-lg-2 mb-3">
-								<button type="submit" class="w-100 btn btn-green">Search Availability</button>
+								<button type="submit" class="w-100 btn btn-green" name="safari">Search Availability</button>
 							</div>
 						</form>
 					</div>
@@ -396,6 +396,7 @@ $(document).ready(function(){
 	$(".serviceType").click(function(){ 
 		var safari_type_id = $(this).data('typeid');
 		console.log(safari_type_id);
+		$("#tabContentHtml").show();
 		$.ajax({
 			type: 'POST',	
 			url: '<?= base_url("index/getTabHtml"); ?>',
@@ -426,6 +427,10 @@ $(document).ready(function(){
             }
 			
 		});
+	});
+	
+	$("#eco-tourism-tab").click(function(){ 
+		$("#tabContentHtml").hide();
 	});
 	
 	$("#division_id").change(function(){ 

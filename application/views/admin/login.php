@@ -32,11 +32,9 @@
                 <div class="app-auth-body mx-auto">
                     <div class="app-auth-branding mb-4">
                         <a class="app-logo" href="<?=base_url('admin/login')?>">
-                            <img class="logo-icon me-2" src="<?=base_url('public/admin_assets/images/logo.jpg')?>" alt="logo">
-                            <img class="logo-icon me-2" src="<?=base_url('public/admin_assets/images/SFDC_logo.png')?>" alt="logo">
+                            <img src="<?=base_url('public/frontend_assets/assets/img/logo.png')?>" alt="logo">
                         </a>
                     </div>
-		            <h4 class="text-center text-info mb-3">WBSFDA</h4>
                     <h2 class="auth-heading text-center fs-2 mb-5">ADMIN LOGIN</h2>
 
                     <div class="auth-form-container text-start" id="loginform">

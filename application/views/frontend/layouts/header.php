@@ -36,9 +36,6 @@
 	<script src="<?= base_url('public/admin_assets/js/jquery-ui.js'); ?>"></script>
 	<script src="<?php echo base_url();?>public/admin_assets/js/sweetalert2.min.js"></script>
 
-    <script src="<?= base_url(); ?>public/frontend_assets/assets/js/jquery-3.4.1.js"></script>
-    <script src="<?= base_url(); ?>public/frontend_assets/assets/js/bootstrap.bundle.min.js"></script>
-
 
 </head>
 

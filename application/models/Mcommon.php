@@ -83,6 +83,19 @@
     	}
     	return $arr;    
     }
+	public function get_user_service($where = array())
+	{
+		$this->db->select('safari_service_header_id');
+		if(!empty($where)){
+            $this->db->where($where);
+        }
+        $query = $this->db->get('safari_service_header');
+        $result = $query->result_array();
+		if(!empty($result)){
+			$ids = array_column($result, 'safari_service_header_id');
+			return implode(',', $ids);
+		}
+	}
 }
 
 

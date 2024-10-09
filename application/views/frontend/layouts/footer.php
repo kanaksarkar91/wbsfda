@@ -102,7 +102,7 @@
             </div>
             <div class="text-center">
                 <p class="my-3 fw-bold text-dark">
-                <a data-toggle="modal" data-target="#signup" data-dismiss="modal" class="link">Don't Have an Account. Signup</a></p>
+                <a data-bs-toggle="modal" data-bs-target="#signup" class="link">Don't Have an Account. Signup</a></p>
             </div>
         </div>
     </div>
@@ -115,7 +115,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel1">Create An Account</h5>
-                <span class="mod-close" data-dismiss="modal"><i class="ti-close"></i></span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body icon-form" id="signup-modal-body">
                 <div class="login-form">
@@ -179,13 +179,13 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="button" class="submit-btn w-100 mt-4 pop-login" id="signupBtn" disabled="disabled">Signup</button>
+                            <button type="button" class="btn btn-green w-100 mt-4 pop-login" id="signupBtn" disabled="disabled">Signup</button>
                         </div>
 
                     </form>
                 </div>
                 <div class="text-center">
-                    <p class="mt-3 fw-bold text-dark"><a data-toggle="modal" data-dismiss="modal"  data-target="#login" class="link" >Already Have an Account? Login</a></p>
+                    <p class="mt-3 fw-bold text-dark"><a data-bs-toggle="modal" data-bs-target="#login" class="link" >Already Have an Account? Login</a></p>
                 </div>
             </div>
         </div>

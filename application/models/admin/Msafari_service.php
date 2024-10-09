@@ -143,7 +143,7 @@ class Msafari_service extends CI_Model {
 		//echo nl2br($this->db->last_query());die;
         return $query->result_array();
     }
-	public function get_booking($where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null){ 
+	public function get_booking($where = array(),$order_by = '', $services = array(), $group_by = null){ 
         $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition')
                                 ->from('safari_booking_header a')
 								->join('customer_master b', 'a.customer_id = b.customer_id', 'LEFT')
@@ -155,7 +155,38 @@ class Msafari_service extends CI_Model {
             $this->db->where($where);
         }
         if(!empty($safari_service_header_ids) && is_array($safari_service_header_ids)){
-            $this->db->where_in('pm.property_id', $property_ids);
+            $this->db->where_in('a.safari_service_header_ids', $safari_service_header_ids, false);
+        }
+        if (!is_null($group_by)) {
+			$this->db->group_by($group_by);
+		}
+		if(!empty($order_by)){
+            $this->db->order_by($order_by,null);
+        }
+		
+        return $result = $sql->get()->result();
+    }
+	public function getSlotsASC($where = []){
+        $sql = "SELECT a.* FROM safari_service_period_slot_detail a WHERE safari_service_header_id=".$where['safari_service_header_id']." AND  service_period_master_id = ".$where['service_period_master_id']." ORDER BY STR_TO_DATE(start_time, '%h:%i %p') ASC ";
+        //echo $sql;die;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+	public function get_block_booking($where = array(),$order_by = '', $services = array(), $group_by = null){ 
+        $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, p.showing_desc')
+                                ->from('safari_sdervice_blocked a')
+								->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT')
+								->join('division_master d', 'a.division_id = d.division_id', 'LEFT')
+								->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT')
+								->join('safari_service_period_slot_detail s', 'a.period_slot_dtl_id = s.period_slot_dtl_id', 'LEFT')
+								->join('safari_service_period_master p', 's.service_period_master_id = p.service_period_master_id', 'LEFT');
+								
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+        if(!empty($safari_service_header_ids) && is_array($safari_service_header_ids)){
+            $this->db->where_in('a.safari_service_header_ids', $safari_service_header_ids, false);
         }
         if (!is_null($group_by)) {
 			$this->db->group_by($group_by);

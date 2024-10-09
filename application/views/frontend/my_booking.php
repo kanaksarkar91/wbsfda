@@ -6,16 +6,16 @@
 				<div class="dashboard-navbar dashboard-left-content">
 
 					<div class="d-user-avater">
-						<img src="https://wbsfdc.devserv.in/public/frontend_assets/images/user-icon.jpg" class="img-fluid avater" alt="">
-						<h5 class="fw-bold thm-txt mt-3">Sourabh Hazari </h5>
+						<img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater w-75" alt="">
+						<h5 class="fw-bold thm-txt mt-3"><?=$this->session->userdata('first_name')?> </h5>
 						<span></span>
 					</div>
 
 					<div class="d-navigation">
 						<ul class="dashboard-list">
-							<li class="list"><a href="my-profile.html"><i class="bi bi-person-fill"></i> My Profile</a></li>
-							<li class="list active"><a href="my-booking.html"><i class="bi bi-clipboard2-check-fill"></i> My Booking</a></li>
-							<li class="list"><a href="index.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+							<li class="list"><a href="<?= base_url('my-profile');?>"><i class="bi bi-person-fill"></i> My Profile</a></li>
+							<li class="list active"><a href="<?= base_url('my-booking');?>"><i class="bi bi-clipboard2-check-fill"></i> My Booking</a></li>
+							<li class="list"><a href="<?= base_url('logout');?>"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
 						</ul>
 					</div>
 
@@ -24,6 +24,17 @@
 
 			<div class="col-lg-9 col-md-8 col-sm-12">
 				<div class="dashboard-wraper single-reservation bg-white base-padding">
+					<?php if ($this->session->flashdata('success_msg')) : ?>
+                        <div class="alert alert-success">
+
+                            <?= $this->session->flashdata('success_msg') ?>
+                        </div>
+                    <?php endif ?>
+                    <?php if ($this->session->flashdata('error_msg')) : ?>
+                        <div class="alert alert-danger">
+                            <?= $this->session->flashdata('error_msg') ?>
+                        </div>
+                    <?php endif ?>
 					<div class="d-flex justify-content-between align-items-center">
 						<h4 class="fw-normal thm-txt">Booking List</h4>
 						<div>

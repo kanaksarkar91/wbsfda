@@ -61,7 +61,7 @@ class Dashboard extends MY_Controller
 		$interval = DateInterval::createFromDateString('1 month');
 		$period   = new DatePeriod($start, $interval, $end);
 		
-		$lists = $this->mdashboard->get_revenue_details($period,$data['property']);
+		//$lists = $this->mdashboard->get_revenue_details($period,$data['property']);
 		
 		if(!empty($lists)){
 			foreach($lists as $key => $row){
@@ -94,7 +94,7 @@ class Dashboard extends MY_Controller
 		}
 		die;*/
 		
-		$listsB = $this->mdashboard->get_booking_details($periodB,$data['property_b']);
+		//$listsB = $this->mdashboard->get_booking_details($periodB,$data['property_b']);
 		//echo "<pre>"; print_r($listsB); die;
 		
 		if(!empty($listsB)){

@@ -63,28 +63,7 @@
 	<div class="container">
 		<div class="row mt-3">
 			<div class="col-lg-12">
-				<ul class="list-unstyled" id="search_result_div"></ul>
-			</div>
-			<div class="col-12">
-				<div class="form-group d-flex flex-column flex-md-row align-items-center">
-					<label class="fs-6 me-3">Add Number of Persons <i class="req">*</i></label>
-					<div>
-					<input type="number" min="1" max="6" name="no_of_visitor" id="no_of_visitor" class="form-control form-control-lg" autocomplete="off">
-					</div>
-				</div>
-				<span class="small req">*Enter no. of person less than seven(7).</span>
-			</div>
-			<div class="col-lg-12 col-sm-12">
-				<div class="form-group">
-					<input id="checkbox" name="terms_condition" type="checkbox" checked="checked" class="checkbox-custom checkbox" autocomplete="off">
-					<label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept Terms & Conditions, Privacy Policy and Cancellation Rules.</a></label>
-				</div>
-			</div>
-			<div class="col-lg-12 col-md-12 col-sm-12">
-				<div class="form-group text-start">
-					<button type="button" class="btn btn-green px-4" id="" data-bs-toggle="modal" data-bs-target="#bookingindemnitydeclaration">Proceed to Book</button>
-				</div>
-			</div>
+				<ul class="list-unstyled" id="search_result_div">
 		</div>
 	</div>
 </section>

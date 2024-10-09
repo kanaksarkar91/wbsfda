@@ -152,11 +152,50 @@ class Safari_booking extends CI_Controller
 											</div>
 										</div>
 									</div>
-								</li>';
-					
+								</li>
+								</ul>
+							</div>
+							<div class="col-12">
+								<div class="form-group d-flex flex-column flex-md-row align-items-center">
+									<label class="fs-6 me-3">Add Number of Persons <i class="req">*</i></label>
+									<div>
+									<input type="number" min="1" max="6" name="no_of_visitor" id="no_of_visitor" class="form-control form-control-lg" autocomplete="off">
+									</div>
+								</div>
+								<span class="small req">*Enter no. of person less than seven(7).</span>
+							</div>
+							<div class="col-lg-12 col-sm-12">
+								<div class="form-group">
+									<input id="checkbox" name="terms_condition" type="checkbox" checked="checked" class="checkbox-custom checkbox" autocomplete="off">
+									<label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept Terms & Conditions, Privacy Policy and Cancellation Rules.</a></label>
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="form-group text-start">
+									<button type="button" class="btn btn-green px-4" id="" data-bs-toggle="modal" data-bs-target="#bookingindemnitydeclaration">Proceed to Book</button>
+								</div>
+							</div>';
+								
+					$response = array('success' => true, 'result' => $html);
+			}
+			else {
+				$html .= '<li class="mb-4">
+							<div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center">
+								<h4 class="fw-bold mb-0">'.$serviceData['division_name'].' <span class="badge bg-dark">Safari Date: '.date('d F Y', strtotime($saf_booking_date)).'</span></h4>
+							</div>
+							<p></p>
+							<div class="card border-0 shadow-sm">
+								<div class="alert alert-danger text-center">
+									<h5 class="fw-bold mb-0 thm-txt">'.$serviceData['service_definition'].' Slots Not Found.</h5>
+								</div>
+							</div>
+							</li>
+							</ul>
+							</div>';
+				$response = array('success' => false, 'result' => $html);
 			}
 		
-			$response = array('success' => true, 'result' => $html);
+			
 		}
 		
 		echo json_encode($response);
