@@ -6,7 +6,7 @@
 				<div class="dashboard-navbar dashboard-left-content">
 
 					<div class="d-user-avater">
-						<img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater w-75" alt="">
+						<img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater w-75 rounded-circle" alt="">
 						<h5 class="fw-bold thm-txt mt-3"><?=$this->session->userdata('first_name')?> </h5>
 						<span></span>
 					</div>
@@ -68,10 +68,10 @@
 						<div class="tab-pane fade show active" id="pills-ght" role="tabpanel" aria-labelledby="pills-ght-tab" tabindex="0">
 							<!--Guest House Tab-->
 							<div class="dashboard-gravity-list mt-3">
-								<ul class="p-0">
-									<li class="pending-booking mb-3">
-										<div class="list-box-listing bookings">
-											<div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div>
+								<ul class="p-0 row">
+									<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
+										<div class="list-box-listing bookings border p-3 rounded">
+											<!-- <div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div> -->
 											<div class="list-box-listing-content">
 												<div class="inner">
 													<h3>Amrapali Guest House Complex <span class="booking-status pending">Approved</span>
@@ -92,9 +92,9 @@
 											</div>
 										</div>
 									</li>
-									<li class="pending-booking mb-3">
-										<div class="list-box-listing bookings">
-											<div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div>
+									<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
+                                        <div class="list-box-listing bookings border p-3 rounded">
+											<!-- <div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div> -->
 											<div class="list-box-listing-content">
 												<div class="inner">
 													<h3>Amrapali Guest House Complex <span class="booking-status pending">Approved</span>

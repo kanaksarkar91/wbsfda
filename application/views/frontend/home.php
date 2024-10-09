@@ -72,7 +72,7 @@
                 <div class="tab-pane fade" id="eco-tourism" role="tabpanel" aria-labelledby="eco-tourism-tab">
                     <form action="<?= base_url('frontend/booking/search/'); ?>" method="get" class="row g-2 align-items-center">
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                        <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
+                        <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                             <div class="select_area">
                                 <select name="landscape" id="landscape" class="form-control">
                                     <option value="" disabled>Select Property</option>
@@ -90,19 +90,19 @@
                                 </select>
                             </div>
                         </div> -->
-                        <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <div class="col-6 col-md-4 col-lg-2 col-xl-2 mb-3">
                             <div class="calenadr_area">
                                 <input type="text" class="form-control" id="checkIn" value="<?= date('d/m/Y', strtotime('+1 day')); ?>" placeholder="From Date">
                                 <input type="hidden" class="form-control check-in-out" name="checkindt" id="checkindt" value="<?= date('dmY', strtotime('+1 day')); ?>" />
                             </div>
                         </div>
-                        <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <div class="col-6 col-md-4 col-lg-2 col-xl-2 mb-3">
                             <div class="calenadr_area">
                                 <input type="text" class="form-control" id="checkOut" placeholder="To Date" value="<?= date('d/m/Y', strtotime('+2 days')); ?>">
                                 <input type="hidden" class="form-control check-in-out" name="checkoutdt" id="checkoutdt" value="<?= date('dmY', strtotime('+2 days')); ?>" />
                             </div>
                         </div>
-                        <div class="col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <div class="col-md-4 col-lg-2 col-xl-2 mb-3">
                             <div class="select_area">
                                 <select name="nationality" id="nationality" class="form-control">
                                     <option value="" disabled>Select Nationality</option>
@@ -111,7 +111,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-3 col-xl-2 mb-3">
+                        <div class="col-md-8 col-lg-2 col-xl-2 mb-3">
                             <button type="submit" class="w-100 btn btn-green">Search Availability</button>
                         </div>
                     </form>

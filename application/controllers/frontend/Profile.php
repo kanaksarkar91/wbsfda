@@ -83,10 +83,10 @@ class Profile extends CI_Controller
 						
 						$html .= '<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">
 								<div class="dashboard-gravity-list mt-3">
-                                    <ul class="p-0">
-                                        <li class="pending-booking mb-3">
-                                            <div class="list-box-listing bookings">
-                                                <div class="list-box-listing-img"><img src="'.base_url('public/frontend_assets/images/book_safari_img1.png').'" alt=""></div>
+                                    <ul class="p-0 row">
+                                        <li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
+                                            <div class="list-box-listing bookings border p-3 rounded">
+                                                /* <div class="list-box-listing-img"><img src="'.base_url('public/frontend_assets/images/book_safari_img1.png').'" alt=""></div> */
                                                 <div class="list-box-listing-content">
                                                     <div class="inner">
                                                         <h3>'.$row['service_definition'].' <span class="booking-status pending">'.$bookingStatus.'</span></h3>
@@ -140,9 +140,14 @@ class Profile extends CI_Controller
 
 		$response = '';
 
-		if (!empty($booking_details)) {
+		/* if (!empty($booking_details)) {
 			foreach ($booking_details as $bd) {
 				$response .= '<li class="pending-booking"><div class="list-box-listing bookings"><div class="list-box-listing-img"><img src="' . base_url('public/admin_images/' . $bd['image1']) . '" alt=""></div><div class="list-box-listing-content"><div class="inner"><h3>' . $bd['property_name'] . '"<span class=\"booking-status pending\">' . (($bd['booking_status'] == 'I') ? 'Initiate' : (($bd['booking_status'] == 'A') ? 'Approved' : (($bd['booking_status'] == 'C') ? 'Cancelled' : 'Check out'))) . '</span></h3><div class="inner-booking-list"><h5>Booking Date:</h5><ul class="booking-list"><li class="highlighted">' . date('d-m-Y', strtotime($bd['check_in'])) . ' to ' . date('d-m-Y', strtotime($bd['check_out'])) . '</li></ul></div><div class="inner-booking-list"><h5>Price:</h5><ul class="booking-list"><li class="highlighted">₹ ' . $bd['net_payable_amount'] . '</li></ul></div><div class="mt-3">' . (($bd['booking_status'] == 'I' || $bd['booking_status'] == 'A') ? ('<a class="btn btn-sm btn-danger" href="' . base_url('view-invoice/' . $bd['booking_id']) . '">Cancel Booking</a>') : '') . '<a class="btn btn-sm btn-primary" href="' . base_url('view-invoice/' . $bd['booking_id']) . '" target="_blank">View Details</a><a class="btn btn-sm btn-success" href="' . base_url('download-invoice/' . $bd['booking_id']) . '" target="_blank"><i class="fa fa-download"> Download</i></a>' . (($bd['booking_status'] == 'O') ? ('<button type="button" class="btn btn-sm btn-info feed_back" data-booking_id="' .  $bd['booking_id'] . '">Provide Feedback</button>') : '') . '</div></div></div></div></li>';
+			}
+		} */
+		if (!empty($booking_details)) {
+			foreach ($booking_details as $bd) {
+				$response .= '<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0"><div class="list-box-listing bookings border p-3 rounded"><div class="list-box-listing-content"><div class="inner"><h3>' . $bd['property_name'] . '"<span class=\"booking-status pending\">' . (($bd['booking_status'] == 'I') ? 'Initiate' : (($bd['booking_status'] == 'A') ? 'Approved' : (($bd['booking_status'] == 'C') ? 'Cancelled' : 'Check out'))) . '</span></h3><div class="inner-booking-list"><h5>Booking Date:</h5><ul class="booking-list"><li class="highlighted">' . date('d-m-Y', strtotime($bd['check_in'])) . ' to ' . date('d-m-Y', strtotime($bd['check_out'])) . '</li></ul></div><div class="inner-booking-list"><h5>Price:</h5><ul class="booking-list"><li class="highlighted">₹ ' . $bd['net_payable_amount'] . '</li></ul></div><div class="mt-3">' . (($bd['booking_status'] == 'I' || $bd['booking_status'] == 'A') ? ('<a class="btn btn-sm btn-danger" href="' . base_url('view-invoice/' . $bd['booking_id']) . '">Cancel Booking</a>') : '') . '<a class="btn btn-sm btn-primary" href="' . base_url('view-invoice/' . $bd['booking_id']) . '" target="_blank">View Details</a><a class="btn btn-sm btn-success" href="' . base_url('download-invoice/' . $bd['booking_id']) . '" target="_blank"><i class="fa fa-download"> Download</i></a>' . (($bd['booking_status'] == 'O') ? ('<button type="button" class="btn btn-sm btn-info feed_back" data-booking_id="' .  $bd['booking_id'] . '">Provide Feedback</button>') : '') . '</div></div></div></div></li>';
 			}
 		}
 

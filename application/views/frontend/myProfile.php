@@ -9,7 +9,7 @@
                 <div class="dashboard-navbar dashboard-left-content">
 
                     <div class="d-user-avater">
-                        <img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater w-75" alt="">
+                        <img src="<?= !is_null($this->session->userdata('profile_pic')) ? base_url('public/customer_images/' . $this->session->userdata('profile_pic')) : base_url('public/frontend_assets/images/user-icon.jpg') ?>" class="img-fluid avater w-75 rounded-circle" alt="">
                         <h5 class="fw-bold thm-txt mt-3"><?=$this->session->userdata('first_name')?> </h5>
                         <span></span>
                     </div>
