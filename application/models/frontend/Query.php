@@ -135,202 +135,21 @@
         return $result;
 		
 	}
-
-
-	function getVenueReservations($customerId) {
-
-		// Specify the main table to query from
-		$this->db->from('venue_booking vb');		
-		// Join with other tables
-		$this->db->join('venue_rate_master vrm', 'vb.rate_id = vrm.rate_id');
-		$this->db->join('property_master pm', 'pm.property_id = vrm.property_id');
-		$this->db->join('rate_category_master rcm', 'rcm.rate_category_id = vrm.rate_category_id');
-        $this->db->join('master_admin ma_user', 'ma_user.user_id = vb.user_id', 'LEFT'); // Join approved_by admin
-        $this->db->join('master_admin ma_noc_upload', 'ma_noc_upload.user_id = vb.noc_uploaded_by', 'LEFT'); 
-        $this->db->join('master_admin ma_cancelled', 'ma_cancelled.user_id = vb.cancelled_by', 'LEFT'); 
-
-		// Adjust select based on is_multiple_venues value
-		$this->db->select(
-			'vrm.*,vb.*,vb.status as booking_status,
-            CASE vb.status
-            WHEN "1" THEN ma_user.full_name
-            WHEN "2" THEN ma_user.full_name
-            WHEN "4" THEN ma_noc_upload.full_name
-            WHEN "5" THEN ma_cancelled.full_name
-            ELSE NULL
-        END AS approvedorRejected_by_name,' .
-			'CASE WHEN vrm.is_multiple_venues = 1 
-				 THEN (SELECT GROUP_CONCAT(v.venue_name) FROM master_venue v WHERE FIND_IN_SET(v.venue_id, vrm.multiple_venue_ids))
-				 ELSE v.venue_name 
-			END AS venue_names,
-            CASE WHEN vrm.is_multiple_venues = 1 
-            THEN vrm.multiple_venue_ids
-            ELSE vrm.single_venue_id
-       END AS venue_ids,CASE WHEN vrm.is_multiple_venues = 1 THEN (SELECT  v.image1 FROM master_venue v WHERE FIND_IN_SET(v.venue_id, vrm.multiple_venue_ids) LIMIT 1) ELSE v.image1 END AS image1, '.
-			'v.venue_description as venue_description,pm.property_name as property_name,pm.address_line_1 as property_address_line_1,pm.address_line_2 as property_address_line_2,pm.phone_no as property_phone_no,pm.mobile_no as property_mobile_no,pm.email as property_email,pm.geo_latitude as property_geo_latitude,pm.geo_longitude as property_geo_longitude,pm.google_map_address as property_google_map_address, rcm.rate_category_name as rate_category_name,v.is_hourly_booking as is_hourly_booking,v.booking_hours as booking_hours',
-			FALSE
-		);
-		
-		 // Check is_multiple_venues value and adjust join condition
-		 $this->db->join('master_venue v', 
-		 '(vrm.is_multiple_venues = 0 AND v.venue_id = vrm.single_venue_id)',
-		 'LEFT'
-	 );
-        $this->db->where_not_in('vb.status', array('0'));
-		$this->db->where('vb.user_id', $customerId);
-		$this->db->order_by('vb.booking_id','DESC');
-
-		$query = $this->db->get();
-        //echo $this->db->last_query();die;
-        //echo "<pre>"; print_r($query->result_array()); die();
-        if($query->num_rows() > 0) {
-            $result = $query->result_array();
-			
-            foreach ($result as $key => $q) {
-				$this->db->select('*,');
-				$this->db->from('venue_booking_details');
-				$this->db->where(array('venue_booking_details.booking_id'=>$q['booking_id'])); 
-                $query2 = $this->db->get();
-				        //echo "<pre>"; print_r($query2->result_array()); 
-
-                $result[$key]['booking_details'] = $query2->result_array();
-            }
-            // echo "<pre>"; print_r($result); die();
-            return $result;
-        }else{
-            return [];
-        }
-    }
-
-
-	function getVenueBookings($where = array()) {
-
-		// Specify the main table to query from
-		$this->db->from('venue_booking vb');		
-		// Join with other tables
-		$this->db->join('venue_rate_master vrm', 'vb.rate_id = vrm.rate_id');
-		$this->db->join('property_master pm', 'pm.property_id = vrm.property_id');
-		$this->db->join('rate_category_master rcm', 'rcm.rate_category_id = vrm.rate_category_id');
-		$this->db->join('customer_master cm', 'cm.customer_id = vb.booked_by');
-		$this->db->join('district_master dm', 'dm.district_id = pm.district_id');
-		$this->db->join('state_master sm', 'sm.state_id = pm.state_id');
-		
-		// Adjust select based on is_multiple_venues value
-		$this->db->select(
-			'vrm.*,vb.*,vb.status as booking_status,vb.created_at as transaction_date,vb.updated_at as transaction_date_update,cm.first_name as booking_by_name,cm.mobile as booking_by_mobile,cm.email as booking_by_email,' .
-			'CASE WHEN vrm.is_multiple_venues = 1 
-				 THEN (SELECT GROUP_CONCAT(v.venue_name) FROM master_venue v WHERE FIND_IN_SET(v.venue_id, vrm.multiple_venue_ids))
-				 ELSE v.venue_name 
-			END AS venue_names,CASE WHEN vrm.is_multiple_venues = 1 THEN (SELECT  v.image1 FROM master_venue v WHERE FIND_IN_SET(v.venue_id, vrm.multiple_venue_ids) LIMIT 1) ELSE v.image1 END AS image1, '.
-			'v.venue_description as venue_description,v.approx_capacity as approx_capacity,v.available_timming as available_timming,pm.property_name as property_name,pm.address_line_1 as property_address_line_1,pm.address_line_2 as property_address_line_2,pm.phone_no as property_phone_no,pm.mobile_no as property_mobile_no,pm.email as property_email,pm.geo_latitude as property_geo_latitude,pm.geo_longitude as property_geo_longitude,pm.google_map_address as property_google_map_address, pm.city as property_city, dm.district_name as property_district, sm.state_name as property_state, pm.pincode as property_pincode, rcm.rate_category_name as rate_category_name,v.is_hourly_booking as is_hourly_booking,v.booking_hours as booking_hours',
-			FALSE
-		);
-		
-		 // Check is_multiple_venues value and adjust join condition
-		 $this->db->join('master_venue v', 
-		 '(vrm.is_multiple_venues = 0 AND v.venue_id = vrm.single_venue_id)',
-		 'LEFT'
-	 );
-		$this->db->where($where);
-		$this->db->order_by('vb.booking_id','DESC');
-
-		$query = $this->db->get();
-        //	echo $this->db->last_query(); die;
-        //echo "<pre>"; print_r($query->result_array()); die();
-        if($query->num_rows() > 0) {
-            $result = $query->result_array();
-			
-            foreach ($result as $key => $q) {
-				//$this->db->select('*,');
-				//$this->db->from('venue_booking_details');
-				//$this->db->where(array('venue_booking_details.booking_id'=>$q['booking_id'])); 
-               //$query2 = $this->db->get();
-				        //echo "<pre>"; print_r($query2->result_array()); 
-
-				$sql2 = "SELECT a.*, (SELECT gst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_gst, (SELECT cgst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_cgst, (SELECT sgst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_sgst, (SELECT igst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_igst, (SELECT c.hsn_sac_code FROM venue_gst_slab b LEFT JOIN venue_hsn_sac_master c ON b.hsn_sac_id = c.hsn_sac_id WHERE a.rate >= b.startg_price AND a.rate <= b.ending_price) as hsn_sac_code FROM venue_booking_details a WHERE a.booking_id = '".$q['booking_id']."'";
-				$query2 = $this->db->query($sql2);
-        		//$rows = $query->result_array();
-
-                $result[$key]['booking_details'] = $query2->result_array();
-            }
-            // e cho "<pre>"; print_r($result); die();
-            return $result;
-        }else{
-            return [];
-        }
-    }
 	
-	
-	public function get_approval_letter($booking_id){ 
-        $this->db->select('sfb.*,sfb.created_at as venue_booking_created_at,vrm.*,CASE WHEN vrm.is_multiple_venues = 1 
-        THEN (SELECT GROUP_CONCAT(v.venue_name) FROM master_venue v WHERE FIND_IN_SET(v.venue_id, vrm.multiple_venue_ids))
-        ELSE v.venue_name 
-        END AS venue_names,pm.property_name as property_name,pm.gst_no as property_gst_no,pm.address_line_1 as property_address_line_1,pm.address_line_2 as property_address_line_2,pm.state_id as property_state_code,sm.state_name,ds.district_name,pm.city as property_city,pm.pincode as property_pincode,pm.phone_no as property_phone_no,pm.mobile_no as property_mobile_no,pm.email as property_email,pm.geo_latitude as property_geo_latitude,pm.geo_longitude as property_geo_longitude,pm.google_map_address as property_google_map_address, u.mobile, u.email, u.first_name,u.middle_name,u.last_name');
-        $this->db->select("GROUP_CONCAT(DATE_FORMAT(sfbd.start_date, '%d-%m-%Y')) as start_date", FALSE);
-        $this->db->from('venue_booking sfb');
-        $this->db->join('venue_booking_details sfbd', 'sfbd.booking_id = sfb.booking_id');
-        $this->db->join('customer_master u', 'u.customer_id = sfb.user_id');
-        $this->db->join('venue_rate_master vrm', 'vrm.rate_id = sfb.rate_id');
-        $this->db->join('master_venue v', '(vrm.is_multiple_venues = 0 AND v.venue_id = vrm.single_venue_id)', 'LEFT');
-    	$this->db->join('property_master pm', 'pm.property_id = vrm.property_id');
-		$this->db->join('state_master sm', 'pm.state_id = sm.state_id');
-		$this->db->join('district_master ds', 'pm.district_id = ds.district_id');
-    	$this->db->where('sfb.booking_id', $booking_id);
-        
-        $query = $this->db->get();
-        return $query->row_array();
-        
-    }
+	function getSafariBookingDetailsByUser($condn) {
+		$this->db->select('a.*, c.type_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, s.reporting_time, p.showing_desc');
+		$this->db->from('safari_booking_header a');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT');
+		$this->db->join('division_master d', 'a.division_id = d.division_id', 'LEFT');
+		$this->db->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT');
+		$this->db->join('safari_service_period_slot_detail s', 'a.period_slot_dtl_id = s.period_slot_dtl_id', 'LEFT');
+		$this->db->join('safari_service_period_master p', 's.service_period_master_id = p.service_period_master_id', 'LEFT');
+		$this->db->where($condn);
+        $result = $this->db->get()->result_array();
 
+		//echo "<pre>"; print_r($result); die;
 
-	public function get_booking_slip_details($booking_id){ 
-        /*$this->db->select('*');
-        $this->db->from('venue_booking_details');
-        if($booking_id){
-                $this->db->where('booking_id', $booking_id);
-            }
-        $query=$this->db->get();
-        return $query->result_array();*/
-
-		$sql = "SELECT a.*, b.rate_id, CASE WHEN c.is_multiple_venues = 1 
-        THEN (SELECT GROUP_CONCAT(v.venue_name) FROM master_venue v WHERE FIND_IN_SET(v.venue_id, c.multiple_venue_ids))
-        ELSE (SELECT v.venue_name FROM master_venue v WHERE c.is_multiple_venues = 0 AND v.venue_id = c.single_venue_id) 
-        END AS venue_names, (SELECT gst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_gst, (SELECT cgst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_cgst, (SELECT sgst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_sgst, (SELECT igst_percentage FROM venue_gst_slab WHERE a.rate >= startg_price AND a.rate <= ending_price) as v_igst, (SELECT c.hsn_sac_code FROM venue_gst_slab b LEFT JOIN venue_hsn_sac_master c ON b.hsn_sac_id = c.hsn_sac_id WHERE a.rate >= b.startg_price AND a.rate <= b.ending_price) as hsn_sac_code FROM venue_booking_details a LEFT JOIN venue_booking b ON a.booking_id = b.booking_id LEFT JOIN venue_rate_master c ON b.rate_id = c.rate_id WHERE a.booking_id = '".$booking_id."'";
-		$query = $this->db->query($sql);
-		$rows = $query->result_array();
-
-		return $rows;
-      
-    }
-	
-	
-	public function get_payment_details_online($booking_id){ 
-
-        /*$this->db->select('*');
-        $this->db->from('venue_payment');
-        if($booking_id){
-                $this->db->where('booking_id', $booking_id);
-            }
-        $query=$this->db->get();
-        return $query->result_array();*/
-
-		$sql = "SELECT * FROM venue_payment WHERE booking_id = '".$booking_id."' AND status = 'Success'";
-		$query = $this->db->query($sql);
-		$rows = $query->result_array();
-
-		return $rows;
-       
-    }
-
-
-	public function getVenueEventtype(){ 
-
-		$sql = "SELECT * FROM venue_event_type_master WHERE is_active = 1";
-		$query = $this->db->query($sql);
-		$rows = $query->result_array();
-
-		return $rows;
-       
+        return $result;
     }
 
     

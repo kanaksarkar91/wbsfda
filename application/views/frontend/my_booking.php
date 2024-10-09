@@ -38,7 +38,7 @@
 					<div class="d-flex justify-content-between align-items-center">
 						<h4 class="fw-normal thm-txt">Booking List</h4>
 						<div>
-							<select id="booking-type" name="booking_type" class="form-select">
+							<select id="booking_type" name="booking_type" class="form-select">
 								<option value="ALL" selected="selected">All Booking</option>
 								<option value="UPCOMING">Upcoming Booking</option>
 								<option value="PAST">Past Booking</option>
@@ -50,14 +50,21 @@
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="pills-ght-tab" data-bs-toggle="pill" data-bs-target="#pills-ght" type="button" role="tab" aria-controls="pills-ght" aria-selected="true">Guest House</button>
 						</li>
+						<?php
+						if(!empty($safariTypes)){
+							foreach($safariTypes as $key => $row){
+						?>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="pills-cst-tab" data-bs-toggle="pill" data-bs-target="#pills-cst" type="button" role="tab" aria-controls="pills-cst" aria-selected="false">Car Safari</button>
+							<button class="nav-link serviceType" id="pills-tab<?= $row['safari_type_id'];?>" data-bs-toggle="pill" data-bs-target="#pills-<?= $row['safari_type_id'];?>" type="button" role="tab" aria-controls="pills-<?= $row['safari_type_id'];?>" aria-selected="false" data-typeid="<?= $row['safari_type_id'];?>"><?= $row['type_name'];?></button>
 						</li>
-						<li class="nav-item" role="presentation">
+						<?php } } ?>
+						<!--<li class="nav-item" role="presentation">
 							<button class="nav-link" id="pills-est-tab" data-bs-toggle="pill" data-bs-target="#pills-est" type="button" role="tab" aria-controls="pills-est" aria-selected="false">Elephant Safari</button>
-						</li>
+						</li>-->
 					</ul>
 					<div class="tab-content" id="pills-tabContent">
+						
+						
 						<div class="tab-pane fade show active" id="pills-ght" role="tabpanel" aria-labelledby="pills-ght-tab" tabindex="0">
 							<!--Guest House Tab-->
 							<div class="dashboard-gravity-list mt-3">
@@ -115,16 +122,19 @@
 							</div>
 							<!--// Guest House Tab-->
 						</div>
-						<div class="tab-pane fade" id="pills-cst" role="tabpanel" aria-labelledby="pills-cst-tab" tabindex="0">
-							<!--Car Safari Tab-->
-							<h5>Car Safari</h5>
-							<!--// Car Safari Tab-->
+						
+						<div id="tabContentHtml">
+						
 						</div>
-						<div class="tab-pane fade" id="pills-est" role="tabpanel" aria-labelledby="pills-est-tab" tabindex="0">
+						
+						<?php /*?><div class="tab-pane fade" id="pills-est" role="tabpanel" aria-labelledby="pills-est-tab" tabindex="0">
 							<!--Elephant Safari Tab-->
 							<h5>Elephant Safari</h5>
 							<!--// Elephant Safari Tab-->
-						</div>
+						</div><?php */?>
+						
+						
+						
 					</div>
 
 
@@ -146,3 +156,46 @@
             </div>
         </div>
     </section>
+	
+<script>
+$(document).ready(function(){
+
+	$(".serviceType").click(function(){ 
+		var safari_type_id = $(this).data('typeid');
+		var booking_type = $('#booking_type').val();
+		getSafariBookingHtml(safari_type_id, booking_type);
+	});
+	
+	$("#booking_type").change(function(){ 
+		var safari_type_id = $('.serviceType').data('typeid');
+		var booking_type = $('#booking_type').val();
+		getSafariBookingHtml(safari_type_id, booking_type);
+	});
+});
+
+function getSafariBookingHtml(safari_type_id, booking_type){
+	
+	$.ajax({
+		type: 'POST',	
+		url: '<?= base_url("safari-booking-html"); ?>',
+		data: {
+			safari_type_id: safari_type_id,
+			booking_type: booking_type,
+			csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
+		},
+		dataType: 'json',
+		encode: true,
+		async: false
+	})
+	//ajax response
+	.done(function(response){
+		if(response.status){
+			$("#tabContentHtml").html(response.html);
+		}
+		else{
+			$("#tabContentHtml").html(response.html);
+		}
+		
+	});
+}
+</script>

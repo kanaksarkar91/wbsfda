@@ -47,18 +47,96 @@ class Profile extends CI_Controller
 		$data['customer_details'] = $this->mcommon->getRow('customer_master', array('customer_id' => $this->session->userdata('customer_id')));
 		$data['countries'] = $this->mcommon->getDetails('country_master', array());
 		$data['booking_details'] = $this->query->getBookingDetailsByUserIdNew($condn);
+		
+		$data['safariTypes'] = $this->mcommon->getDetailsOrder('safari_type_master', array('is_active' => 1));
 		//echo "<pre>"; print_r($data['booking_details']); die;
 		$data['type'] = $type;
 		$data['content'] = 'frontend/my_booking';
 		$this->load->view('frontend/layouts/index', $data);
 	}
+	
+	public function getSafariBookingHtml()
+	{
+		$data_list = [];
+		$html = '';
+		if($this->input->post()){
+			$safari_type_id = $this->input->post('safari_type_id');
+			$booking_type = $this->input->post('booking_type');
+			if(is_numeric($safari_type_id) && $safari_type_id > 0){
+				$condn = array('customer_id' => $this->session->userdata('customer_id'), "booking_status NOT IN('I','F')" => NULL);
+				
+				if ($booking_type == '' || $booking_type == 'ALL')
+					$condn = $condn;
+				elseif ($booking_type == 'UPCOMING')
+					$condn = array_merge($condn, array('a.booking_date >=' => date('Y-m-d')));
+				elseif ($booking_type == 'PAST')
+					$condn = array_merge($condn, array('a.booking_date <' => date('Y-m-d')));
+				
+				$condn = array_merge($condn, array('a.safari_type_id' => $safari_type_id));
+				
+				$safari_booking_details = $this->query->getSafariBookingDetailsByUser($condn);
+				
+				if(!empty($safari_booking_details) && is_array($safari_booking_details)){
+					foreach($safari_booking_details as $row){
+						$slotTiming = $row['slot_desc'].': '.$row['start_time'].' to '.$row['end_time'];
+						$bookingStatus = ($row['booking_status'] == 'I') ? 'Initiate' : (($row['booking_status'] == 'A') ? 'Approved' : (($row['booking_status'] == 'C') ? 'Cancelled' : ''));
+						
+						$html .= '<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">
+								<div class="dashboard-gravity-list mt-3">
+                                    <ul class="p-0">
+                                        <li class="pending-booking mb-3">
+                                            <div class="list-box-listing bookings">
+                                                <div class="list-box-listing-img"><img src="'.base_url('public/frontend_assets/images/book_safari_img1.png').'" alt=""></div>
+                                                <div class="list-box-listing-content">
+                                                    <div class="inner">
+                                                        <h3>'.$row['service_definition'].' <span class="booking-status pending">'.$bookingStatus.'</span></h3>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span><span>'.$row['booking_number'].'</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Safari Date:</span><span>'.date('d/m/Y', strtotime($row['booking_date'])).'</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Slot Time:</span><span>'.$slotTiming.'</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Reporting Time:</span><span>'.$row['reporting_time'].'</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Reporting Place:</span><span>'.$row['reporting_place'].'</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">No. of Visitor:</span><span>'.$row['no_of_person'].'</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Price:</span><span>₹ '.formatIndianCurrency($row['total_price']).'</span>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+							</div>';
+						}
+						
+						$response = array("status"=> true, "html"=>$html);
+					}
+					else{
+						$response = array("status"=> false, "html"=>'<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">No Booking Found!!</div>');
+					}
+				}
+			echo json_encode($response);
+			exit;
+		}
+	}
 
 	public function bookingList()
 	{
 		$type = $this->input->post('type');
-
-
-
 
 		$response = '';
 

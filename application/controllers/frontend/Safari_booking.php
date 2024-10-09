@@ -450,7 +450,7 @@ class Safari_booking extends CI_Controller
 					
 					$this->db->trans_complete();
 					if ($this->db->trans_status()) {
-						$data_record = array_merge($det_arr, array('booking_id' => $booking_id, 'total_amount' => number_format($data['payable_amount'])));
+						$data_record = array_merge($det_arr, array('booking_id' => $booking_id, 'total_amount' => round($data['payable_amount'])));
 		
 						redirect(base_url('frontend/safari_booking/booking_payment/' . base64_encode($this->encryption->encrypt(serialize($data_record)))));
 					} else {

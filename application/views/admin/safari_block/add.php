@@ -36,9 +36,9 @@
 				
                     <div class="row g-3 mb-3">
                         <div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="property_zp" class="form-label">Safari Type <span class="asterisk"></span></label>
-							<select name="safari_type_id" class="form-select select2" id="safari_type_id">                               
-								<option value="0">All Safari Type</option>
+							<label for="property_zp" class="form-label">Safari Type <span class="asterisk"> *</span></label>
+							<select name="safari_type_id" class="form-select select2" id="safari_type_id" required>                               
+								<option value="">All Safari Type</option>
 								<?php
 								if ($typeData)
 									foreach($typeData as $row) {
@@ -48,9 +48,9 @@
 							</select>
 						</div>
                         <div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="property_zp" class="form-label">Park <span class="asterisk"></span></label>
-							<select name="division_id" class="form-select select2" id="division_id">                               
-								<option value="0">All Park</option>
+							<label for="property_zp" class="form-label">Park <span class="asterisk"> *</span></label>
+							<select name="division_id" class="form-select select2" id="division_id" required>                               
+								<option value="">All Park</option>
 								<?php
 								if ($divisionData)
 									foreach($divisionData as $row) {
@@ -61,16 +61,16 @@
 						</div>
 						
 						<div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="property_zp" class="form-label">Safari <span class="asterisk"></span></label>
-							<select name="safari_service_header_id" id="safari_service_header_id" class="form-select select2">
-								<option value="0">Select Safari</option>
+							<label for="property_zp" class="form-label">Safari <span class="asterisk"> *</span></label>
+							<select name="safari_service_header_id" id="safari_service_header_id" class="form-select select2" required>
+								<option value="">Select Safari</option>
 							</select>
 						</div>
 						
 						<div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="property_zp" class="form-label">Period <span class="asterisk"></span></label>
-							<select name="service_period_master_id" class="form-select select2" id="service_period_master_id">
-								<option value="0">All Period</option>
+							<label for="property_zp" class="form-label">Period <span class="asterisk"> *</span></label>
+							<select name="service_period_master_id" class="form-select select2" id="service_period_master_id" required>
+								<option value="">All Period</option>
 								<?php
 								if ($periods){
 									foreach($periods as $period) {
@@ -81,20 +81,20 @@
 						</div>
 						
 						<div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="property_zp" class="form-label">Slot <span class="asterisk"></span></label>
-							<select name="period_slot_dtl_id" id="period_slot_dtl_id" class="form-select select2">
-								<option value="0">Select Slot</option>
+							<label for="property_zp" class="form-label">Slot <span class="asterisk"> *</span></label>
+							<select name="period_slot_dtl_id" id="period_slot_dtl_id" class="form-select select2" required>
+								<option value="">Select Slot</option>
 							</select>
 						</div>
 						
 						<div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="" class="form-label">Block Date</label>
-							<input type="date" class="form-control" name="block_date" id="block_date">
+							<label for="" class="form-label">Block Date<span class="asterisk"> *</span></label>
+							<input type="date" class="form-control" name="block_date" id="block_date" required>
 						</div>
 						
 						<div class="col-lg-4 col-sm-12 col-md-6">
-							<label for="" class="form-label">No. of Person</label>
-							<input type="text" class="form-control" name="no_of_person" id="no_of_person">
+							<label for="" class="form-label">No. of Person<span class="asterisk"> *</span></label>
+							<input type="text" class="form-control" name="no_of_person" id="no_of_person" required>
 						</div>
 						
 						<div class="col-lg-4 col-sm-12 col-md-6">
@@ -106,8 +106,8 @@
 						</div>
 						
                         <div class="col-sm-12 col-md-12">
-                            <label for="remarks" class="form-label">Remarks</span></label>
-                            <textarea type="text" class="form-control" id="remarks" name="remarks"></textarea>
+                            <label for="remarks" class="form-label">Remarks<span class="asterisk"> *</span></label>
+                            <textarea type="text" class="form-control" id="remarks" name="remarks" required></textarea>
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn app-btn-primary" id="btn-form-submit">SUBMIT</button>

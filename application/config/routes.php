@@ -79,6 +79,7 @@ $route['initiate-booking'] = 'frontend/safari_booking/init_booking';
 $route['safari-booking-information-entry/(:any)'] = 'frontend/safari_booking/safari_booking_information_entry/$1';
 $route['safari-booking-payment-success'] = 'frontend/safari_booking/paymentSuccess';
 $route['safari-booking-payment-failure'] = 'frontend/safari_booking/paymentFailure';
+$route['safari-booking-html'] = 'frontend/profile/getSafariBookingHtml';
 
 #----------------------------------------------
 
