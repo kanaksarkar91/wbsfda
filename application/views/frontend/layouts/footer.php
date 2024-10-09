@@ -126,7 +126,7 @@
 								<label>Full Name<i class="req">*</i></label>
 								<div class="input-with-icon">
 									<input autocomplete="off" type="text" class="form-control" placeholder="Full Name" name="first_name" required>
-									<i class="ti-user"></i>
+									<i class="bi bi-person-fill"></i>
 								</div>
 							</div>
 	
@@ -134,7 +134,7 @@
 								<label>Last Name<i class="req">*</i></label>
 								<div class="input-with-icon">
 									<input type="text" class="form-control" placeholder="Last Name" name="last_name" required>
-									<i class="ti-user"></i>
+									<i class="bi bi-person-fill"></i>
 								</div>
 							</div>-->
                         <!-- </div>   -->                      
@@ -143,7 +143,7 @@
                             <label>Phone No<i class="req">*</i></label>
                             <div class="input-with-icon">
                                 <input autocomplete="off" type="text" class="form-control" placeholder="Phone no" id="mobile" name="mobile" maxlength="10">
-                                <i class="las la-phone"></i>
+                                <i class="bi bi-telephone-fill"></i>
 
                             </div>
                             <p id="mobile-valid" class="hidden mob">
@@ -155,7 +155,7 @@
                         </div>
 
                         <div class="form-group otp_div">
-                            <button type="button" class="submit-btn w-100 mt-4" id="getOTP" disabled="">Get OTP</button>
+                            <button type="button" class="btn btn-green submit-btn w-100 mt-4" id="getOTP" disabled="">Get OTP</button>
                             <div class="pull-right time-block">
                                 Resend OTP in
                                 <strong class="time">59s</strong>
@@ -166,7 +166,7 @@
                             <label>OTP</label>
                             <div class="input-with-icon">
                                 <input autocomplete="off" type="password" class="form-control" id="otp" name="otp" placeholder="ENTER OTP">
-                                <i class="ti-unlock"></i>
+                                <i class="bi bi-unlock-fill"></i>
                             </div>
                         </div>
 						
@@ -174,7 +174,7 @@
                             <label>Email ID<i class="req">*</i></label>
                             <div class="input-with-icon">
                                 <input autocomplete="off" type="text" class="form-control" placeholder="Email ID" name="email" required>
-                                <i class="ti-email"></i>
+                                <i class="bi bi-envelope-fill"></i>
                             </div>
                         </div>
 

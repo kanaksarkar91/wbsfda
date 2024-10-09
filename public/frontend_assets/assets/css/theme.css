@@ -1,7 +1,7 @@
 :root {
     --black-sfd: #000000;
     --white-sfd: #ffffff;
-    --main-green-sfd: #068831;
+    --main-green-sfd: #009e60;
     --light-gray: #EFEFEF;
     --yellow-sfd: #F0E839;
     --dark-gray-sfd: #1E1E1E;
@@ -12,7 +12,7 @@
     --gray-sfd: #E3E3E3;
     --gray-sfd-v1: #7C7C7C;
     --green-rgb-sfd-v1: 0, 84, 28;
-    --main-rgb-green-sfd: 6, 136, 49;
+    --main-rgb-green-sfd: 0, 158, 96;
     --white-rgb-sfd: 255, 255, 255;
     --black-rgb-sfd: 0, 0, 0;
 }
@@ -1901,6 +1901,10 @@ tr.tr-disabled td {
 
 .fixed-header .dropdown .dropdown-menu .dropdown-item {
     padding: 10px;
+}
+
+a.dropdown-item:active {
+    background: var(--main-green-sfd);
 }
 
 
