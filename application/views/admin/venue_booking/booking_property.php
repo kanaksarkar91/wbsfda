@@ -140,7 +140,7 @@
 
 									<div class="col-lg-2 col-md-6 border-right dropdown form-select-guests mnbr">
 										<div class="form-group">
-											<i class="ti-user field-icon"></i>
+											<i class="bi bi-person-fill field-icon"></i>
 											<div class="form-content dropdown-toggle" data-toggle="dropdown">
 												<div class="wrapper-more">
 													<label>Guests</label>

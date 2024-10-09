@@ -280,7 +280,7 @@
                                                         ?>
                                                     </h5>
                                                     <?php if (isset($accommodation['facilities']) && $accommodation['facilities'] != '') { ?>
-                                                        <p class="mb-1"><i class="fas fa-hotel thm-txt"></i> <?= ucwords(str_replace(',', ', ', $accommodation['facilities'])); ?></p>
+                                                        <p class="mb-1"><i class="fas fa-hotel thm-txt ms-1 me-3"></i> <?= ucwords(str_replace(',', ', ', $accommodation['facilities'])); ?></p>
                                                     <?php } ?>
 
                                                     <!-- <?php

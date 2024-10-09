@@ -88,7 +88,7 @@
                                     <p>Check in: <b><?= $prop['checkin_time']; ?> AM</b> Check out: <b><?= $prop['checkout_time']; ?> AM</b></p>
                                 </div>
                             </div>
-                            <div class="row justify-content-end">
+                            <div class="d-flex justify-content-end">
                                 <a href="<?= base_url('frontend/booking/property_details/' . $prop['property_id']); ?>" class="btn btn-green px-5 py-2">Select</a>
                             </div>
                         </div>
@@ -291,7 +291,7 @@
             st += '<h5>Timing:</h5>';
             st += '<p>Check in: <b>' + value.checkin_time + ' AM</b> Check out: <b>' + value.checkout_time + ' AM</b></p>';
             st += '</div></div>';
-            st += '<div class="row justify-content-end">';
+            st += '<div class="d-flex justify-content-end">';
             st += action;
             st += '</div></div></div></div>';
 
