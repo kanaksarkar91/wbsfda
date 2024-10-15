@@ -11,7 +11,7 @@
 
     <meta name="description" content="ADMIN">
     <meta name="author" content="ADMIN">
-    <link rel="shortcut icon" href="<?=base_url('public/admin_assets/images/favicon.ico')?>" />
+    <link rel="shortcut icon" href="<?=base_url('public/frontend_assets/assets/img/favicon.png')?>" />
 
     <!-- FontAwesome CSS-->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" crossorigin="anonymous" /> -->
