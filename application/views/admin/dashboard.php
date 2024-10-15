@@ -1,11 +1,11 @@
 <div class="app-content pt-3 p-md-3 p-lg-4">
     <div class="container-xl">
 
-        <h1 class="app-page-title">Dashboard</h1>
+        <h1 class="app-page-title px-2">Dashboard</h1>
 			
-        <div class="app-card shadow-sm mb-4" role="alert">
-                <div class="app-card-body p-3">
-                    <h3 class="mb-2">Welcome to SFDA Admin</h3>
+        <div class="app-card mb-4" role="alert" style="background: none;">
+                <div class="app-card-body p-2">
+                    <h3 class="mb-4">Welcome to SFDA Admin</h3>
 				<?php
 				if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN){
 				?>

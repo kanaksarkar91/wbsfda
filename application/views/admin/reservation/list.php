@@ -15,17 +15,17 @@
 	<?php endif ?>
 	
         <div class="row g-3 mb-2 align-items-center justify-content-between">
-            <div class="col-auto">
+            <div class="col-lg-4">
                 <h1 class="app-page-title mb-0">Reservation List</h1>
             </div>
-            <div class="col-auto">
+            <div class="col-lg-8">
                 <div class="page-utilities">
                         <form method="POST">
 						<input type="hidden" name="<?= $this->csrf['name']; ?>" value="<?= $this->csrf['hash']; ?>">
                     <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                             <!--//col--> 
 							<div class="col-auto">
-                                <label for="" class="form-label">Property</label>
+                                <!-- <label for="" class="form-label">Property</label> -->
 								<select name="property_id" class="form-select select2" id="property_id">                               
                                     <option value="0">All Property</option>
                                     <?php
@@ -37,21 +37,21 @@
                                 </select>
                             </div>
                             <div class="col-auto">
-								<label for="" class="form-label">Check-In From</label>
+								<!-- <label for="" class="form-label">Check-In From</label> -->
                                 <input type="date" class="form-control" name="start_date" 
                                     value="<?= !empty($start_date) ? date('Y-m-d', strtotime($start_date)) : "" ?>" required>
                             </div>
                             <div class="col-auto">
-                                <label for="" class="form-label">Check-In To</label>
+                                <!-- <label for="" class="form-label">Check-In To</label> -->
 								<input type="date" class="form-control" name="end_date" 
                                 value="<?= !empty($end_date) ? date('Y-m-d', strtotime($end_date)) : "" ?>" required>
                             </div>
-                            <div class="col-auto" style="padding-top:28px;">
+                            <div class="col-auto"><!--  style="padding-top:28px;"> -->
                                 <button class="btn app-btn-primary">
                                     Search
                                 </button>
                             </div>
-                            <div class="col-auto" style="padding-top:28px;">
+                            <div class="col-auto"><!--  style="padding-top:28px;"> -->
                                 <a class="btn btn-secondary" href="">
                                     Reset
                                 </a>
@@ -152,13 +152,13 @@
                     background-color: #6dafff;
                     border-color: #6dafff
                 }
-                .btn{
+                /* .btn{
                     margin: 2.5px 0;
-                }
-                /*.dt-buttons button.buttons-csv.buttons-html5{
+                } */
+                .dt-buttons button.buttons-csv.buttons-html5, .dt-buttons button.buttons-excel.buttons-html5{
                     margin-top: 18px;
                     margin-left: 15px;
-                }*/
+                }
         </style>
 
         <div class="app-card app-card-orders-table shadow-sm mb-5 mt-5">
