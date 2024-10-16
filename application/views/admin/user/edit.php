@@ -96,8 +96,17 @@
                         </div>
 						
 						<div class="col-sm-12 col-md-4">
-                            <label for="property_id" class="form-label">POS<span class="asterisk"> </span></label>
-                            <select id="cost_center_id" name="cost_center_id[]" class="form-select chosen-select" data-placeholder="Choose POS..." multiple>
+                            <label for="property_id" class="form-label">Safari Service<span class="asterisk"> </span></label>
+                            <select id="safari_service_header_id" name="safari_service_header_id[]" class="form-select chosen-select" data-placeholder="Choose Services..." multiple>
+							<?php
+								if($safariServiceDetails){
+									foreach($safariServiceDetails as $row){
+										?>
+										<option value="<?= $row['safari_service_header_id'];?>" <?php echo (!empty($service_ids) && in_array($row['safari_service_header_id'], $service_ids))?'selected':'';?>><?= $row['service_definition'] ?></option>
+										<?php
+									}
+								}
+							?>
                             </select>
                         </div>
                     
@@ -130,7 +139,7 @@
 <script src="<?= base_url('public/admin_assets/js/chosen.jquery.min.js') ?>"></script>
 <script type='text/javascript'>
     const user_property = <?= json_encode($user_property) ?>;
-	const user_pos = <?= json_encode($user_pos) ?>;
+	const user_ss = <?= json_encode($user_ss) ?>;
     $(document).ready(function(){
         $(".chosen-select").chosen({});
         populate_property();

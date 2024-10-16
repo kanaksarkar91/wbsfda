@@ -75,6 +75,9 @@ class User extends MY_Controller
 		//$data['zilla_parishads'] = $this->mproperty->get_property_unit(array('parent_unit_id' => 0));
 		//$data['states'] = $this->muser->get_state();
 		$data['property_details'] = $this->admin_session_data['role_id'] == ROLE_SUPERADMIN ? $this->mproperty->get_property() : $this->mproperty->get_user_property_details($this->admin_session_data['user_id']);
+		
+		$data['safariServiceDetails'] = $this->admin_session_data['role_id'] == ROLE_SUPERADMIN ? $this->mcommon->getDetailsOrder('safari_service_header', ['service_status' => 1], 'service_definition', 'ASC') : '';
+		//echo '<pre>'; print_r($data['safariServiceDetails']); die;
 		$data['parent_user'] = $this->muser->edit_user($this->admin_session_data['user_id']);
 		$data['content'] = 'admin/user/add';
 		$this->load->view('admin/layouts/index', $data);
@@ -89,10 +92,18 @@ class User extends MY_Controller
 		$data['user_property'] = $this->muser->get_user_property(array('user_id' => $user_id));
 		$data['user_property'] = !empty($data['user_property']) ? array_column($data['user_property'], 'property_id') : array();
 		
-		$data['user_pos'] = $this->mcommon->getDetails('user_pos_mapping', array('user_id' => $user_id));
-		$data['user_pos'] = !empty($data['user_pos']) ? array_column($data['user_pos'], 'cost_center_id') : array();
+		$data['safariServiceDetails'] = $this->admin_session_data['role_id'] == ROLE_SUPERADMIN ? $this->mcommon->getDetailsOrder('safari_service_header', ['service_status' => 1], 'service_definition', 'ASC') : '';
+		
+		$userServices = $this->mcommon->getDetails('user_safari_service_mapping', array('user_id' => $user_id));
+		if(!empty($userServices)){
+			foreach($userServices as $value){
+				$_service_ids[] = $value['safari_service_header_id'];
+			}
+			$data['service_ids'] = array_unique($_service_ids);
+		}
+		
 		//$data['districts'] = $this->muser->get_district($data['user']['state_id']);
-		//echo '<pre>'; print_r($data['user_property']); die;
+		//echo '<pre>'; print_r($data['service_ids']); die;
 		$data['content'] = 'admin/user/edit';
 		$this->load->view('admin/layouts/index', $data);
 	}
@@ -167,16 +178,14 @@ class User extends MY_Controller
 							}
 						}
 						
-						$cost_center_id = $this->input->post('cost_center_id');
-						if(!empty($cost_center_id)){
-							foreach($cost_center_id as $c_id){
-								$ccd = $this->mcommon->getRow('cost_center_master', array('cost_center_id' => $c_id));
-								$user_pos_data = array(
+						$safari_service_header_id = $this->input->post('safari_service_header_id');
+						if(!empty($safari_service_header_id)){
+							foreach($safari_service_header_id as $shid){
+								$user_ss_data = array(
 									'user_id' => $result,
-									'property_id' => $ccd['property_id'],
-									'cost_center_id' => $c_id,
+									'safari_service_header_id' => $shid,
 								);
-								$this->mcommon->insert('user_pos_mapping', $user_pos_data);
+								$this->mcommon->insert('user_safari_service_mapping', $user_ss_data);
 							}
 						}
 						
@@ -292,17 +301,15 @@ class User extends MY_Controller
 							}
 						}
 						
-						$cost_center_id = $this->input->post('cost_center_id');
-						if(!empty($cost_center_id)){
-							$this->mcommon->delete('user_pos_mapping', array('user_id' => $user_id));
-							foreach($cost_center_id as $c_id){
-								$ccd = $this->mcommon->getRow('cost_center_master', array('cost_center_id' => $c_id));
-								$user_pos_data = array(
+						$safari_service_header_id = $this->input->post('safari_service_header_id');
+						if(!empty($safari_service_header_id)){
+							$this->mcommon->delete('user_safari_service_mapping', array('user_id' => $user_id));
+							foreach($safari_service_header_id as $shid){
+								$user_ss_data = array(
 									'user_id' => $user_id,
-									'property_id' => $ccd['property_id'],
-									'cost_center_id' => $c_id,
+									'safari_service_header_id' => $shid,
 								);
-								$this->mcommon->insert('user_pos_mapping', $user_pos_data);
+								$this->mcommon->insert('user_safari_service_mapping', $user_ss_data);
 							}
 						}
 						

@@ -148,7 +148,7 @@
 													<td>
 														<select class="form-select form-select-sm" name="visitor_age[]" required>
 															<option value="">Select Age</option>
-															<?php for ($a = 1; $a <= 120; $a++) { ?>
+															<?php for ($a = 5; $a <= 120; $a++) { ?>
 															<option value="<?= $a; ?>" <?= set_select('visitor_age['.$i.']', $a); ?>><?= $a; ?></option>
 															<?php } ?>
 														</select>

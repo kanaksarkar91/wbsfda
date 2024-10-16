@@ -46,6 +46,9 @@
 						<form action="" method="post">
 						<input type="hidden" name="<?= $this->csrf['name']; ?>" value="<?= $this->csrf['hash']; ?>">
 						<div class="row g-3">
+						<?php
+						if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN){
+						?>
 							<div class="col-lg-4 col-sm-12 col-md-6">
                                 <label for="property_zp" class="form-label">Type <span class="asterisk"></span></label>
                                 <select name="safari_type_id" class="form-select select2" id="safari_type_id">                               
@@ -78,6 +81,23 @@
 									<option value="0">Select Safari</option>
 								</select>
 							</div>
+						<?php
+						}
+						else {
+						?>
+							<div class="col-lg-4 col-sm-12 col-md-6">
+                                <label for="property_zp" class="form-label">Safari <span class="asterisk"></span></label>
+                                <select name="safari_service_header_id" class="form-select select2">                               
+                                    <option value="0">All Safaris</option>
+                                    <?php
+                                    if ($userServices)
+                                        foreach($userServices as $row) {
+                                    ?>
+                                    <option value="<?= $row['safari_service_header_id']; ?>" <?php echo ($row['safari_service_header_id'] == $safari_service_header_id) ? 'selected' : ''; ?>><?= $row['service_definition']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+						<?php } ?>
                             
 							<div class="col-lg-2 col-sm-12 col-md-6">
 								<label for="" class="form-label">Block From</label>

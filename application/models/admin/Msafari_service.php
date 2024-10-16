@@ -143,7 +143,7 @@ class Msafari_service extends CI_Model {
 		//echo nl2br($this->db->last_query());die;
         return $query->result_array();
     }
-	public function get_booking($where = array(),$order_by = '', $services = array(), $group_by = null){ 
+	public function get_booking($where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null){ 
         $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition')
                                 ->from('safari_booking_header a')
 								->join('customer_master b', 'a.customer_id = b.customer_id', 'LEFT')
@@ -154,8 +154,8 @@ class Msafari_service extends CI_Model {
         if(!empty($where)){
             $this->db->where($where);
         }
-        if(!empty($safari_service_header_ids) && is_array($safari_service_header_ids)){
-            $this->db->where_in('a.safari_service_header_ids', $safari_service_header_ids, false);
+        if(!empty($safari_service_header_ids)){
+            $this->db->where_in('a.safari_service_header_id', $safari_service_header_ids, false);
         }
         if (!is_null($group_by)) {
 			$this->db->group_by($group_by);
@@ -173,7 +173,7 @@ class Msafari_service extends CI_Model {
         $result = $query->result_array();
         return $result;
     }
-	public function get_block_booking($where = array(),$order_by = '', $services = array(), $group_by = null){ 
+	public function get_block_booking($where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null){ 
         $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, p.showing_desc')
                                 ->from('safari_sdervice_blocked a')
 								->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT')
@@ -185,8 +185,8 @@ class Msafari_service extends CI_Model {
         if(!empty($where)){
             $this->db->where($where);
         }
-        if(!empty($safari_service_header_ids) && is_array($safari_service_header_ids)){
-            $this->db->where_in('a.safari_service_header_ids', $safari_service_header_ids, false);
+        if(!empty($safari_service_header_ids)){
+            $this->db->where_in('a.safari_service_header_id', $safari_service_header_ids, false);
         }
         if (!is_null($group_by)) {
 			$this->db->group_by($group_by);
@@ -196,6 +196,17 @@ class Msafari_service extends CI_Model {
         }
 		
         return $result = $sql->get()->result();
+    }
+	public function get_user_wise_service($safari_service_header_ids = []){
+        $this->db->select('a.*');
+        $this->db->from('safari_service_header a');
+        if(!empty($safari_service_header_ids)){
+            $this->db->where_in('a.safari_service_header_id', $safari_service_header_ids, false);
+        }
+		$this->db->order_by('a.service_definition','ASC');
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
     }
 
 }

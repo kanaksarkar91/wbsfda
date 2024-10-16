@@ -137,13 +137,15 @@
 	}
 	
 	function getSafariBookingDetailsByUser($condn) {
-		$this->db->select('a.*, c.type_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, s.reporting_time, p.showing_desc');
+		$this->db->select('a.*, c.type_name, d.division_name, e.service_definition, e.start_point, e.end_point, e.reporting_place, s.slot_desc, s.start_time, s.end_time, s.reporting_time, p.showing_desc, f.cat_name, cu.first_name, cu.email, cu.mobile');
 		$this->db->from('safari_booking_header a');
 		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT');
 		$this->db->join('division_master d', 'a.division_id = d.division_id', 'LEFT');
 		$this->db->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT');
 		$this->db->join('safari_service_period_slot_detail s', 'a.period_slot_dtl_id = s.period_slot_dtl_id', 'LEFT');
 		$this->db->join('safari_service_period_master p', 's.service_period_master_id = p.service_period_master_id', 'LEFT');
+		$this->db->join('safari_category_master f', 'a.safari_cat_id = f.safari_cat_id', 'LEFT');
+		$this->db->join('customer_master cu', 'a.customer_id = cu.customer_id', 'LEFT');
 		$this->db->where($condn);
         $result = $this->db->get()->result_array();
 

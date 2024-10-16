@@ -105,8 +105,17 @@
                         </div>
 						
 						<div class="col-sm-12 col-md-4">
-                            <label for="property_id" class="form-label">POS<span class="asterisk"> </span></label>
-                            <select id="cost_center_id" name="cost_center_id[]" class="form-select chosen-select" data-placeholder="Choose POS..." multiple>
+                            <label for="safari_service_header_id" class="form-label">Safari Service<span class="asterisk"> </span></label>
+                            <select id="safari_service_header_id" name="safari_service_header_id[]" class="form-select chosen-select" data-placeholder="Choose Services..." multiple>
+							<?php
+							if(!empty($safariServiceDetails)){
+								foreach ($safariServiceDetails as $row) { 
+							?>
+								<option value="<?= $row['safari_service_header_id'] ?>"><?= $row['service_definition'];?></option>
+							<?php 
+								}
+							} 
+							?>
                             </select>
                         </div>
                         

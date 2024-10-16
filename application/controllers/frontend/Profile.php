@@ -77,16 +77,17 @@ class Profile extends CI_Controller
 				$safari_booking_details = $this->query->getSafariBookingDetailsByUser($condn);
 				
 				if(!empty($safari_booking_details) && is_array($safari_booking_details)){
+					
+					$html .= '<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">
+								<div class="dashboard-gravity-list mt-3">
+                                    <ul class="p-0 row">';
+					
 					foreach($safari_booking_details as $row){
 						$slotTiming = $row['slot_desc'].': '.$row['start_time'].' to '.$row['end_time'];
 						$bookingStatus = ($row['booking_status'] == 'I') ? 'Initiate' : (($row['booking_status'] == 'A') ? 'Approved' : (($row['booking_status'] == 'C') ? 'Cancelled' : ''));
 						
-						$html .= '<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">
-								<div class="dashboard-gravity-list mt-3">
-                                    <ul class="p-0 row">
-                                        <li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
+						$html .= '<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
                                             <div class="list-box-listing bookings border p-3 rounded">
-                                                /* <div class="list-box-listing-img"><img src="'.base_url('public/frontend_assets/images/book_safari_img1.png').'" alt=""></div> */
                                                 <div class="list-box-listing-content">
                                                     <div class="inner">
                                                         <h3>'.$row['service_definition'].' <span class="booking-status pending">'.$bookingStatus.'</span></h3>
@@ -112,16 +113,17 @@ class Profile extends CI_Controller
                                                             <span class="thm-txt fw-normal me-3">Price:</span><span>₹ '.formatIndianCurrency($row['total_price']).'</span>
                                                         </div>
                                                         <div class="mt-3">
-                                                            <a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+                                                            <a class="btn btn-dark btn-sm" href="'.base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])).'" target="_blank">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </li>
-                                    </ul>
+                                        </li>';
+						}
+						
+						$html .= '</ul>
                                 </div>
 							</div>';
-						}
 						
 						$response = array("status"=> true, "html"=>$html);
 					}
@@ -317,6 +319,21 @@ class Profile extends CI_Controller
 		//echo '<pre>';print_r($data['booking_details']);die;  
 		// $data['content'] = 'frontend/viewInvoiceNew';
 		$this->load->view('frontend/viewInvoiceNew', $data);
+	}
+	
+	public function viewSafariInvoice($booking_id)
+	{
+		$data = array();
+		$booking_id = decode_url($booking_id);
+		
+		$condn = array('booking_id' => $booking_id);
+		
+		$data['sBooking'] = $this->query->getSafariBookingDetailsByUser($condn);
+		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
+		
+		//echo '<pre>';print_r($data['sBooking']);die;
+		
+		$this->load->view('frontend/viewSafariBookingInvoice', $data);
 	}
 
 	public function downloadInvoice($booking_id)

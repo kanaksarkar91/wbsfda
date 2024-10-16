@@ -89,7 +89,7 @@
 		if(!empty($where)){
             $this->db->where($where);
         }
-        $query = $this->db->get('safari_service_header');
+        $query = $this->db->get('user_safari_service_mapping');
         $result = $query->result_array();
 		if(!empty($result)){
 			$ids = array_column($result, 'safari_service_header_id');

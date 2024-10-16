@@ -182,11 +182,13 @@ $(document).ready(function(){
 	
 	$("#service_period_master_id").change(function(){ 
 		var service_period_master_id = $(this).val();
+		var safari_service_header_id = $('#safari_service_header_id').val();
 		
 		$.ajax({
 			type: 'POST',	
 			url: '<?= base_url("admin/safari_service_capacity/getSlots"); ?>',
 			data: {
+				safari_service_header_id: safari_service_header_id,
 				service_period_master_id: service_period_master_id,
 				csrf_test_name: '<?= $this->csrf['hash']; ?>'
 			},

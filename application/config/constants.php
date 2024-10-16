@@ -97,6 +97,13 @@ define('SMS_API_KEY','A9cc25445fbfc5771eeef47cdb08e2507');
 define('SMS_SENDER','WBSFDC');
 define('SMS_ENTITY_ID','1201170124747205609');
 
+define('COM_NAME','WEST BENGAL STATE FOREST DEVELOPMENT AGENCY');
+define('COM_ADDRESS','Aranya Bhawan, Block LA-10A,sector - III, SaltLake City, Kolkata -700106,');
+define('COM_PHONE','8961494999');
+define('COM_EMAIL','wbsfda@gmail.com');
+define('COM_WEBSITE','www.wbsfda.org');
+
+
 
 
 

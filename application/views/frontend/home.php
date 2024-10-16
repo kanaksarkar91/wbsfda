@@ -9,7 +9,7 @@
 				foreach($safariTypes as $key => $row){
 			?>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link <?= $key == 0 ? 'active' : '';?> serviceType" id="safari-tab-<?= $row['safari_type_id'];?>" data-bs-toggle="tab" data-bs-target="#safari-<?= $row['safari_type_id'];?>" type="button" role="tab" aria-controls="safari-<?= $row['safari_type_id'];?>" data-typeid="<?= $row['safari_type_id'];?>" aria-selected="true"><i class="fas fa-truck-pickup me-2"></i> <?= $row['type_name'];?></button>
+                    <button class="nav-link <?= $key == 0 ? 'active' : '';?> serviceType" id="safari-tab-<?= $row['safari_type_id'];?>" data-bs-toggle="tab" data-bs-target="#safari-<?= $row['safari_type_id'];?>" type="button" role="tab" aria-controls="safari-<?= $row['safari_type_id'];?>" data-typeid="<?= $row['safari_type_id'];?>" aria-selected="true"><i class="<?= $row['safari_type_id'] == 1 ? 'fas fa-truck-pickup me-2' : 'fas fa-republican me-2';?>"></i> <?= $row['type_name'];?></button>
                 </li>
 			<?php } } ?>
                 <!--<li class="nav-item" role="presentation">

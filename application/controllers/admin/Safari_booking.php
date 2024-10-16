@@ -53,10 +53,12 @@ class Safari_booking extends MY_Controller
 			if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN || !empty($safari_service_header_ids)){
 				$data['bookings'] = $this->msafari_service->get_booking($where, $order_by, $safari_service_header_ids, $group_by);
 			}
+			
+			$data['userServices'] = $this->msafari_service->get_user_wise_service($safari_service_header_ids);
 		}
-		// echo $this->db->last_query(); die;
+		//echo $this->db->last_query(); die;
 		//echo '<pre>';
-		//print_r($data['reservations']);die;
+		//print_r($data['userServices']);die;
 		
 		$data['typeData'] = $this->mcommon->getDetailsOrder('safari_type_master', array('is_active' => 1), 'type_name', 'ASC');
 		$data['divisionData'] = $this->mcommon->getDetailsOrder('division_master', array('is_active' => 1), 'division_name', 'ASC');
@@ -104,6 +106,8 @@ class Safari_booking extends MY_Controller
 			if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN || !empty($safari_service_header_ids)){
 				$data['blockedBookings'] = $this->msafari_service->get_block_booking($where, $order_by, $safari_service_header_ids, $group_by);
 			}
+			
+			$data['userServices'] = $this->msafari_service->get_user_wise_service($safari_service_header_ids);
 		}
 		// echo $this->db->last_query(); die;
 		//echo '<pre>';

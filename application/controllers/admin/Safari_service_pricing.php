@@ -36,9 +36,10 @@ class Safari_service_pricing extends MY_Controller
 		$data_list = [];
 		$html = '';
 		if($this->input->post()){
+			$safari_service_header_id = $this->input->post('safari_service_header_id');
 			$service_period_master_id = $this->input->post('service_period_master_id');
 			if(is_numeric($service_period_master_id) && $service_period_master_id > 0){
-				$data_list = $this->mcommon->getDetailsOrder('safari_service_period_slot_detail', array('is_active' => 1, 'service_period_master_id' => $service_period_master_id), 'service_period_master_id', 'ASC');
+				$data_list = $this->mcommon->getDetailsOrder('safari_service_period_slot_detail', array('is_active' => 1, 'service_period_master_id' => $service_period_master_id, 'safari_service_header_id' => $safari_service_header_id), 'service_period_master_id', 'ASC');
 				
 				$cat_list = $this->mcommon->getDetailsOrder('safari_category_master', array('is_active' => 1), 'safari_cat_id', 'ASC');
 				
