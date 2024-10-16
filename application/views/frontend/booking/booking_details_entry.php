@@ -24,7 +24,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group text-center">
-                                        <a href="#" id="booking_login" class="btn-green px-4" data-toggle="modal" data-target="#login" data-redirect="1">Login to Continue</a>
+                                        <a href="#" id="booking_login" class="btn-green px-4" data-bs-toggle="modal" data-bs-target="#login" data-redirect="1">Login to Continue</a>
                                     </div>
                                 </div>
                             </div>

@@ -26,7 +26,7 @@
 
     <meta name="description" content="Department of WBSFDA Admin" />
     <meta name="author" content="Department of WBSFDA Admin" />
-    <link rel="shortcut icon" href="<?=base_url('public/admin_assets/images/favicon.ico')?>" />
+    <link rel="shortcut icon" href="<?=base_url('public/frontend_assets/assets/img/favicon.png')?>" />
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/css/font-awesome.min.css') ?>" />
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/css/daterangepicker.css') ?>" />
 

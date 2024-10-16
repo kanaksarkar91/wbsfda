@@ -1,10 +1,10 @@
 <div class="app-content pt-3 p-md-3 p-lg-3">
     <div class="container-xl">
         <div class="row g-3 mb-2 align-items-center justify-content-between">
-            <div class="col-auto">
+            <div class="col-lg-4">
                 <h1 class="app-page-title mb-0">Reservation List</h1>
             </div>
-            <div class="col-auto">
+            <div class="col-lg-8">
                 <div class="page-utilities">
                         <form method="POST">
 						<input type="hidden" name="<?= $this->csrf['name']; ?>" value="<?= $this->csrf['hash']; ?>">
@@ -134,9 +134,6 @@
                     color: #fff;
                     background-color: #6dafff;
                     border-color: #6dafff
-                }
-                .btn{
-                    margin: 2.5px 0;
                 }
                 .dt-buttons button.buttons-excel.buttons-html5{
                     margin-top: 18px;

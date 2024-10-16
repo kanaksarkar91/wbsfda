@@ -41,7 +41,7 @@
                     <div class="app-auth-branding mb-4">
                         <a class="app-logo" href="<?=base_url('admin/login')?>">
 				<img class="logo-icon me-2" src="<?=base_url('public/admin_assets/images/logo.jpg')?>" alt="logo">
-				<img class="logo-icon me-2" src="<?=base_url('public/admin_assets/images/SFDC_logo.png')?>" alt="logo">
+				<!-- <img class="logo-icon me-2" src="<?=base_url('public/admin_assets/images/SFDC_logo.png')?>" alt="logo"> -->
 			</a>
                     </div>
 		            <h4 class="text-center text-info mb-3">SFDC LTD. WEST BENGAL</h4>
