@@ -63,7 +63,7 @@
                                         <li><a href="">Sub menu</a></li>
                                     </ul>
                                 </li> -->
-                                <li><a href="">What’s New</a></li>
+                                <li><a href="">What's New</a></li>
                                 <li><a href="">Information</a></li>
                                 <li class="drop-left"><a href="">Dos & Don'ts</a> </li>
                             </ul>
