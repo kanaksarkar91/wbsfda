@@ -63,7 +63,7 @@ class Profile extends CI_Controller
 			$safari_type_id = $this->input->post('safari_type_id');
 			$booking_type = $this->input->post('booking_type');
 			if(is_numeric($safari_type_id) && $safari_type_id > 0){
-				$condn = array('customer_id' => $this->session->userdata('customer_id'), "booking_status NOT IN('I','F')" => NULL);
+				$condn = array('a.customer_id' => $this->session->userdata('customer_id'), "booking_status NOT IN('I','F')" => NULL);
 				
 				if ($booking_type == '' || $booking_type == 'ALL')
 					$condn = $condn;
@@ -73,7 +73,7 @@ class Profile extends CI_Controller
 					$condn = array_merge($condn, array('a.booking_date <' => date('Y-m-d')));
 				
 				$condn = array_merge($condn, array('a.safari_type_id' => $safari_type_id));
-				
+				//echo $safari_type_id; die;
 				$safari_booking_details = $this->query->getSafariBookingDetailsByUser($condn);
 				
 				if(!empty($safari_booking_details) && is_array($safari_booking_details)){
@@ -92,7 +92,7 @@ class Profile extends CI_Controller
                                                     <div class="inner">
                                                         <h3>'.$row['service_definition'].' <span class="booking-status pending">'.$bookingStatus.'</span></h3>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span><span>'.$row['booking_number'].'</span>
+                                                            <span class="thm-txt fw-normal me-3">PRN No.:</span><span>'.$row['booking_number'].'</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
                                                             <span class="thm-txt fw-normal me-3">Safari Date:</span><span>'.date('d/m/Y', strtotime($row['booking_date'])).'</span>
@@ -125,10 +125,10 @@ class Profile extends CI_Controller
                                 </div>
 							</div>';
 						
-						$response = array("status"=> true, "html"=>$html);
+						$response = array("status"=> true, "html"=>$html, "safari_type_id" => $safari_type_id);
 					}
 					else{
-						$response = array("status"=> false, "html"=>'<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">No Booking Found!!</div>');
+						$response = array("status"=> false, "html"=>'<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">No Booking Found!!</div>', "safari_type_id" => $safari_type_id);
 					}
 				}
 			echo json_encode($response);
@@ -323,7 +323,8 @@ class Profile extends CI_Controller
 	
 	public function viewSafariInvoice($booking_id)
 	{
-		$data = array();
+		$data = [];
+		$data['safariRoutes'] = [];
 		$booking_id = decode_url($booking_id);
 		
 		$condn = array('booking_id' => $booking_id);
@@ -331,7 +332,19 @@ class Profile extends CI_Controller
 		$data['sBooking'] = $this->query->getSafariBookingDetailsByUser($condn);
 		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
 		
-		//echo '<pre>';print_r($data['sBooking']);die;
+		$data['periodMasterData'] = $this->mcommon->getDetailsOrder('safari_service_period_master', ['is_active' => 1], 'service_period_master_id', 'ASC');
+		
+		if(!empty($data['periodMasterData'])){
+			foreach($data['periodMasterData'] as $prow){
+				$routeDetails = $this->query->route_details(['a.service_period_master_id' => $prow['service_period_master_id'], 'a.is_active' => 1]);
+				
+				if(!empty($routeDetails)){
+					$data['safariRoutes'][$prow['service_period_master_id']] = $routeDetails;
+				}
+			}
+		}
+		
+		//echo '<pre>';print_r($data['safariRoutes']);die;
 		
 		$this->load->view('frontend/viewSafariBookingInvoice', $data);
 	}

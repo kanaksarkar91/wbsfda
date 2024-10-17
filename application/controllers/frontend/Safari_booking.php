@@ -18,7 +18,7 @@ class Safari_booking extends CI_Controller
 	public function searchAvailability()
 	{
 		$data = [];
-		$safari_type_id = $this->input->post('safari_type_id') != '' ? $this->input->post('safari_type_id') : NULL;
+		$safari_type_id = $this->input->post('safari_type_id') != '' ? $this->input->post('safari_type_id') : 1;
 		$division_id = $this->input->post('division_id') != '' ? $this->input->post('division_id') : NULL;
 		$safari_service_header_id = $this->input->post('safari_service_header_id') != '' ? $this->input->post('safari_service_header_id') : NULL;
 		$saf_booking_date = $this->input->post('saf_booking_date') != '' ? date('Y-m-d', strtotime($this->input->post('saf_booking_date'))) : NULL;
@@ -26,7 +26,7 @@ class Safari_booking extends CI_Controller
 		
 		$data = array('safari_type_id' => $safari_type_id, 'division_id' => $division_id, 'safari_service_header_id' => $safari_service_header_id, 'saf_booking_date' => $saf_booking_date, 'safari_cat_id' => $safari_cat_id);
 
-		$data['divisionData'] = $this->msafari_service->get_services_home(array('a.safari_type_id' => 1));
+		$data['divisionData'] = $this->msafari_service->get_services_home(array('a.safari_type_id' => $safari_type_id));
 		$data['safariServices'] = $this->mcommon->getDetailsOrder('safari_service_header', array('safari_type_id' => $safari_type_id, 'division_id' => $division_id, 'service_status' => 1));
 		$data['safariCat'] = $this->mcommon->getDetailsOrder('safari_category_master', array('is_active' => 1));
 		

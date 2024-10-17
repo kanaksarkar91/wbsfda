@@ -7,7 +7,7 @@ class Reports extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(array('admin/mreport', 'admin/mreservation', 'admin/mproperty', 'admin/mpos', 'mcommon', 'admin/mrevenue'));
+		$this->load->model(array('admin/mreport', 'admin/mreservation', 'admin/mproperty', 'admin/mpos', 'mcommon', 'admin/mrevenue', 'admin/msafari_service'));
 	}
 
 	public function occupancy_report() {
@@ -1333,6 +1333,64 @@ class Reports extends MY_Controller
 		$data['property_list'] = $this->mvenuebooking->get_landscape_properties(array('terrain_master.is_active' => 1, 'property_master.is_active' => 1, 'property_master.is_venue' => 1));			
 
 		$data['content'] = 'admin/reports/venue_cancellation_report';
+		$this->load->view('admin/layouts/index', $data);
+	}
+	
+	public function getSlots()
+	{
+		$data_list = array();
+		$safari_service_header_id = $this->input->post('safari_service_header_id');
+		$booking_date = $this->input->post('booking_date');
+		if(is_numeric($safari_service_header_id) && $safari_service_header_id > 0){
+			
+			$service_period_master_id = get_period_from_date($booking_date);
+			
+			$data_list = $this->msafari_service->getSlotsASC(array('is_active' => 1, 'safari_service_header_id' => $safari_service_header_id, 'service_period_master_id' => $service_period_master_id));
+			
+			$response = array("status"=> true, "list"=>$data_list);
+		}
+		else{
+			$response = array("status"=> false, "list"=>$data_list);
+		}
+		
+		echo json_encode($response);
+		exit;
+	}
+	
+	public function approved_safari_register() {
+		$data = array('menu_id'=> 75);
+		
+		if($this->admin_session_data['role_id'] != ROLE_SUPERADMIN){
+			$safari_service_header_ids =  $this->mcommon->get_user_service(array('user_id' => $this->admin_session_data['user_id']));
+		}
+		$data['serviceDefinitions'] = $this->admin_session_data['role_id'] == ROLE_SUPERADMIN ? $this->mcommon->getDetailsOrder('safari_service_header', ['service_status' => 1], 'service_definition', 'ASC') : $this->msafari_service->get_user_wise_service($safari_service_header_ids);
+		
+		$data['booking_date']= $this->input->post('booking_date') != '' ? date('Y-m-d', strtotime($this->input->post('booking_date'))) : date('Y-m-d');
+		$data['safari_service_header_id'] = $this->input->post('safari_service_header_id');
+		$data['period_slot_dtl_id'] = $this->input->post('period_slot_dtl_id');
+		
+		if($this->input->post()){
+			if($this->input->post('safari_service_header_id')){
+				$where['a.safari_service_header_id ='] = $this->input->post('safari_service_header_id');
+			}
+			if($this->input->post('period_slot_dtl_id')){
+				$where['a.period_slot_dtl_id ='] = $this->input->post('period_slot_dtl_id');
+			}
+			if($this->input->post('booking_date')){
+				$where['a.booking_date ='] = date('Y-m-d', strtotime($this->input->post('booking_date')));
+			}
+			
+			$where['a.booking_status = '] = 'A';
+			$order_by = 'DATE(a.created_ts) ASC';
+			
+			if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN || check_user_permission($data['menu_id'], 'delete_flag') || 1){
+				$data['safariReservations'] = $this->mreport->get_safari_booking($where, $order_by);
+			}
+			
+		}
+
+		//echo '<pre>'; print_r($data['safariReservations']); die;
+		$data['content'] = 'admin/reports/approved_safari_booking_register';
 		$this->load->view('admin/layouts/index', $data);
 	}
 

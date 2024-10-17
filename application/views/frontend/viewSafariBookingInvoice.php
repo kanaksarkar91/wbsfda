@@ -34,7 +34,7 @@
                             <h3 style="margin-top:5px; font-size:18px;margin-bottom: 0px;line-height:1;font-weight:600;"><?= COM_NAME;?></h3>
                             <h3 style="margin-top:5px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</h3>
                             <h3 style="margin-top:0px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Reservation Slip for Car safari / Elephant Ride</h3>
-                            <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">PNR No.: CSCCS1211202441743</p>
+                            <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">PRN No.: <?= $sBooking[0]['booking_number'];?></p>
                             <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">Contact No.: 9734190119</p>
                             <p style="font-size:12px;">Kindly Note down the PNR NO for future reference</p>
                         </td>

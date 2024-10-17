@@ -28,7 +28,34 @@ if (!function_exists('daysBetween'))
 		)->format('%a');
 	}
 }
-	
+
+if (!function_exists('get_period_from_date'))
+{
+	function get_period_from_date($date){
+		$CI =& get_instance();
+		$CI->load->model('mcommon');
+		
+		$splitDate = explode('-', $date);
+		$monthDay = $splitDate[1].'-'.$splitDate[2];
+		// Define today's date in mm-dd format
+		$today = $date != '' ? $monthDay : date('m-d'); // Example: '10-17' for October 17th
+		
+		// Define service periods
+		$periods = $CI->mcommon->getDetails('safari_service_period_master', ['is_active' => 1]);
+		
+		// Loop through each period to find the matching range
+		foreach ($periods as $period) {
+			$start_date = $period['start_date'];
+			$end_date = $period['end_date'];
+		
+			// Check if the period includes today's date
+			if (($start_date <= $today && $today <= $end_date) || ($start_date > $end_date && ($today >= $start_date || $today <= $end_date))) {
+				return $period['service_period_master_id'];
+				break;
+			}
+		}
+	}
+}
 
 // --------------------------------------------------------------------
 

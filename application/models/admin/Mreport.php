@@ -859,5 +859,46 @@ LEFT JOIN harbour_products_master hpm ON rt.harbour_product_id = hpm.harbour_pro
 		return $result;
 
 	}
+	
+	function get_safari_booking($where = [], $order_by = '') {
+		$this->db->select('a.*, b.service_definition, b.start_point, b.end_point, b.reporting_place, c.slot_desc, c.start_time, c.end_time, c.reporting_time, sc.cat_name');
+		$this->db->from('safari_booking_header a');
+		$this->db->join('safari_service_header b', 'a.safari_service_header_id = b.safari_service_header_id', 'LEFT');
+		$this->db->join('safari_service_period_slot_detail c', 'a.period_slot_dtl_id = c.period_slot_dtl_id', 'LEFT');
+		$this->db->join('safari_category_master sc', 'a.safari_cat_id = sc.safari_cat_id', 'LEFT');
+		if(!empty($where)){
+            $this->db->where($where);
+        }
+		if(!empty($order_by)){
+            $this->db->order_by($order_by,null);
+        }
+		$query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        $rows = $query->result_array();
+		
+		if(!empty($rows)){
+			$ids = array_column($rows, 'booking_id');
+			$booking_ids = implode(',', $ids);
+		}
+		
+		if(!empty($rows)){
+			$i = 0;
+			$this->db->select('bd.*');
+			$this->db->from('safari_booking_detail bd');
+			$this->db->where_in('booking_id', $booking_ids, false);
+			$query1=$this->db->get();
+			//echo nl2br($this->db->last_query());die;
+			$rows1 = $query1->result_array();
+			
+			$result[$i] = $rows;
+			$result[$i]['details'] = $rows1;
+	
+			if($result){
+				return $result;
+			} else {
+				return false;
+			}
+		}
+    }
 
 }

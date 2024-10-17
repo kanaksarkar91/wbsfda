@@ -78,10 +78,10 @@ class Safari_booking extends MY_Controller
 		
 		if($this->input->post()){
 			if($this->input->post('start_date')){
-				$where['a.booking_date >='] = date('Y-m-d', strtotime($this->input->post('start_date')));
+				$where['a.block_date >='] = date('Y-m-d', strtotime($this->input->post('start_date')));
 			}
 			if($this->input->post('end_date')){
-				$where['a.booking_date <='] = date('Y-m-d', strtotime($this->input->post('end_date')));
+				$where['a.block_date <='] = date('Y-m-d', strtotime($this->input->post('end_date')));
 			}
 			if($this->input->post('safari_type_id') != 0){
 				$where['a.safari_type_id = '] = $this->input->post('safari_type_id');

@@ -167,7 +167,14 @@ class Msafari_service extends CI_Model {
         return $result = $sql->get()->result();
     }
 	public function getSlotsASC($where = []){
-        $sql = "SELECT a.* FROM safari_service_period_slot_detail a WHERE safari_service_header_id=".$where['safari_service_header_id']." AND  service_period_master_id = ".$where['service_period_master_id']." ORDER BY STR_TO_DATE(start_time, '%h:%i %p') ASC ";
+        $sql = "SELECT a.* FROM safari_service_period_slot_detail a WHERE is_active = 1 ";
+		if($where['safari_service_header_id'] > 0){
+			$sql .= " AND safari_service_header_id=".$where['safari_service_header_id']." ";
+		}
+		if($where['service_period_master_id'] > 0){
+			$sql .= " AND service_period_master_id=".$where['service_period_master_id']." ";
+		}
+		$sql .= " ORDER BY STR_TO_DATE(start_time, '%h:%i %p') ASC";
         //echo $sql;die;
         $query = $this->db->query($sql);
         $result = $query->result_array();

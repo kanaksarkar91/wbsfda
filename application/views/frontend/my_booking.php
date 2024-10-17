@@ -43,6 +43,8 @@
 								<option value="UPCOMING">Upcoming Booking</option>
 								<option value="PAST">Past Booking</option>
 							</select>
+							
+							<input type="hidden" class="form-control" name="safari_type_id" id="safari_type_id" readonly="">
 						</div>
 					</div>
 
@@ -167,7 +169,7 @@ $(document).ready(function(){
 	});
 	
 	$("#booking_type").change(function(){ 
-		var safari_type_id = $('.serviceType').data('typeid');
+		var safari_type_id = $('#safari_type_id').val();
 		var booking_type = $('#booking_type').val();
 		getSafariBookingHtml(safari_type_id, booking_type);
 	});
@@ -191,9 +193,11 @@ function getSafariBookingHtml(safari_type_id, booking_type){
 	.done(function(response){
 		if(response.status){
 			$("#tabContentHtml").html(response.html);
+			$("#safari_type_id").val(response.safari_type_id);
 		}
 		else{
 			$("#tabContentHtml").html(response.html);
+			$("#safari_type_id").val(response.safari_type_id);
 		}
 		
 	});

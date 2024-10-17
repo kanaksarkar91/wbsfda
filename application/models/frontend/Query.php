@@ -153,6 +153,44 @@
 
         return $result;
     }
+	
+	function route_details($where = []) {
+		$this->db->select('a.safari_service_header_id, a.service_period_master_id, b.service_definition, b.reporting_place');
+		$this->db->from('safari_service_period_slot_detail a');
+		$this->db->join('safari_service_header b', 'a.safari_service_header_id = b.safari_service_header_id', 'LEFT');
+		if(!empty($where)){
+            $this->db->where($where);
+        }
+		$this->db->group_by('safari_service_header_id');
+		$this->db->order_by('service_period_master_id','ASC');
+		$query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        $rows = $query->result_array();
+		
+		if(!empty($rows)){
+			$i = 0;
+			foreach($rows as $row){
+				$this->db->select('c.*');
+				$this->db->from('safari_service_period_slot_detail c');
+				$this->db->where('safari_service_header_id', $row['safari_service_header_id']);
+				$this->db->where('service_period_master_id', $row['service_period_master_id']);
+				$query1=$this->db->get();
+				//echo nl2br($this->db->last_query());die;
+				$rows1 = $query1->result_array();
+				
+				$result[$i] = $row;
+				$result[$i][$row['service_definition']] = $rows1;
+	
+				$i++;
+			}
+			
+			if($result){
+				return $result;
+			} else {
+				return false;
+			}
+		}
+    }
 
     
 
