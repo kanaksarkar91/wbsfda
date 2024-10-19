@@ -57,8 +57,8 @@ class Safari_booking extends CI_Controller
 			if(!empty($slots)){
 					
 					$html .= '<li class="mb-4">
-									<div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center">
-										<h4 class="fw-bold mb-0">'.$serviceData['division_name'].' <span class="badge bg-dark">Safari Date: '.date('d F Y', strtotime($saf_booking_date)).'</span></h4>
+									<div class="d-flex flex-column flex-lg-row justify-content-md-between align-items-center">
+										<h3 class="fw-bold">'.$serviceData['division_name'].'</h3><h3> <span class="badge bg-dark">Safari Date: '.date('d F Y', strtotime($saf_booking_date)).'</span></h3>
 									</div>
 									<p></p>
 									<div class="card border-0 shadow-sm">
@@ -180,8 +180,8 @@ class Safari_booking extends CI_Controller
 			}
 			else {
 				$html .= '<li class="mb-4">
-							<div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-center">
-								<h4 class="fw-bold mb-0">'.$serviceData['division_name'].' <span class="badge bg-dark">Safari Date: '.date('d F Y', strtotime($saf_booking_date)).'</span></h4>
+							<div class="d-flex flex-column flex-lg-row justify-content-md-between align-items-center">
+								<h3 class="fw-bold">'.$serviceData['division_name'].'</h3><h3> <span class="badge bg-dark">Safari Date: '.date('d F Y', strtotime($saf_booking_date)).'</span></h3>
 							</div>
 							<p></p>
 							<div class="card border-0 shadow-sm">

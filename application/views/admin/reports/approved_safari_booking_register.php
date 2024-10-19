@@ -74,8 +74,32 @@
                 <div class="app-card app-card-orders-table shadow-sm mb-5 p-3">
                     <div class="app-card-body">
 						<div class="row g-3">
-							<table width="200" border="1" style="text-align:center;">
-							  <tr>
+							<table class="table table-bordered" border="1" style="text-align:center;">
+                                <tr>
+                                    <td colspan="4" style="text-align: left; background-color: #f5f5f5; font-size:16px;">
+                                        <b style="color: #009e60;">Service Definition:</b> <?= $safariReservations[0][0]['service_definition'];?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color: #f5f5f5;"><b>Date of Visit:</b></td>
+                                    <td style="text-align: left;"><?= $safariReservations[0][0]['booking_date'] != '' ? date('d-m-Y', strtotime($safariReservations[0][0]['booking_date'])) : '';?></td>
+                                    <td style="text-align: center; background-color: #f5f5f5;"><b>Slot:</b></td>
+                                    <td style="text-align: left;"><?= $safariReservations[0][0]['slot_desc'].': '.$safariReservations[0][0]['start_time'].' - '.$safariReservations[0][0]['end_time'];?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color: #f5f5f5;"><b>Start Point:</b></td>
+                                    <td style="text-align: left;"><?= $safariReservations[0][0]['start_point'];?></td>
+                                    <td style="text-align: center; background-color: #f5f5f5;"><b>End Point:</b></td>
+                                    <td style="text-align: left;"><?= $safariReservations[0][0]['end_point'];?></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color: #f5f5f5;"><b>Reporting Place:</b></td>
+                                    <td style="text-align: left;"><?= $safariReservations[0][0]['start_point'];?></td>
+                                    <td style="text-align: center; background-color: #f5f5f5;"><b>Reporting Time:</b></td>
+                                    <td style="text-align: left;"><?= $safariReservations[0][0]['reporting_time'];?></td>
+                                </tr>
+
+							  <!-- <tr>
 								<td>Date of Visit: <?= $safariReservations[0][0]['booking_date'] != '' ? date('d-m-Y', strtotime($safariReservations[0][0]['booking_date'])) : '';?></td>
 								<td>Slot: <?= $safariReservations[0][0]['slot_desc'].': '.$safariReservations[0][0]['start_time'].' - '.$safariReservations[0][0]['end_time'];?></td>
 							  </tr>
@@ -89,7 +113,7 @@
 							  <tr>
 								<td>Reporting Place: <?= $safariReservations[0][0]['start_point'];?></td>
 								<td>Reporting Time: <?= $safariReservations[0][0]['reporting_time'];?></td>
-							  </tr>
+							  </tr> -->
 							</table>
 
 						</div>
@@ -97,7 +121,7 @@
                             <table class="table app-table-hover mb-0 text-left mt-3" id="accommodation_list_table">
                                 <thead>
                                     <tr>
-                                    	<th class="cell">PNR</th>
+                                    	<th class="cell">PNR No.</th>
                                         <th class="cell">Visitor's Name</th>
                                         <th class="cell">Nationality</th>
                                         <th class="cell">Age</th>

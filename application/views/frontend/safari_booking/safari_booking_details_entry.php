@@ -90,27 +90,27 @@
 								<div class="col-lg-3 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>Nationality <i class="req">*</i></label><br />
-										<h5><?= $safariCatData['cat_name'];?></h5>
+										<h5 class="text-dark"><?= $safariCatData['cat_name'];?></h5>
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>No of Person <i class="req">*</i></label><br />
-										<h5><?= $no_of_visitor;?></h5>
+										<h5 class="text-dark"><?= $no_of_visitor;?></h5>
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>Email <i class="req">*</i></label><br />
-										<h5><?= isset($customer_det) && $customer_det->email != '' ? $customer_det->email : ''; ?></h5>
+										<h5 class="text-dark"><?= isset($customer_det) && $customer_det->email != '' ? $customer_det->email : ''; ?></h5>
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-md-6 col-sm-12">
 									<div class="form-group">
 										<label>Mobile No.<i class="req">*</i></label><br />
-										<h5><?= isset($customer_det) && $customer_det->mobile != '' ? $customer_det->mobile : ''; ?></h5>
+										<h5 class="text-dark"><?= isset($customer_det) && $customer_det->mobile != '' ? $customer_det->mobile : ''; ?></h5>
 									</div>
 								</div>
 							</div>
@@ -160,7 +160,7 @@
 													if($safariCatData['safari_cat_id'] == 1){//Indian
 													?>
 														<select class="form-select form-select-sm" name="visitor_id_type[]" required>
-															<option value="">Select Card Type</option>
+															<option value="">Select ID Type</option>
 															<option value="Voter ID" <?= set_select('visitor_id_type['.$i.']', 'Voter ID'); ?>>Voter ID</option>
 															<option value="Aadhar Card" <?= set_select('visitor_id_type['.$i.']', 'Aadhar Card'); ?>>Aadhar Card</option>																
 															<option value="Passport" <?= set_select('visitor_id_type['.$i.']', 'Passport'); ?>>Passport</option>
@@ -199,7 +199,7 @@
 										<table class="table table-sm align-middle mb-0 text-center">
 											<thead>
 												<tr class="table-light">
-													<th class="light-grn-bg">Rate per Person</th>
+													<th class="light-grn-bg">Rate per Person (Rs.)</th>
 													<th class="light-grn-bg">Total Visitor</th>
 													<th class="light-grn-bg">Price (Rs.)</th>
 													<th class="light-grn-bg">GST</th>

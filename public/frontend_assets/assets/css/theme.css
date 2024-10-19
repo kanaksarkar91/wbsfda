@@ -176,13 +176,23 @@ header .btn-yellow {
 } */
 
 .banner_sec h1 {
-    font-size: 48px;
+    /*  font-size: 48px; */
     color: var(--white-sfd);
     font-weight: 400;
     font-family: "DM Serif Display", serif;
     margin: 0 0 15px 0;
     text-align: center;
     text-shadow: 2px 2px 10px #004a19;
+}
+
+.banner_sec h1 .title1 {
+    font-size: 68px;
+    letter-spacing: 4px;
+}
+
+.banner_sec h1 .title2 {
+    font-size: 76px;
+    letter-spacing: 4px;
 }
 
 .banner_sec h2 {
@@ -1820,25 +1830,61 @@ ul.booking-detail-list li span {
 }
 
 .wbsfda_tab.nav-pills {
-    background-color: var(--light-gray);
+    background-color: none;
     margin-top: 8px;
-    padding: 0 4px;
-    border-radius: 6px;
+    padding: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #dee2e6;
 }
 
+.wbsfda_tab.nav-pills .nav-link {
+    background-color: rgba(var(--black-rgb-sfd), .3);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: rgba(var(--black-rgb-sfd), .66) 0px solid;
+    border: var(--bs-nav-tabs-border-width) solid transparent;
+    border-radius: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 12px 22px;
+    color: var(--white-sfd);
+    font-size: 15px;
+}
+
+
+/* 
+.banner_sec .tab_area .nav-tabs .nav-link img {
+    margin-right: 8px;
+} */
+
+.wbsfda_tab.nav-pills .nav-link:focus,
+.wbsfda_tab.nav-pills .nav-link:hover {
+    color: var(--white-sfd);
+    background-color: var(--main-green-sfd);
+    border-color: var(--main-green-sfd);
+}
+
+.wbsfda_tab.nav-pills .nav-link.active,
+.wbsfda_tab.nav-pills .show>.nav-link {
+    color: var(--white-sfd);
+    background-color: var(--main-green-sfd);
+    border-color: var(--main-green-sfd);
+}
+
+
+/* 
 .wbsfda_tab.nav-pills .nav-link {
     color: var(--dark-gray-sfd);
     background-color: #FFF;
     border: 1px solid var(--main-green-sfd);
     margin: 8px 5px;
-    /* border-radius: 8px 8px 0 0; */
 }
 
 .wbsfda_tab.nav-pills .nav-link.active,
 .wbsfda_tab.nav-pills .show>.nav-link {
     background-color: var(--main-green-sfd);
     color: #fff;
-}
+} */
 
 .light-grn-bg {
     background: #D6F0DF!important;
@@ -1934,6 +1980,39 @@ a.dropdown-item:active {
 
 
 /* @media (min-width:1200px){.container{max-width:1170px}} */
+
+@media only screen and (min-width:768px) and (max-width:991px) {
+    .banner_sec h1 .title1 {
+        font-size: 54px;
+        letter-spacing: 4px;
+    }
+    .banner_sec h1 .title2 {
+        font-size: 62px;
+        letter-spacing: 4px;
+    }
+}
+
+@media (max-width:767px) {
+    .banner_sec h1 .title1 {
+        font-size: 42px;
+        letter-spacing: 2px;
+    }
+    .banner_sec h1 .title2 {
+        font-size: 48px;
+        letter-spacing: 2px;
+    }
+}
+
+@media (max-width:575px) {
+    .banner_sec h1 .title1 {
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+    .banner_sec h1 .title2 {
+        font-size: 36px;
+        letter-spacing: 2px;
+    }
+}
 
 
 /********************************************************

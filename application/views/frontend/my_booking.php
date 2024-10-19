@@ -50,14 +50,14 @@
 
 					<ul class="nav nav-pills mb-3 wbsfda_tab" id="pills-tab" role="tablist">
 						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="pills-ght-tab" data-bs-toggle="pill" data-bs-target="#pills-ght" type="button" role="tab" aria-controls="pills-ght" aria-selected="true">Guest House</button>
+							<button class="nav-link active" id="pills-ght-tab" data-bs-toggle="pill" data-bs-target="#pills-ght" type="button" role="tab" aria-controls="pills-ght" aria-selected="true"><i class="fas fa-hotel me-2"></i> Guest House</button>
 						</li>
 						<?php
 						if(!empty($safariTypes)){
 							foreach($safariTypes as $key => $row){
 						?>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link serviceType" id="pills-tab<?= $row['safari_type_id'];?>" data-bs-toggle="pill" data-bs-target="#pills-<?= $row['safari_type_id'];?>" type="button" role="tab" aria-controls="pills-<?= $row['safari_type_id'];?>" aria-selected="false" data-typeid="<?= $row['safari_type_id'];?>"><?= $row['type_name'];?></button>
+							<button class="nav-link serviceType" id="pills-tab<?= $row['safari_type_id'];?>" data-bs-toggle="pill" data-bs-target="#pills-<?= $row['safari_type_id'];?>" type="button" role="tab" aria-controls="pills-<?= $row['safari_type_id'];?>" aria-selected="false" data-typeid="<?= $row['safari_type_id'];?>"><i class="<?= $row['safari_type_id'] == 1 ? 'fas fa-truck-pickup me-2' : 'fas fa-republican me-2';?>"></i> <?= $row['type_name'];?></button>
 						</li>
 						<?php } } ?>
 						<!--<li class="nav-item" role="presentation">

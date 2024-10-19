@@ -1,6 +1,6 @@
 <section class="banner_sec p-0">
     <div class="container-xxl facilitySec">
-        <h1>BOOK OUR FACILITIES <br> EXPLORE THE WILD</h1>
+        <h1><span class="title1">BOOK OUR FACILITIES</span> <br> <span class="title2">EXPLORE THE WILD</span></h1>
         <!-- <h2></h2> -->
         <div class="tab_area rounded-4">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
