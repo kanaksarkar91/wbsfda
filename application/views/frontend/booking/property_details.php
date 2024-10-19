@@ -160,15 +160,15 @@
                         <div class="ameneties_area mt-5">
                             <h4>Ameneties:</h4>
                             <hr>
-                            <ul class="ameneties_list">
+                            <ul class="ameneties_list row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2">
                                 <?php
                                 if (isset($facilities))
                                     foreach ($facilities as $f) {
                                 ?>
                                     <li>
                                         <a href="">
-                                            <div class="ameneties_list_ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/children-park-ico.png" alt=""></div>
-                                            <?= $f['facility_name']; ?>
+                                            <!-- <div class="ameneties_list_ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/children-park-ico.png" alt=""></div> -->
+                                            <i class="bi bi-check-circle-fill text-green"></i> <?= $f['facility_name']; ?>
                                         </a>
                                     </li>
                                 <?php } ?>
