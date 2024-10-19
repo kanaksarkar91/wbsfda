@@ -13,7 +13,32 @@
             size: A4;
             margin: 0cm;
         }
+		
+		.btn-print {
+            background: #1c93b7;
+            color: #fff;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            border: #1c93b7 2px solid;
+            padding: 11px 25px;
+            font-size: 14px;
+            font-weight: 400;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition-duration: 0.5s;
+            -webkit-transition-duration: 0.5s;
+            display: inline-block;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
     </style>
+	<link rel="stylesheet" type="text/css" href="<?= base_url(); ?>public/frontend_assets/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo base_url('public/admin_assets/css/sweetalert2.min.css'); ?>">
+	
+	<script src="<?= base_url('public/frontend_assets/js/jquery.min.js'); ?>"></script>
+	<script src="<?php echo base_url(); ?>public/admin_assets/js/sweetalert2.min.js"></script>
 </head>
 
 <body role="document">
@@ -34,9 +59,9 @@
                             <h3 style="margin-top:5px; font-size:18px;margin-bottom: 0px;line-height:1;font-weight:600;"><?= COM_NAME;?></h3>
                             <h3 style="margin-top:5px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</h3>
                             <h3 style="margin-top:0px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Reservation Slip for Car safari / Elephant Ride</h3>
-                            <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">PRN No.: <?= $sBooking[0]['booking_number'];?></p>
+                            <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">PNR No.: <?= $sBooking[0]['booking_number'];?></p>
                             <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">Contact No.: 9734190119</p>
-                            <p style="font-size:12px;">Kindly Note down the PNR NO for future reference</p>
+                            <p style="font-size:12px;">Kindly Note down the PNR No for future reference</p>
                         </td>
                         <td width="15%" style="text-align: left; padding:10px;">
                             <img src="<?= base_url('public/frontend_assets/assets/img/forest-1.jpg');?>" width="84" height="108" alt="..." style="margin-top:10px;" />
@@ -45,6 +70,57 @@
                 </table>
             </td>
         </tr>
+		
+		<?php
+		if($_GET['type'] == 'cancel'){
+			if(!$this->admin_session_data['user_id']){
+		?>
+			<tr>
+				<td>
+					<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 10 auto; font-family: Verdana, Geneva, Tahoma, sans-serif;border:#9e9e9e 1px solid; padding: 5px;text-align: center;">
+					<tr>
+							<input type="hidden" id="booking_id" name="booking_id" value="<?= encode_url($sBooking[0]['booking_id']);?>">
+							<?php 
+							if($sBooking[0]['booking_status'] == 'A' && $calcelButtonVisible){
+								if($sBooking[0]['source'] == 'F'){
+							?>
+								<td style="padding: 2px;">
+								<h4>Cancellation Information</h4><br>
+								<h6>Cancellation Charge (Rs.) : <?= formatIndianCurrency($cancel_charge);?></h6>
+								<h6>Refund Amount (Rs.) : <?= formatIndianCurrency($refund_amt);?></h6>
+								<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="4" cols="50" style="width:80%; margin-left:150px;"></textarea><br>
+								<input type="hidden" id="paid_amount" name="paid_amount" value="<?=$sBooking[0]['base_price']?>">
+								<input type="hidden" id="cancel_percent" name="cancel_percent" value="<?=$cancel_percent?>">
+								<input type="hidden" id="cancel_charge" name="cancel_charge" value="<?=$cancel_charge?>">
+								<input type="hidden" id="refund_amt" name="refund_amt" value="<?=$refund_amt?>">
+								
+								
+								<input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;margin-top:10px; margin-right:10px;" value="Cancel Safari" class="btn btn-sm btn-danger">  
+								</td>
+							<?php 
+								}
+							}
+							?>
+							<?php if($sBooking[0]['booking_status'] == 'C' && isset($sBooking[0]['cancellation_remarks'])){ ?>
+								<td style="padding: 10px;">
+									<h4>Cancellation Information</h4><br>
+									<h6>Cancellation Percentage : <?= $cancellation_request_details['cancel_percent'] ?></h6>
+									<h6>Cancellation Charge (Rs.) : <?= $cancellation_request_details['cancel_charge'] ?></h6>
+									<h6>Refund Amount (Rs.) : <?= $cancellation_request_details['refund_amt'] ?></h6>
+									<h6>Refund Status : <?= ($cancellation_request_details['is_refunded'] == '1') ? 'Refunded' :'Refund Initiated'?></h6>
+									
+									<textarea type="text" class="form-control" placeholder="Cancellation Reason" rows="4" cols="50" disabled><?=$sBooking[0]['cancellation_remarks']?></textarea>
+								</td>
+							<?php } ?> 
+				
+						</tr>
+					</table>
+				</td>
+			</tr>
+		<?php
+			}
+		}
+		?>
 
         <tr>
             <td>
@@ -141,6 +217,30 @@
                 </table>
             </td>
         </tr>
+		<tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:left;margin-top: 3px;">
+                    <tr>
+                        <th colspan="6" style="padding: 10px 3px; border-bottom: #9e9e9e 1px solid;"><b>Total Amount Payable (in words):</b> <span><?= getIndianCurrencyNumberToWord($sBookingPayment['amount']);?></span></th>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <th rowspan="2" style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Payment Information</th>
+                        <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Mode</th>
+                        <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Processed / Taken by</th>
+                        <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Payment ID</th>
+                        <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Date & Time</th>
+                        <th style="background-color: #f5f5f5; padding: 6px 3px;">Amount Paid</th>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="border-right: #9e9e9e 1px solid; border-top: #9e9e9e 1px solid; padding: 6px 3px;">Online</td>
+                        <td style="border-right: #9e9e9e 1px solid; border-top: #9e9e9e 1px solid; padding: 6px 3px;">Internet Payment Gateway</td>
+                        <td style="border-right: #9e9e9e 1px solid; border-top: #9e9e9e 1px solid; padding: 6px 3px;"><?= $sBookingPayment['razorpay_payment_id'];?></td>
+                        <td style="border-right: #9e9e9e 1px solid; border-top: #9e9e9e 1px solid; padding: 6px 3px;"><?= formatIndianCurrency($sBookingPayment['amount']);?></td>
+                        <td style="border-top: #9e9e9e 1px solid; padding: 6px 3px;"><?= date('d-m-Y H:i', strtotime($sBookingPayment['payment_date']));?></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
@@ -172,6 +272,9 @@
                         </td>
                     </tr>
                 </table>
+				<?php
+				if($_GET['type'] != 'cancel'){
+				?>
                 <table cellpadding="10" cellspacing="0" style="width:100%; border: #9e9e9e 1px solid; font-size: 11px;">
                     <thead>
                         <tr>
@@ -242,7 +345,7 @@
                         </tr>
                     </tbody>
                 </table>
-
+				<?php } ?>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
                     <tr>
                         <td width="100%" style="text-align: left; font-size: 11px; padding: 6px 3px;">
@@ -261,6 +364,53 @@
                         </td>
                     </tr>
                 </table>
+				
+				<?php
+				if($_GET['type'] != 'cancel'){
+					if(!$this->admin_session_data['user_id']){
+				?>
+					<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 10 auto; font-family: Verdana, Geneva, Tahoma, sans-serif;border:#9e9e9e 1px solid; padding: 5px;text-align: center;">
+					<tr>
+							<input type="hidden" id="booking_id" name="booking_id" value="<?= encode_url($sBooking[0]['booking_id']);?>">
+							<?php 
+							if($sBooking[0]['booking_status'] == 'A' && $calcelButtonVisible){
+								if($sBooking[0]['source'] == 'F'){
+							?>
+								<td style="padding: 2px;">
+								<h4>Cancellation Information</h4><br>
+								<h6>Cancellation Charge (Rs.) : <?= formatIndianCurrency($cancel_charge);?></h6>
+								<h6>Refund Amount (Rs.) : <?= formatIndianCurrency($refund_amt);?></h6>
+								<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="4" cols="50" style="width:80%; margin-left:150px;"></textarea><br>
+								<input type="hidden" id="paid_amount" name="paid_amount" value="<?=$sBooking[0]['base_price']?>">
+								<input type="hidden" id="cancel_percent" name="cancel_percent" value="<?=$cancel_percent?>">
+								<input type="hidden" id="cancel_charge" name="cancel_charge" value="<?=$cancel_charge?>">
+								<input type="hidden" id="refund_amt" name="refund_amt" value="<?=$refund_amt?>">
+								
+								
+								<input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;margin-top:10px; margin-right:10px;" value="Cancel Safari" class="btn btn-sm btn-danger">  
+								</td>
+							<?php 
+								}
+							}
+							?>
+							<?php if($sBooking[0]['booking_status'] == 'C' && isset($sBooking[0]['cancellation_remarks'])){ ?>
+								<td style="padding: 10px;">
+									<h4>Cancellation Information</h4><br>
+									<h6>Cancellation Percentage : <?= $cancellation_request_details['cancel_percent'] ?></h6>
+									<h6>Cancellation Charge (Rs.) : <?= $cancellation_request_details['cancel_charge'] ?></h6>
+									<h6>Refund Amount (Rs.) : <?= $cancellation_request_details['refund_amt'] ?></h6>
+									<h6>Refund Status : <?= ($cancellation_request_details['is_refunded'] == '1') ? 'Refunded' :'Refund Initiated'?></h6>
+									
+									<textarea type="text" class="form-control" placeholder="Cancellation Reason" rows="4" cols="50" disabled><?=$sBooking[0]['cancellation_remarks']?></textarea>
+								</td>
+							<?php } ?> 
+				
+						</tr>
+					</table>
+				<?php
+					}
+				}
+				?>
 
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
                     <tr>
@@ -275,6 +425,91 @@
             </td>
         </tr>
     </table>
+
+<script>
+function printpart() {
+   $('#print_button').hide();
+   var printwin = window.open("");
+   printwin.document.write(document.getElementById("printArea").innerHTML);
+   printwin.stop();
+   printwin.print();
+   printwin.close();
+}
+
+$(document).on('click', "#cancel_booking_btn", function() {
+    var booking_id = $("#booking_id").val();
+    var cancel_remarks = $("#cancel_remarks").val();
+    var paid_amount = $("#paid_amount").val();
+    var cancel_percent = $("#cancel_percent").val();
+    var cancel_charge = $("#cancel_charge").val();
+    var refund_amt = $("#refund_amt").val();
+
+    if (!cancel_remarks) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Please enter cancellation reason!!',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#69da68',
+            allowOutsideClick: false,
+        });
+        return false;
+    }
+
+    // Confirmation before making the AJAX call
+    Swal.fire({
+        title: 'Are you sure you want to cancel the safari?',
+        text: "This action cannot be undone.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText: 'No, keep it',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            
+			$("#cancel_booking_btn").prop('disabled',true);
+			$("#cancel_booking_btn").val('Processing...');
+			// User confirmed, proceed with the AJAX call
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('cancel-safari-booking'); ?>',
+                data: {
+                    csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
+					booking_id: booking_id,
+					cancel_remarks : cancel_remarks,
+					paid_amount : paid_amount,
+					cancel_percent : cancel_percent,
+					cancel_charge : cancel_charge,
+					refund_amt : refund_amt,
+                },
+                dataType: 'json',
+                encode: true,
+                async: false
+            })
+            .done(function(response) {
+                if (response.status) {
+                    $("#cancel_booking_btn").prop('disabled',false);
+					$("#cancel_booking_btn").val('Cancel Booking');
+                } else {
+                    $("#cancel_booking_btn").prop('disabled',false);
+					$("#cancel_booking_btn").val('Cancel Booking');
+					
+					Swal.fire({
+                        icon: 'error',
+                        title: response.msg,
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#69da68',
+                        allowOutsideClick: false,
+                    });
+                }
+            });
+        }
+    });
+});
+</script>
+
 </body>
 
 </html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/favicon.png">
+    <title>WBSFDA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+
+    <!-- for Gallery-->
+    <link href="assets/css/simplelightbox.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/demo.css" rel="stylesheet" type="text/css">
+    <!-- / for Gallery-->
+
+    <link rel="stylesheet" type="text/css" href="assets/css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/owl.theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/stellarnav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+
+
+</head>
+
+<body role="document">
+    <!-- Navbar Start -->
+    <header>
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+
+                <a href="index.html" class="logo_area"><img src="assets/img/logo.png" alt=""></a>
+
+                <div class="stellarnav">
+                    <ul>
+                        <li class="active"><a href="">Home</a></li>
+                        <li><a href="">Destination</a>
+                            <ul>
+                                <li><a href="">Sub menu</a></li>
+                                <li><a href="">Sub menu</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="">Book Safari</a>
+                            <ul>
+                                <li><a href="">Sub menu</a></li>
+                                <li><a href="">Sub menu</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="">What’s New</a></li>
+                        <li><a href="">Important Information</a></li>
+                        <li class="drop-left"><a href="">Dos & Don’ts</a> </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="gray">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="dashboard-navbar dashboard-left-content">
+
+                        <div class="d-user-avater">
+                            <img src="https://wbsfdc.devserv.in/public/frontend_assets/images/user-icon.jpg" class="img-fluid avater" alt="">
+                            <h5 class="fw-bold thm-txt mt-3">Sourabh Hazari </h5>
+                            <span></span>
+                        </div>
+
+                        <div class="d-navigation">
+                            <ul class="dashboard-list">
+                                <li class="list"><a href="my-profile.html"><i class="bi bi-person-fill"></i> My Profile</a></li>
+                                <li class="list active"><a href="my-booking.html"><i class="bi bi-clipboard2-check-fill"></i> My Booking</a></li>
+                                <li class="list"><a href="index.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="dashboard-wraper single-reservation bg-white base-padding">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="fw-normal thm-txt">Booking List</h4>
+                            <div>
+                                <select id="booking-type" name="booking_type" class="form-select">
+									<option value="ALL" selected="selected">All Booking</option>
+									<option value="UPCOMING">Upcoming Booking</option>
+									<option value="PAST">Past Booking</option>
+								</select>
+                            </div>
+                        </div>
+
+                        <ul class="nav nav-pills mb-3 wbsfda_tab" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-ght-tab" data-bs-toggle="pill" data-bs-target="#pills-ght" type="button" role="tab" aria-controls="pills-ght" aria-selected="true">Guest House</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-cst-tab" data-bs-toggle="pill" data-bs-target="#pills-cst" type="button" role="tab" aria-controls="pills-cst" aria-selected="false">Car Safari</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-est-tab" data-bs-toggle="pill" data-bs-target="#pills-est" type="button" role="tab" aria-controls="pills-est" aria-selected="false">Elephant Safari</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-ght" role="tabpanel" aria-labelledby="pills-ght-tab" tabindex="0">
+                                <!--Guest House Tab-->
+                                <div class="dashboard-gravity-list mt-3">
+                                    <ul class="p-0">
+                                        <li class="pending-booking mb-3">
+                                            <div class="list-box-listing bookings">
+                                                <div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div>
+                                                <div class="list-box-listing-content">
+                                                    <div class="inner">
+                                                        <h3>Amrapali Guest House Complex <span class="booking-status pending">Approved</span>
+                                                        </h3>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span><span>AB20230929518165</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking Date:</span><span>30-09-2023 to 01-10-2023</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Price:</span><span>₹ 3136.00</span>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="pending-booking mb-3">
+                                            <div class="list-box-listing bookings">
+                                                <div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div>
+                                                <div class="list-box-listing-content">
+                                                    <div class="inner">
+                                                        <h3>Amrapali Guest House Complex <span class="booking-status pending">Approved</span>
+                                                        </h3>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span>
+                                                            <span>AB20231031278835</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking Date:</span>
+                                                            <span>01-11-2023 to 02-11-2023</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Price:</span>
+                                                            <span>₹ 896.00</span>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--// Guest House Tab-->
+                            </div>
+                            <div class="tab-pane fade" id="pills-cst" role="tabpanel" aria-labelledby="pills-cst-tab" tabindex="0">
+                                <!--Car Safari Tab-->
+                                <div class="dashboard-gravity-list mt-3">
+                                    <ul class="p-0">
+                                        <li class="pending-booking mb-3">
+                                            <div class="list-box-listing bookings">
+                                                <div class="list-box-listing-img"><img src="assets/img/book_safari_img1.png" alt=""></div>
+                                                <div class="list-box-listing-content">
+                                                    <div class="inner">
+                                                        <h3>Chilapata Car Safari <span class="booking-status pending">Approved</span></h3>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span><span>AB218165</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Safari Date:</span><span>30-10-2024</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Slot Time:</span><span>7:00 am - 8:30 am</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Reporting Time:</span><span>8:00 PM of previous day</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Reporting Place:</span><span>Jaldapara East Range office</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">No. of Visitor:</span><span>4</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Price:</span><span>₹ 4800.00</span>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--// Car Safari Tab-->
+                            </div>
+                            <div class="tab-pane fade" id="pills-est" role="tabpanel" aria-labelledby="pills-est-tab" tabindex="0">
+                                <!--Elephant Safari Tab-->
+                                <div class="dashboard-gravity-list mt-3">
+                                    <ul class="p-0">
+                                        <li class="pending-booking mb-3">
+                                            <div class="list-box-listing bookings">
+                                                <div class="list-box-listing-img"><img src="assets/img/book_safari_img.png" alt=""></div>
+                                                <div class="list-box-listing-content">
+                                                    <div class="inner">
+                                                        <h3>Hollong Elephant Safari <span class="booking-status pending">Approved</span></h3>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span><span>AB218165</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Safari Date:</span><span>30-10-2024</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Slot Time:</span><span>7:00 am - 8:30 am</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Reporting Time:</span><span>8:00 PM of previous day</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Reporting Place:</span><span>Jaldapara East Range office</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">No. of Visitor:</span><span>4</span>
+                                                        </div>
+                                                        <div class="inner-booking-list d-flex">
+                                                            <span class="thm-txt fw-normal me-3">Price:</span><span>₹ 4800.00</span>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--// Elephant Safari Tab-->
+                            </div>
+                        </div>
+
+
+
+                        <div id="guest-house" class="tab-content-item active">
+
+                        </div>
+
+                        <div id="hall-venue" class="tab-content-item">
+                            <div class="dashboard-gravity-list mt-3">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="big_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="" class="footer_logo"><img src="assets/img/logo.png" alt=""></a>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <h4>Quick Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Home </a></li>
+                            <li><a href="">About Us </a></li>
+                            <li><a href="">Gallery </a></li>
+                            <li><a href="">Holiday Calender </a></li>
+                            <li><a href="">Disclaimer </a></li>
+                            <li><a href="">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h4>Related Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Wild Bengal  </a></li>
+                            <li><a href="">West Bengal Forest Development Corporation  </a></li>
+                            <li><a href="">West Bengal Pulpwood Development Corporation  </a></li>
+                            <li><a href="">West Bengal Zoo Authority  </a></li>
+                            <li><a href="">West Bengal Forest and Biodiversity Conservation Project  </a></li>
+                            <li><a href="">West Bengal Wasteland Development Corporation </a></li>
+                            <li><a href="">West Bengal State Forest Development Agency </a></li>
+                            <li><a href="">Bengal Nature Trails</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 Contact_list">
+                        <h4>Contact Us</h4>
+                        <p class="map-ico"><img src="assets/img/map_ico.png" alt="">Aranya Bhavan,BLock LA-10A, Sector- III, Salt Lake, Kolkata, West Bengal 700106</p>
+                        <p><img src="assets/img/ph_ico.png" alt=""> <a href="tel:+918337066882">+91 8337066882</a></p>
+                        <p><img src="assets/img/mail_ico.png" alt=""> <a href="mailto:wbsfdaecotourism@gmail.com">wbsfdaecotourism@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy_footer">
+            <div class="container">
+                <div class="col-md-12">
+                    <hr class="mb-0">
+                    <p>© Copyright 2024 All Rights Reserved by <a href="">WBSFDA</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--View Terms Modal -->
+    <div class="modal fade" id="viewTerms" tabindex="-1" aria-labelledby="viewTermsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="viewTermsModalLabel">Cancellation Policy, Refund Policy and Terms & Conditions</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Content will be added soon.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="assets/js/jquery-3.4.1.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- For Gallery-->
+    <script type="text/javascript" src="assets/js/simple-lightbox.js"></script>
+    <!-- / For Gallery-->
+
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/jquery4a5f.js"></script>
+    <script src="assets/js/owl.carousel.js"></script>
+    <script src="assets/js/stellarnav.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/wow.js"></script>
+
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            jQuery('.stellarnav').stellarNav({
+                //theme: 'dark',
+                breakpoint: 767,
+                position: 'right',
+                //phoneBtn: '18009997788',
+                //locationBtn: 'https://www.google.com/maps'
+            });
+        });
+    </script>
+    <script>
+        wow = new WOW({
+            animateClass: 'animated',
+            offset: 100,
+            mobile: false,
+        });
+        wow.init();
+    </script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+            $("#datepicker1").datepicker();
+        });
+    </script>
+    <script>
+        $(function() {
+            var $gallery = $('.gallery a').simpleLightbox();
+
+            $gallery.on('show.simplelightbox', function() {
+                    console.log('Requested for showing');
+                })
+                .on('shown.simplelightbox', function() {
+                    console.log('Shown');
+                })
+                .on('close.simplelightbox', function() {
+                    console.log('Requested for closing');
+                })
+                .on('closed.simplelightbox', function() {
+                    console.log('Closed');
+                })
+                .on('change.simplelightbox', function() {
+                    console.log('Requested for change');
+                })
+                .on('next.simplelightbox', function() {
+                    console.log('Requested for next');
+                })
+                .on('prev.simplelightbox', function() {
+                    console.log('Requested for prev');
+                })
+                .on('nextImageLoaded.simplelightbox', function() {
+                    console.log('Next image loaded');
+                })
+                .on('prevImageLoaded.simplelightbox', function() {
+                    console.log('Prev image loaded');
+                })
+                .on('changed.simplelightbox', function() {
+                    console.log('Image changed');
+                })
+                .on('nextDone.simplelightbox', function() {
+                    console.log('Image changed to next');
+                })
+                .on('prevDone.simplelightbox', function() {
+                    console.log('Image changed to prev');
+                })
+                .on('error.simplelightbox', function(e) {
+                    console.log('No image found, go to the next/prev');
+                    console.log(e);
+                });
+        });
+    </script>
+    <script type='text/javascript'>
+        jQuery(document).ready(function(e) {
+            var n;
+            e(".numbercount").counterUp({
+                delay: 10,
+                time: 1e3
+            })
+        });
+        // jQuery(document).ready(function () {
+
+        // 	jQuery(".numbercount").after('<h2 style="margin: 0px;display: inline-block;color: white;"><sup>+</sup></h2>');
+        // });
+    </script>
+</body>
+
+</html>

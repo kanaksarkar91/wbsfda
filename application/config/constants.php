@@ -110,3 +110,4 @@ define('COM_WEBSITE','www.wbsfda.org');
 define('RAZORPAY_KEY', 'rzp_test_GLVplNVgSmDOes');
 define('RAZORPAY_KEY_SECRET', 'x3OKFMCdQbydwKyMDoP3Kum0');
 define('RAZORPAY_CHECKOUT_URL', 'https://api.razorpay.com/v1/checkout/embedded');
+define('RAZORPAY_REFUND_URL', 'https://api.razorpay.com/v1/payments/');

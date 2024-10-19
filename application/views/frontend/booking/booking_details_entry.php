@@ -276,8 +276,8 @@
                                             Total Length of Stay:
                                             <span class="w-100"><?= $no_nights; ?> Night <?= $no_nights + 1; ?> Days</span>
                                         </li>
-                                        <li>Adults:<span><?= $adultCount; ?></span></li>
-                                        <li>Children:<span><?= $childCount; ?></span></li>
+                                        <li>Adults:<span><?= '2'; ?></span></li>
+                                        <li>Children:<span><?= '1'; ?></span></li>
                                         <li>Price (Rs.): <span class="h6">₹<?= isset($amounts['total_amount']) && $amounts['total_amount'] != '' ? number_format(floatval($amounts['total_amount'] + $amounts['total_extra_bed_price']), 2, '.', ',') : ''; ?></span></li>
                                         <li>GST: <span class="h6">₹<?= isset($amounts['gst_amount']) && $amounts['gst_amount'] != '' ? number_format(floatval($amounts['gst_amount']), 2, '.', ',') : '0.00'; ?></span></li>
                                         <li class="totalprice">Total Payment (Rs.) <span class="h5">₹<?= isset($amounts['grand_total']) && $amounts['grand_total'] != '' ? number_format(floatval($amounts['grand_total']), 2, '.', ',') : ''; ?></span></li>

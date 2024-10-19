@@ -104,8 +104,8 @@
 
     }
 
-    function getCancellationRequestDetails($booking_id){
-        $sql = "SELECT * FROM cancel_request_tbl WHERE booking_id=".$booking_id." LIMIT 1";
+    function getCancellationRequestDetails($booking_id, $cancel_source){
+        $sql = "SELECT * FROM cancel_request_tbl WHERE booking_id=".$booking_id." AND cancel_source = '".$cancel_source."' LIMIT 1";
         //echo $sql;die;
         $query = $this->db->query($sql);
         $result = $query->row_array();
@@ -137,7 +137,7 @@
 	}
 	
 	function getSafariBookingDetailsByUser($condn) {
-		$this->db->select('a.*, c.type_name, d.division_name, e.service_definition, e.start_point, e.end_point, e.reporting_place, s.slot_desc, s.start_time, s.end_time, s.reporting_time, p.showing_desc, f.cat_name, cu.first_name, cu.email, cu.mobile');
+		$this->db->select('a.*, c.type_name, d.division_name, e.service_definition, e.start_point, e.end_point, e.reporting_place, s.slot_desc, s.start_time, s.end_time, s.reporting_time, s.ticket_sale_closing_flag, s.ticket_sale_closing_time, p.showing_desc, f.cat_name, cu.first_name, cu.email, cu.mobile');
 		$this->db->from('safari_booking_header a');
 		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT');
 		$this->db->join('division_master d', 'a.division_id = d.division_id', 'LEFT');

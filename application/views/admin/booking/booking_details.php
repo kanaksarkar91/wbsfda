@@ -63,7 +63,7 @@ color:#CC0000 !important;
                                         <th>Booking Status</th>
                                         <td><span class="text-success"><?=(isset($booking_details[0]['booking_status'])?(($booking_details[0]['booking_status'] =='I')?'Initiated':(($booking_details[0]['booking_status'] =='C')?'Cancelled':(($booking_details[0]['booking_status'] =='A')?'Approved':(($booking_details[0]['booking_status'] =='F')?'Payment Failed':($booking_details[0]['booking_status'] =='O' ? 'Check-Out' : '')))   )):'')?></span></td>
                                         <th>Adults/Child</th>
-                                        <td><?= $booking_details[0]['adults'] . '/' . $booking_details[0]['children'] ?></td>
+                                        <td><?= '2 / 1' ?></td>
                                     </tr>
 									
 									<?php
@@ -126,58 +126,15 @@ color:#CC0000 !important;
                                     <?php } } ?>
                                 </table>
 								
-								<?php
-								if(!empty($pos_details)){
-								?>
-								
-									<table class="mb-3 w-100 table-sm table table-bordered">
-										<tr>
-											<th>Sl. No.</th>
-											<th>Particulars</th>
-											<th>Date & Time</th>
-											<th>Invoice No.</th>
-											<th>Net Amount</th>
-										</tr>
-										<?php 
-										foreach($pos_details as $pos_key => $pos_detail){
-										?>
-										<tr>
-											<td><?=($pos_key + 1)?></td>
-											<td><?=$pos_detail['cost_center_name']?></td>
-											<td><?=date('d-m-Y H:i',strtotime($pos_detail['order_generate_time']))?></td>
-											<td>
-											<a href="<?= base_url();?>admin/pos/pos_invoice/<?= $pos_detail['sale_order_id'];?>?type=view" style="text-decoration:underline; font-weight:700;" target="_blank">
-												<?= $pos_detail['invoice_no'];?>
-											</a>
-											</td>
-											<td style="text-align:right;">
-												
-												<?php
-												$_pos_amount = round($pos_detail['net_bill_amount']);
-												echo number_format($_pos_amount,2);
-												$pos_net_amt += $_pos_amount;
-												?>
-												
-											</td>
-										</tr>
-										<?php 
-										} 
-										?>
-									</table>
-								
-								<?php
-								}
-								?>
-
                                 <?php 
 								//if(empty($booking_payment_details)){
 									if($booking_details[0]['booking_status'] != 'C'){
 								?>
-                                    <div class="text-center mb-3">
+                                    <!--<div class="text-center mb-3">
                                         <button class="btn app-btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMakePayment" aria-expanded="false" aria-controls="collapseMakePayment">
                                             Make Payment
                                         </button>
-                                    </div> 
+                                    </div>--> 
                                 <?php
 									}
 								 //} 
@@ -215,7 +172,7 @@ color:#CC0000 !important;
                                             <td width="12%">
 											<?php
 											foreach($booking_payment_details as $payment_key => $booking_payment_detail){
-                                                if(strtolower($booking_payment_detail['status']) =='success' || strtolower($booking_payment_detail['status']) =='SUCCESSFUL'){
+                                                if(strtolower($booking_payment_detail['status']) =='Captured' || strtolower($booking_payment_detail['status']) =='SUCCESSFUL'){
                                                     $total_payment_amount +=$booking_payment_detail['amount'];
                                                 }
 											}
@@ -258,7 +215,7 @@ color:#CC0000 !important;
                                         if(!empty($booking_payment_details)){
                                             foreach($booking_payment_details as $payment_key => $booking_payment_detail){
 
-                                                if(strtolower($booking_payment_detail['status']) =='success' || strtolower($booking_payment_detail['status']) =='SUCCESSFUL'){
+                                                if($booking_payment_detail['status'] == 'Captured' || strtolower($booking_payment_detail['status']) =='SUCCESSFUL'){
                                                     $total_payment_amount +=$booking_payment_detail['amount'];
                                                 }
                                     ?>
@@ -346,7 +303,7 @@ color:#CC0000 !important;
 								<?php
                                     if(isset($booking_details[0]['booking_status']) && !empty($booking_payment_details)){
                                         
-										if(($booking_payment_detail['status'] == 'Success' || $booking_payment_detail['status'] == 'SUCCESS') && ($booking_details[0]['booking_status'] =='I' || ($booking_details[0]['booking_status'] =='A' &&  strtotime(date('Y-m-d')) <= strtotime($booking_details[0]['check_in']))) && $booking_details[0]['allotment_status'] =='B'){
+										if(($booking_payment_detail['status'] == 'Captured') && ($booking_details[0]['booking_status'] =='I' || ($booking_details[0]['booking_status'] =='A' &&  strtotime(date('Y-m-d')) <= strtotime($booking_details[0]['check_in']))) && $booking_details[0]['allotment_status'] =='B'){
                                             echo '<button class="btn btn-warning" id="btn_booking_cancel" data-toggle="modal" data-target="bookingCancelModal">Cancel Booking</button>';
                                         }
                                     }

@@ -984,7 +984,7 @@ tbody#list_tbl_body_id tr td.roomtype:nth-child(1) {width:23%;max-width: 330px;}
 													</td>
 													
 													<td>
-														<select class="form-select" name="foreigner_age[]" id="foreigner_age" required>
+														<select class="form-control" name="foreigner_age[]" id="foreigner_age" required>
 															<option value="">Age</option>
 															<?php for ($a = 1; $a <= 120; $a++) { ?>
 															<option value="<?= $a; ?>"><?= $a; ?></option>
@@ -1022,7 +1022,7 @@ tbody#list_tbl_body_id tr td.roomtype:nth-child(1) {width:23%;max-width: 330px;}
 									</div>
 									
 									<div class="text-end mt-3">
-										<button type="button" class="btn btn-info text-white" id="add_row_foreigner">Add More <i class="fa fa-plus"></i></button>
+										<button type="button" class="btn btn-info text-white" id="add_row_foreigner"><i class="fa fa-plus"></i></button>
 									</div>
 								</div>
 								

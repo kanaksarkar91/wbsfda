@@ -347,7 +347,7 @@
                                     <tfoot>
                                         <tr>
                                             <th>
-                                                <h3>Total Amount <span>(Inclusive of GST)</span></h3>
+                                                <h3>Total Amount <span>(Exclusive of GST)</span></h3>
                                             </th>
                                             <th>
                                                 <h3 class="stbooking-title">₹ 0.00</h3>

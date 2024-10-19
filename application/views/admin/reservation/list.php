@@ -201,98 +201,14 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                     <li style="background: #C5E1A5;">
-                                        <a href="<?=base_url('admin/booking/booking_details/'.$reservation->booking_id)?>" type="button" class="dropdown-item" title="Payment Details">Payment</a>
+                                        <a href="<?=base_url('admin/booking/booking_details/'.$reservation->booking_id)?>" type="button" class="dropdown-item" title="Payment Details">View & Cancel</a>
                                     </li>
-                                    <?php
-									if($reservation->checked_in == 0){
-									?> 
-                                     <li style="background: #D7CCC8;"><a href="<?=base_url('admin/reservation/edit_booking/'.$reservation->booking_id)?>" type="button" class="dropdown-item" title="Edit Booking">Change Room</a></li>
-									 <?php
-									 }
-									 ?>
 									 
 									 <li style="background: #b3e5fc;"><a target="_blank" href="<?=base_url('admin/booking/viewBookingSlip/'.encode_url($reservation->booking_id))?>" type="button" class="dropdown-item" title="Download">Download&nbsp;Booking&nbsp;Slip</a></li>
-									 
-									 <li style="background: #b3e5fc;"><a target="_blank" href="<?=base_url('admin/booking/viewPaymentDetails/'.encode_url($reservation->booking_id))?>" type="button" class="dropdown-item" title="Download">Download&nbsp;Payment&nbsp;Details</a></li>
-									 
-									 
-                                    <?php
-									 if($reservation->booking_status == 'O'){
-									 ?>
-                                    <li style="background: #B2EBF2;"><a target="_blank" href="<?=base_url('admin/booking/downloadInvoice/'.encode_url($reservation->booking_id))?>" type="button" class="dropdown-item" title="Download">Download&nbsp;Tax&nbsp;Invoice</a></li>
-									<?php
-									}
-									//if($reservation->booking_status == 'A'){
-									?>
-									<?php /*?><li style="background: #b3e5fc;"><a target="_blank" href="<?=base_url('admin/booking/viewBookingSlip/'.encode_url($reservation->booking_id))?>" type="button" class="dropdown-item" title="Download">Download&nbsp;Booking&nbsp;Slip</a></li><?php */?>
-									<?php
-									//}
-									?>
-                                    <?php if($reservation->booking_status == 'A'){ ?>
-                                        <?php 
-										if($reservation->checked_in == 0){
-											if((date('Y-m-d') >= $reservation->check_in) && (date('Y-m-d') <= $reservation->check_out)){
-										?>
-                                            <li style="background: #FFECB3;"><a href="<?=base_url('admin/reservation/checkin/'.$reservation->booking_id)?>" type="button" class="dropdown-item">Check-In</a></li>
-                                        <?php
-											}
-											else{
-										?>
-											<li style="background: #FFECB3;"><a href="#" type="button" class="dropdown-item checkin_button_alert" data-checkin_date="<?= date('d/m/Y', strtotime($reservation->check_in));?>">Check-In</a></li>
-										<?php
-											}
-										} 
-										else { 
-										?> 
-                                            <li style="background: #FFECB3;"><a href="<?=base_url('admin/reservation/checkin_details/'.$reservation->booking_id)?>" type="button" class="dropdown-item">View CheckIn</a></li>
-                                        <?php } ?>
-                                    <?php } ?>
-                                    <!-- <li><a class="dropdown-item" href="#">Separated link</a></li> -->
+                                    
                                     </ul>
                                 </div>
-                                    <!-- <a href="<?=base_url('admin/booking/booking_details/'.$reservation->booking_id)?>" type="button" class="btn btn-info" title="Payment Details">Action</a> &nbsp;
-									<?php
-									if($reservation->checked_in == 0){
-									?> 
-                                     <a href="<?=base_url('admin/reservation/edit_booking/'.$reservation->booking_id)?>" type="button" class="btn btn-primary" title="Edit Booking"><i class="fa fa-pencil"></i></a> &nbsp;
-									 <?php
-									 }
-									 ?> 
-									 
-									 
-                                    <?php
-									 if($reservation->booking_status == 'O'){
-									 ?>
-                                    <a target="_blank" href="<?=base_url('admin/booking/downloadInvoice/'.$reservation->booking_id)?>" type="button" class="btn btn-yellow" title="Download Vowcher">Download&nbsp;Tax&nbsp;Invoice</a> &nbsp;
-									<?php
-									}
-									if($reservation->booking_status == 'A'){
-									?>
-									<a target="_blank" href="<?=base_url('admin/booking/viewBookingSlip/'.encode_url($reservation->booking_id))?>" type="button" class="btn btn-yellow" title="Download Vowcher">Download&nbsp;Booking&nbsp;Slip</a> &nbsp;
-									<?php
-									}
-									?>
-                                   
-								   
-								    <?php if($reservation->booking_status == 'A'){ ?>
-                                        <?php 
-										if($reservation->checked_in == 0){
-											if((date('Y-m-d') >= $reservation->check_in) && (date('Y-m-d') <= $reservation->check_out)){
-										?>
-                                            <a href="<?=base_url('admin/reservation/checkin/'.$reservation->booking_id)?>" type="button" class="btn btn-green">Check-In</a>
-                                        <?php
-											}
-											else{
-										?>
-											<a href="#" type="button" class="btn btn-secondary checkin_button_alert" data-checkin_date="<?= date('d/m/Y', strtotime($reservation->check_in));?>">Check-In</a>
-										<?php
-											}
-										} 
-										else { 
-										?> 
-                                            <a href="<?=base_url('admin/reservation/checkin_details/'.$reservation->booking_id)?>" type="button" class="btn btn-green">View CheckIn</a>
-                                        <?php } ?>
-                                    <?php } ?> -->
+                                    
                                 </td>
                                 <td class="cell"><?= $reservation->booking_no ?></td>
                                 <td class="cell"><?= $reservation->order_id ?></td>

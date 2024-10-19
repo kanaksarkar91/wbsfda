@@ -112,7 +112,7 @@
                                     if(!empty($safariReservations[0]['details'])){
                                     foreach($safariReservations[0]['details'] as $row) { ?>
                                     <tr>
-                                        <td class="cell"></td>
+                                        <td class="cell"><?=$row['booking_number'];?></td>
                                         <td class="cell"><?=$row['visitor_name'];?></td>
                                         <td class="cell"><?= $safariReservations[0][0]['cat_name'];?></td>
                                         <td class="cell"><?=$row['visitor_age'];?></td>

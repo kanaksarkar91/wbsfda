@@ -883,9 +883,10 @@ LEFT JOIN harbour_products_master hpm ON rt.harbour_product_id = hpm.harbour_pro
 		
 		if(!empty($rows)){
 			$i = 0;
-			$this->db->select('bd.*');
+			$this->db->select('bd.*, bh.booking_number');
 			$this->db->from('safari_booking_detail bd');
-			$this->db->where_in('booking_id', $booking_ids, false);
+			$this->db->join('safari_booking_header bh', 'bd.booking_id = bh.booking_id', 'LEFT');
+			$this->db->where_in('bd.booking_id', $booking_ids, false);
 			$query1=$this->db->get();
 			//echo nl2br($this->db->last_query());die;
 			$rows1 = $query1->result_array();

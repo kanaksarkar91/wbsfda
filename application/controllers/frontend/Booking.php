@@ -12,7 +12,7 @@ class Booking extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model(array('mcommon', 'frontend/query', 'frontend/mbooking', 'admin/mcancellationpolicy'));
-		$this->load->helper(array('sms', 'email', 'common_helper', 'crypto', 'otp'));
+		$this->load->helper(array('sms', 'email', 'common_helper', 'crypto', 'otp', 'gst'));
 	}
 
 	public function property()
@@ -420,62 +420,15 @@ class Booking extends CI_Controller
 		$total_discount = 0.00;
 		$total_gst_amount = 0.00;
 		$grand_total = 0.00;
-		$extra_bed_price = 0.00;
-		$total_extra_bed_price = 0.00;
-		$totalBasePricePerRoom = [];
 
-		// Define two dates
-		// Define two dates
-		$date1 = $checkInDt;
-		$date2 = $checkOutDt;
-
-		// Convert dates to timestamps
-		$timestamp1 = strtotime($date1);
-		$timestamp2 = strtotime($date2);
-
-		// Calculate the difference in seconds and then convert to days
-		$differenceInSeconds = $timestamp2 - $timestamp1;
-		$daysDifference = $differenceInSeconds / (60 * 60 * 24);
-
-		//echo "<pre>"; print_r($this->session->userdata('accommodation_cart'));
-		$___total_extra_bed_price = 0;
 		if ($this->session->userdata('accommodation_cart') != '') {
 			foreach ($this->session->userdata('accommodation_cart') as $k => $v) {
 				$accommodation_id = $_SESSION["accommodation_cart"][$k]['accommodation_id'];
 				$accomm_cost = $this->mbooking->get_booking_property_accommodation_availability($property_id, $accommodation_id, $checkInDt, $checkOutDt, $adultCount, $childCount, $rate_category_id, $percentage);
-
-				//echo "<pre>"; print_r($accomm_cost);
-
-				// Initialize total base_price for this room if not already set
-				if (!isset($totalBasePricePerRoom[$k])) {
-					$totalBasePricePerRoom[$k] = 0;
-					$totalGstPricePerRoom[$k] = 0;
-					$totalGstExtraBedPricePerRoom[$k] = 0;
-					$totalExtraBedPricePerRoom[$k] = 0;
-				}
-
-				// Calculate total base_price for this accommodation
-				foreach ($accomm_cost as $cost) {
-					if (isset($cost['base_price'])) {
-						$totalBasePricePerRoom[$k] += $cost['base_price']; // Accumulate price for the room
-						$totalGstPricePerRoom[$k] += $cost['tax_amount_base_price']; // Accumulate gst for the room
-						$totalGstExtraBedPricePerRoom[$k] += $cost['tax_amount_base_plus_extra']; // Accumulate gst for extra bed
-
-						if ($_SESSION["accommodation_cart"][$k]["is_select_extra_bed"] > 0) {
-							$totalExtraBedPricePerRoom[$k] += $cost['extra_bed_price'] * $_SESSION["accommodation_cart"][$k]["is_select_extra_bed"];
-						}
-					}
-				}
-
-				// Output or use the total base price for the current room within this loop
-				//echo "Total base price for $k: " . $totalBasePricePerRoom[$k] . "\n";
-
-
-				//echo $_SESSION["accommodation_cart"][$k]["is_select_extra_bed"].'<br>';
-
+				//echo "<pre>"; print_r($accomm_cost); die;
+				
 				$_SESSION["accommodation_cart"][$k]["rate_id"] = $accomm_cost[0]["rate_id"];
-				//$_SESSION["accommodation_cart"][$k]["base_price"] = $accomm_cost[0]["base_price"];
-				$_SESSION["accommodation_cart"][$k]["base_price"] = $totalBasePricePerRoom[$k];
+				$_SESSION["accommodation_cart"][$k]["base_price"] = $accomm_cost[0]["base_price"];
 				$_SESSION["accommodation_cart"][$k]["extra_bed_price"] = $accomm_cost[0]["extra_bed_price"];
 				$_SESSION["accommodation_cart"][$k]["disc_amt_on_base"] = $accomm_cost[0]["disc_amt_on_base"];
 				$_SESSION["accommodation_cart"][$k]["tax_amount_base_price"] = $accomm_cost[0]["tax_amount_base_price"];
@@ -489,67 +442,26 @@ class Booking extends CI_Controller
 				$_SESSION["accommodation_cart"][$k]["sgst_percentage"] = $accomm_cost[0]["sgst_percentage"];
 				$_SESSION["accommodation_cart"][$k]["igst_percentage"] = $accomm_cost[0]["igst_percentage"];
 
-				//$base_price = (floatval($accomm_cost[0]['base_price_per_pax']) > 0 && 0) ? ($accomm_cost[0]['base_price_per_pax'] * $adultCount) : $accomm_cost[0]["base_price"];
-
-				$base_price = (floatval($accomm_cost[0]['base_price_per_pax']) > 0 && 0) ? ($accomm_cost[0]['base_price_per_pax'] * $adultCount) : $totalBasePricePerRoom[$k];
+				$base_price = (floatval($accomm_cost[0]['base_price_per_pax']) > 0 && 0) ? ($accomm_cost[0]['base_price_per_pax'] * $adultCount) : $accomm_cost[0]['base_price'];
 				$base_discount = $accomm_cost[0]['disc_amt_on_base'];
-				//$gst_amount = $accomm_cost[0]['tax_amount_base_price'];
+				$gst_amount = $accomm_cost[0]['tax_amount_base_price'];
 				$quantity = $_SESSION["accommodation_cart"][$k]['quantity'];
 
 				$rates_json_arr = $accomm_cost[0]['day_wise_rates_json'];
-				$_total_extra_bed_price = 0;
-				if ($_SESSION["accommodation_cart"][$k]["is_select_extra_bed"] > 0) {
-					if ($quantity == $_SESSION["accommodation_cart"][$k]["is_select_extra_bed"]) {
-						for ($i = 1; $i <= $quantity; $i++) {
-							$extra_bed_price = $accomm_cost[0]['extra_bed_price'];
-							$_total_extra_bed_price += floatval($extra_bed_price);
-							$gst_amount[] = $totalGstExtraBedPricePerRoom[$k];
-							//$_gst_amount = (($total_extra_bed_price * $_SESSION["accommodation_cart"][$k]["igst_percentage"]) / 100);
-						}
-					} else {
-						for ($i = 1; $i <= $quantity; $i++) {
-							if ($i <= $_SESSION["accommodation_cart"][$k]["is_select_extra_bed"]) {
-								$extra_bed_price = $accomm_cost[0]['extra_bed_price'];
-								$_total_extra_bed_price += floatval($extra_bed_price);
-								$gst_amount[] = $totalGstExtraBedPricePerRoom[$k];
-							} else {
-								$gst_amount[] = $totalGstPricePerRoom[$k];
-							}
-						}
-					}
-				} else {
-					$gst_amount[] = floatval($totalGstPricePerRoom[$k]) * $quantity;
-				}
 
 				$total_amount += floatval($base_price) * $quantity;
 				$total_discount += floatval($base_discount) * $quantity;
-
-				$___total_extra_bed_price += $totalExtraBedPricePerRoom[$k];
+				$total_gst_amount += floatval($gst_amount) * $quantity;
 			}
 		}
-		//echo "<pre>"; print_r($gst_amount);
-		//echo $gst_amount.'<br>'.$_gst_amount.'<br>'.$total_gst_amount; die;
+		
+		$gstPerc = getGstPercentage($total_amount);
+		
+		$gstAmt = ($gstPerc['gst_percentage'] * $total_amount) / 100;
 
+		$grand_total = floatval($total_amount) + floatval($gstAmt);
 
-
-		//$total_gst_amount = array_sum($gst_amount);
-
-		if (count($accomm_cost) > 1) {
-			$total_extra_bed_price = $___total_extra_bed_price;
-		} else {
-			$total_extra_bed_price = $_total_extra_bed_price;
-		}
-
-		//echo $total_extra_bed_price.'--'.$total_extra_bed_price * $daysDifference;
-
-		$perDayWithExtraBed = floatval($total_amount) + floatval($total_extra_bed_price);
-
-		$gstAmount = (($perDayWithExtraBed * $accomm_cost[0]['gst_percentage']) / 100);
-		$total_gst_amount = $gstAmount;
-
-		$grand_total = floatval($total_amount) + floatval($total_extra_bed_price) + floatval($total_gst_amount);
-
-		return array('total_amount' => $total_amount, 'discount_amount' => $total_discount, 'gst_amount' => $total_gst_amount, 'grand_total' => $grand_total, 'total_extra_bed_price' => ($total_extra_bed_price));
+		return array('total_amount' => round($total_amount), 'discount_amount' => round($total_discount), 'gst_amount' => round($gstAmt), 'grand_total' => round($grand_total));
 	}
 
 	private function calculateGstAmount($checkIn_dt, $checkOut_dt)
@@ -1392,7 +1304,7 @@ class Booking extends CI_Controller
 						'updated_ts' => date('Y-m-d H:i:s'),
 					);
 
-					$booking_header_condn = array('booking_status' => 'A', 'payment_status' => 1);
+					$booking_header_condn = array('booking_status' => 'A');
 
 					if ($option['type'] == 'Cron') {
 						$payment_data['cronjob_data'] = json_encode(serialize($payment));
@@ -1420,7 +1332,7 @@ class Booking extends CI_Controller
 						'updated_ts' => date('Y-m-d H:i:s'),
 					);
 
-					$booking_header_condn = array('booking_status' => 'F', 'payment_status' => 0);
+					$booking_header_condn = array('booking_status' => 'F');
 
 					$update = $this->mcommon->update('booking_payment', array('order_id' => $payment->order_id), $payment_data);
 					if ($update) {

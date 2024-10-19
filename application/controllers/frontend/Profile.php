@@ -47,90 +47,117 @@ class Profile extends CI_Controller
 		$data['customer_details'] = $this->mcommon->getRow('customer_master', array('customer_id' => $this->session->userdata('customer_id')));
 		$data['countries'] = $this->mcommon->getDetails('country_master', array());
 		$data['booking_details'] = $this->query->getBookingDetailsByUserIdNew($condn);
-		
+
 		$data['safariTypes'] = $this->mcommon->getDetailsOrder('safari_type_master', array('is_active' => 1));
 		//echo "<pre>"; print_r($data['booking_details']); die;
 		$data['type'] = $type;
 		$data['content'] = 'frontend/my_booking';
 		$this->load->view('frontend/layouts/index', $data);
 	}
-	
+
 	public function getSafariBookingHtml()
 	{
 		$data_list = [];
 		$html = '';
-		if($this->input->post()){
+		$calcelButtonVisible = false;
+		if ($this->input->post()) {
 			$safari_type_id = $this->input->post('safari_type_id');
 			$booking_type = $this->input->post('booking_type');
-			if(is_numeric($safari_type_id) && $safari_type_id > 0){
+			if (is_numeric($safari_type_id) && $safari_type_id > 0) {
 				$condn = array('a.customer_id' => $this->session->userdata('customer_id'), "booking_status NOT IN('I','F')" => NULL);
-				
+
 				if ($booking_type == '' || $booking_type == 'ALL')
 					$condn = $condn;
 				elseif ($booking_type == 'UPCOMING')
 					$condn = array_merge($condn, array('a.booking_date >=' => date('Y-m-d')));
 				elseif ($booking_type == 'PAST')
 					$condn = array_merge($condn, array('a.booking_date <' => date('Y-m-d')));
-				
+
 				$condn = array_merge($condn, array('a.safari_type_id' => $safari_type_id));
 				//echo $safari_type_id; die;
 				$safari_booking_details = $this->query->getSafariBookingDetailsByUser($condn);
-				
-				if(!empty($safari_booking_details) && is_array($safari_booking_details)){
-					
-					$html .= '<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">
+
+				if (!empty($safari_booking_details) && is_array($safari_booking_details)) {
+
+					$html .= '<div class="tab-pane fade show active" id="pills-' . $safari_type_id . '" role="tabpanel" aria-labelledby="pills-' . $safari_type_id . '-tab" tabindex="0">
 								<div class="dashboard-gravity-list mt-3">
                                     <ul class="p-0 row">';
-					
-					foreach($safari_booking_details as $row){
-						$slotTiming = $row['slot_desc'].': '.$row['start_time'].' to '.$row['end_time'];
+
+					foreach ($safari_booking_details as $row) {
+						$slotTiming = $row['slot_desc'] . ': ' . $row['start_time'] . ' to ' . $row['end_time'];
 						$bookingStatus = ($row['booking_status'] == 'I') ? 'Initiate' : (($row['booking_status'] == 'A') ? 'Approved' : (($row['booking_status'] == 'C') ? 'Cancelled' : ''));
-						
+
+						if ($row['ticket_sale_closing_flag'] == 2) {
+							$date = $row['booking_date'];
+
+							// Create DateTime object
+							$dateObj = new DateTime($date);
+
+							// Subtract one day
+							$dateObj->modify('-1 day');
+
+							// Get the modified date
+							$cancelLastDate = $dateObj->format('Y-m-d');
+						} else {
+							$cancelLastDate = $row['booking_date'];
+						}
+
+						$dateTime = new DateTime($row['ticket_sale_closing_time']);
+						$closingTime = $dateTime->format('H:i');
+
+						$cancelationLastDateTime = $cancelLastDate . ' ' . $closingTime;
+						$currentDateTime = date('Y-m-d H:i');
+						if ($cancelationLastDateTime > $currentDateTime) {
+							$calcelButtonVisible = true;
+						}
+
 						$html .= '<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
                                             <div class="list-box-listing bookings border p-3 rounded">
                                                 <div class="list-box-listing-content">
                                                     <div class="inner">
-                                                        <h3>'.$row['service_definition'].' <span class="booking-status pending">'.$bookingStatus.'</span></h3>
+                                                        <h3>' . $row['service_definition'] . ' <span class="booking-status pending">' . $bookingStatus . '</span></h3>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">PRN No.:</span><span>'.$row['booking_number'].'</span>
+                                                            <span class="thm-txt fw-normal me-3">PNR No.:</span><span>' . $row['booking_number'] . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">Safari Date:</span><span>'.date('d/m/Y', strtotime($row['booking_date'])).'</span>
+                                                            <span class="thm-txt fw-normal me-3">Safari Date:</span><span>' . date('d/m/Y', strtotime($row['booking_date'])) . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">Slot Time:</span><span>'.$slotTiming.'</span>
+                                                            <span class="thm-txt fw-normal me-3">Slot Time:</span><span>' . $slotTiming . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">Reporting Time:</span><span>'.$row['reporting_time'].'</span>
+                                                            <span class="thm-txt fw-normal me-3">Reporting Time:</span><span>' . $row['reporting_time'] . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">Reporting Place:</span><span>'.$row['reporting_place'].'</span>
+                                                            <span class="thm-txt fw-normal me-3">Reporting Place:</span><span>' . $row['reporting_place'] . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">No. of Visitor:</span><span>'.$row['no_of_person'].'</span>
+                                                            <span class="thm-txt fw-normal me-3">No. of Visitor:</span><span>' . $row['no_of_person'] . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">Price:</span><span>₹ '.formatIndianCurrency($row['total_price']).'</span>
+                                                            <span class="thm-txt fw-normal me-3">Price:</span><span>₹ ' . formatIndianCurrency($row['total_price']) . '</span>
                                                         </div>
-                                                        <div class="mt-3">
-                                                            <a class="btn btn-dark btn-sm" href="'.base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])).'" target="_blank">View Details</a>
+                                                        <div class="mt-3">';
+						if ($row['booking_status'] == 'A' && $calcelButtonVisible) {
+							$html .= '<a class="btn btn-sm btn-danger" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '/?type=cancel' . '" target="_blank">Cancel Safari</a>';
+						}
+						$html .= '&nbsp;&nbsp;<a class="btn btn-dark btn-sm" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>';
-						}
-						
-						$html .= '</ul>
+					}
+
+					$html .= '</ul>
                                 </div>
 							</div>';
-						
-						$response = array("status"=> true, "html"=>$html, "safari_type_id" => $safari_type_id);
-					}
-					else{
-						$response = array("status"=> false, "html"=>'<div class="tab-pane fade show active" id="pills-'.$safari_type_id.'" role="tabpanel" aria-labelledby="pills-'.$safari_type_id.'-tab" tabindex="0">No Booking Found!!</div>', "safari_type_id" => $safari_type_id);
-					}
+
+					$response = array("status" => true, "html" => $html, "safari_type_id" => $safari_type_id);
+				} else {
+					$response = array("status" => false, "html" => '<div class="tab-pane fade show active" id="pills-' . $safari_type_id . '" role="tabpanel" aria-labelledby="pills-' . $safari_type_id . '-tab" tabindex="0">No Booking Found!!</div>', "safari_type_id" => $safari_type_id);
 				}
+			}
 			echo json_encode($response);
 			exit;
 		}
@@ -142,11 +169,6 @@ class Profile extends CI_Controller
 
 		$response = '';
 
-		/* if (!empty($booking_details)) {
-			foreach ($booking_details as $bd) {
-				$response .= '<li class="pending-booking"><div class="list-box-listing bookings"><div class="list-box-listing-img"><img src="' . base_url('public/admin_images/' . $bd['image1']) . '" alt=""></div><div class="list-box-listing-content"><div class="inner"><h3>' . $bd['property_name'] . '"<span class=\"booking-status pending\">' . (($bd['booking_status'] == 'I') ? 'Initiate' : (($bd['booking_status'] == 'A') ? 'Approved' : (($bd['booking_status'] == 'C') ? 'Cancelled' : 'Check out'))) . '</span></h3><div class="inner-booking-list"><h5>Booking Date:</h5><ul class="booking-list"><li class="highlighted">' . date('d-m-Y', strtotime($bd['check_in'])) . ' to ' . date('d-m-Y', strtotime($bd['check_out'])) . '</li></ul></div><div class="inner-booking-list"><h5>Price:</h5><ul class="booking-list"><li class="highlighted">₹ ' . $bd['net_payable_amount'] . '</li></ul></div><div class="mt-3">' . (($bd['booking_status'] == 'I' || $bd['booking_status'] == 'A') ? ('<a class="btn btn-sm btn-danger" href="' . base_url('view-invoice/' . $bd['booking_id']) . '">Cancel Booking</a>') : '') . '<a class="btn btn-sm btn-primary" href="' . base_url('view-invoice/' . $bd['booking_id']) . '" target="_blank">View Details</a><a class="btn btn-sm btn-success" href="' . base_url('download-invoice/' . $bd['booking_id']) . '" target="_blank"><i class="fa fa-download"> Download</i></a>' . (($bd['booking_status'] == 'O') ? ('<button type="button" class="btn btn-sm btn-info feed_back" data-booking_id="' .  $bd['booking_id'] . '">Provide Feedback</button>') : '') . '</div></div></div></div></li>';
-			}
-		} */
 		if (!empty($booking_details)) {
 			foreach ($booking_details as $bd) {
 				$response .= '<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0"><div class="list-box-listing bookings border p-3 rounded"><div class="list-box-listing-content"><div class="inner"><h3>' . $bd['property_name'] . '"<span class=\"booking-status pending\">' . (($bd['booking_status'] == 'I') ? 'Initiate' : (($bd['booking_status'] == 'A') ? 'Approved' : (($bd['booking_status'] == 'C') ? 'Cancelled' : 'Check out'))) . '</span></h3><div class="inner-booking-list"><h5>Booking Date:</h5><ul class="booking-list"><li class="highlighted">' . date('d-m-Y', strtotime($bd['check_in'])) . ' to ' . date('d-m-Y', strtotime($bd['check_out'])) . '</li></ul></div><div class="inner-booking-list"><h5>Price:</h5><ul class="booking-list"><li class="highlighted">₹ ' . $bd['net_payable_amount'] . '</li></ul></div><div class="mt-3">' . (($bd['booking_status'] == 'I' || $bd['booking_status'] == 'A') ? ('<a class="btn btn-sm btn-danger" href="' . base_url('view-invoice/' . $bd['booking_id']) . '">Cancel Booking</a>') : '') . '<a class="btn btn-sm btn-primary" href="' . base_url('view-invoice/' . $bd['booking_id']) . '" target="_blank">View Details</a><a class="btn btn-sm btn-success" href="' . base_url('download-invoice/' . $bd['booking_id']) . '" target="_blank"><i class="fa fa-download"> Download</i></a>' . (($bd['booking_status'] == 'O') ? ('<button type="button" class="btn btn-sm btn-info feed_back" data-booking_id="' .  $bd['booking_id'] . '">Provide Feedback</button>') : '') . '</div></div></div></div></li>';
@@ -174,17 +196,6 @@ class Profile extends CI_Controller
 		//echo "<pre>"; print_r($data['booking_details']); die;
 
 		$this->load->view('frontend/viewAcknowledgement', $data);
-
-		/*$html = $this->load->view('frontend/viewAcknowledgement', $data,true);
-
-		$filename = 'venue-booking-'.time().'-'.$booking_id;
-
-		$this->pdf->loadHtml($html);
-		$this->pdf->set_paper("A4", "landscape" );
-		$this->pdf->render();
-
-		$this->pdf->stream("".$filename.".pdf", array("Attachment"=>0));
-		$this->pdf->exit();*/
 	}
 
 	public function booking_invoice($booking_id)
@@ -206,87 +217,6 @@ class Profile extends CI_Controller
 		//echo "<pre>"; print_r($data['payment_details_online']); die;
 
 		$this->load->view('frontend/viewfinalInvoice', $data);
-	}
-
-	public function venue_cancle_booking($booking_id)
-	{
-		//$this->load->library('pdf');
-
-		$data = array();
-		$booking_id = decode_url($booking_id);
-
-		$bookingStatus = $_GET['st'];
-
-		if ($bookingStatus == '1') { //If Partial Payment Done
-
-			$where = array();
-
-			$where['vb.user_id'] = $this->session->userdata('customer_id');
-			$where['vb.booking_id'] = $booking_id;
-
-			$data['booking_details'] = $this->query->getVenueBookings($where);
-
-			//echo "<pre>"; print_r($data['booking_details']); die;
-
-			//$check_in_date = date("Y-m-d", strtotime($data['booking_details'][0]['booking_details'][0]['start_date']));
-			//$current_date = date('Y-m-d');
-
-			$current_date = time(); // or your date as well
-			$check_in_date = strtotime($data['booking_details'][0]['booking_details'][0]['start_date']);
-			$datediff = $check_in_date - $current_date;
-
-			$dateDiff = round($datediff / (60 * 60 * 24));
-
-			$data['cancellation_details'] = $this->query->getCancellationDetails_venue($dateDiff);
-
-			$this->load->view('frontend/cancelAcknowledgement', $data);
-		} else {
-
-			$data['booking_slip'] = $this->query->get_approval_letter($booking_id);
-			$data['booking_slip_details'] = $this->query->get_booking_slip_details($booking_id);
-
-			if (!empty($data['booking_slip']['payment_id']) || ($data['booking_slip']['payment_id'] != null)) {
-				$data['payment_details_online'] = $this->query->get_payment_details_online($booking_id);
-			} else {
-				$data['payment_details_online'] = array();
-			}
-
-			//echo "<pre>"; print_r($data['booking_slip']); die;
-
-			$current_date = time(); // or your date as well
-			$check_in_date = strtotime($data['booking_slip']['start_date']);
-			$datediff = $check_in_date - $current_date;
-
-			$dateDiff = round($datediff / (60 * 60 * 24));
-
-			$data['cancellation_details'] = $this->query->getCancellationDetails_venue($dateDiff);
-
-			$this->load->view('frontend/cancelfinalInvoice', $data);
-		}
-
-		/*$data = array();
-		$where=array();
-		$booking_id = decode_url($booking_id);	
-		
-		
-		$where['vb.user_id'] = $this->session->userdata('customer_id');		
-		$where['vb.booking_id'] = $booking_id;
-
-		$data['booking_details'] = $this->query->getVenueBookings($where);	
-
-		//echo "<pre>"; print_r($data['booking_details']); die;
-
-
-		$check_in_date = date("Y-m-d", strtotime($data['booking_details'][0]['booking_details'][0]['start_date']));
-		$current_date = date('Y-m-d');
-
-		//echo $check_in_date.' / '.$current_date; die;
-
-		$dateDiff = $this->dateDiffInDays($current_date, $check_in_date);
-				
-		$data['cancellation_details'] = $this->query->getCancellationDetails_venue($dateDiff);
-
-		$this->load->view('frontend/cancleBooking', $data);*/
 	}
 
 	public function viewInvoice($booking_id)
@@ -315,24 +245,67 @@ class Profile extends CI_Controller
 		$diff_check_in_out_date = $diff_check_in_out->format("%R%a");
 		//echo $diff_check_in_out_date;die;
 		$data['cancellation_details'] = $this->query->getCancellationDetails($diff_check_in_out_date);
-		$data['cancellation_request_details'] = $this->query->getCancellationRequestDetails($booking_id);
+		$data['cancellation_request_details'] = $this->query->getCancellationRequestDetails($booking_id, 'G');
 		//echo '<pre>';print_r($data['booking_details']);die;  
 		// $data['content'] = 'frontend/viewInvoiceNew';
 		$this->load->view('frontend/viewInvoiceNew', $data);
 	}
-	
+
 	public function viewSafariInvoice($booking_id)
 	{
 		$data = [];
 		$data['safariRoutes'] = [];
 		$booking_id = decode_url($booking_id);
-		
+		$data['calcelButtonVisible'] = false;
+
 		$condn = array('booking_id' => $booking_id);
-		
+
 		$data['sBooking'] = $this->query->getSafariBookingDetailsByUser($condn);
 		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
-		
-		$data['periodMasterData'] = $this->mcommon->getDetailsOrder('safari_service_period_master', ['is_active' => 1], 'service_period_master_id', 'ASC');
+		$data['sBookingPayment'] = $this->mcommon->getRow('safari_booking_payment', ['booking_id' => $booking_id, 'status' => 'Captured']);
+
+		if ($data['sBooking'][0]['ticket_sale_closing_flag'] == 2) {
+			$date = $data['sBooking'][0]['booking_date'];
+
+			// Create DateTime object
+			$dateObj = new DateTime($date);
+
+			// Subtract one day
+			$dateObj->modify('-1 day');
+
+			// Get the modified date
+			$cancelLastDate = $dateObj->format('Y-m-d');
+		} else {
+			$cancelLastDate = $data['sBooking'][0]['booking_date'];
+		}
+
+		$dateTime = new DateTime($data['sBooking'][0]['ticket_sale_closing_time']);
+		$closingTime = $dateTime->format('H:i');
+
+		$cancelationLastDateTime = $cancelLastDate . ' ' . $closingTime;
+		$currentDateTime = date('Y-m-d H:i');
+		if ($cancelationLastDateTime > $currentDateTime) {
+			$data['calcelButtonVisible'] = true;
+		}
+
+		//echo $cancelationLastDateTime; die;
+
+		$data['cancellation_details'] = get_cancellation_percentage($data['sBooking'][0]['booking_date']);
+		//print_r($data['cancellation_details']);die;
+
+		$data['cancel_percent'] = 100;
+		$data['cancel_charge'] = $data['sBooking'][0]['base_price'];
+		$data['refund_amt'] = 0;
+
+		if (!empty($data['cancellation_details'])) {
+			$data['cancel_percent'] = $data['cancellation_details']['cancellation_per'];
+			$data['cancel_charge'] = intval((($data['sBooking'][0]['base_price'] * $data['cancellation_details']['cancellation_per']) / 100) * 100) / 100;
+			$data['refund_amt'] = intval(($data['sBooking'][0]['base_price'] - $data['cancel_charge']) * 100) / 100;
+		}
+
+		$data['cancellation_request_details'] = $this->query->getCancellationRequestDetails($booking_id, 'S');
+
+		/*$data['periodMasterData'] = $this->mcommon->getDetailsOrder('safari_service_period_master', ['is_active' => 1], 'service_period_master_id', 'ASC');
 		
 		if(!empty($data['periodMasterData'])){
 			foreach($data['periodMasterData'] as $prow){
@@ -342,10 +315,10 @@ class Profile extends CI_Controller
 					$data['safariRoutes'][$prow['service_period_master_id']] = $routeDetails;
 				}
 			}
-		}
-		
+		}*/
+
 		//echo '<pre>';print_r($data['safariRoutes']);die;
-		
+
 		$this->load->view('frontend/viewSafariBookingInvoice', $data);
 	}
 
@@ -1312,187 +1285,237 @@ class Profile extends CI_Controller
 		die;
 	}
 
-	public function cancel_booking_before_refunr_api()
+	public function cancelSafariBooking()
 	{
+		$booking_id = decode_url($this->input->post('booking_id'));
 
-		$booking_id = $this->input->post('booking_id');
+		if (is_numeric($booking_id) && $booking_id > 0) {
+			$bookingData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $booking_id]);
+			if ($this->session->userdata('customer_id') == $bookingData['customer_id']) {
 
-		$cancel_request_details = $this->db->from('cancel_request_tbl')->where('booking_id', $booking_id)->order_by('cancel_request_id', 'DESC')->limit(1)->get()->row_array();
-		if (!empty($cancel_request_details)) {
-			$return_data = array('status' => false, 'msg' => 'Booking Already Cancelled');
-			echo json_encode($return_data);
-			die;
+				$cancel_request_details = $this->db->from('cancel_request_tbl')->where('booking_id', $booking_id)->order_by('cancel_request_id', 'DESC')->limit(1)->get()->row_array();
+				if (!empty($cancel_request_details)) {
+					$return_data = array('status' => false, 'msg' => 'Booking Already Cancelled');
+					echo json_encode($return_data);
+					die;
+				}
+
+				$result_decoded = array();
+				$cancel_request_data = array();
+				$booking_payment_details = $this->db->from('safari_booking_payment')->where('booking_id', $booking_id)->order_by('booking_payment_id', 'DESC')->limit(1)->get()->row_array();
+
+				if (!empty($booking_payment_details)) {
+
+					try {
+
+						$cancellationPer = get_cancellation_percentage($bookingData['booking_date']);
+
+						$cancel_percent = $cancellationPer['cancellation_per'];
+						$cancel_charge = intval((($bookingData['base_price'] * $cancel_percent) / 100) * 100) / 100;
+						$refund_amt = intval(($bookingData['base_price'] - $cancel_charge) * 100) / 100;
+
+						//echo $cancel_percent.'<br>'.$cancel_charge.'<br>'.$refund_amt; die;
+
+						if ($refund_amt > 0) {
+
+							$keyId = RAZORPAY_KEY;
+							$keySecret = RAZORPAY_KEY_SECRET;
+							$url = RAZORPAY_REFUND_URL . $booking_payment_details['razorpay_payment_id'] . "/refund";
+
+							$ch = curl_init($url);
+							curl_setopt($ch, CURLOPT_USERPWD, $keyId . ':' . $keySecret);
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+
+							// Partial refund data (amount in paise)
+							$data = [
+								'amount' => $refund_amt * 100  // Rs. 500 (amount is in paise)
+							];
+							curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+							$response = curl_exec($ch);
+
+							$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+							curl_close($ch);
+
+							$result = json_decode($response, true);
+						}
+
+
+						if (!empty($result) && $http_status == 200) {
+
+							$this->db->trans_start(); # Starting Transaction
+
+							$cancel_remarks = $this->input->post('cancel_remarks');
+							$cancel_gst_percent = 5;
+							$cancel_request_data = array(
+								'cancel_source' => 'S',
+								'booking_id' => $booking_id,
+								'net_payble_amount' => $this->input->post('paid_amount'),
+								'paid_amount' => $bookingData['base_price'],
+								'cancel_percent' => $cancel_percent,
+								'cancel_charge' => $cancel_charge,
+								'cancel_gst_percent' => $cancel_gst_percent,
+								'cancel_gst' => number_format(($cancel_charge * $cancel_gst_percent) / 100, 2, ".", ""),
+								'refund_amt' => $refund_amt,
+								'refunded_amount' => $refund_amt,
+								'cancel_type' => 'F',
+								'refunded_amount' => $refund_amt,
+								'created_by' => $this->session->userdata('customer_id'),
+								'created_user_type' => 'C',
+								'created_ts' => date('Y-m-d H:i:s'),
+								'is_refunded' => ($result['payment_id'] != '') ? 1 : 0,
+								'cancel_refund_request_id' => $result['id'],
+								'cancel_request_response' => json_encode($result),
+								'razorpay_payment_id' => $result['payment_id']
+
+							);
+
+							$this->db->insert('cancel_request_tbl', $cancel_request_data);
+							//echo $this->db->last_query();
+							$this->db->update('safari_booking_header', array('booking_status' => 'C', 'is_refunded' => $cancel_request_data['is_refunded'], 'cancellation_remarks' => $cancel_remarks, 'updated_by' => $this->session->userdata('customer_id'), 'updated_user_type' => 'C', 'updated_ts' => date('Y-m-d H:i:s')), array('booking_id' => $booking_id));
+							//echo $this->db->last_query();die;
+							$this->db->trans_complete(); # Completing transaction
+
+							if ($this->db->trans_status() === FALSE) {
+								# Something went wrong.
+								$this->db->trans_rollback();
+								$return_data = array('status' => false, 'msg' => 'Oops!Something went wrong...');
+							} else {
+								# Everything is Perfect. 
+								# Committing data to the database.
+								$this->db->trans_commit();
+
+								/* Booking Cancellation Email Sending */
+
+								$refund_perc = (100 - $cancel_percent);
+
+								$config = email_config();
+								$email_from = $config['email_from'];
+								unset($config['email_from']);
+
+								$subject = 'PNR No.  ' . $bookingData['booking_number'] . ' has been cancelled.';
+
+								$message = '<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
+			<center style="width: 100%; background-color: #f1f1f1; font-family: Arial, Helvetica, sans-serif;">
+				<div style="max-width: 600px; margin: 0 auto;">
+					
+					<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
+						<tr style="background-color: #FFF;">
+							<td valign="top" style="padding: 1em; border: 1px solid #00bdd6;">
+								<table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom: 0px;">
+									<tr>
+										<td style="text-align: left;padding:10px; width: 68px;">
+											<img src="' . base_url('public/frontend_assets/assets/img/logo.png') . '" width="48" alt="..."></img>
+										</td>
+										<td style="text-align: center;">
+											<h3 style="margin-top:10px; font-size:14px;margin-bottom: 0px;line-height:1;font-weight:600;">' . COM_NAME . '</h3>
+											<p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</p>
+											<h2 style="text-align:center;font-size:12px;font-weight: 600; margin-top:10px; color: #00bdd6;">Email for cancellation initiated by the concerned party</h2>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #FFF;border-left: 1px solid #00bdd6; border-right: 1px solid #00bdd6;">
+									<tr>
+										<td>
+											<div style="text-align: left; padding: 0 15px; font-size: 13px; line-height: 1.5;">
+												<p>Sir/Madam</p>
+												
+												<p style="margin-bottom:0;">
+													We have received your cancellation application for PNR No. ' . $bookingData['booking_number'] . ' and it has been accepted. ' . $refund_perc . '% of the booking amount (excluding GST) will be refunded within 15 days and will be credited to the concerned bank account through which payment has been made at the time of booking. For any further query please get in touch with us at 9734190119.
+												</p>
+												<p style="margin-bottom:0;">Thanks and Regards,</p>
+												<p style="margin-top:0;">WBSFDC</p>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+		
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #e9e9e9;">
+						<tr>
+							<td style="text-align: left; color: #000000; padding: 15px; font-size: 12px; border: 1px solid #00bdd6;">
+								<p style="margin-top: 0; margin-bottom: 5px;">
+									<b>Address:</b>
+									<span>' . COM_ADDRESS . '</span>
+								</p>
+								<p style="margin-bottom: 5px; margin-top:0;">
+									<b>Phone:</b>
+									<span>' . COM_PHONE . '</span>
+								</p>
+								<p style="margin-bottom: 0;margin-top:0;">
+									<b>Email Us On:</b>
+									<span>' . COM_EMAIL . '</span>
+								</p>
+							</td>
+						</tr>
+					</table>
+		
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #00bdd6;">
+						<tr>
+							<td style="text-align: center; color: #FFF; padding: 5px 15px; font-size: 12px;">
+								<p>
+									<span>© ' . date('Y') . ' ' . COM_NAME . '.All right reserved.
+									</span>
+								</p>
+							</td>
+						</tr>
+					</table>
+		
+				</div>
+			</center>
+		</body>';
+
+								$customer_details = $this->db->from('customer_master')->where('customer_id', $bookingData['customer_id'])->get()->row_array();
+
+								$this->load->library('email', $config);
+								$this->email->set_newline("\r\n");
+								$this->email->from($email_from, EMAIL_FROM_NAME); // change it to yours
+								$this->email->to($customer_details['email']); // change it to yours 
+
+								$this->email->subject($subject);
+								$this->email->message($message);
+								$this->email->send();
+
+								//$refundPer = $refund_perc . '%';
+								//payment_cancelled($booking_det['mobile'], $booking_det['booking_no'], $refundPer);
+
+								$return_data = array('status' => true, 'msg' => 'Booking has been cancelled successfully');
+							}
+						} else {
+
+							throw new Exception(curl_error($ch));
+						}
+					} catch (Exception $e) {
+						// this will not catch DB related errors. But it will include them, because this is more general. 
+						$return_data = array('status' => false, 'msg' => $e->getMessage());
+					}
+				} else {
+
+					$return_data = array('status' => false, 'msg' => 'Payment info not found');
+				}
+
+				echo json_encode($return_data);
+				die;
+			}
 		}
 
 
-		$result_decoded = array();
-		$cancel_request_data = array();
-		$booking_payment_details = $this->db->from('booking_payment')->where('booking_id', $booking_id)->order_by('booking_payment_id', 'DESC')->limit(1)->get()->row_array();
+
+
+
+
 		$booking_det = $this->query->get_booking_detail($booking_id);
-		//echo '<pre>';print_r($booking_payment_details);die;
-		if (!empty($booking_payment_details)) {
-
-			$cancel_remarks = $this->input->post('cancel_remarks');
-			$cancel_gst_percent = 5;
-			$cancel_request_data = array(
-				'booking_id' => $booking_id,
-				'net_payble_amount' => $this->input->post('paid_amount'),
-				'paid_amount' => $this->input->post('paid_amount'),
-				'cancel_percent' => $this->input->post('cancel_percent'),
-				'cancel_charge' => $this->input->post('cancel_charge'),
-				'cancel_gst_percent' => $cancel_gst_percent,
-				'cancel_gst' => number_format(($this->input->post('cancel_charge') * $cancel_gst_percent) / 100, 2, ".", ""),
-				'refund_amt' => $this->input->post('refund_amt'),
-				'refunded_amount' => $this->input->post('refund_amt'),
-				'cancel_type' => 'F',
-				'refunded_amount' => $this->input->post('refund_amt'),
-				'created_by' => $this->session->userdata('customer_id'),
-				'created_user_type' => 'C',
-				'created_ts' => date('Y-m-d H:i:s'),
-				'is_refunded' => '0',
-				'cancel_refund_request_id' => $result_decoded['request_id'],
-				'cancel_request_response' => $result
-
-			);
-			//echo '<pre>'; print_r($cancel_request_data);die;
-			$insertCancel = $this->db->insert('cancel_request_tbl', $cancel_request_data);
-			//echo $this->db->last_query(); die;
-			if ($insertCancel) {
-				$headerUpdate = $this->db->update('booking_header', array('booking_status' => 'C', 'is_refunded' => $cancel_request_data['is_refunded'], 'cancellation_remarks' => $cancel_remarks, 'updated_by' => $this->session->userdata('customer_id'), 'updated_user_type' => 'C', 'updated_ts' => date('Y-m-d H:i:s')), array('booking_id' => $booking_id));
-			}
-			//echo $this->db->last_query();die;
-
-			if ($headerUpdate) {
-				/* Booking Cancellation Email Sending */
-				$refund_perc = (100 - $this->input->post('cancel_percent'));
-
-				$config = email_config();
-				$email_from = $config['email_from'];
-				unset($config['email_from']);
-
-				$subject = 'Booking ID  ' . $booking_det['booking_no'] . ' has been cancelled.';
-
-				$message = '<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
-    <center style="width: 100%; background-color: #f1f1f1; font-family: Arial, Helvetica, sans-serif;">
-        <div style="max-width: 600px; margin: 0 auto;">
-            <!-- BEGIN BODY -->
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-                <tr style="background-color: #FFF;">
-                    <td valign="top" style="padding: 1em; border: 1px solid #00bdd6;">
-                        <table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom: 0px;">
-                            <tr>
-                                <td style="text-align: left;padding:10px; width: 68px;">
-                                    <img src="https://wbsfdc.devserv.in/public/frontend_assets/assets/img/Biswa_Bangla_logo.png" width="48" alt="..."></img>
-                                </td>
-                                <td style="text-align: center;">
-                                    <h3 style="margin-top:10px; font-size:14px;margin-bottom: 0px;line-height:1;font-weight:600;">The State Fisheries Development Corporation Limited</h3>
-                                    <p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;">(A Government of West Bengal Undertaking)<br>An ISO: 9001:2015 Company</p>
-                                    <h2 style="text-align:center;font-size:12px;font-weight: 600; margin-top:10px; color: #00bdd6;">Email for cancellation initiated by the concerned party</h2>
-                                </td>
-                                <td style="text-align: right;padding-right:10px; width: 68px;">
-                                    <img src="https://wbsfdc.devserv.in/public/frontend_assets/assets/img/SFDC_logo.png" width="48" alt="..." style="margin-top:16px;"></img>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <!-- end tr -->
-                <tr>
-                    <td>
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #FFF;border-left: 1px solid #00bdd6; border-right: 1px solid #00bdd6;">
-                            <tr>
-                                <td>
-                                    <div style="text-align: left; padding: 0 15px; font-size: 13px; line-height: 1.5;">
-                                        <p>Sir/Madam</p>
-                                        
-                                        <p style="margin-bottom:0;">
-                                            We have received your cancellation application for booking number ' . $booking_det['booking_no'] . ' and it has been accepted. ' . $refund_perc . '% of the booking amount (excluding GST) will be refunded within 15 days and will be credited to the concerned bank account through which payment has been made at the time of booking. For any further query please get in touch with us at (033) 23376469.
-                                        </p>
-                                        <p style="margin-bottom:0;">Thanks and Regards,</p>
-                                        <p style="margin-top:0;">The S.F.D.C.Ltd.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #e9e9e9;">
-                <tr>
-                    <td style="text-align: left; color: #000000; padding: 15px; font-size: 12px; border: 1px solid #00bdd6;">
-                        <p style="margin-top: 0; margin-bottom: 5px;">
-                            <b>Address:</b>
-                            <span>Bikash Bhawan, North Block,1st Floor, Salt Lake, Kolkata-700091</span>
-                        </p>
-                        <p style="margin-bottom: 5px; margin-top:0;">
-                            <b>Head Office:</b>
-                            <span>(033) 23583123</span>
-                        </p>
-                        <p style="margin-bottom: 5px; margin-top:0;">
-                            <b>Guest House Booking:</b>
-                            <span>(033) 23376469</span>
-                        </p>
-                        <p style="margin-bottom: 0;margin-top:0;">
-                            <b>Email Us On:</b>
-                            <span>headoffice@wbsfdcltd.com / tourism@wbsfdcltd.com</span>
-                        </p>
-                    </td>
-                </tr>
-            </table>
-
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #00bdd6;">
-                <tr>
-                    <td style="text-align: center; color: #FFF; padding: 5px 15px; font-size: 12px;">
-                        <p>
-                            <span>© ' . date('Y') . ' The State Fisheries Development Corporation Limited<br>  (Government of West Bengal Undertaking).All right reserved.
-                            </span>
-                        </p>
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-    </center>
-</body>';
-
-				$property_details = $this->db->from('property_master')->where('property_id', $booking_det['property_id'])->get()->row_array();
-
-				$this->load->library('email', $config);
-				$this->email->set_newline("\r\n");
-				$this->email->from($email_from, EMAIL_FROM_NAME); // change it to yours
-				$this->email->to($booking_det['customer_email']); // change it to yours 
-				$cc_email = array();
-				if (!empty($property_details) && !empty($property_details['email'])) {
-					$cc_email[] = $property_details['email'];
-				}
-				if (!empty($property_details) && !empty($property_details['contact_person_1_email'])) {
-					$cc_email[] = $property_details['contact_person_1_email'];
-				}
-				if (!empty($property_details) && !empty($property_details['contact_person_2_email'])) {
-					$cc_email[] = $property_details['contact_person_2_email'];
-				}
-				if (!empty($cc_email)) {
-
-					$this->email->cc($cc_email);
-				}
-				$this->email->subject($subject);
-				$this->email->message($message);
-				$this->email->send();
-
-				$return_data = array('status' => true, 'msg' => 'Booking has been cancelled successfully');
-			} else {
-				$return_data = array('status' => false, 'msg' => 'Something went wrong!!');
-			}
-		} else {
-
-			$return_data = array('status' => false, 'msg' => 'Payment info not found');
-		}
-
-		echo json_encode($return_data);
-		die;
+		$propertyIpsData = $this->mcommon->getRow('property_master', array('property_id' => $booking_det['property_id']));
 	}
-
 
 	public function submit_feedback()
 	{

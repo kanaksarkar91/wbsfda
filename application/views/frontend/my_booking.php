@@ -71,55 +71,57 @@
 							<!--Guest House Tab-->
 							<div class="dashboard-gravity-list mt-3">
 								<ul class="p-0 row">
+								<?php
+								if (!empty($booking_details)) {
+                                    foreach ($booking_details as $bd) {
+								?>
 									<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
 										<div class="list-box-listing bookings border p-3 rounded">
 											<!-- <div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div> -->
 											<div class="list-box-listing-content">
 												<div class="inner">
-													<h3>Amrapali Guest House Complex <span class="booking-status pending">Approved</span>
+													<h3><?= $bd['property_name'] ?> <span class="booking-status pending"><?= ($bd['booking_status'] == 'I') ? 'Initiate' : (($bd['booking_status'] == 'A') ? 'Approved' : (($bd['booking_status'] == 'C') ? 'Cancelled' : 'Check out')) ?></span>
+													<?php if($bd['booking_status'] == 'C') { ?>
+														<span class="badge badge-pill <?= ($bd['is_refunded'] == '1') ? 'badge-success' :'badge-warning'?>"><?= ($bd['is_refunded'] == '1') ? 'Refunded' :'Refund Initiated'?></span>
+													<?php } ?>
 													</h3>
 													<div class="inner-booking-list d-flex">
-														<span class="thm-txt fw-normal me-3">Booking No.:</span><span>AB20230929518165</span>
+														<span class="thm-txt fw-normal me-3">Booking No.:</span><span><?= $bd['booking_no']; ?></span>
 													</div>
 													<div class="inner-booking-list d-flex">
-														<span class="thm-txt fw-normal me-3">Booking Date:</span><span>30-09-2023 to 01-10-2023</span>
+														<span class="thm-txt fw-normal me-3">Booking Date:</span><span><?= date('d-m-Y', strtotime($bd['check_in'])) ?> to <?= date('d-m-Y', strtotime($bd['check_out'])) ?></span>
 													</div>
 													<div class="inner-booking-list d-flex">
-														<span class="thm-txt fw-normal me-3">Price:</span><span>₹ 3136.00</span>
+														<span class="thm-txt fw-normal me-3">Price:</span><span>₹ <?= $bd['net_payable_amount'] ?></span>
 													</div>
 													<div class="mt-3">
-														<a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
+														<?php 
+														if (($bd['booking_status'] == 'I' || $bd['booking_status'] == 'A') && strtotime($bd['check_in']) >= time()) { 
+														if($bd['booking_source'] == 'F'){
+														?> 
+															<a target="_blank" class="btn btn-sm btn-danger" href="<?= base_url('view-invoice/' . encode_url($bd['booking_id']).'/?type=cancel') ?>">Cancel Booking</a>
+														<?php } } ?>
+														<a class="btn btn-dark btn-sm" href="<?= base_url('view-invoice/' . encode_url($bd['booking_id'])) ?>" target="_blank">View Details</a>
+														<?php
+														if ($bd['booking_status'] == 'O') {
+														?>
+														<a class="btn btn-sm btn-success" href="<?= base_url('download-invoice/' . encode_url($bd['booking_id'])) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
+															
+
+														<?php } ?>
 													</div>
 												</div>
 											</div>
 										</div>
 									</li>
-									<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">
-                                        <div class="list-box-listing bookings border p-3 rounded">
-											<!-- <div class="list-box-listing-img"><img src="https://wbsfdc.devserv.in/public/admin_images/property_images/1667898383172.jpg" alt=""></div> -->
-											<div class="list-box-listing-content">
-												<div class="inner">
-													<h3>Amrapali Guest House Complex <span class="booking-status pending">Approved</span>
-													</h3>
-													<div class="inner-booking-list d-flex">
-														<span class="thm-txt fw-normal me-3">Booking No.:</span>
-														<span>AB20231031278835</span>
-													</div>
-													<div class="inner-booking-list d-flex">
-														<span class="thm-txt fw-normal me-3">Booking Date:</span>
-														<span>01-11-2023 to 02-11-2023</span>
-													</div>
-													<div class="inner-booking-list d-flex">
-														<span class="thm-txt fw-normal me-3">Price:</span>
-														<span>₹ 896.00</span>
-													</div>
-													<div class="mt-3">
-														<a class="btn btn-dark btn-sm" href="#." target="_blank">View Details</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</li>
+								<?php 
+									} 
+								}
+								else{
+								?>
+									<li class="pending-booking mb-3 col-12 col-lg-6 py-0 border-0">No Booking Found!!</li>
+								<?php } ?>
+									
 								</ul>
 							</div>
 							<!--// Guest House Tab-->
@@ -165,6 +167,7 @@ $(document).ready(function(){
 	$(".serviceType").click(function(){ 
 		var safari_type_id = $(this).data('typeid');
 		var booking_type = $('#booking_type').val();
+		$("#tabContentHtml").show();
 		getSafariBookingHtml(safari_type_id, booking_type);
 	});
 	
@@ -172,6 +175,10 @@ $(document).ready(function(){
 		var safari_type_id = $('#safari_type_id').val();
 		var booking_type = $('#booking_type').val();
 		getSafariBookingHtml(safari_type_id, booking_type);
+	});
+	
+	$("#pills-ght-tab").click(function(){ 
+		$("#tabContentHtml").hide();
 	});
 });
 

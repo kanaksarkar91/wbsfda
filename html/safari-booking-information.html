@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/favicon.png">
+    <title>WBSFDA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+
+    <!-- for Gallery-->
+    <link href="assets/css/simplelightbox.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/demo.css" rel="stylesheet" type="text/css">
+    <!-- / for Gallery-->
+
+    <link rel="stylesheet" type="text/css" href="assets/css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/owl.theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/stellarnav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+
+
+</head>
+
+<body role="document">
+    <!-- Navbar Start -->
+    <header class="fixed-header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <a href="index.html" class="logo_area"><img src="assets/img/logo.png" alt=""></a>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center">
+                        <div class="stellarnav">
+                            <ul>
+                                <li class="active"><a href="">Home</a></li>
+                                <li><a href="">Destination</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">Book Safari</a>
+                                    <ul>
+                                        <li><a href="">Sub menu</a></li>
+                                        <li><a href="">Sub menu</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="">What’s New</a></li>
+                                <li><a href="">Information</a></li>
+                                <li class="drop-left"><a href="">Dos & Don’ts</a> </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="assets/img/user-icon.png" class="avatar img-fluid rounded" alt=""></a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="my-profile.html"><i class="bi bi-person-fill"></i> My Profile</a></li>
+                                <li><a class="dropdown-item" href="my-booking.html"><i class="bi bi-clipboard2-check-fill"></i> My Bookings</a></li>
+                                <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </header>
+
+    <section class="gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="checkout-wrap">
+                        <div class="checkout-body">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <h5 class="text-center fw-bold mb-3">Please Login to continue with the booking.</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group text-center">
+                                        <input id="checkbox" type="checkbox" checked="checked" class="checkbox-custom" autocomplete="off">
+                                        <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept Terms & Conditions, Privacy Policy and Cancellation Rules.</a></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group text-center">
+                                        <a href="#" id="booking_login" class="btn-green px-4" data-toggle="modal" data-target="#login" data-redirect="1">Login to Continue</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkout-wrap">
+                        <div class="checkout-body pt-0">
+                            <h5 class="thm-txt fw-bold">Chilapata Car Safari</h5>
+                            <p class="fw-bold text-dark">Buxa Tiger Reserve National Park</p>
+                            <div class="row m-0">
+                                <div class="col-12 col-sm-12 col-md-4 col-xl-2 small bg-light border p-2">
+                                    <strong>Starting Point</strong>
+                                    <div>
+                                        Kodal Basti Range Office
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-xl-2 small bg-light border p-2">
+                                    <strong>End Point</strong>
+                                    <div>
+                                        Bania ruins and back
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-xl-2 small bg-light border p-2">
+                                    <strong>Reporting Place</strong>
+                                    <div>
+                                        Jaldapara East Range office
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-xl-2 small bg-light border p-2">
+                                    <strong>Safari Date</strong>
+                                    <div>
+                                        29 Sep 2024
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-xl-2 small bg-light border p-2">
+                                    <strong>Slot</strong>
+                                    <div>
+                                        7:00 am - 8:30 am
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-xl-2 small bg-light border p-2">
+                                    <strong>Reporting Time:</strong>
+                                    <div>
+                                        8:00 PM of previous day
+                                    </div>
+                                </div>
+
+                                <div class="col-12 small bg-light border p-2">
+                                    <strong>Route</strong>
+                                    <div>
+                                        Kodal Basti - Heart Road - Mendabari Watch tower - Parl Road - CC Line WT - Bania Ruins & Back to Kodal Basti
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mt-3">
+                                    <h6 class="fw-bold">Important Information:</h6>
+                                    <p class="fst-italic small">
+                                        <b class="thm-txt">Jaldapara National Park:</b><br>
+                                        <span>The Following fees/charges are to be paid by the visitor on site prior to entry in NP/Sanctuary Guide Charge - Rs.350 per vehicle.<br> Vehicle hiring Charges - Rs.1200 to 1500
+										per trip per vehicle depending on route length.<br> Other required Charges at the entry gate/reporting point.</span>
+                                    </p>
+
+                                    <p class="fst-italic small">
+                                        <b class="thm-txt">Gorumara National Park:</b><br>
+                                        <span>The Following fees/charges are to be paid by the visitor on site prior to entry in NP/Sanctuary Guide Charge - Rs.350 per vehicle.<br>
+											Vehicle hiring Charges - Rs.960 to Rs 1480 per trip per vehicle depending on route length.<br>
+											Other required Charges at the entry gate/reporting point.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 1st Step Checkout -->
+                    <div class="checkout-wrap">
+                        <div class="checkout-head">
+                            <ul>
+                                <li class="active"><span><i class="bi bi-check-lg"></i></span>Visitor Detail</li>
+                                <li><span>2</span>Payment Information</li>
+                                <li><span>3</span>Confirmation!</li>
+                            </ul>
+                        </div>
+
+                        <form action="" method="post" id="paymentForm" autocomplete="off">
+                            <!-- <input type="hidden" name="" value="" autocomplete="off"> -->
+                            <div class="checkout-body">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Nationality <i class="req">*</i></label>
+                                            <input type="text" name="" id="" class="form-control" value="Indian" readonly class="form-control-plaintext">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>No of Person <i class="req">*</i></label>
+                                            <input type="text" name="" id="" class="form-control" value="4" readonly class="form-control-plaintext">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Email <i class="req">*</i></label>
+                                            <input type="email" name="booking_email" id="booking_email" class="form-control" value="sourabhhazari@gmail.com" readonly class="form-control-plaintext">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Mobile No.<i class="req">*</i></label>
+                                            <input type="number" name="booking_mobile" id="booking_mobile" class="form-control" value="9876543210" readonly class="form-control-plaintext">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <h5 class="mb-3 fw-bold thm-txt">Add Visitor Details:</h5>
+                                        <div class="table-responsive border border-bottom-0 my-3">
+                                            <table class="table table-hover table-sm align-middle mb-0">
+                                                <thead>
+                                                    <tr class="table-light">
+                                                        <th class="light-grn-bg">Name</th>
+                                                        <th class="light-grn-bg">Gender</th>
+                                                        <th class="light-grn-bg">Age</th>
+                                                        <th class="light-grn-bg">ID Type</th>
+                                                        <th class="light-grn-bg">ID Number</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Card Type</option>
+																<option value="">Voter ID</option>
+																<option value="">Aadhar Card</option>																
+																<option value="">Passport</option>
+																<option value="">Driving Licence</option>
+																<option value="">Photo ID card issued by Central/State Govt.</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Card Type</option>
+																<option value="">Voter ID</option>
+																<option value="">Aadhar Card</option>																
+																<option value="">Passport</option>
+																<option value="">Driving Licence</option>
+																<option value="">Photo ID card issued by Central/State Govt.</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Card Type</option>
+																<option value="">Voter ID</option>
+																<option value="">Aadhar Card</option>																
+																<option value="">Passport</option>
+																<option value="">Driving Licence</option>
+																<option value="">Photo ID card issued by Central/State Govt.</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Card Type</option>
+																<option value="">Voter ID</option>
+																<option value="">Aadhar Card</option>																
+																<option value="">Passport</option>
+																<option value="">Driving Licence</option>
+																<option value="">Photo ID card issued by Central/State Govt.</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--If Foreigner-->
+                                        <!-- <div class="table-responsive border border-bottom-0 my-3">
+                                            <table class="table table-hover table-sm align-middle mb-0">
+                                                <thead>
+                                                    <tr class="table-light">
+                                                        <th class="light-grn-bg">Name</th>
+                                                        <th class="light-grn-bg">Gender</th>
+                                                        <th class="light-grn-bg">Age</th>
+                                                        <th class="light-grn-bg">Country</th>
+                                                        <th class="light-grn-bg">Passport Number</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Country</option>
+																<option value="">USA</option>
+																<option value="">Australia</option>																
+																<option value="">Russia</option>
+																<option value="">UK</option>
+																<option value="">UAE</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Country</option>
+																<option value="">USA</option>
+																<option value="">Australia</option>																
+																<option value="">Russia</option>
+																<option value="">UK</option>
+																<option value="">UAE</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Country</option>
+																<option value="">USA</option>
+																<option value="">Australia</option>																
+																<option value="">Russia</option>
+																<option value="">UK</option>
+																<option value="">UAE</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Gender</option>
+																<option value="">Male</option>
+																<option value="">Female</option>																
+																<option value="">Transgengder</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Age</option>
+																<option value="">6</option>
+																<option value="">7</option>
+															</select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-select form-select-sm">
+																<option value="" selected>Select Country</option>
+																<option value="">USA</option>
+																<option value="">Australia</option>																
+																<option value="">Russia</option>
+																<option value="">UK</option>
+																<option value="">UAE</option>
+															</select>
+                                                        </td>
+                                                        <td><input type="text" name="" id="" class="form-control form-control-sm" autocomplete="off"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div> -->
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <h5 class="mb-3 fw-bold thm-txt">Booking Details:</h5>
+                                        <div class="table-responsive border border-bottom-0 my-3">
+                                            <table class="table table-sm align-middle mb-0 text-center">
+                                                <thead>
+                                                    <tr class="table-light">
+                                                        <th class="light-grn-bg">Rate per Person</th>
+                                                        <th class="light-grn-bg">Total Visitor</th>
+                                                        <th class="light-grn-bg">Price (Rs.)</th>
+                                                        <th class="light-grn-bg">GST</th>
+                                                        <th class="light-grn-bg">Total Payment (Rs.)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1200.00</td>
+                                                        <td>4</td>
+                                                        <td>4800.00</td>
+                                                        <td>0</td>
+                                                        <td><strong>4800.00</strong></td>
+                                                    </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input id="checkbox" type="checkbox" checked="checked" class="checkbox-custom" autocomplete="off">
+                                            <label for="checkbox" class="checkbox-custom-label"><a href="#." class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTerms">I accept Terms & Conditions, Privacy Policy and Cancellation Rules.</a></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input type="submit" class="btn btn-green px-4" value="Proceed To Pay" id="pay_btn" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="big_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <a href="" class="footer_logo"><img src="assets/img/logo.png" alt=""></a>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <h4>Quick Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Home </a></li>
+                            <li><a href="">About Us </a></li>
+                            <li><a href="">Gallery </a></li>
+                            <li><a href="">Holiday Calender </a></li>
+                            <li><a href="">Disclaimer </a></li>
+                            <li><a href="">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h4>Related Links</h4>
+                        <ul class="footer_menu">
+                            <li><a href="">Wild Bengal  </a></li>
+                            <li><a href="">West Bengal Forest Development Corporation  </a></li>
+                            <li><a href="">West Bengal Pulpwood Development Corporation  </a></li>
+                            <li><a href="">West Bengal Zoo Authority  </a></li>
+                            <li><a href="">West Bengal Forest and Biodiversity Conservation Project  </a></li>
+                            <li><a href="">West Bengal Wasteland Development Corporation </a></li>
+                            <li><a href="">West Bengal State Forest Development Agency </a></li>
+                            <li><a href="">Bengal Nature Trails</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 Contact_list">
+                        <h4>Contact Us</h4>
+                        <p class="map-ico"><img src="assets/img/map_ico.png" alt="">Aranya Bhavan,BLock LA-10A, Sector- III, Salt Lake, Kolkata, West Bengal 700106</p>
+                        <p><img src="assets/img/ph_ico.png" alt=""> <a href="tel:+918337066882">+91 8337066882</a></p>
+                        <p><img src="assets/img/mail_ico.png" alt=""> <a href="mailto:wbsfdaecotourism@gmail.com">wbsfdaecotourism@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy_footer">
+            <div class="container">
+                <div class="col-md-12">
+                    <hr class="mb-0">
+                    <p>© Copyright 2024 All Rights Reserved by <a href="">WBSFDA</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--View Terms Modal -->
+    <div class="modal fade" id="viewTerms" tabindex="-1" aria-labelledby="viewTermsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header light-grn-bg">
+                    <h1 class="modal-title fw-bold thm-txt fs-5" id="viewTermsModalLabel">Terms & Conditions, Privacy Policy and Cancellation Rules.</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Terms & Conditions:</h5>
+                    <ol class="small text-justify">
+                        <li>Visitors are required to carry the same ID proof in original at the time of visiting the national park.</li>
+                        <li>The reservations of safari/ride are not transferable. The visitor should carry with him/her Print-out of the Electronic Reservation Slip.</li>
+                        <li>One child below 5 years of age may ride with parents without additional charges.</li>
+                        <li>Reservation may be cancelled in acute administrative requirement. No cancellation charge will be deducted in such case.</li>
+                        <li>WBSFDA will not be liable against non-availability of amenities/services caused by irreparable technical faults or natural inconvenience.</li>
+                    </ol>
+
+                    <h5>Privacy Policy:</h5>
+                    <ol class="small text-justify">
+                        <li>As a general rule, this web site does not collect personal Information about you when you visit the site. You can generally visit this site, without revealing any personal information, unless you choose to provide such information.</li>
+                        <li>Any personal information collected shall be used only for the stated purpose and shall NOT be shared with any other department/organization (Public/private).</li>
+                        <li>This site may contain links to Governmental/Non-governmental sites whose data protection and privacy practices may differ from ours. We are not responsible for the content and privacy practices of these other websites and encourage
+                            you to consult the privacy notices of those sites.</li>
+                    </ol>
+
+                    <h5>Cancellation Rules :</h5>
+                    <ol class="small text-justify">
+                        <li>More than clear 16 (Sixteen) days: 20% of the entry fee will be deducted.</li>
+                        <li>Between Clear 08(Eight) to clear15(Fifteen)days:40% of the entry fee will be deducted.</li>
+                        <li>Between Clear04(Four)to clear 07(Seven)days:80% of the entry fee will be deducted.</li>
+                        <li>Less than or equal to 3 (Three)days: No refund.</li>
+                        <li>"Clear Days" means that the date of occupation and the date of cancellation would not be counted. Moreover, Sunday & Holiday would not be excluded for calculation of cancellation charges.</li>
+                        <li>For part cancellation, normal refund rules will be charged as per rules.</li>
+                        <li>Refund admissible only upon production of the original reservation ticket.</li>
+                        <li>Visitors have to pay vehicle entry free, Guide charge, Vehicle hiring charge and other requires charges at the entry gate/reporting point.</li>
+                        <li>Visitors have to pay other charges for Folk dance, Handicrafts etc. for afternoon trips of Gorumara at the entry gate/reporting point.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Booking Preview Modal -->
+    <div class="modal fade" id="bookingPreview" tabindex="-1" aria-labelledby="bookingPreviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header light-grn-bg">
+                    <h1 class="modal-title fw-bold thm-txt fs-5" id="bookingPreviewModalLabel">Booking Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="checkout-side">
+                        <div class="booking-short-side">
+
+                            <div class="card border-0 rounded-0">
+                                <div class="card-header bg-dark rounded-0" id="bookinDet">
+                                    <h5 class="text-white mb-0">Booking Details</h5>
+                                </div>
+                                <div id="bookinSer" class="collapse show" aria-labelledby="bookinDet" data-parent="#accordionExample">
+                                    <div class="card-body p-0 paybox">
+                                        <ul class="booking-detail-list">
+                                            <!-- <li>Safari Date: <span>29 Sep 2024</span></li>
+                                            <li>Slot: <span>7:00 am - 8:30 am</span></li>
+                                            <li>Reporting Time:<span>8:00 PM of previous day</span></li> -->
+                                            <li>Rate per Person (Rs.):<span>1200.00</span></li>
+                                            <li>Total Visitor:<span>0</span></li>
+                                            <li>Price (Rs.): <span class="h6">0.00</span></li>
+                                            <li>GST: <span class="h6">0.00</span></li>
+                                            <li class="totalprice">Total Payment (Rs.)<span class="h5">0.00</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success thm-bg px-4" onclick="location.href='safari-booking-information.html';">I Agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="assets/js/jquery-3.4.1.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- For Gallery-->
+    <script type="text/javascript" src="assets/js/simple-lightbox.js"></script>
+    <!-- / For Gallery-->
+
+    <script src="assets/js/jquery-ui.js"></script>
+    <script src="assets/js/jquery4a5f.js"></script>
+    <script src="assets/js/owl.carousel.js"></script>
+    <script src="assets/js/stellarnav.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/wow.js"></script>
+
+    <script src="assets/js/waypoint.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            jQuery('.stellarnav').stellarNav({
+                //theme: 'dark',
+                breakpoint: 767,
+                position: 'right',
+                //phoneBtn: '18009997788',
+                //locationBtn: 'https://www.google.com/maps'
+            });
+        });
+    </script>
+    <script>
+        wow = new WOW({
+            animateClass: 'animated',
+            offset: 100,
+            mobile: false,
+        });
+        wow.init();
+    </script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+            $("#datepicker1").datepicker();
+        });
+    </script>
+    <script>
+        $(function() {
+            var $gallery = $('.gallery a').simpleLightbox();
+
+            $gallery.on('show.simplelightbox', function() {
+                    console.log('Requested for showing');
+                })
+                .on('shown.simplelightbox', function() {
+                    console.log('Shown');
+                })
+                .on('close.simplelightbox', function() {
+                    console.log('Requested for closing');
+                })
+                .on('closed.simplelightbox', function() {
+                    console.log('Closed');
+                })
+                .on('change.simplelightbox', function() {
+                    console.log('Requested for change');
+                })
+                .on('next.simplelightbox', function() {
+                    console.log('Requested for next');
+                })
+                .on('prev.simplelightbox', function() {
+                    console.log('Requested for prev');
+                })
+                .on('nextImageLoaded.simplelightbox', function() {
+                    console.log('Next image loaded');
+                })
+                .on('prevImageLoaded.simplelightbox', function() {
+                    console.log('Prev image loaded');
+                })
+                .on('changed.simplelightbox', function() {
+                    console.log('Image changed');
+                })
+                .on('nextDone.simplelightbox', function() {
+                    console.log('Image changed to next');
+                })
+                .on('prevDone.simplelightbox', function() {
+                    console.log('Image changed to prev');
+                })
+                .on('error.simplelightbox', function(e) {
+                    console.log('No image found, go to the next/prev');
+                    console.log(e);
+                });
+        });
+    </script>
+    <script type='text/javascript'>
+        jQuery(document).ready(function(e) {
+            var n;
+            e(".numbercount").counterUp({
+                delay: 10,
+                time: 1e3
+            })
+        });
+        // jQuery(document).ready(function () {
+
+        // 	jQuery(".numbercount").after('<h2 style="margin: 0px;display: inline-block;color: white;"><sup>+</sup></h2>');
+        // });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            customerSection();
+        });
+
+        function customerSection() {
+            var guestType = $('input:radio[name="guest_type"]:checked').val();
+            var firstName = "s";
+            var lastName = "";
+            var gender = "Male";
+            var age = "";
+            var email = "sourabhsyscentric@gmail.com";
+            var mobile = "7980717449";
+
+            if (guestType == "1") {
+                $("#booking_fname").val(firstName);
+                $("#booking_lname").val(lastName);
+                $('#booking_gender [value=' + gender + ']').attr('selected', 'true');
+                $('#booking_age [value=' + +']').attr('selected', 'true');
+                $("#booking_email").val("sourabhsyscentric@gmail.com");
+                $("#booking_mobile").val(mobile);
+
+                //$("#booking_fname").attr("readonly", "true");
+                //$("#booking_lname").attr("readonly", "true");
+                //$("#booking_gender").attr("readonly", "true");
+                //$("#booking_age").attr("readonly", "true");
+                //$("#booking_email").attr("readonly", "true");
+                //$("#booking_mobile").attr("readonly", "true");
+                $("#org_name").css("display", "none");
+                $("#org_gstin").css("display", "none");
+            }
+            if (guestType == "2") {
+                $("#booking_fname").val("");
+                $("#booking_lname").val("");
+                //$("#booking_gender").val("");
+                //$("#booking_age").val("");
+                $("#booking_email").val("");
+                $("#booking_mobile").val("");
+                $("#booking_organisation_name").val("");
+                $("#booking_organisation_gstin").val("");
+
+                //$("#booking_fname").removeAttr("readonly");
+                //$("#booking_lname").removeAttr("readonly");
+                //$("#booking_gender").removeAttr("disabled");
+                //$("#booking_age").removeAttr("disabled");
+                //$("#booking_email").removeAttr("readonly");
+                //$("#booking_mobile").removeAttr("readonly");
+                $("#org_name").css("display", "block");
+                $("#org_gstin").css("display", "block");
+            }
+        }
+    </script>
+</body>
+
+</html>

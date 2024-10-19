@@ -57,6 +57,24 @@ if (!function_exists('get_period_from_date'))
 	}
 }
 
+if (!function_exists('get_cancellation_percentage'))
+{
+	function get_cancellation_percentage($date){
+		$CI =& get_instance();
+		$CI->load->model('frontend/query');
+		
+		$booking_date=date_create($date);
+		$current_date=date_create(date('Y-m-d'));
+		//print_r($current_date);die;
+		$diff_booking=date_diff($current_date,$booking_date);
+		$diff_booking_date = $diff_booking->format("%R%a");
+		//echo $diff_booking_date;die;
+		$cancellation_details = $CI->query->getCancellationDetails($diff_booking_date);
+		
+		return $cancellation_details;
+	}
+}
+
 // --------------------------------------------------------------------
 
 /**

@@ -133,8 +133,6 @@ class Booking extends MY_Controller
 		$data['booking_source'] = '';
 		$data['payable_amount'] = $this->mbooking->get_payable_amt($booking_id);
 		
-		$data['pos_details'] = $this->mbooking->get_pos_details($booking_id);
-		
 		$data['booking_documents'] = $this->mcommon->getDetails('booking_documents', array('booking_id' => $booking_id));
 		
 		if(!empty($data['booking_details'])){
@@ -2098,7 +2096,7 @@ class Booking extends MY_Controller
 		$diff_check_in_out_date = $diff_check_in_out->format("%R%a");
 		//echo $diff_check_in_out_date;die;
 		$data['cancellation_details'] = $this->query->getCancellationDetails($diff_check_in_out_date);
-		$data['cancellation_request_details'] = $this->query->getCancellationRequestDetails($booking_id);
+		$data['cancellation_request_details'] = $this->query->getCancellationRequestDetails($booking_id, 'G');
 		//print_r($data['booking_details']);die;  
 		// $data['content'] = 'frontend/viewInvoiceNew';
 		$this->load->view('frontend/viewInvoiceNew', $data);
