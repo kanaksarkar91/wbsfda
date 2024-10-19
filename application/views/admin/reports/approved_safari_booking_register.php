@@ -126,7 +126,7 @@
                                         <th class="cell">Nationality</th>
                                         <th class="cell">Age</th>
                                         <th class="cell">Gender</th>
-                                        <th class="cell">ID Care Type</th>
+                                        <th class="cell">ID Card Type</th>
                                         <th class="cell">ID Card No.</th>
                                         <th class="cell">Status</th>
                                     </tr>
