@@ -130,7 +130,21 @@
                 <div class="destination_slider_area p-4 row g-0">
                     <div class="col-md-12">
                         <h3><?= $property['property_name']; ?></h3>
-                        <p class="map_ico"><i class="fas fa-map-marker-alt"></i> <?= $property['address_line_1'] . ', ' . $property['address_line_2'] . ', ' . $property['city']; ?></p>
+                        <p class="map_ico"><i class="fas fa-map-marker-alt"></i>
+                            <?php
+                            $address_parts = array();
+                            if (!empty($property['address_line_1'])) {
+                                $address_parts[] = $property['address_line_1'];
+                            }
+                            if (!empty($property['address_line_2'])) {
+                                $address_parts[] = $property['address_line_2'];
+                            }
+                            if (!empty($property['city'])) {
+                                $address_parts[] = $property['city'];
+                            }
+                            echo implode(', ', $address_parts);
+                            ?>
+                        </p>
                         <p class="text-green"><small>* Below rates are exclusive of GST</small></p>
                     </div>
                     <div class="clearfix w-100"></div>

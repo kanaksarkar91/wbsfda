@@ -47,7 +47,10 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-3 col-xl-2 mb-3">
-                        <button class="w-100 btn btn-green">Search Availability</button>
+                        <button type="button" onclick="property_search()" class="w-100 btn btn-green">
+                            <span id="search-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            <span class="button-text">Search Availability</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -141,6 +144,11 @@
 
 
     function property_search() {
+        // Show spinner and disable button
+        $('#search-spinner').removeClass('d-none');
+        $('.button-text').text('Searching...');
+        $('button[onclick="property_search()"]').prop('disabled', true);
+
         var keywords = $('#wish').val();
         var landscape = $('#landscape').val();
         var property_district = $('#property_district').val();
@@ -149,6 +157,7 @@
         //var date_range = $('#dates').val();
         var adult_pax = $('#adult_pax').val();
         var child_pax = $('#child_pax').val();
+        var nationality = $('#nationality').val();
         var destination = $('#destination').val();
         var hoteltypes = '';
         var facilities = '';
@@ -192,6 +201,17 @@
                 },
                 success: function(response) {
                     propertyResult(response);
+                    // Hide spinner and enable button
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                },
+                error: function() {
+                    // Hide spinner, enable button, and show error message
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                    alert('An error occurred. Please try again.');
                 }
             });
         } else {
@@ -207,12 +227,24 @@
                     date_range: date_range,
                     adult_pax: adult_pax,
                     child_pax: child_pax,
+                    nationality: nationality,
                     property_type: hoteltypes,
                     facilities: facilities,
                     csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
                 },
                 success: function(response) {
                     propertyResult(response);
+                    // Hide spinner and enable button
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                },
+                error: function() {
+                    // Hide spinner, enable button, and show error message
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                    alert('An error occurred. Please try again.');
                 }
             });
         }
@@ -223,16 +255,18 @@
         var img = '';
         var action = '';
         var propertyObj = $.parseJSON(response);
+
         var check_in_dt = propertyObj.check_in_dt;
         var check_out_dt = propertyObj.check_out_dt;
         var adult = propertyObj.adult;
         var child = propertyObj.child;
+        var nationality = propertyObj.nationality;
         $.each(propertyObj.result, function(key, value) {
 
             var lnk = '';
 
             if (check_in_dt != '' && check_out_dt != '') {
-                lnk = '<?= base_url('frontend/booking/property_details/'); ?>' + value.property_id + '/' + check_in_dt + '/' + check_out_dt + '/' + adult + '/' + child;
+                lnk = '<?= base_url('frontend/booking/property_details/'); ?>' + value.property_id + '/' + check_in_dt + '/' + check_out_dt + '/' + adult + '/' + child + '/' + nationality;
             } else {
                 lnk = '<?= base_url('frontend/booking/property_details/'); ?>' + value.property_id;
             }
@@ -317,27 +351,27 @@
 <script>
     $(document).ready(function() {
         property_search();
-        $("#landscape").on("change", function() {
-            property_search();
-        });
-        $("#property_district").on("change", function() {
-            property_search();
-        });
-        $("#destination").on("keyup", function() {
-            property_search();
-        });
-        $('#dates').on('apply.daterangepicker', function(ev, picker) {
-            //$("#checkindt").val(picker.startDate.format('DDMMYYYY'));
-            //$("#checkoutdt").val(picker.endDate.format('DDMMYYYY'));
-            $("#dates").val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-            property_search();
-        });
-        $('input[name^="hoteltype"]').on("change", function() {
-            property_search();
-        });
-        $('input[name^="facilities"]').on("change", function() {
-            property_search();
-        });
+        // $("#landscape").on("change", function() {
+        //     property_search();
+        // });
+        // $("#property_district").on("change", function() {
+        //     property_search();
+        // });
+        // $("#destination").on("keyup", function() {
+        //     property_search();
+        // });
+        // $('#dates').on('apply.daterangepicker', function(ev, picker) {
+        //     //$("#checkindt").val(picker.startDate.format('DDMMYYYY'));
+        //     //$("#checkoutdt").val(picker.endDate.format('DDMMYYYY'));
+        //     $("#dates").val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        //     property_search();
+        // });
+        // $('input[name^="hoteltype"]').on("change", function() {
+        //     property_search();
+        // });
+        // $('input[name^="facilities"]').on("change", function() {
+        //     property_search();
+        // });
 
 
         $(function() {

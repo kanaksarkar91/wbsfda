@@ -252,7 +252,19 @@
                 <div class="checkout-side">
                     <div class="booking-short">
                         <h5 class="thm-txt fw-bold pt-3"><?= $property['property_name']; ?></h5>
-                        <p><?= $property['address_line_1'] . ', ' . $property['address_line_2'] . ', ' . $property['city']; ?></p>
+                        <p><?php
+                            $address_parts = array();
+                            if (!empty($property['address_line_1'])) {
+                                $address_parts[] = $property['address_line_1'];
+                            }
+                            if (!empty($property['address_line_2'])) {
+                                $address_parts[] = $property['address_line_2'];
+                            }
+                            if (!empty($property['city'])) {
+                                $address_parts[] = $property['city'];
+                            }
+                            echo implode(', ', $address_parts);
+                            ?></p>
                         <p>
                             <span class="text-dark fw-bold">Total Length of Stay:</span><br>
                             <span><?= $no_nights; ?> Night <?= $no_nights + 1; ?> Days</span>

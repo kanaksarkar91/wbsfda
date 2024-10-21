@@ -81,7 +81,7 @@ class Booking extends CI_Controller
 			'nationality' => $nationality
 		);
 
-		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1));
+		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1, 'is_safari' => 2));
 		$data['districts'] = $this->mbooking->get_property_districts(array('is_active' => 1));
 		$data['property_types'] = $this->mbooking->get_property_types(array('is_active' => 1));
 		$data['facilities'] = $this->mbooking->get_property_facilities(array('facility_type' => 'P', 'status' => 1));
@@ -123,7 +123,7 @@ class Booking extends CI_Controller
 
 			$properties = $this->mbooking->get_property_details_for_listing($hotel_types, $landscape, $property_district, $keywords, $facilities);
 
-			$response = array('success' => true, 'check_in_dt' => '', 'check_out_dt' => '', 'adult' => '', 'child' => '', 'result' => $properties);
+			$response = array('success' => true, 'check_in_dt' => '', 'check_out_dt' => '', 'adult' => '', 'child' => '', 'result' => $properties, 'nationality' => '');
 		}
 		if ($search_type == '2') {
 			$from_date = $to_date = '';
@@ -153,13 +153,13 @@ class Booking extends CI_Controller
 			// print_r($properties);
 			// die;
 
-			$response = array('success' => true, 'check_in_dt' => date('dmY', strtotime($from_date)), 'check_out_dt' => date('dmY', strtotime($to_date)), 'adult' => $adult_pax, 'child' => $child_pax, 'result' => $properties);
+			$response = array('success' => true, 'check_in_dt' => date('dmY', strtotime($from_date)), 'check_out_dt' => date('dmY', strtotime($to_date)), 'adult' => $adult_pax, 'child' => $child_pax, 'result' => $properties, 'nationality' => $nationality);
 		}
 
 		echo json_encode($response);
 	}
 
-	public function property_details($property_id, $checkIn_dt = null, $checkOut_dt = null, $adult_pax = null, $child_pax = null)
+	public function property_details($property_id, $checkIn_dt = null, $checkOut_dt = null, $adult_pax = null, $child_pax = null, $nationality = null)
 	{
 		$property_det = $this->mbooking->get_property_details(array('property_id' => $property_id));
 
@@ -284,6 +284,7 @@ class Booking extends CI_Controller
 				$checkOut = $this->input->post('checkOut');
 				$adults = $this->input->post('adults') != '' ? $this->input->post('adults') : 1;
 				$children = $this->input->post('children') != '' ? $this->input->post('children') : 0;
+				$nationality = $this->input->post('nationality');
 
 				/*$stay_date_range_arr = explode(' - ', $dates);
 				$form_date_arr = explode('/', $stay_date_range_arr[0]);
@@ -296,12 +297,13 @@ class Booking extends CI_Controller
 				$to_date_arr = explode('/', $checkOut);
 				$to_date = date('dmY', strtotime($to_date_arr[2] . '-' . $to_date_arr[1] . '-' . $to_date_arr[0]));
 
-				redirect(base_url('frontend/booking/property_details/' . $property_id . '/' . $from_date . '/' . $to_date . '/' . $adults . '/' . $children));
+				redirect(base_url('frontend/booking/property_details/' . $property_id . '/' . $from_date . '/' . $to_date . '/' . $adults . '/' . $children . '/' . $nationality));
 			}
 
 			$data['property_id'] = $property_id;
 			$data['check_in_date'] = $check_in_dt != '' ? date('d/m/Y', strtotime($check_in_dt)) : '';
 			$data['check_out_date'] = $check_out_dt != '' ? date('d/m/Y', strtotime($check_out_dt)) : '';
+			$data['nationality'] = $nationality;
 			$data['no_of_nights'] = $this->calculateBookingNights($check_in_dt, $check_out_dt);
 			$data['adult_pax'] = $adult_pax;
 			$data['child_pax'] = $child_pax;
@@ -426,7 +428,7 @@ class Booking extends CI_Controller
 				$accommodation_id = $_SESSION["accommodation_cart"][$k]['accommodation_id'];
 				$accomm_cost = $this->mbooking->get_booking_property_accommodation_availability($property_id, $accommodation_id, $checkInDt, $checkOutDt, $adultCount, $childCount, $rate_category_id, $percentage);
 				//echo "<pre>"; print_r($accomm_cost); die;
-				
+
 				$_SESSION["accommodation_cart"][$k]["rate_id"] = $accomm_cost[0]["rate_id"];
 				$_SESSION["accommodation_cart"][$k]["base_price"] = $accomm_cost[0]["base_price"];
 				$_SESSION["accommodation_cart"][$k]["extra_bed_price"] = $accomm_cost[0]["extra_bed_price"];
@@ -454,9 +456,9 @@ class Booking extends CI_Controller
 				$total_gst_amount += floatval($gst_amount) * $quantity;
 			}
 		}
-		
+
 		$gstPerc = getGstPercentage($total_amount);
-		
+
 		$gstAmt = ($gstPerc['gst_percentage'] * $total_amount) / 100;
 
 		$grand_total = floatval($total_amount) + floatval($gstAmt);
