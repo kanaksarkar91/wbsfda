@@ -81,7 +81,7 @@ class Booking extends CI_Controller
 			'nationality' => $nationality
 		);
 
-		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1));
+		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1, 'is_safari' => 2));
 		$data['districts'] = $this->mbooking->get_property_districts(array('is_active' => 1));
 		$data['property_types'] = $this->mbooking->get_property_types(array('is_active' => 1));
 		$data['facilities'] = $this->mbooking->get_property_facilities(array('facility_type' => 'P', 'status' => 1));
@@ -426,7 +426,7 @@ class Booking extends CI_Controller
 				$accommodation_id = $_SESSION["accommodation_cart"][$k]['accommodation_id'];
 				$accomm_cost = $this->mbooking->get_booking_property_accommodation_availability($property_id, $accommodation_id, $checkInDt, $checkOutDt, $adultCount, $childCount, $rate_category_id, $percentage);
 				//echo "<pre>"; print_r($accomm_cost); die;
-				
+
 				$_SESSION["accommodation_cart"][$k]["rate_id"] = $accomm_cost[0]["rate_id"];
 				$_SESSION["accommodation_cart"][$k]["base_price"] = $accomm_cost[0]["base_price"];
 				$_SESSION["accommodation_cart"][$k]["extra_bed_price"] = $accomm_cost[0]["extra_bed_price"];
@@ -454,9 +454,9 @@ class Booking extends CI_Controller
 				$total_gst_amount += floatval($gst_amount) * $quantity;
 			}
 		}
-		
+
 		$gstPerc = getGstPercentage($total_amount);
-		
+
 		$gstAmt = ($gstPerc['gst_percentage'] * $total_amount) / 100;
 
 		$grand_total = floatval($total_amount) + floatval($gstAmt);

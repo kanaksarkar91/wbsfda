@@ -47,7 +47,10 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-3 col-xl-2 mb-3">
-                        <button class="w-100 btn btn-green">Search Availability</button>
+                        <button type="button" onclick="property_search()" class="w-100 btn btn-green">
+                            <span id="search-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            <span class="button-text">Search Availability</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -141,6 +144,11 @@
 
 
     function property_search() {
+        // Show spinner and disable button
+        $('#search-spinner').removeClass('d-none');
+        $('.button-text').text('Searching...');
+        $('button[onclick="property_search()"]').prop('disabled', true);
+
         var keywords = $('#wish').val();
         var landscape = $('#landscape').val();
         var property_district = $('#property_district').val();
@@ -192,6 +200,17 @@
                 },
                 success: function(response) {
                     propertyResult(response);
+                    // Hide spinner and enable button
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                },
+                error: function() {
+                    // Hide spinner, enable button, and show error message
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                    alert('An error occurred. Please try again.');
                 }
             });
         } else {
@@ -213,6 +232,17 @@
                 },
                 success: function(response) {
                     propertyResult(response);
+                    // Hide spinner and enable button
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                },
+                error: function() {
+                    // Hide spinner, enable button, and show error message
+                    $('#search-spinner').addClass('d-none');
+                    $('.button-text').text('Search Availability');
+                    $('button[onclick="property_search()"]').prop('disabled', false);
+                    alert('An error occurred. Please try again.');
                 }
             });
         }
@@ -317,27 +347,27 @@
 <script>
     $(document).ready(function() {
         property_search();
-        $("#landscape").on("change", function() {
-            property_search();
-        });
-        $("#property_district").on("change", function() {
-            property_search();
-        });
-        $("#destination").on("keyup", function() {
-            property_search();
-        });
-        $('#dates').on('apply.daterangepicker', function(ev, picker) {
-            //$("#checkindt").val(picker.startDate.format('DDMMYYYY'));
-            //$("#checkoutdt").val(picker.endDate.format('DDMMYYYY'));
-            $("#dates").val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-            property_search();
-        });
-        $('input[name^="hoteltype"]').on("change", function() {
-            property_search();
-        });
-        $('input[name^="facilities"]').on("change", function() {
-            property_search();
-        });
+        // $("#landscape").on("change", function() {
+        //     property_search();
+        // });
+        // $("#property_district").on("change", function() {
+        //     property_search();
+        // });
+        // $("#destination").on("keyup", function() {
+        //     property_search();
+        // });
+        // $('#dates').on('apply.daterangepicker', function(ev, picker) {
+        //     //$("#checkindt").val(picker.startDate.format('DDMMYYYY'));
+        //     //$("#checkoutdt").val(picker.endDate.format('DDMMYYYY'));
+        //     $("#dates").val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        //     property_search();
+        // });
+        // $('input[name^="hoteltype"]').on("change", function() {
+        //     property_search();
+        // });
+        // $('input[name^="facilities"]').on("change", function() {
+        //     property_search();
+        // });
 
 
         $(function() {
