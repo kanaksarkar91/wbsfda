@@ -123,7 +123,7 @@ class Booking extends CI_Controller
 
 			$properties = $this->mbooking->get_property_details_for_listing($hotel_types, $landscape, $property_district, $keywords, $facilities);
 
-			$response = array('success' => true, 'check_in_dt' => '', 'check_out_dt' => '', 'adult' => '', 'child' => '', 'result' => $properties);
+			$response = array('success' => true, 'check_in_dt' => '', 'check_out_dt' => '', 'adult' => '', 'child' => '', 'result' => $properties, 'nationality' => '');
 		}
 		if ($search_type == '2') {
 			$from_date = $to_date = '';
@@ -153,13 +153,13 @@ class Booking extends CI_Controller
 			// print_r($properties);
 			// die;
 
-			$response = array('success' => true, 'check_in_dt' => date('dmY', strtotime($from_date)), 'check_out_dt' => date('dmY', strtotime($to_date)), 'adult' => $adult_pax, 'child' => $child_pax, 'result' => $properties);
+			$response = array('success' => true, 'check_in_dt' => date('dmY', strtotime($from_date)), 'check_out_dt' => date('dmY', strtotime($to_date)), 'adult' => $adult_pax, 'child' => $child_pax, 'result' => $properties, 'nationality' => $nationality);
 		}
 
 		echo json_encode($response);
 	}
 
-	public function property_details($property_id, $checkIn_dt = null, $checkOut_dt = null, $adult_pax = null, $child_pax = null)
+	public function property_details($property_id, $checkIn_dt = null, $checkOut_dt = null, $adult_pax = null, $child_pax = null, $nationality = null)
 	{
 		$property_det = $this->mbooking->get_property_details(array('property_id' => $property_id));
 
@@ -284,6 +284,7 @@ class Booking extends CI_Controller
 				$checkOut = $this->input->post('checkOut');
 				$adults = $this->input->post('adults') != '' ? $this->input->post('adults') : 1;
 				$children = $this->input->post('children') != '' ? $this->input->post('children') : 0;
+				$nationality = $this->input->post('nationality');
 
 				/*$stay_date_range_arr = explode(' - ', $dates);
 				$form_date_arr = explode('/', $stay_date_range_arr[0]);
@@ -296,12 +297,13 @@ class Booking extends CI_Controller
 				$to_date_arr = explode('/', $checkOut);
 				$to_date = date('dmY', strtotime($to_date_arr[2] . '-' . $to_date_arr[1] . '-' . $to_date_arr[0]));
 
-				redirect(base_url('frontend/booking/property_details/' . $property_id . '/' . $from_date . '/' . $to_date . '/' . $adults . '/' . $children));
+				redirect(base_url('frontend/booking/property_details/' . $property_id . '/' . $from_date . '/' . $to_date . '/' . $adults . '/' . $children . '/' . $nationality));
 			}
 
 			$data['property_id'] = $property_id;
 			$data['check_in_date'] = $check_in_dt != '' ? date('d/m/Y', strtotime($check_in_dt)) : '';
 			$data['check_out_date'] = $check_out_dt != '' ? date('d/m/Y', strtotime($check_out_dt)) : '';
+			$data['nationality'] = $nationality;
 			$data['no_of_nights'] = $this->calculateBookingNights($check_in_dt, $check_out_dt);
 			$data['adult_pax'] = $adult_pax;
 			$data['child_pax'] = $child_pax;

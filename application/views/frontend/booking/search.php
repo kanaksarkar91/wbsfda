@@ -157,6 +157,7 @@
         //var date_range = $('#dates').val();
         var adult_pax = $('#adult_pax').val();
         var child_pax = $('#child_pax').val();
+        var nationality = $('#nationality').val();
         var destination = $('#destination').val();
         var hoteltypes = '';
         var facilities = '';
@@ -226,6 +227,7 @@
                     date_range: date_range,
                     adult_pax: adult_pax,
                     child_pax: child_pax,
+                    nationality: nationality,
                     property_type: hoteltypes,
                     facilities: facilities,
                     csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
@@ -253,16 +255,18 @@
         var img = '';
         var action = '';
         var propertyObj = $.parseJSON(response);
+
         var check_in_dt = propertyObj.check_in_dt;
         var check_out_dt = propertyObj.check_out_dt;
         var adult = propertyObj.adult;
         var child = propertyObj.child;
+        var nationality = propertyObj.nationality;
         $.each(propertyObj.result, function(key, value) {
 
             var lnk = '';
 
             if (check_in_dt != '' && check_out_dt != '') {
-                lnk = '<?= base_url('frontend/booking/property_details/'); ?>' + value.property_id + '/' + check_in_dt + '/' + check_out_dt + '/' + adult + '/' + child;
+                lnk = '<?= base_url('frontend/booking/property_details/'); ?>' + value.property_id + '/' + check_in_dt + '/' + check_out_dt + '/' + adult + '/' + child + '/' + nationality;
             } else {
                 lnk = '<?= base_url('frontend/booking/property_details/'); ?>' + value.property_id;
             }
