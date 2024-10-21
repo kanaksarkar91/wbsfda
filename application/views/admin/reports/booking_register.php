@@ -35,14 +35,14 @@
                             <label for="" class="form-label">To</label>
                             <input type="text" class="form-control" name="end_date" id="end_date" autocomplete="off" placeholder="dd-mm-yyyy" value="<?= !empty($end_date) ? date('d-m-Y', strtotime($end_date)) : "" ?>" >
                         </div>
-                        <div class="col-lg-2 col-sm-12 col-md-2">
+                        <!--<div class="col-lg-2 col-sm-12 col-md-2">
                             <label for="" class="form-label">Booking Source</label>
                             <select class="form-select" name="bookingsource" id="bookingsource">
                                 <option value="">--Select All--</option>
                                 <option value="B" <?= (set_value('bookingsource')=='B')?" selected=' selected'":""?>>Backend</option>
                                 <option value="F" <?= (set_value('bookingsource')=='F')?" selected=' selected'":""?>>Frontend</option>                             
                             </select>
-                        </div>
+                        </div>-->
                         <div class="col-lg-2 col-sm-12 col-md-2">
                             <label for="" class="form-label">Canceled By</label>
                             <select class="form-select" name="canceledby" id="cancekedby">
@@ -52,10 +52,9 @@
                             </select>
                         </div>
                         <div class="col-lg-3 col-sm-12 col-md-3 button-group">
-                            <button class="btn app-btn-primary">Search</button>
-                            <a class="btn app-btn-primary" href="">
-                                Reset
-                            </a>
+                            <label for="" class="form-label"></label><br />
+							<button class="btn app-btn-primary">Search</button>
+                            <a class="btn app-btn-primary" href="">Reset</a>
                         </div>
                     </div>
                 </form>

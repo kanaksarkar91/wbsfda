@@ -141,8 +141,13 @@ class Profile extends CI_Controller
 						if ($row['booking_status'] == 'A' && $calcelButtonVisible) {
 							$html .= '<a class="btn btn-sm btn-danger" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '/?type=cancel' . '" target="_blank">Cancel Safari</a>';
 						}
-						$html .= '&nbsp;&nbsp;<a class="btn btn-dark btn-sm" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank">View Details</a>
-                                                        </div>
+						
+						$html .= '&nbsp;&nbsp;<a class="btn btn-dark btn-sm" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank">View Details</a>';
+						
+						if($row['booking_status'] != 'C'){
+							$html .= '&nbsp;&nbsp;<a class="btn btn-success btn-sm" href="' . base_url('download-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank"><i class="fa fa-download"></i> Download</a>';
+						}
+                                                       $html .= '</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -359,7 +364,29 @@ class Profile extends CI_Controller
 		$this->pdf->stream("" . $filename . ".pdf", array("Attachment" => 0));
 	}
 
+	public function downloadSafariInvoice($booking_id)
+	{
+		$this->load->library('pdf');
+		$data = array();
+		$booking_id = decode_url($booking_id);
+		
+		$condn = array('booking_id' => $booking_id);
 
+		$data['sBooking'] = $this->query->getSafariBookingDetailsByUser($condn);
+		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
+		$data['sBookingPayment'] = $this->mcommon->getRow('safari_booking_payment', ['booking_id' => $booking_id, 'status' => 'Captured']);
+
+		$filename = 'booking-' . time() . '-' . $booking_id;
+		$html = $this->load->view('frontend/downloadSafariInvoice', $data, true);
+		// $this->pdf->create($html, $filename);
+		// echo $html;die;
+
+		$this->pdf->loadHtml($html);
+		$this->pdf->set_paper("A4", "landscape");
+		$this->pdf->render();
+
+		$this->pdf->stream("" . $filename . ".pdf", array("Attachment" => 0));
+	}
 
 	public function getstate()
 	{

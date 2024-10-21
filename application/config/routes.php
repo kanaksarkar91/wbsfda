@@ -82,6 +82,7 @@ $route['safari-booking-payment-success'] = 'frontend/safari_booking/paymentSucce
 $route['safari-booking-payment-failure'] = 'frontend/safari_booking/paymentFailure';
 $route['safari-booking-html'] = 'frontend/profile/getSafariBookingHtml';
 $route['view-safari-booking-invoice/(:any)'] = 'frontend/profile/viewSafariInvoice/$1';
+$route['download-safari-booking-invoice/(:any)'] = 'frontend/profile/downloadSafariInvoice/$1';
 $route['cancel-safari-booking'] = 'frontend/profile/cancelSafariBooking';
 
 #----------------------------------------------

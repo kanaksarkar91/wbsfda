@@ -140,7 +140,7 @@
 															<option value="">Select Gender</option>
 															<option value="Male" <?= set_select('visitor_gender['.$i.']', 'Male'); ?>>Male</option>
 															<option value="Female" <?= set_select('visitor_gender['.$i.']', 'Female'); ?>>Female</option>																
-															<option value="Transgengder" <?= set_select('visitor_gender['.$i.']', 'Transgengder'); ?>>Transgengder</option>
+															<option value="Transgender" <?= set_select('visitor_gender['.$i.']', 'Transgender'); ?>>Transgender</option>
 														</select>
 														
 														<span class="text-danger" style="font-size:12px;"><?= form_error('visitor_gender['.$i.']'); ?></span>

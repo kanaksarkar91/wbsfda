@@ -872,6 +872,7 @@ class Reports extends MY_Controller
 		if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN || check_user_permission($data['menu_id'], 'delete_flag') || 1){
 			$data['reservations'] = $this->mreport->get_booking_details_summary_by_sp($data['property'],$data['start_date'],$data['end_date'],$data['bookingsource'],"'".'B'."'",$data['canceledby']);
 		}
+		//echo nl2br($this->db->last_query()); die;
 		$data['properties'] = $this->admin_session_data['role_id'] == ROLE_SUPERADMIN ? $this->mproperty->get_property(array('property_master.is_active' => 1)) : $this->mproperty->get_user_property_details($this->admin_session_data['user_id']);
 		
 		if(!empty($data['reservations'])){

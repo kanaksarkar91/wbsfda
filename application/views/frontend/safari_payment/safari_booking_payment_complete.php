@@ -27,7 +27,7 @@
         <?php if ($status == 'SUCCESS') { ?>
 		<h4 class="text-success text-center mb-3 fw-bold"><i class="bi bi-check-circle-fill fs-1"></i><br>Congratulations!</h4>
 		<h5 class="text-success text-center mb-4">Your Payment is Successful and Booking is confirmed.</h5>
-		<p class="text-center"><?= isset($booking_det['booking_number']) && $booking_det['booking_number'] != '' ? '<b>Booking No. :</b> ' . $booking_det['booking_number'] : ''; ?><?= isset($booking_det['order_id']) && $booking_det['order_id'] != '' ? '<br><b>Order Number :</b> ' . $booking_det['order_id'] : ''; ?><?= isset($booking_det['amount']) && $booking_det['amount'] != '' ? '<br><b>Amount</b> : ' . $booking_det['amount'] : ''; ?></p>
+		<p class="text-center"><?= isset($booking_det['booking_number']) && $booking_det['booking_number'] != '' ? '<b>PNR No. :</b> ' . $booking_det['booking_number'] : ''; ?><?= isset($booking_det['order_id']) && $booking_det['order_id'] != '' ? '<br><b>Order Number :</b> ' . $booking_det['order_id'] : ''; ?><?= isset($booking_det['amount']) && $booking_det['amount'] != '' ? '<br><b>Amount</b> : ' . $booking_det['amount'] : ''; ?></p>
 		
 		<a href="<?= base_url('my-booking');?>" class="btn btn-secondary" data-dismiss="modal">Close</a>
 		
