@@ -78,7 +78,7 @@
                         <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                             <div class="select_area">
                                 <select name="landscape" id="landscape" class="form-control">
-                                    <option value="">Select Location</option>
+                                    <option value="">All Locations</option>
                                     <?php foreach ($terrains as $key => $value) { ?>
                                         <option value="<?= $value['terrain_id']; ?>"><?= $value['terrain_name']; ?></option>
                                     <?php } ?>

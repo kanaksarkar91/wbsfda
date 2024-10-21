@@ -18,7 +18,7 @@ class Index extends CI_Controller
 	{
 		$data = array();
 		// $data['districts'] = $this->mbooking->get_property_districts(array('is_active' => 1, 'district_id <>' => 21));
-		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1));
+		$data['terrains'] = $this->mbooking->get_property_terrains(array('is_active' => 1, 'is_safari' => 2));
 		$data['landscape_properties'] = $this->mbooking->get_landscape_properties(array('terrain_master.is_active' => 1, 'property_master.is_active' => 1, 'property_master.is_venue' => '1'));
 		$data['property_types'] = $this->mbooking->get_property_types(array('is_active' => 1));
 
@@ -39,15 +39,14 @@ class Index extends CI_Controller
 		$data_list = array();
 		$safari_type_id = $this->input->post('safari_type_id');
 		$division_id = $this->input->post('division_id');
-		if(is_numeric($safari_type_id) && $safari_type_id > 0 && is_numeric($division_id) && $division_id > 0){
+		if (is_numeric($safari_type_id) && $safari_type_id > 0 && is_numeric($division_id) && $division_id > 0) {
 			$data_list = $this->mcommon->getDetailsOrder('safari_service_header', array('service_status' => 1, 'safari_type_id' => $safari_type_id, 'division_id' => $division_id), 'service_definition', 'ASC');
-			
-			$response = array("status"=> true, "list"=>$data_list);
+
+			$response = array("status" => true, "list" => $data_list);
+		} else {
+			$response = array("status" => false, "list" => $data_list);
 		}
-		else{
-			$response = array("status"=> false, "list"=>$data_list);
-		}
-		
+
 		echo json_encode($response);
 		exit;
 	}
@@ -55,28 +54,28 @@ class Index extends CI_Controller
 	{
 		$data_list = [];
 		$html = '';
-		if($this->input->post()){
+		if ($this->input->post()) {
 			$safari_type_id = $this->input->post('safari_type_id');
-			if(is_numeric($safari_type_id) && $safari_type_id > 0){
+			if (is_numeric($safari_type_id) && $safari_type_id > 0) {
 				$data_list = $this->msafari_service->get_services_home(array('a.safari_type_id' => $safari_type_id));
 				$safariCat = $this->mcommon->getDetailsOrder('safari_category_master', array('is_active' => 1));
-				
+
 				$html .= '<div class="tab-pane fade show active" id="safari" role="tabpanel" aria-labelledby="safari-tab">
-							<form action="'.base_url('search-availability').'" class="row g-2 align-items-center" method="post">
-							<input type="hidden" name="safari_type_id" id="safari_type_id" value="'.$safari_type_id.'"  />
-							<input type="hidden" name="'.$this->security->get_csrf_token_name().'" value="'.$this->security->get_csrf_hash().'">
+							<form action="' . base_url('search-availability') . '" class="row g-2 align-items-center" method="post">
+							<input type="hidden" name="safari_type_id" id="safari_type_id" value="' . $safari_type_id . '"  />
+							<input type="hidden" name="' . $this->security->get_csrf_token_name() . '" value="' . $this->security->get_csrf_hash() . '">
 								<div class="col-md-6 col-lg-3 mb-3">
 									<div class="select_area">
 										<select name="division_id" id="division_id" class="form-control" required>
 											<option value="">Select Park</option>';
-											
-											if(!empty($data_list)){
-												foreach($data_list as $row){
-											
-													$html .= '<option value="'.$row['division_id'].'">'.$row['division_name'].'</option>';
-												} 
-											}
-										$html .= '</select>
+
+				if (!empty($data_list)) {
+					foreach ($data_list as $row) {
+
+						$html .= '<option value="' . $row['division_id'] . '">' . $row['division_name'] . '</option>';
+					}
+				}
+				$html .= '</select>
 									</div>
 								</div>
 								<div class="col-md-6 col-lg-3 mb-3">
@@ -94,14 +93,14 @@ class Index extends CI_Controller
 								<div class="col-md-4 col-lg-2 mb-3">
 									<div class="select_area">
 										<select name="safari_cat_id" id="safari_cat_id" class="form-control" required>';
-											
-											if(!empty($safariCat)){
-												foreach($safariCat as $row){
-											
-													$html .= '<option value="'.$row['safari_cat_id'].'">'.$row['cat_name'].'</option>';
-												}
-											}
-										$html .= '</select>
+
+				if (!empty($safariCat)) {
+					foreach ($safariCat as $row) {
+
+						$html .= '<option value="' . $row['safari_cat_id'] . '">' . $row['cat_name'] . '</option>';
+					}
+				}
+				$html .= '</select>
 									</div>
 								</div>
 								<div class="col-md-4 col-lg-2 mb-3">
@@ -109,11 +108,11 @@ class Index extends CI_Controller
 								</div>
 							</form>
 						</div>';
-						
-						$response = array("status"=> true, "html"=>$html);
-				}else{
-					$response = array("status"=> false, "html"=>'Slot Not Found!!');
-				}
+
+				$response = array("status" => true, "html" => $html);
+			} else {
+				$response = array("status" => false, "html" => 'Slot Not Found!!');
+			}
 			echo json_encode($response);
 			exit;
 		}

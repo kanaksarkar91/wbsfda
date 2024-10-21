@@ -8,7 +8,7 @@
                     <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
                         <div class="select_area">
                             <select name="landscape" id="landscape" class="form-control">
-                                <option value="">Select Property</option>
+                                <option value="">All Locations</option>
                                 <?php
                                 if (isset($terrains))
                                     foreach ($terrains as $t) {
@@ -289,7 +289,7 @@
             st += '</div>';
             st += '<div class="col-md-7">';
             st += '<h5>Timing:</h5>';
-            st += '<p>Check in: <b>' + value.checkin_time + ' AM</b> Check out: <b>' + value.checkout_time + ' AM</b></p>';
+            st += '<p>Check in: <b>' + value.checkin_time + '</b> Check out: <b>' + value.checkout_time + '</b></p>';
             st += '</div></div>';
             st += '<div class="d-flex justify-content-end">';
             st += action;
@@ -299,6 +299,19 @@
         $("#property_list_div").html(st);
         $("#property_count").html(propertyObj.result.length + " Results");
         $('#icon').hide();
+
+        var ds = $('.destination-carousel');
+        ds.owlCarousel({
+            autoplay: false,
+            //autoplayTimeout:1000,
+            //autoplaySpeed:700,
+            loop: true,
+            nav: true,
+            dots: false,
+            //animateOut: 'fadeOut',
+            items: 1,
+            navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
+        });
     }
 </script>
 <script>
