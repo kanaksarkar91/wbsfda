@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'index';
 $route['getOTP'] = 'index/getOTP';
-$route['signup'] = 'index/signup'; 
+$route['signup'] = 'index/signup';
 $route['login'] = 'index/login';
 $route['logout'] = 'index/logout';
 $route['search-properties/(:any)'] = 'frontend/booking/search/$1';
@@ -61,8 +61,9 @@ $route['my-profile'] = 'frontend/profile/myProfile';
 $route['my-booking'] = 'frontend/profile/myBooking';
 $route['my-booking/(:any)'] = 'frontend/profile/myBooking/$1';
 $route['booking-list'] = 'frontend/profile/bookingList';
-$route['view-invoice/(:any)'] = 'frontend/profile/viewInvoice/$1'; 
-$route['download-invoice/(:any)'] = 'frontend/profile/downloadInvoice/$1'; 
+$route['view-invoice/(:any)'] = 'frontend/profile/viewInvoice/$1';
+$route['cms/(:any)'] = 'frontend/cms/cmsPage/$1';
+$route['download-invoice/(:any)'] = 'frontend/profile/downloadInvoice/$1';
 $route['update-profile'] = 'frontend/profile/updateProfile';
 $route['view/(:num)'] = 'frontend/facilities/viewDetails/$1';
 $route['view-gymnasium/(:num)'] = 'frontend/facilities/viewGymnasiumDetails/$1';
@@ -146,4 +147,3 @@ $route['app-parking-type'] = 'api/parking/getParkingType';
 $route['app-vehicle-type-rate'] = 'api/parking/getVehicleTypeAndRate';
 $route['app-parking-data-save'] = 'api/parking/calculateParkingFees';
 /**/
-

@@ -8,7 +8,7 @@
                     <div class="col-md-6 col-lg-6 col-xl-2 mb-3">
                         <div class="select_area">
                             <select name="landscape" id="landscape" class="form-control">
-                                <option value="" disabled>Select Property</option>
+                                <option value="">Select Property</option>
                                 <?php
                                 if (isset($terrains))
                                     foreach ($terrains as $t) {

@@ -50,7 +50,7 @@
                     <div class="d-flex align-items-center">
                         <div class="stellarnav">
                             <ul>
-                                <li class="active"><a href="<?= base_url(); ?>">Home</a></li>
+                                <li class="<?= $this->uri->uri_string() == '' ? 'active' : ''; ?>"><a href="<?= base_url(); ?>">Home</a></li>
                                 <!-- <li><a href="">Destination</a>
                                     <ul>
                                         <li><a href="">Sub menu</a></li>
@@ -63,9 +63,9 @@
                                         <li><a href="">Sub menu</a></li>
                                     </ul>
                                 </li> -->
-                                <li><a href="">What's New</a></li>
-                                <li><a href="">Information</a></li>
-                                <li class="drop-left"><a href="">Dos & Don'ts</a> </li>
+                                <li class="<?= $this->uri->uri_string() == 'cms/whats-new' ? 'active' : ''; ?>"><a href="<?= base_url('cms/whats-new') ?>">What's New</a></li>
+                                <li class="<?= $this->uri->uri_string() == 'cms/information' ? 'active' : ''; ?>"><a href="<?= base_url('cms/information') ?>">Information</a></li>
+                                <li class="drop-left <?= $this->uri->uri_string() == 'cms/dos-donts' ? 'active' : ''; ?>"><a href="<?= base_url('cms/dos-donts') ?>">Dos & Don'ts</a> </li>
                             </ul>
                         </div>
                         <?php if (!$this->session->userdata('logged_in') && !$this->session->userdata('user_type') == 'frontend') { ?>

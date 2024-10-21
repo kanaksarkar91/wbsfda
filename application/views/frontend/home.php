@@ -4,14 +4,15 @@
         <!-- <h2></h2> -->
         <div class="tab_area rounded-4">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-			<?php
-			if(!empty($safariTypes)){
-				foreach($safariTypes as $key => $row){
-			?>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link <?= $key == 0 ? 'active' : '';?> serviceType" id="safari-tab-<?= $row['safari_type_id'];?>" data-bs-toggle="tab" data-bs-target="#safari-<?= $row['safari_type_id'];?>" type="button" role="tab" aria-controls="safari-<?= $row['safari_type_id'];?>" data-typeid="<?= $row['safari_type_id'];?>" aria-selected="true"><i class="<?= $row['safari_type_id'] == 1 ? 'fas fa-truck-pickup me-2' : 'fas fa-republican me-2';?>"></i> <?= $row['type_name'];?></button>
-                </li>
-			<?php } } ?>
+                <?php
+                if (!empty($safariTypes)) {
+                    foreach ($safariTypes as $key => $row) {
+                ?>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link <?= $key == 0 ? 'active' : ''; ?> serviceType" id="safari-tab-<?= $row['safari_type_id']; ?>" data-bs-toggle="tab" data-bs-target="#safari-<?= $row['safari_type_id']; ?>" type="button" role="tab" aria-controls="safari-<?= $row['safari_type_id']; ?>" data-typeid="<?= $row['safari_type_id']; ?>" aria-selected="true"><i class="<?= $row['safari_type_id'] == 1 ? 'fas fa-truck-pickup me-2' : 'fas fa-republican me-2'; ?>"></i> <?= $row['type_name']; ?></button>
+                        </li>
+                <?php }
+                } ?>
                 <!--<li class="nav-item" role="presentation">
                     <button class="nav-link" id="elephant-safari-tab" data-bs-toggle="tab" data-bs-target="#elephant-safari" type="button" role="tab" aria-controls="elephant-safari" aria-selected="false"><i class="fas fa-republican me-2"></i> Elephant Safari</button>
                 </li>-->
@@ -20,54 +21,56 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-				<div id="tabContentHtml">
-					<div class="tab-pane fade show active" id="safari" role="tabpanel" aria-labelledby="safari-tab">
-						<form action="<?= base_url('search-availability'); ?>" class="row g-2 align-items-center" method="post">
-						<input type="hidden" name="safari_type_id" id="safari_type_id" value="1"  />
-						<input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-							<div class="col-md-6 col-lg-3 mb-3">
-								<div class="select_area">
-									<select name="division_id" id="division_id" class="form-control" required>
-										<option value="">Select Park</option>
-										<?php
-										if(!empty($divisionData)){
-											foreach($divisionData as $row){
-										?>
-											<option value="<?= $row['division_id'];?>"><?= $row['division_name'];?></option>
-										<?php } } ?>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6 col-lg-3 mb-3">
-								<div class="select_area">
-									<select name="safari_service_header_id" id="safari_service_header_id" class="form-control" required>
-										<option value="">Select Safari</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-4 col-lg-2 mb-3">
-								<div class="calenadr_area">
-									<input type="text" class="form-control" name="saf_booking_date" id="saf_booking_date" autocomplete="off" placeholder="Date" required>
-								</div>
-							</div>
-							<div class="col-md-4 col-lg-2 mb-3">
-								<div class="select_area">
-									<select name="safari_cat_id" id="safari_cat_id" class="form-control" required>
-										<?php
-										if(!empty($safariCat)){
-											foreach($safariCat as $row){
-										?>
-											<option value="<?= $row['safari_cat_id'];?>"><?= $row['cat_name'];?></option>
-										<?php } } ?>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-4 col-lg-2 mb-3">
-								<button type="submit" class="w-100 btn btn-green" name="safari">Search Availability</button>
-							</div>
-						</form>
-					</div>
-				</div>
+                <div id="tabContentHtml">
+                    <div class="tab-pane fade show active" id="safari" role="tabpanel" aria-labelledby="safari-tab">
+                        <form action="<?= base_url('search-availability'); ?>" class="row g-2 align-items-center" method="post">
+                            <input type="hidden" name="safari_type_id" id="safari_type_id" value="1" />
+                            <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="select_area">
+                                    <select name="division_id" id="division_id" class="form-control" required>
+                                        <option value="">Select Park</option>
+                                        <?php
+                                        if (!empty($divisionData)) {
+                                            foreach ($divisionData as $row) {
+                                        ?>
+                                                <option value="<?= $row['division_id']; ?>"><?= $row['division_name']; ?></option>
+                                        <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="select_area">
+                                    <select name="safari_service_header_id" id="safari_service_header_id" class="form-control" required>
+                                        <option value="">Select Safari</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="calenadr_area">
+                                    <input type="text" class="form-control" name="saf_booking_date" id="saf_booking_date" autocomplete="off" placeholder="Date" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="select_area">
+                                    <select name="safari_cat_id" id="safari_cat_id" class="form-control" required>
+                                        <?php
+                                        if (!empty($safariCat)) {
+                                            foreach ($safariCat as $row) {
+                                        ?>
+                                                <option value="<?= $row['safari_cat_id']; ?>"><?= $row['cat_name']; ?></option>
+                                        <?php }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <button type="submit" class="w-100 btn btn-green" name="safari">Search Availability</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 <div class="tab-pane fade" id="eco-tourism" role="tabpanel" aria-labelledby="eco-tourism-tab">
                     <form action="<?= base_url('frontend/booking/search/'); ?>" method="get" class="row g-2 align-items-center">
@@ -75,7 +78,7 @@
                         <div class="col-md-4 col-lg-4 col-xl-4 mb-3">
                             <div class="select_area">
                                 <select name="landscape" id="landscape" class="form-control">
-                                    <option value="" disabled>Select Location</option>
+                                    <option value="">Select Location</option>
                                     <?php foreach ($terrains as $key => $value) { ?>
                                         <option value="<?= $value['terrain_id']; ?>"><?= $value['terrain_name']; ?></option>
                                     <?php } ?>
@@ -382,117 +385,117 @@
             }
         });
     });
-$(document).ready(function(){
-	var today = new Date();
-	var maxbookingdt = new Date();
-	maxbookingdt.setMonth(today.getMonth() + 3);
-	
-	$("#saf_booking_date").datepicker({
-		minDate: new Date,
-		maxDate: maxbookingdt,
-		dateFormat: "dd-mm-yy"
-	});
-	
-	$(".serviceType").click(function(){ 
-		var safari_type_id = $(this).data('typeid');
-		console.log(safari_type_id);
-		$("#tabContentHtml").show();
-		$.ajax({
-			type: 'POST',	
-			url: '<?= base_url("index/getTabHtml"); ?>',
-			data: {
-				safari_type_id: safari_type_id,
-				csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
-			},
-			dataType: 'json',
-			encode: true,
-			async: false
-		})
-		//ajax response
-		.done(function(response){
-			if(response.status){
-				$("#tabContentHtml").html(response.html);
-				
-				$("#division_id").change(function(){ 
-					getServices();
-				});
-				
-				$("#saf_booking_date").datepicker({
-					minDate: new Date,
-					dateFormat: "dd-mm-yy"
-				});
-			}
-			else{
-                $("#tabContentHtml").html(response.html);
+    $(document).ready(function() {
+        var today = new Date();
+        var maxbookingdt = new Date();
+        maxbookingdt.setMonth(today.getMonth() + 3);
+
+        $("#saf_booking_date").datepicker({
+            minDate: new Date,
+            maxDate: maxbookingdt,
+            dateFormat: "dd-mm-yy"
+        });
+
+        $(".serviceType").click(function() {
+            var safari_type_id = $(this).data('typeid');
+            console.log(safari_type_id);
+            $("#tabContentHtml").show();
+            $.ajax({
+                    type: 'POST',
+                    url: '<?= base_url("index/getTabHtml"); ?>',
+                    data: {
+                        safari_type_id: safari_type_id,
+                        csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
+                    },
+                    dataType: 'json',
+                    encode: true,
+                    async: false
+                })
+                //ajax response
+                .done(function(response) {
+                    if (response.status) {
+                        $("#tabContentHtml").html(response.html);
+
+                        $("#division_id").change(function() {
+                            getServices();
+                        });
+
+                        $("#saf_booking_date").datepicker({
+                            minDate: new Date,
+                            dateFormat: "dd-mm-yy"
+                        });
+                    } else {
+                        $("#tabContentHtml").html(response.html);
+                    }
+
+                });
+        });
+
+        $("#eco-tourism-tab").click(function() {
+            $("#tabContentHtml").hide();
+        });
+
+        $("#division_id").change(function() {
+            getServices();
+        });
+
+    });
+
+    function getServices() {
+        var division_id = $('#division_id').val();
+        var safari_type_id = $('#safari_type_id').val();
+        console.log({
+            safari_type_id: safari_type_id,
+            division_id: division_id
+        });
+        var result = '';
+        $.ajax({
+                type: 'POST',
+                url: '<?= base_url("index/getServices"); ?>',
+                data: {
+                    safari_type_id: safari_type_id,
+                    division_id: division_id,
+                    csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
+                },
+                dataType: 'json',
+                encode: true,
+                //async: false
+            })
+            //ajax response
+            .done(function(response) {
+                if (response.status) {
+                    result += '<option value="">Select Safari</option>';
+                    $.each(response.list, function(key, value) {
+                        result += '<option value="' + value.safari_service_header_id + '">' + value.service_definition + '</option>';
+                    });
+                } else {
+                    result += '<option value="">No Data found</option>'
+                }
+                $("#safari_service_header_id").html(result);
+            });
+    }
+
+    function safari_search() {
+        var division_id = $('#division_id').val();
+        var safari_type_id = $('#safari_type_id').val();
+        var safari_service_header_id = $('#safari_service_header_id').val();
+        var saf_booking_date = $('#saf_booking_date').val();
+        var safari_cat_id = $('#safari_cat_id').val();
+
+        $.ajax({
+            url: "<?= base_url('frontend/safari_booking/searchAvailability'); ?>",
+            type: "post",
+            data: {
+                division_id: division_id,
+                safari_type_id: safari_type_id,
+                safari_service_header_id: safari_service_header_id,
+                saf_booking_date: saf_booking_date,
+                safari_cat_id: safari_cat_id,
+                csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
+            },
+            success: function(response) {
+                propertyResult(response);
             }
-			
-		});
-	});
-	
-	$("#eco-tourism-tab").click(function(){ 
-		$("#tabContentHtml").hide();
-	});
-	
-	$("#division_id").change(function(){ 
-		getServices();
-	});
-	
-});
-
-function getServices(){
-	var division_id = $('#division_id').val();
-	var safari_type_id = $('#safari_type_id').val();
-	console.log({
-	  safari_type_id: safari_type_id,
-	  division_id: division_id
-	});
-	var result = '';
-	$.ajax({
-		type: 'POST',	
-		url: '<?= base_url("index/getServices"); ?>',
-		data: {
-			safari_type_id: safari_type_id, division_id: division_id, csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'
-		},
-		dataType: 'json',
-		encode: true,
-		//async: false
-	})
-	//ajax response
-	.done(function(response){
-		if(response.status){
-			result +='<option value="">Select Safari</option>';
-			$.each(response.list,function(key,value){
-				result +='<option value="'+value.safari_service_header_id+'">'+value.service_definition+'</option>';
-			});
-		}
-		else{
-			result +='<option value="">No Data found</option>'
-		}
-		$("#safari_service_header_id").html(result);
-	});
-}
-
-function safari_search() {
-	var division_id = $('#division_id').val();
-	var safari_type_id = $('#safari_type_id').val();
-	var safari_service_header_id = $('#safari_service_header_id').val();
-	var saf_booking_date = $('#saf_booking_date').val();
-	var safari_cat_id = $('#safari_cat_id').val();
-			
-	$.ajax({
-		url: "<?= base_url('frontend/safari_booking/searchAvailability'); ?>",
-		type: "post",
-		data: {
-			division_id: division_id,
-			safari_type_id: safari_type_id,
-			safari_service_header_id: safari_service_header_id,
-			saf_booking_date: saf_booking_date,
-			safari_cat_id: safari_cat_id,
-			csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
-		},
-		success: function(response) {
-			propertyResult(response);
-		}
-	});
-}
+        });
+    }
 </script>
