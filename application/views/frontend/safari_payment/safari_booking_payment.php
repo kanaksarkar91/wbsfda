@@ -15,7 +15,7 @@
 									  <input type="hidden" name="key_id" value="<?= $razorpaydata['key_id'];?>"/>
 									  <input type="hidden" name="amount" value=<?= $razorpaydata['amount'];?>/>
 									  <input type="hidden" name="order_id" value="<?= $razorpaydata['order_id'];?>"/>
-									  <input type="hidden" name="image" value="<?= base_url();?>public/frontend_assets/assets/images/wbidc-logo.png"/>
+									  <input type="hidden" name="image" value="<?= base_url();?>public/frontend_assets/assets/img/logo.png"/>
 									  <input type="hidden" name="prefill[name]" value="<?= $razorpaydata['entity_name'];?>"/>
 									  <input type="hidden" name="prefill[contact]" value="<?= $razorpaydata['phone'];?>"/>
   									  <input type="hidden" name="prefill[email]" value="<?= $razorpaydata['email'];?>"/>

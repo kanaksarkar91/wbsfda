@@ -87,15 +87,22 @@ class Profile extends CI_Controller
 						$slotTiming = $row['slot_desc'] . ': ' . $row['start_time'] . ' to ' . $row['end_time'];
 						$bookingStatus = ($row['booking_status'] == 'I') ? 'Initiate' : (($row['booking_status'] == 'A') ? 'Approved' : (($row['booking_status'] == 'C') ? 'Cancelled' : ''));
 
-						$date = $row['booking_date'];
-						// Create DateTime object
-						$dateObj = new DateTime($date);
-						// Subtract one day
-						$dateObj->modify('-1 day');
-						// Get the modified date
-						$cancelLastDate = $dateObj->format('Y-m-d');
+						if ($row['ticket_sale_closing_flag'] == 2) {
+							$date = $row['booking_date'];
 
-						$dateTime = new DateTime($row['start_time']);
+							// Create DateTime object
+							$dateObj = new DateTime($date);
+
+							// Subtract one day
+							$dateObj->modify('-1 day');
+
+							// Get the modified date
+							$cancelLastDate = $dateObj->format('Y-m-d');
+						} else {
+							$cancelLastDate = $row['booking_date'];
+						}
+
+						$dateTime = new DateTime($row['ticket_sale_closing_time']);
 						$closingTime = $dateTime->format('H:i');
 
 						$cancelationLastDateTime = $cancelLastDate . ' ' . $closingTime;
@@ -259,19 +266,25 @@ class Profile extends CI_Controller
 		$condn = array('booking_id' => $booking_id);
 
 		$data['sBooking'] = $this->query->getSafariBookingDetailsByUser($condn);
-		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_free' => 2]);
-		$data['sBookingChildDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_free' => 1]);
+		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
 		$data['sBookingPayment'] = $this->mcommon->getRow('safari_booking_payment', ['booking_id' => $booking_id, 'status' => 'Captured']);
 
-		$date = $data['sBooking'][0]['booking_date'];
-		// Create DateTime object
-		$dateObj = new DateTime($date);
-		// Subtract one day
-		$dateObj->modify('-1 day');
-		// Get the modified date
-		$cancelLastDate = $dateObj->format('Y-m-d');
+		if ($data['sBooking'][0]['ticket_sale_closing_flag'] == 2) {
+			$date = $data['sBooking'][0]['booking_date'];
 
-		$dateTime = new DateTime($data['sBooking'][0]['start_time']);
+			// Create DateTime object
+			$dateObj = new DateTime($date);
+
+			// Subtract one day
+			$dateObj->modify('-1 day');
+
+			// Get the modified date
+			$cancelLastDate = $dateObj->format('Y-m-d');
+		} else {
+			$cancelLastDate = $data['sBooking'][0]['booking_date'];
+		}
+
+		$dateTime = new DateTime($data['sBooking'][0]['ticket_sale_closing_time']);
 		$closingTime = $dateTime->format('H:i');
 
 		$cancelationLastDateTime = $cancelLastDate . ' ' . $closingTime;
@@ -360,8 +373,7 @@ class Profile extends CI_Controller
 		$condn = array('booking_id' => $booking_id);
 
 		$data['sBooking'] = $this->query->getSafariBookingDetailsByUser($condn);
-		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_free' => 2]);
-		$data['sBookingChildDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_free' => 1]);
+		$data['sBookingDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
 		$data['sBookingPayment'] = $this->mcommon->getRow('safari_booking_payment', ['booking_id' => $booking_id, 'status' => 'Captured']);
 
 		$filename = 'booking-' . time() . '-' . $booking_id;

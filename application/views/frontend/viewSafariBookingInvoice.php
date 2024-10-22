@@ -191,7 +191,7 @@
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:left;margin-top: 3px;">
                     <tr>
-                        <th colspan="7" style="font-size:14px; padding: 6px 3px; text-align: left; background-color: #f5f5f5;">Booked Visitor's Information</th>
+                        <th colspan="6" style="font-size:14px; padding: 6px 3px; text-align: left; background-color: #f5f5f5;">Booked Visitor's Information</th>
                     </tr>
                     <tr>
                         <th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Visitor's Name</th>
@@ -211,6 +211,36 @@
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_age'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_id_type'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_id_no'];?></td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;">Confirmed</td>
+                    </tr>
+					<?php } } ?>
+                </table>
+            </td>
+        </tr>
+		<tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:left;margin-top: 3px;">
+                    <tr>
+                        <th colspan="6" style="font-size:14px; padding: 6px 3px; text-align: left; background-color: #f5f5f5;">Booked Child's Information</th>
+                    </tr>
+                    <tr>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Child's Name</th>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Gender</th>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Age</th>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">ID Card Type</th>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">ID Card No. </th>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid;">Status</th>
+                    </tr>
+					<?php
+					if(!empty($sBookingChildDetail)){
+						foreach($sBookingChildDetail as $crow){
+					?>
+                    <tr>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_name'];?></td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_gender'];?></td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_age'];?></td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_id_type'];?></td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_id_no'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;">Confirmed</td>
                     </tr>
 					<?php } } ?>

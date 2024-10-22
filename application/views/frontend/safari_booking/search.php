@@ -242,6 +242,7 @@ $(document).ready(function() {
 		var saf_booking_date = $('#saf_booking_date').val();
 		var safari_cat_id = $('#safari_cat_id').val();
 		var no_of_visitor = $('#no_of_visitor').val();
+		var max_visitor = safari_type_id == 1 ? 6 : 4;
 		
 		$('.checkbox:checked').each(function() {
 			if($(this).is(':checked')){
@@ -285,7 +286,7 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		if(no_of_visitor > 6){
+		if(no_of_visitor > max_visitor){
 			Swal.fire({
 			  icon: 'error',
 			  title: 'Enter no. of person less than seven(7)!!',

@@ -102,12 +102,13 @@ define('COM_ADDRESS','Aranya Bhawan, Block LA-10A,sector - III, SaltLake City, K
 define('COM_PHONE','8961494999');
 define('COM_EMAIL','wbsfda@gmail.com');
 define('COM_WEBSITE','www.wbsfda.org');
+define('MAX_AGE_FOR_FREE_TICKET',5);
 
 
 
 
 
-define('RAZORPAY_KEY', 'rzp_test_GLVplNVgSmDOes');
-define('RAZORPAY_KEY_SECRET', 'x3OKFMCdQbydwKyMDoP3Kum0');
+define('RAZORPAY_KEY', 'rzp_test_aRrsN4FSwE5ISP');
+define('RAZORPAY_KEY_SECRET', 'U1ipp3rz4niiZTCt5tHs92HQ');
 define('RAZORPAY_CHECKOUT_URL', 'https://api.razorpay.com/v1/checkout/embedded');
 define('RAZORPAY_REFUND_URL', 'https://api.razorpay.com/v1/payments/');

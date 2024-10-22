@@ -148,7 +148,7 @@
 													<td>
 														<select class="form-select form-select-sm" name="visitor_age[]" required>
 															<option value="">Select Age</option>
-															<?php for ($a = 5; $a <= 120; $a++) { ?>
+															<?php for ($a = MAX_AGE_FOR_FREE_TICKET; $a <= 120; $a++) { ?>
 															<option value="<?= $a; ?>" <?= set_select('visitor_age['.$i.']', $a); ?>><?= $a; ?></option>
 															<?php } ?>
 														</select>
@@ -192,8 +192,17 @@
 									</div>
 									
 								</div>
-
+								
 								<div class="col-lg-12 col-md-12 col-sm-12">
+									<button type="button" class="btn btn-primary px-4" id="add_row_child">Add Child Below <?= MAX_AGE_FOR_FREE_TICKET;?> Years</button>
+									<div class="table-responsive border border-bottom-0 my-3">
+										<table class="table table-sm align-middle mb-0 text-center" id="myTablechild">
+												
+										</table>
+									</div>
+								</div>
+
+								<div class="col-lg-12 col-md-12 col-sm-12 mt-3">
 									<h5 class="mb-3 fw-bold thm-txt">Booking Details:</h5>
 									<div class="table-responsive border border-bottom-0 my-3">
 										<table class="table table-sm align-middle mb-0 text-center">
@@ -315,6 +324,22 @@
 	
 <script>
 $(document).ready(function() {
+	$('#myTablechild').on('click', '#delete_row_child', function () {
+		$(this).closest('tr').remove();
+	});
+	
+	$('#add_row_child').click(function () {
+		
+		var counter = $('.text-box').length + 1;
+		
+		$('#myTablechild').append('<tr class="text-box"><td><input type="text" name="child_name[]" class="form-control form-control-sm" autocomplete="off" placeholder="Child Name" required><span class="text-danger" style="font-size:12px;"></span></td><td><select class="form-select form-select-sm" name="child_gender[]" required><option value="">Select Gender</option><option value="Male">Male</option><option value="Female">Female</option><option value="Transgender">Transgender</option></select><span class="text-danger" style="font-size:12px;"></span></td><td><select class="form-select form-select-sm" name="child_age[]" required><option value="">Select Age</option><?php for ($ca = 1; $ca <= (MAX_AGE_FOR_FREE_TICKET - 1); $ca++) { ?><option value="<?= $ca; ?>"><?= $ca; ?></option><?php } ?></select><span class="text-danger" style="font-size:12px;"></span></td><td><?php if($safariCatData['safari_cat_id'] == 1){//Indian?><select class="form-select form-select-sm" name="child_id_type[]" required><option value="">Select ID Type</option><option value="Aadhar Card" >Aadhar Card</option><option value="Passport">Passport</option><option value="School ID Card">School ID Card</option></select><span class="text-danger" style="font-size:12px;"></span><?php } else { ?><select class="form-select form-select-sm" name="child_id_type[]" required><option value="">Select Card Type</option><option value="Passport">Passport</option></select><span class="text-danger" style="font-size:12px;"></span><?php } ?></td><td><input type="text" name="child_id_no[]" class="form-control form-control-sm" autocomplete="off" placeholder="ID No."><span class="text-danger" style="font-size:12px;"></span></td><td><button type="button" class="btn btn-danger btn-sm text-white" id="delete_row_child"><i class="bi bi-trash-fill"></i></button></td></tr>')
+		
+	
+	});
+	
+	
+	
+	
 	$("#pay_btn").on("click", function() {
 		$("#pay_btn").attr('disabled', 'disabled');
 		$("#paymentForm").submit();

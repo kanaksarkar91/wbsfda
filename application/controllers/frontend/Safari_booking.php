@@ -211,57 +211,64 @@ class Safari_booking extends CI_Controller
 		$saf_booking_date = $this->input->post('saf_booking_date') != '' ? date('Y-m-d', strtotime($this->input->post('saf_booking_date'))) : '';
 		$safari_cat_id = $this->input->post('safari_cat_id');
 		$no_of_visitor = $this->input->post('no_of_visitor');
+		$max_no_visitor = $safari_type_id == 1 ? 6: 4;
 
 		$response = array('success' => false);
 
 		$today = date('Y-m-d');
 		$curTime = date('H:i');
 		
-		if($saf_booking_date >= $today){
-			$safariSlots = $this->msafari_booking->get_booking_slot_list($safari_type_id, $division_id, $safari_service_header_id, $saf_booking_date, $safari_cat_id);
+		if($no_of_visitor <= $max_no_visitor){
 			
-			$foundSlot = null;
-			if(!empty($safariSlots)){
-				foreach ($safariSlots as $slot) {
-					if ($slot['period_slot_dtl_id'] == $period_slot_dtl_id) {
-						$foundSlot = $slot;
-						break; // Exit the loop if found
+			if($saf_booking_date >= $today){
+				$safariSlots = $this->msafari_booking->get_booking_slot_list($safari_type_id, $division_id, $safari_service_header_id, $saf_booking_date, $safari_cat_id);
+				
+				$foundSlot = null;
+				if(!empty($safariSlots)){
+					foreach ($safariSlots as $slot) {
+						if ($slot['period_slot_dtl_id'] == $period_slot_dtl_id) {
+							$foundSlot = $slot;
+							break; // Exit the loop if found
+						}
 					}
 				}
-			}
-			
-			if ($foundSlot) {
-				if($foundSlot['available_qty'] >= $no_of_visitor){
-					if($saf_booking_date == $today){
-						if($foundSlot['ticket_sale_closing_flag'] == 2){
-							$response = array('success' => false, 'msg' => 'Online ticket selling time is over for selected date. Please choose another date.');
-						}
-						else{
-							$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
-							$closingTime = $dateTime->format('H:i');
-							if($curTime > $closingTime){
+				
+				if ($foundSlot) {
+					if($foundSlot['available_qty'] >= $no_of_visitor){
+						if($saf_booking_date == $today){
+							if($foundSlot['ticket_sale_closing_flag'] == 2){
 								$response = array('success' => false, 'msg' => 'Online ticket selling time is over for selected date. Please choose another date.');
 							}
-							else {
-								$proceedToNextStep = true;
+							else{
+								$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
+								$closingTime = $dateTime->format('H:i');
+								if($curTime > $closingTime){
+									$response = array('success' => false, 'msg' => 'Online ticket selling time is over for selected date. Please choose another date.');
+								}
+								else {
+									$proceedToNextStep = true;
+								}
 							}
 						}
+						else {
+							$proceedToNextStep = true;
+						}
 					}
-					else {
-						$proceedToNextStep = true;
+					else{
+						$response = array('success' => false, 'msg' => 'Now no seat available for selected slot.');
 					}
+					//echo $foundSlot['available_qty'];
+					//echo "<pre>"; print_r($foundSlot); die;
+				} else {
+					$response = array('success' => false, 'msg' => 'No seat available for search criteria.');
 				}
-				else{
-					$response = array('success' => false, 'msg' => 'Now no seat available for selected slot.');
-				}
-				//echo $foundSlot['available_qty'];
-				//echo "<pre>"; print_r($foundSlot); die;
-			} else {
-				$response = array('success' => false, 'msg' => 'No seat available for search criteria.');
+			}
+			else{
+				$response = array('success' => false, 'msg' => 'No seat available for selected date.');
 			}
 		}
 		else{
-			$response = array('success' => false, 'msg' => 'No seat available for selected date.');
+			$response = array('success' => false, 'msg' => 'No seat available!!');
 		}
 		
 		if($proceedToNextStep == true){
@@ -312,6 +319,12 @@ class Safari_booking extends CI_Controller
 			$visitor_id_type = $this->input->post('visitor_id_type');
 			$visitor_id_no = $this->input->post('visitor_id_no');
 			
+			$child_name = $this->input->post('child_name');
+			$child_gender = $this->input->post('child_gender');
+			$child_age = $this->input->post('child_age');
+			$child_id_type = $this->input->post('child_id_type');
+			$child_id_no = $this->input->post('child_id_no');
+			
 			if (is_array($visitor_name) && is_array($visitor_gender)) {
 				for ($v = 0; $v < count($visitor_name); $v++) {
 					// Validate visitor name
@@ -339,7 +352,7 @@ class Safari_booking extends CI_Controller
 					$this->form_validation->set_rules(
 						'visitor_age['.$v.']', 
 						'Visitor Age', 
-						'required|trim|is_natural_no_zero',
+						'required|trim|is_natural_no_zero|callback_check_age',
 						array(
 							'required' => 'Visitor Age is required'
 						)
@@ -366,6 +379,13 @@ class Safari_booking extends CI_Controller
 						)
 					);
 				}
+				
+			}
+			
+			if (!empty($child_name) && !empty($child_gender)) {
+				$this->form_validation->set_rules('child_name[]', 'Child Name', 'required|trim');
+				$this->form_validation->set_rules('child_gender[]', 'Child Gender', 'required|in_list[Male,Female,Transgender]');
+				$this->form_validation->set_rules('child_age[]', 'Child Age', 'required|trim|is_natural_no_zero');
 			}
 			
 			if ($this->form_validation->run()) {
@@ -425,12 +445,13 @@ class Safari_booking extends CI_Controller
 						$booking_id = $this->mcommon->insert('safari_booking_header', $booking_header);
 						
 						if($booking_id){
-							//detail data save
+							//visitor detail data save
 							for ($i = 0; $i < sizeof($visitor_name); $i++) {
 			
 								if ($visitor_name[$i] != '' && $visitor_id_no[$i] != '') {
 			
 									$booking_detail_data[] = array(
+										'is_free' => 2,
 										'booking_id' => $booking_id,
 										'visitor_name' => $visitor_name[$i],
 										'visitor_gender' => $visitor_gender[$i],
@@ -444,7 +465,31 @@ class Safari_booking extends CI_Controller
 							if (!empty($booking_detail_data)) {
 								$this->msafari_booking->bookingDetailBatchInsert($booking_detail_data);
 							}
-							//end detail data save
+							//end visitor detail data save
+							
+							//child detail data save
+							for ($j = 0; $j < sizeof($child_name); $j++) {
+			
+								if ($child_name[$j] != '' && $child_gender[$j] != '') {
+			
+									$booking_child_detail_data[] = array(
+										'is_free' => 1,
+										'booking_id' => $booking_id,
+										'visitor_name' => $child_name[$j],
+										'visitor_gender' => $child_gender[$j],
+										'visitor_age' => $child_age[$j],
+										'visitor_id_type' => $child_id_type[$j],
+										'visitor_id_no' => $child_id_no[$j]
+									);
+								}
+							}
+							
+							//print_r($booking_child_detail_data); die;
+							
+							if (!empty($booking_child_detail_data)) {
+								$this->msafari_booking->bookingDetailBatchInsert($booking_child_detail_data);
+							}
+							//end child detail data save
 						}
 					}
 					
@@ -893,6 +938,17 @@ class Safari_booking extends CI_Controller
 			echo $cron_status . "<br>";
 		}
 	
+	}
+	public function check_age($age) {
+		// Assuming $age is an array of ages
+		$ages = $this->input->post('visitor_age');
+		foreach ($ages as $a) {
+			if ($a >=18) {
+				return TRUE; // At least one age is above 18
+			}
+		}
+		$this->form_validation->set_message('check_age', 'At least one visitor must be 18 years.');
+		return FALSE;
 	}
 	
 }
