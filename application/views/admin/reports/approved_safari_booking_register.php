@@ -74,7 +74,80 @@
                 <div class="app-card app-card-orders-table shadow-sm mb-5 p-3">
                     <div class="app-card-body">
                         <div class="row g-3">
-                            <table class="table table-bordered" border="1" style="text-align:center;">
+                        <div class="text-end my-2"><button class="btn app-btn-primary" type="button"><span>Download PDF</span></button></div>
+                        <table id="" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
+                            <tr>
+                                <td>
+                                    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #e7e9ed 1px solid; border-bottom:0; text-align:center;">
+                                        <tr>
+                                            <td colspan="4" style="text-align: left; background-color: #f5f5f5; font-size:16px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;">
+                                                <b style="color: #009e60;">Service Definition:</b> <?= $safariReservations[0][0]['service_definition']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><b>Date of Visit:</b></td>
+                                            <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['booking_date'] != '' ? date('d-m-Y', strtotime($safariReservations[0][0]['booking_date'])) : ''; ?></td>
+                                            <td style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><b>Slot:</b></td>
+                                            <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['slot_desc'] . ': ' . $safariReservations[0][0]['start_time'] . ' - ' . $safariReservations[0][0]['end_time']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><b>Start Point:</b></td>
+                                            <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['start_point']; ?></td>
+                                            <td style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><b>End Point:</b></td>
+                                            <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['end_point']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><b>Reporting Place:</b></td>
+                                            <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['start_point']; ?></td>
+                                            <td style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><b>Reporting Time:</b></td>
+                                            <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['reporting_time']; ?></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #e7e9ed 1px solid; border-bottom:0; text-align:center;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: left; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">PNR No.</th>
+                                                <th style="text-align: left; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Visitor's Name</th>
+                                                <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Nationality</th>
+                                                <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Age</th>
+                                                <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Gender</th>
+                                                <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">ID Card Type</th>
+                                                <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">ID Card No.</th>
+                                                <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if (!empty($safariReservations[0]['details'])) {
+                                                foreach ($safariReservations[0]['details'] as $row) { ?>
+                                                    <tr>
+                                                        <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed#9e9e9e 1px solid;"><?= $row['booking_number']; ?></td>
+                                                        <td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_name']; ?></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $safariReservations[0][0]['cat_name']; ?></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_age']; ?></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_gender']; ?></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_id_type']; ?></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= str_pad(substr($row['visitor_id_no'], -4), strlen($row['visitor_id_no']), 'x', STR_PAD_LEFT); ?></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"></td>
+                                                    </tr>
+                                                <?php }
+                                            } else { ?>
+                                                <tr>
+                                                    <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;" colspan="8">No data Found</td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                           <!--  <table class="table table-bordered" border="1" style="text-align:center;">
                                 <tr>
                                     <td colspan="4" style="text-align: left; background-color: #f5f5f5; font-size:16px;">
                                         <b style="color: #009e60;">Service Definition:</b> <?= $safariReservations[0][0]['service_definition']; ?>
@@ -99,7 +172,7 @@
                                     <td style="text-align: left;"><?= $safariReservations[0][0]['reporting_time']; ?></td>
                                 </tr>
 
-                                <!-- <tr>
+                                <tr>
 								<td>Date of Visit: <?= $safariReservations[0][0]['booking_date'] != '' ? date('d-m-Y', strtotime($safariReservations[0][0]['booking_date'])) : ''; ?></td>
 								<td>Slot: <?= $safariReservations[0][0]['slot_desc'] . ': ' . $safariReservations[0][0]['start_time'] . ' - ' . $safariReservations[0][0]['end_time']; ?></td>
 							  </tr>
@@ -113,11 +186,11 @@
 							  <tr>
 								<td>Reporting Place: <?= $safariReservations[0][0]['start_point']; ?></td>
 								<td>Reporting Time: <?= $safariReservations[0][0]['reporting_time']; ?></td>
-							  </tr> -->
-                            </table>
+							  </tr> 
+                            </table> -->
 
                         </div>
-                        <div class="table-responsive">
+                        <!-- <div class="table-responsive">
                             <table class="table app-table-hover mb-0 text-left mt-3" id="accommodation_list_table">
                                 <thead>
                                     <tr>
@@ -153,7 +226,7 @@
                                     <?php } ?>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> -->
                         <!--//table-responsive-->
 
                     </div>
