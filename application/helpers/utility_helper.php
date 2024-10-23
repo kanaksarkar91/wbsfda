@@ -75,6 +75,36 @@ if (!function_exists('get_cancellation_percentage'))
 	}
 }
 
+if (!function_exists('get_cancellation_details'))
+{
+	function get_cancellation_details($booking_id = 0, $cancellation_details = [], $ticket_count = 0){
+		$CI =& get_instance();
+		$CI->load->model('mcommon');
+		$response = [];
+		
+		$bookingData = $CI->mcommon->getRow('safari_booking_header', ['booking_id' => $booking_id]);
+		
+		if($ticket_count >= $bookingData['booking_time_visitor_count']){
+			$basePrice = $bookingData['total_price'];
+		}
+		else{
+			$basePrice = (($bookingData['total_price'] / $bookingData['booking_time_visitor_count']) * $ticket_count);
+		}
+		
+		if (!empty($cancellation_details)) {
+			$cancel_percent = $cancellation_details['cancellation_per'];
+			$cancel_charge = intval((($basePrice * $cancellation_details['cancellation_per']) / 100) * 100) / 100;
+			$refund_amt = $ticket_count >= $bookingData['booking_time_visitor_count'] ? intval(($basePrice - $cancel_charge) * 100) / 100 : intval(($basePrice - $cancel_charge) * 100) / 100;
+		}
+		
+		$response['cancel_percent'] = $cancel_percent;
+		$response['cancel_charge'] = $cancel_charge;
+		$response['refund_amt'] = $refund_amt;
+		
+		return $response;
+	}
+}
+
 // --------------------------------------------------------------------
 
 /**

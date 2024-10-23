@@ -439,7 +439,8 @@ class Safari_booking extends CI_Controller
 							'source' => 'F',
 							'booking_status' => 'I',
 							'created_by' => $customer_id,
-							'created_ts' => date('Y-m-d H:i:s')
+							'created_ts' => date('Y-m-d H:i:s'),
+							'booking_time_visitor_count' => $det_arr['no_of_visitor'],
 						);
 						
 						$booking_id = $this->mcommon->insert('safari_booking_header', $booking_header);
