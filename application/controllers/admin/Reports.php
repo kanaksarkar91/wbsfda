@@ -1394,6 +1394,38 @@ class Reports extends MY_Controller
 		$data['content'] = 'admin/reports/approved_safari_booking_register';
 		$this->load->view('admin/layouts/index', $data);
 	}
+	
+	public function downloadSafariBookigListPdf()
+	{
+		$this->load->library('pdf');
+		$data = [];
+		$where = [];
+		$safari_service_header_id = decode_url($this->uri->segment('2'));
+		$booking_date = decode_url($this->uri->segment('3'));
+		$period_slot_dtl_id = decode_url($this->uri->segment('4'));
+		
+		if(is_numeric($safari_service_header_id) && $safari_service_header_id > 0 && is_numeric($period_slot_dtl_id) && $period_slot_dtl_id > 0){
+			$where['a.safari_service_header_id ='] = $safari_service_header_id;
+			$where['a.booking_date ='] = date('Y-m-d', strtotime($booking_date));
+			$where['a.period_slot_dtl_id ='] = $period_slot_dtl_id;
+			$where['a.booking_status = '] = 'A';
+			$order_by = 'DATE(a.created_ts) ASC';
+			
+			$data['safariReservations'] = $this->mreport->get_safari_booking($where, $order_by);
+			
+			$filename = 'Safari-Booking-List' .$booking_date;
+			$html = $this->load->view('admin/reports/downloadSafariBookingList', $data, true);
+			// $this->pdf->create($html, $filename);
+			// echo $html;die;
+	
+			$this->pdf->loadHtml($html);
+			$this->pdf->set_paper("A4", "landscape");
+			$this->pdf->render();
+	
+			$this->pdf->stream("" . $filename . ".pdf", array("Attachment" => 0));
+		}
+		
+	}
 
 
 }

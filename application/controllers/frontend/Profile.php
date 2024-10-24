@@ -123,7 +123,7 @@ class Profile extends CI_Controller
 
 					foreach ($safari_booking_details as $row) {
 						$slotTiming = $row['slot_desc'] . ': ' . $row['start_time'] . ' to ' . $row['end_time'];
-						$bookingStatus = ($row['booking_status'] == 'I') ? 'Initiate' : (($row['booking_status'] == 'A') ? 'Approved' : (($row['booking_status'] == 'C') ? 'Cancelled' : ''));
+						$bookingStatus = ($row['booking_status'] == 'I') ? '<span class="badge bg-primary">Initiate</span>' : (($row['booking_status'] == 'A') ? '<span class="badge bg-success">Approved</span>' : (($row['booking_status'] == 'C') ? '<span class="badge bg-danger">Cancelled</span>' : ''));
 
 						$date = $row['booking_date'];
 						// Create DateTime object
@@ -146,9 +146,9 @@ class Profile extends CI_Controller
                                             <div class="list-box-listing bookings border p-3 rounded">
                                                 <div class="list-box-listing-content">
                                                     <div class="inner">
-                                                        <h3>' . $row['service_definition'] . ' <span class="booking-status pending">' . $bookingStatus . '</span></h3>
+                                                        <h3>' . $row['service_definition'] . '&nbsp;&nbsp;' . $bookingStatus . '</h3>
                                                         <div class="inner-booking-list d-flex">
-                                                            <span class="thm-txt fw-normal me-3">PNR No.:</span><span>' . $row['booking_number'] . '</span>
+                                                            <span class="thm-txt fw-normal me-3">Booking No.:</span><span>' . $row['booking_number'] . '</span>
                                                         </div>
                                                         <div class="inner-booking-list d-flex">
                                                             <span class="thm-txt fw-normal me-3">Safari Date:</span><span>' . date('d/m/Y', strtotime($row['booking_date'])) . '</span>
@@ -322,8 +322,10 @@ class Profile extends CI_Controller
 
 		$data['cancellation_details'] = get_cancellation_percentage($data['sBooking'][0]['booking_date']);
 		$data['visitorDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
-		if(!empty($data['visitorDetail'])){
-			foreach($data['visitorDetail'] as $vrow){
+		
+		$visitorAgesdata = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_status' => 1]);
+		if(!empty($visitorAgesdata)){
+			foreach($visitorAgesdata as $vrow){
 				$ages[] = $vrow['visitor_age'];
 			}
 			$data['visitorAges'] = implode(',', $ages);
@@ -409,7 +411,7 @@ class Profile extends CI_Controller
 		$data['sBookingChildDetail'] = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_free' => 1]);
 		$data['sBookingPayment'] = $this->mcommon->getRow('safari_booking_payment', ['booking_id' => $booking_id, 'status' => 'Captured']);
 
-		$filename = 'booking-' . time() . '-' . $booking_id;
+		$filename = 'Booking-'.$data['sBooking'][0]['booking_number'];
 		$html = $this->load->view('frontend/downloadSafariInvoice', $data, true);
 		// $this->pdf->create($html, $filename);
 		// echo $html;die;
@@ -774,7 +776,7 @@ class Profile extends CI_Controller
 			$bookingData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $booking_id]);
 			if ($this->session->userdata('customer_id') == $bookingData['customer_id']) {
 
-				$visitorsData = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id]);
+				$visitorsData = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_status' => 1]);
 				if(!empty($visitorsData)){
 					foreach($visitorsData as $vrow){
 						$ages[] = $vrow['visitor_age'];
@@ -783,14 +785,30 @@ class Profile extends CI_Controller
 				
 				if(count($ages) != count($this->input->post('visitor_ages'))){
 					
-					$newArray = array_diff($ages, $this->input->post('visitor_ages'));
+					//$newArray = array_diff($ages, $this->input->post('visitor_ages'));
+					
+					// Create a copy of $array1 for the new array
+					$newArray = $ages;
+					
+					// Loop through $array2 and remove each value once from $newArray
+					foreach ($this->input->post('visitor_ages') as $value) {
+						// Find the index of the value in $newArray
+						$index = array_search($value, $newArray);
+						if ($index !== false) {
+							// Remove the element from $newArray at the found index
+							unset($newArray[$index]);
+						}
+					}
+					
+					// Re-index new array to maintain sequential keys
+					$newArray = array_values($newArray);
 					//echo "<pre>"; print_r($newArray); die;
 					// Check if any value in the new array is greater than 18
-					$greaterThan18 = array_filter($newArray, function($value) {
-						return $value >= 18;
+					$greaterThanOrEqualAdultAge = array_filter($newArray, function($value) {
+						return $value >= ADULT_AGE;
 					});
 					
-					if (!empty($greaterThan18)) {
+					if (!empty($greaterThanOrEqualAdultAge)) {
 						$furtherProceed = true;
 					} else {
 						$return_data = array('status' => false, 'msg' => 'No adults are present on this booking!!');
@@ -799,7 +817,6 @@ class Profile extends CI_Controller
 					}
 				}
 				
-
 				$result_decoded = array();
 				$cancel_request_data = array();
 				$booking_payment_details = $this->db->from('safari_booking_payment')->where('booking_id', $booking_id)->order_by('booking_payment_id', 'DESC')->limit(1)->get()->row_array();
@@ -834,6 +851,7 @@ class Profile extends CI_Controller
 							$keyId = RAZORPAY_KEY;
 							$keySecret = RAZORPAY_KEY_SECRET;
 							$url = RAZORPAY_REFUND_URL . $booking_payment_details['razorpay_payment_id'] . "/refund";
+							$refendAmtInPaisa = $refund_amt * 100;
 
 							$ch = curl_init($url);
 							curl_setopt($ch, CURLOPT_USERPWD, $keyId . ':' . $keySecret);
@@ -841,10 +859,15 @@ class Profile extends CI_Controller
 							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
 							// Partial refund data (amount in paise)
-							$data = [
-								'amount' => $refund_amt * 100  // (amount is in paise)
-							];
-							curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+							$post_fields = json_encode(array(
+								'amount' => $refendAmtInPaisa
+							));
+							curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+							
+							// Set headers for JSON data
+							curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+								'Content-Type: application/json'
+							));
 
 							$response = curl_exec($ch);
 
@@ -856,7 +879,7 @@ class Profile extends CI_Controller
 						}
 
 
-						//if (!empty($result) && $http_status == 200) {
+						if (!empty($result) && $http_status == 200) {
 
 							$this->db->trans_start(); # Starting Transaction
 
@@ -879,7 +902,7 @@ class Profile extends CI_Controller
 								'created_ts' => date('Y-m-d H:i:s'),
 								'is_refunded' => ($result['payment_id'] != '') ? 1 : 0,
 								'cancel_refund_request_id' => $result['id'],
-								//'cancel_request_response' => json_encode($result),
+								'cancel_request_response' => json_encode($result),
 								'razorpay_payment_id' => $result['payment_id'],
 								'cancellation_remarks' => $cancel_remarks
 
@@ -1011,10 +1034,10 @@ class Profile extends CI_Controller
 
 								$return_data = array('status' => true, 'msg' => 'Booking has been cancelled successfully');
 							}
-						/*} else {
+						} else {
 
 							throw new Exception(curl_error($ch));
-						}*/
+						}
 					} catch (Exception $e) {
 						// this will not catch DB related errors. But it will include them, because this is more general. 
 						$return_data = array('status' => false, 'msg' => $e->getMessage());

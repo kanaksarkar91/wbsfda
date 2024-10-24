@@ -983,7 +983,9 @@ if(!function_exists('formatIndianCurrency')){
 		// Combine the formatted remaining part with the last three digits
 		$formatted = $remaining . ',' . $lastThree;
 		
-		return '₹' . $formatted . $decimalPart;
+		//return '₹' . $formatted . $decimalPart; //with symbol
+		
+		return $formatted . $decimalPart;
 	
 	}
 }

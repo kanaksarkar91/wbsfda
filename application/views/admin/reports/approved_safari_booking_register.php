@@ -74,7 +74,7 @@
                 <div class="app-card app-card-orders-table shadow-sm mb-5 p-3">
                     <div class="app-card-body">
                         <div class="row g-3">
-                        <div class="text-end my-2"><button class="btn app-btn-primary" type="button"><span>Download PDF</span></button></div>
+                        <div class="text-end my-2"><a href="<?= base_url('download-safari-booking-pdf/'.encode_url($safari_service_header_id).'/'.encode_url($booking_date).'/'.encode_url($period_slot_dtl_id));?>" target="_blank" class="btn app-btn-primary" type="button"><span>Download PDF</span></a></div>
                         <table id="" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
                             <tr>
                                 <td>
@@ -110,7 +110,7 @@
                                     <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #e7e9ed 1px solid; border-bottom:0; text-align:center;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: left; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">PNR No.</th>
+                                                <th style="text-align: left; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Booking No.</th>
                                                 <th style="text-align: left; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Visitor's Name</th>
                                                 <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Nationality</th>
                                                 <th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Age</th>
@@ -132,7 +132,7 @@
                                                         <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_gender']; ?></td>
                                                         <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_id_type']; ?></td>
                                                         <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= str_pad(substr($row['visitor_id_no'], -4), strlen($row['visitor_id_no']), 'x', STR_PAD_LEFT); ?></td>
-                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"></td>
+                                                        <td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"><?= $row['is_status'] == 1 ? '<span class="badge bg-success">Confirmed</span>' : '<span class="badge bg-danger">Cancelled</span>';?></td>
                                                     </tr>
                                                 <?php }
                                             } else { ?>

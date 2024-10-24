@@ -22,7 +22,7 @@
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 5px;">
                     <tr>
-                        <td colspan="3">
+                        <td colspan="3" style="text-align:center;">
                             <img src="<?= base_url('public/frontend_assets/assets/img/logo.png');?>" width="228" height="88" alt="..." />
                         </td>
                     </tr>
@@ -33,10 +33,10 @@
                         <td width="70%" style="text-align: center;">
                             <h3 style="margin-top:5px; font-size:18px;margin-bottom: 0px;line-height:1;font-weight:600;"><?= COM_NAME;?></h3>
                             <h3 style="margin-top:5px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</h3>
-                            <h3 style="margin-top:0px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Reservation Slip for Car safari / Elephant Ride</h3>
-                            <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">PNR No.: <?= $sBooking[0]['booking_number'];?></p>
+                            <h3 style="margin-top:0px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Reservation Slip for Car Safari / Elephant Ride</h3>
+                            <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">Booking No.: <?= $sBooking[0]['booking_number'];?></p>
                             <p style="font-size:14px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">Contact No.: 9734190119</p>
-                            <p style="font-size:12px;">Kindly Note down the PNR No for future reference</p>
+                            <p style="font-size:12px;">Kindly Note down the Booking No. for future reference</p>
                         </td>
                         <td width="15%" style="text-align: left; padding:10px;">
                             <img src="<?= base_url('public/frontend_assets/assets/img/forest-1.jpg');?>" width="84" height="108" alt="..." style="margin-top:10px;" />
@@ -132,12 +132,13 @@
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_age'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_id_type'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_id_no'];?></td>
-                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;">Confirmed</td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;"><?= $row['is_status'] == 1 ? '<span style="color: #009e60;">Confirmed</span>' : '<span style="color: red;">Cancelled</span>';?></td>
                     </tr>
 					<?php } } ?>
                 </table>
             </td>
         </tr>
+		<?php if(!empty($sBookingChildDetail)){ ?>
 		<tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:left;margin-top: 3px;">
@@ -153,8 +154,7 @@
                         <th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid;">Status</th>
                     </tr>
 					<?php
-					if(!empty($sBookingChildDetail)){
-						foreach($sBookingChildDetail as $crow){
+					foreach($sBookingChildDetail as $crow){
 					?>
                     <tr>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_name'];?></td>
@@ -162,12 +162,13 @@
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_age'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_id_type'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_id_no'];?></td>
-                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;">Confirmed</td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;"><?= $crow['is_status'] == 1 ? '<span style="color: #009e60;">Confirmed</span>' : '<span style="color: red;">Cancelled</span>';?></td>
                     </tr>
-					<?php } } ?>
+					<?php } ?>
                 </table>
             </td>
         </tr>
+		<?php } ?>
 		<tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:left;margin-top: 3px;">
@@ -179,8 +180,8 @@
                         <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Mode</th>
                         <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Processed / Taken by</th>
                         <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Payment ID</th>
-                        <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Date & Time</th>
-                        <th style="background-color: #f5f5f5; padding: 6px 3px;">Amount Paid</th>
+                        <th style="border-right: #9e9e9e 1px solid; background-color: #f5f5f5; padding: 6px 3px;">Amount Paid</th>
+                        <th style="background-color: #f5f5f5; padding: 6px 3px;">Date & Time</th>
                     </tr>
                     <tr style="text-align: center;">
                         <td style="border-right: #9e9e9e 1px solid; border-top: #9e9e9e 1px solid; padding: 6px 3px;">Online</td>

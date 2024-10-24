@@ -89,6 +89,7 @@ $route['cancellation-information'] = 'frontend/profile/cancellationInformation';
 #----------------------------------------------
 
 //$route['cancellation-register/?(:num)'] = 'admin/reports/cancellation_register/$1';
+$route['download-safari-booking-pdf/(:any)/(:any)/(:any)'] = 'admin/reports/downloadSafariBookigListPdf/$1/$1/$1';
 
 #----------------------------------------------
 

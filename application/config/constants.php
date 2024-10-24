@@ -103,6 +103,7 @@ define('COM_PHONE','8961494999');
 define('COM_EMAIL','wbsfda@gmail.com');
 define('COM_WEBSITE','www.wbsfda.org');
 define('MAX_AGE_FOR_FREE_TICKET',5);
+define('ADULT_AGE',18);
 
 
 
