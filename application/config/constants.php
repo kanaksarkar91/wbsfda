@@ -87,7 +87,7 @@ defined('ENCRYPTED_KEY')       OR define('ENCRYPTED_KEY', 'KaAr#$*954'); // encr
 
 define('ROLE_SUPERADMIN', 2);
 define('ROLE_NODAL', 10);
-define('EMAIL_FROM_NAME', 'WBSFDC');
+define('EMAIL_FROM_NAME', 'WBSFDA');
 
 define('RUN_DATE',date('Y-m-d'));
 //define('RUN_DATE','2023-02-27');

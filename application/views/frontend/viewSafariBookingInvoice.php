@@ -42,7 +42,7 @@
 </head>
 
 <body role="document">
-    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
+    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 90%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 5px;">
@@ -77,6 +77,47 @@
 		?>
 			<tr>
 				<td>
+					<table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:left;margin-top: 3px;">
+						<tr>
+							<th colspan="7" style="font-size:14px; padding: 6px 3px; text-align: left; background-color: #f5f5f5;">Visitor's Information</th>
+						</tr>
+						<tr>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Visitor's Name</th>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Gender</th>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Age</th>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">ID Card Type</th>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">ID Card No. </th>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Status</th>
+							<th width="" style="font-size:12px; padding: 6px 3px; text-align: left; background-color: #f5f5f5; border-top: #9e9e9e 1px solid;">Action</th>
+						</tr>
+						<?php
+						if(!empty($visitorDetail)){
+							foreach($visitorDetail as $vrow){
+						?>
+						<tr>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $vrow['visitor_name'];?></td>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $vrow['visitor_gender'];?></td>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $vrow['visitor_age'];?></td>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $vrow['visitor_id_type'];?></td>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $vrow['visitor_id_no'];?></td>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $vrow['is_status'] == 1 ? '<span class="badge bg-success">Confirmed</span>' : '<span class="badge bg-danger">Cancelled</span>';?></td>
+							<td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid;">
+							<?php
+							if($vrow['is_status'] == 1){
+							?>
+							<input class="form-check-input checkbox" type="checkbox" name="safari_booking_detail_id[]" value="<?= $vrow['safari_booking_detail_id'];?>">
+							<input type="hidden" id="is_free<?= $vrow['safari_booking_detail_id'];?>" value="<?=$vrow['is_free']?>">
+							<input type="hidden" id="visitor_age<?= $vrow['safari_booking_detail_id'];?>" value="<?=$vrow['visitor_age']?>">
+							<?php } ?>
+							</td>
+						</tr>
+						<?php } } ?>
+					</table>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
 					<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 10 auto; font-family: Verdana, Geneva, Tahoma, sans-serif;border:#9e9e9e 1px solid; padding: 5px;text-align: center;">
 					<tr>
 							<input type="hidden" id="booking_id" name="booking_id" value="<?= encode_url($sBooking[0]['booking_id']);?>">
@@ -86,8 +127,8 @@
 							?>
 								<td style="padding: 2px;">
 								<h4>Cancellation Information</h4><br>
-								<h6>Cancellation Charge (Rs.) : <?= formatIndianCurrency($cancel_charge);?></h6>
-								<h6>Refund Amount (Rs.) : <?= formatIndianCurrency($refund_amt);?></h6>
+								<h6 id="cancelCharge"></h6>
+								<h6 id="refundAmt"></h6>
 								<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="4" cols="50" style="width:80%; margin-left:150px;"></textarea><br>
 								<input type="hidden" id="paid_amount" name="paid_amount" value="<?=$sBooking[0]['base_price']?>">
 								<input type="hidden" id="cancel_percent" name="cancel_percent" value="<?=$cancel_percent?>">
@@ -101,8 +142,9 @@
 								}
 							}
 							?>
+							
 							<?php if($sBooking[0]['booking_status'] == 'C' && isset($sBooking[0]['cancellation_remarks'])){ ?>
-								<td style="padding: 10px;">
+								<!--<td style="padding: 10px;">
 									<h4>Cancellation Information</h4><br>
 									<h6>Cancellation Percentage : <?= $cancellation_request_details['cancel_percent'] ?></h6>
 									<h6>Cancellation Charge (Rs.) : <?= $cancellation_request_details['cancel_charge'] ?></h6>
@@ -110,10 +152,11 @@
 									<h6>Refund Status : <?= ($cancellation_request_details['is_refunded'] == '1') ? 'Refunded' :'Refund Initiated'?></h6>
 									
 									<textarea type="text" class="form-control" placeholder="Cancellation Reason" rows="4" cols="50" disabled><?=$sBooking[0]['cancellation_remarks']?></textarea>
-								</td>
+								</td>-->
 							<?php } ?> 
-				
 						</tr>
+						
+						
 					</table>
 				</td>
 			</tr>
@@ -211,7 +254,7 @@
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_age'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_id_type'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $row['visitor_id_no'];?></td>
-                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;">Confirmed</td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;"><?= $row['is_status'] == 1 ? '<span class="badge bg-success">Confirmed</span>' : '<span class="badge bg-danger">Cancelled</span>';?></td>
                     </tr>
 					<?php } } ?>
                 </table>
@@ -241,7 +284,7 @@
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_age'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_id_type'];?></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $crow['visitor_id_no'];?></td>
-                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;">Confirmed</td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: left; border-top: #9e9e9e 1px solid;"><?= $crow['is_status'] == 1 ? '<span class="badge bg-success">Confirmed</span>' : '<span class="badge bg-danger">Cancelled</span>';?></td>
                     </tr>
 					<?php } } ?>
                 </table>
@@ -395,53 +438,6 @@
                     </tr>
                 </table>
 				
-				<?php
-				if($_GET['type'] != 'cancel'){
-					if(!$this->admin_session_data['user_id']){
-				?>
-					<table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 10 auto; font-family: Verdana, Geneva, Tahoma, sans-serif;border:#9e9e9e 1px solid; padding: 5px;text-align: center;">
-					<tr>
-							<input type="hidden" id="booking_id" name="booking_id" value="<?= encode_url($sBooking[0]['booking_id']);?>">
-							<?php 
-							if($sBooking[0]['booking_status'] == 'A' && $calcelButtonVisible){
-								if($sBooking[0]['source'] == 'F'){
-							?>
-								<td style="padding: 2px;">
-								<h4>Cancellation Information</h4><br>
-								<h6>Cancellation Charge (Rs.) : <?= formatIndianCurrency($cancel_charge);?></h6>
-								<h6>Refund Amount (Rs.) : <?= formatIndianCurrency($refund_amt);?></h6>
-								<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="4" cols="50" style="width:80%; margin-left:150px;"></textarea><br>
-								<input type="hidden" id="paid_amount" name="paid_amount" value="<?=$sBooking[0]['base_price']?>">
-								<input type="hidden" id="cancel_percent" name="cancel_percent" value="<?=$cancel_percent?>">
-								<input type="hidden" id="cancel_charge" name="cancel_charge" value="<?=$cancel_charge?>">
-								<input type="hidden" id="refund_amt" name="refund_amt" value="<?=$refund_amt?>">
-								
-								
-								<input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;margin-top:10px; margin-right:10px;" value="Cancel Safari" class="btn btn-sm btn-danger">  
-								</td>
-							<?php 
-								}
-							}
-							?>
-							<?php if($sBooking[0]['booking_status'] == 'C' && isset($sBooking[0]['cancellation_remarks'])){ ?>
-								<td style="padding: 10px;">
-									<h4>Cancellation Information</h4><br>
-									<h6>Cancellation Percentage : <?= $cancellation_request_details['cancel_percent'] ?></h6>
-									<h6>Cancellation Charge (Rs.) : <?= $cancellation_request_details['cancel_charge'] ?></h6>
-									<h6>Refund Amount (Rs.) : <?= $cancellation_request_details['refund_amt'] ?></h6>
-									<h6>Refund Status : <?= ($cancellation_request_details['is_refunded'] == '1') ? 'Refunded' :'Refund Initiated'?></h6>
-									
-									<textarea type="text" class="form-control" placeholder="Cancellation Reason" rows="4" cols="50" disabled><?=$sBooking[0]['cancellation_remarks']?></textarea>
-								</td>
-							<?php } ?> 
-				
-						</tr>
-					</table>
-				<?php
-					}
-				}
-				?>
-
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
                     <tr>
                         <td width="100%" style="text-align: center; font-size: 14px; border-top: #9e9e9e 1px solid;padding: 5px 0;">
@@ -466,6 +462,46 @@ function printpart() {
    printwin.close();
 }
 
+$(document).on("click",".checkbox",function() {
+			
+	var tHis = $(this);
+	var isChecked = false;
+	var checkedValues = [];
+	var isFreeValues = [];
+	var booking_id = $("#booking_id").val();
+	// Iterate through each checked checkbox
+	$('.checkbox:checked').each(function() {
+		if($(this).is(':checked')){
+			isChecked = true;
+			checkedValues.push($(this).val());
+			isFreeValues.push($('#is_free'+$(this).val()).val());
+		}
+		
+	});
+	
+	console.log(isFreeValues);
+	
+	  $.ajax({
+		type:'POST',
+		url:"<?php echo base_url('cancellation-information'); ?>",
+		data:{safari_booking_detail_ids: checkedValues, booking_id: booking_id, is_frees: isFreeValues, csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>'},
+		dataType: 'json',
+		encode: true,
+		success:function(d){
+		  if(d.success){
+			$("#cancelCharge").html('Cancellation Charge (Rs.) :'+ d.cancel_charge);
+			$("#refundAmt").html('Refund Amount (Rs.) :'+ d.refund_amt);
+			
+			$("#cancel_percent").val(d.cancel_percent);
+			$("#cancel_charge").val(d.cancel_charge);
+			$("#refund_amt").val(d.refund_amt);
+		  }else{
+			
+		  }
+		}
+	  });
+});
+
 $(document).on('click', "#cancel_booking_btn", function() {
     var booking_id = $("#booking_id").val();
     var cancel_remarks = $("#cancel_remarks").val();
@@ -473,6 +509,74 @@ $(document).on('click', "#cancel_booking_btn", function() {
     var cancel_percent = $("#cancel_percent").val();
     var cancel_charge = $("#cancel_charge").val();
     var refund_amt = $("#refund_amt").val();
+	
+	var tHis = $(this);
+	var isChecked = false;
+	var checkedValues = [];
+	var checkedAgeValues = [];
+	var isFreeValues = [];
+	// Iterate through each checked checkbox
+	$('.checkbox:checked').each(function() {
+		if($(this).is(':checked')){
+			isChecked = true;
+			checkedValues.push($(this).val());
+			checkedAgeValues.push($('#visitor_age'+$(this).val()).val());
+			isFreeValues.push($('#is_free'+$(this).val()).val());
+		}
+		
+	});
+	
+	// Get the PHP string into JavaScript
+	var visitorAgesString = '<?= $visitorAges; ?>';
+	
+	// Convert the comma-separated string to an array
+	var visitorAgesArray = visitorAgesString.split(',').map(function(value) {
+		return parseInt(value); // Convert each value to a number
+	});
+	
+	// Convert array2 values to numbers for comparison
+	var array2Numeric = checkedAgeValues.map(function(value) {
+		return parseInt(value);
+	});
+	
+	// Filter out values from array1 that are present in array2
+	var newArray = visitorAgesArray.filter(function(value) {
+		return !array2Numeric.includes(value);
+	});
+	
+	var hasValueGreaterThan18 = newArray.some(function(value) {
+		return parseInt(value) >= 18;
+	});
+	
+	// Get the count of elements in the first array
+	var arrayLength = visitorAgesArray.length;
+	var arrayLength2 = array2Numeric.length;
+	
+	if(arrayLength != arrayLength2){//partial cancellation
+		if (!hasValueGreaterThan18) {
+			Swal.fire({
+			  icon: 'error',
+			  title: 'No adults are present on this booking!!',
+			  confirmButtonText:'Ok',
+			  confirmButtonColor:'#69da68',
+			  allowOutsideClick: false,
+			});
+			return false;
+		}
+	}
+	
+	console.log(arrayLength2);
+	
+	if(!isChecked){
+		Swal.fire({
+		  icon: 'error',
+		  title: 'Please check at least one visitor!!',
+		  confirmButtonText:'Ok',
+		  confirmButtonColor:'#69da68',
+		  allowOutsideClick: false,
+		});
+		return false;
+	}
 
     if (!cancel_remarks) {
         Swal.fire({
@@ -513,15 +617,32 @@ $(document).on('click', "#cancel_booking_btn", function() {
 					cancel_percent : cancel_percent,
 					cancel_charge : cancel_charge,
 					refund_amt : refund_amt,
+					safari_booking_detail_ids: checkedValues,
+					visitor_ages: checkedAgeValues,
+					is_free: isFreeValues,
                 },
                 dataType: 'json',
                 encode: true,
-                async: false
+                //async: false,
+				/*beforeSend:function(){
+					$("#cancel_booking_btn").html('<i class="fa fa-spinner fa-spin"></i>Wait..');
+				 },*/
             })
             .done(function(response) {
                 if (response.status) {
                     $("#cancel_booking_btn").prop('disabled',false);
 					$("#cancel_booking_btn").val('Cancel Booking');
+					Swal.fire({
+                        icon: 'success',
+                        title: response.msg,
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#69da68',
+                        allowOutsideClick: false,
+                    }).then(result => {
+						if (result.value) {
+							location.reload();
+						}
+					});
                 } else {
                     $("#cancel_booking_btn").prop('disabled',false);
 					$("#cancel_booking_btn").val('Cancel Booking');
