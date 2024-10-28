@@ -84,7 +84,7 @@ $route['safari-booking-html'] = 'frontend/profile/getSafariBookingHtml';
 $route['view-safari-booking-invoice/(:any)'] = 'frontend/profile/viewSafariInvoice/$1';
 $route['download-safari-booking-invoice/(:any)'] = 'frontend/profile/downloadSafariInvoice/$1';
 $route['cancel-safari-booking'] = 'frontend/profile/cancelSafariBooking';
-$route['cancellation-information'] = 'frontend/profile/cancellationInformation';
+$route['cancellation-information'] = 'index/cancellationInformation';
 
 #----------------------------------------------
 

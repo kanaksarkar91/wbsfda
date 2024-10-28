@@ -54,44 +54,6 @@ class Profile extends CI_Controller
 		$data['content'] = 'frontend/my_booking';
 		$this->load->view('frontend/layouts/index', $data);
 	}
-	
-	public function cancellationInformation()
-	{
-		if ($this->input->post()) {
-			$safari_booking_detail_ids = $this->input->post('safari_booking_detail_ids');
-			$is_frees = $this->input->post('is_frees');
-			$booking_id = decode_url($this->input->post('booking_id'));
-			
-			$counts = array_count_values($is_frees);
-			$count_of_2 = isset($counts[2]) ? $counts[2] : 0;//paid visitor count
-			
-			$bookingHeaderData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $booking_id]);
-			
-			if(!empty($safari_booking_detail_ids) && is_array($safari_booking_detail_ids)){
-				
-				$cancellation_details = get_cancellation_percentage($bookingHeaderData['booking_date']);
-				$cancellationDetails = get_cancellation_details($booking_id, $cancellation_details, $count_of_2);
-			
-				$cancel_percent = 100;
-				$cancel_charge = $basePrice;
-				$refund_amt = 0;
-				//echo $booking_id.'-->'.$basePrice; die;
-				if (!empty($cancellationDetails)) {
-					$cancel_percent = $cancellationDetails['cancel_percent'];
-					$cancel_charge = $cancellationDetails['cancel_charge'];
-					$refund_amt = $cancellationDetails['refund_amt'];
-				}
-				
-				$response = array('success' => TRUE, "cancel_percent" => $cancel_percent, "cancel_charge" => formatIndianCurrency($cancel_charge), "refund_amt" => formatIndianCurrency($refund_amt));
-			}
-			else{
-				$response = array('success' => FALSE, "cancel_percent" => 100, "cancel_charge" => formatIndianCurrency($bookingHeaderData['total_price']), "refund_amt" => 0);
-			}
-			
-			echo json_encode($response);
-			exit;
-		}
-	}
 
 	public function getSafariBookingHtml()
 	{

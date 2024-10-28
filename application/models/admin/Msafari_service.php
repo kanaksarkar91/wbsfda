@@ -144,12 +144,15 @@ class Msafari_service extends CI_Model {
         return $query->result_array();
     }
 	public function get_booking($where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null){ 
-        $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition')
+        $sql = $this->db->select('a.*, b.first_name, b.mobile, c.type_name, sc.cat_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, p.payment_date, (SELECT COUNT(safari_booking_detail_id) FROM safari_booking_detail WHERE a.booking_id=safari_booking_detail.booking_id AND is_free=1) AS child_count')
                                 ->from('safari_booking_header a')
 								->join('customer_master b', 'a.customer_id = b.customer_id', 'LEFT')
 								->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT')
+								->join('safari_category_master sc', 'a.safari_cat_id = sc.safari_cat_id', 'LEFT')
 								->join('division_master d', 'a.division_id = d.division_id', 'LEFT')
-								->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT');
+								->join('safari_service_period_slot_detail s', 'a.period_slot_dtl_id = s.period_slot_dtl_id', 'LEFT')
+								->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT')
+								->join('safari_booking_payment p', 'a.booking_id = p.booking_id AND p.status = "Captured" ', 'LEFT');
 								
         if(!empty($where)){
             $this->db->where($where);
@@ -173,14 +176,15 @@ class Msafari_service extends CI_Model {
         $result = $query->result_array();
         return $result;
     }
-	public function get_block_booking($where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null){ 
-        $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, p.showing_desc')
-                                ->from('safari_sdervice_blocked a')
+	public function get_block_booking($table = '', $where = array(),$order_by = '', $safari_service_header_ids = array(), $group_by = null, $userIdField = ''){ 
+        $sql = $this->db->select('a.*, c.type_name, d.division_name, e.service_definition, s.slot_desc, s.start_time, s.end_time, p.showing_desc, ma.full_name')
+                                ->from($table.' a')
 								->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT')
 								->join('division_master d', 'a.division_id = d.division_id', 'LEFT')
 								->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT')
 								->join('safari_service_period_slot_detail s', 'a.period_slot_dtl_id = s.period_slot_dtl_id', 'LEFT')
-								->join('safari_service_period_master p', 's.service_period_master_id = p.service_period_master_id', 'LEFT');
+								->join('safari_service_period_master p', 's.service_period_master_id = p.service_period_master_id', 'LEFT')
+								->join('master_admin ma', 'a.'.$userIdField.' = ma.user_id', 'LEFT');
 								
         if(!empty($where)){
             $this->db->where($where);
@@ -207,6 +211,56 @@ class Msafari_service extends CI_Model {
         $query=$this->db->get();
 		//echo nl2br($this->db->last_query());die;
         return $query->result_array();
+    }
+	function get_safari_booking_details($where = []) {
+		$this->db->select('a.*, c.type_name, d.division_name, e.service_definition, e.start_point, e.end_point, e.reporting_place, s.slot_desc, s.start_time, s.end_time, s.reporting_time, s.ticket_sale_closing_flag, s.ticket_sale_closing_time, p.showing_desc, f.cat_name, cu.first_name, cu.email, cu.mobile, , (SELECT COUNT(safari_booking_detail_id) FROM safari_booking_detail WHERE a.booking_id=safari_booking_detail.booking_id AND is_free=1) AS child_count');
+		$this->db->from('safari_booking_header a');
+		$this->db->join('safari_type_master c', 'a.safari_type_id = c.safari_type_id', 'LEFT');
+		$this->db->join('division_master d', 'a.division_id = d.division_id', 'LEFT');
+		$this->db->join('safari_service_header e', 'a.safari_service_header_id = e.safari_service_header_id', 'LEFT');
+		$this->db->join('safari_service_period_slot_detail s', 'a.period_slot_dtl_id = s.period_slot_dtl_id', 'LEFT');
+		$this->db->join('safari_service_period_master p', 's.service_period_master_id = p.service_period_master_id', 'LEFT');
+		$this->db->join('safari_category_master f', 'a.safari_cat_id = f.safari_cat_id', 'LEFT');
+		$this->db->join('customer_master cu', 'a.customer_id = cu.customer_id', 'LEFT');
+		if(!empty($where)){
+            $this->db->where($where);
+        }
+		$query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        $rows = $query->result_array();
+		
+		if(!empty($rows)){
+			$i = 0;
+			foreach($rows as $row){
+				$this->db->select('bd.*');
+				$this->db->from('safari_booking_detail bd');
+				$this->db->where('bd.booking_id', $row['booking_id']);
+				$query1=$this->db->get();
+				//echo nl2br($this->db->last_query());die;
+				$rows1 = $query1->result_array();
+				
+				$result[$i] = $row;
+				$result[$i]['booking_details'] = $rows1;
+	
+				$i++;
+			}
+			
+			if($result){
+				return $result;
+			} else {
+				return false;
+			}
+		}
+    }
+	function get_safari_booking_payment_details($where = []) {
+		$this->db->select('a.*');
+		$this->db->from('safari_booking_payment a');
+		if(!empty($where)){
+            $this->db->where($where);
+        }
+		$query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->row_array();
     }
 
 }

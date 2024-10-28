@@ -47,7 +47,7 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/select2/css/select2.min.css') ?>" />
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/css/jquery-ui.css') ?>" />
 
-    
+    <link rel="stylesheet" href="<?php echo base_url('public/admin_assets/css/sweetalert2.min.css'); ?>">
 	
 
     <script src="<?= base_url('public/admin_assets/js/jquery.min.js') ?>"></script>
@@ -58,6 +58,7 @@
     <script src="<?= base_url('public/admin_assets/js/jquery-confirm.min.js') ?>"></script>
 	
 	<script src="<?= base_url('public/admin_assets/js/jquery.validate.min.js') ?>"></script>
+	<script src="<?php echo base_url(); ?>public/admin_assets/js/sweetalert2.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tooltip.js/1.3.1/tooltip.min.js"></script> -->
 
 </head>

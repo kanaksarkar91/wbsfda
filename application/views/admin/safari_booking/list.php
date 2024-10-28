@@ -107,14 +107,137 @@
 						</form>
 					</div>
 				</div>
-
+				
+				<?php if($period_slot_dtl_id > 0){ ?>
+				<div class="app-card app-card-settings shadow-sm mb-2 p-3">
+					<div class="app-card-body">
+						<table class="table app-table-hover table-bordered">
+							<tr>
+								<th>Division/National Park</th>						
+								<th>Safari Type</th>						
+								<th>Service Definition</th>
+								<th>Status as on</th>
+								<th>Time Slot</th>
+							</tr>
+							<tr>
+								<td><?= $bookings[0]->division_name;?></td>
+								<td><?= $bookings[0]->type_name;?></td>
+								<td><?= $bookings[0]->service_definition;?></td>
+								<td><?= date('h:i A').' of '.date('d-m-Y').' for '.date('d-m-Y', strtotime($start_date));?></td>						
+								<td><?= $bookings[0]->slot_desc.': '.$bookings[0]->start_time.' to '.$bookings[0]->end_time;?></td>
+							</tr>
+						</table>
+						
+		
+						<div class="row">
+							<div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+								<div class="info-box border shadow-none rounded-0 mb-0" >
+									<div class="info-box-content text-center">
+									<span class="info-box-text fw-bold">Total Capacity</span>
+									<span class="fs-5 fw-bold" style="color: #009e60;"><?= $foundSlot['capacity'];?></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+								<div class="info-box border shadow-none rounded-0 mb-0" >
+									<div class="info-box-content text-center">
+									<span class="info-box-text fw-bold">Seats Booked</span>
+									<span class="fs-5 fw-bold" style="color: #009e60;"><?= $foundSlot['no_of_booked_ticket'];?></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+								<div class="info-box border shadow-none rounded-0 mb-0" >
+									<div class="info-box-content text-center">
+									<span class="info-box-text fw-bold">Seats Blocked</span>
+									<span class="fs-5 fw-bold" style="color: #009e60;"><?= $foundSlot['blocked_count'];?></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+								<div class="info-box border shadow-none rounded-0 mb-0" >
+									<div class="info-box-content text-center">
+									<span class="info-box-text fw-bold">Seats Available</span>
+									<span class="fs-5 fw-bold" style="color: #009e60;"><?= $foundSlot['available_qty'];?></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="app-card app-card-settings shadow-sm mb-2">
+					<div class="app-card-body">
+						<div class="table-responsive">
+							<table class="table app-table-hover mb-0">
+								<thead>
+									<tr>
+										<th class="cell">Booking No.</th>
+										<th class="cell text-center">Transaction Date</th>
+										<th class="cell text-center">Transaction Time</th>
+										<th class="cell">Primary Guest</th>
+										<th class="cell text-center">Nationality</th>
+										<th class="cell">Contact No.</th>
+										<th class="cell text-center">Adult</th>
+										<th class="cell text-center">Child</th>
+										<th class="cell text-center">Present Status</th>
+										<th class="cell text-center">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+								<?php
+								if(!empty($bookings)){
+									foreach($bookings as $row){
+								?>
+									<tr>
+										<td><?= $row->booking_number;?></td>
+										<td class="text-center"><?= date('d-m-Y', strtotime($row->payment_date));?></td>
+										<td class="text-center"><?= date('h:i A', strtotime($row->payment_date));?></td>
+										<td><?= $row->first_name;?></td>
+										<td class="text-center"><?= $row->cat_name;?></td>
+										<td><?= $row->mobile;?></td>
+										<td class="text-center"><?= $row->no_of_person;?></td>
+										<td class="text-center"><?= $row->child_count;?></td>
+										<td class="text-center">
+										<?php
+											if($row->booking_status == 'I'){
+												echo '<span class="badge bg-info">Initiate </span>';
+											}else if($row->booking_status == 'A'){
+												if($row->no_of_person == $row->booking_time_visitor_count){
+													echo '<span class="badge bg-success">Approved </span>';
+												}
+												else{
+													echo '<span class="badge bg-warning">Partialy Canceled</span>';
+												}
+											}else if($row->booking_status == 'C'){
+												echo '<span class="badge bg-danger">Cancelled </span>';
+												
+												echo ($row->is_refunded == 1)?'<span class="badge bg-success">Refunded </span>':'<span class="badge bg-warning">Refund in process</span>'; 
+	
+											}else if($row->booking_status == 'F'){
+												echo '<span class="badge bg-info">Payment Failed</span>';
+											}
+										?>
+										</td>
+										<td class="text-center">
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">Button</a>&nbsp;
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i>Booking&nbsp;Slip</a>
+										</td>
+									</tr>
+								<?php } } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<?php } else { ?>
                 <div class="app-card app-card-orders-table shadow-sm mb-5">
                     <div class="app-card-body">
                         <div class="table-responsive">
                             <table class="table app-table-hover mb-0 text-left" id="accommodation_list_table">
                                 <thead>
                                     <tr>
-                                    <th class="cell">SL No.</th>
+                                    	<th class="cell">SL No.</th>
                                         <th class="cell">Park</th>
                                         <th class="cell">Safari</th>
                                         <th class="cell">Type</th>
@@ -127,8 +250,9 @@
                                 </thead>
                                 <tbody>
                                 <?php 
-                                    if(!empty($bookings)){
-                                    foreach($bookings as $row) { ?>
+                                	if(!empty($bookings)){
+                                    	foreach($bookings as $row) { 
+								?>
                                     <tr>
                                         <td class="cell"><?=++$i;?></td>
                                         <td class="cell"><?=$row->division_name;?></td>
@@ -142,7 +266,12 @@
 											if($row->booking_status == 'I'){
 												echo '<span class="badge bg-info">Initiate </span>';
 											}else if($row->booking_status == 'A'){
-												echo '<span class="badge bg-success">Approved </span>';
+												if($row->no_of_person == $row->booking_time_visitor_count){
+													echo '<span class="badge bg-success">Approved </span>';
+												}
+												else{
+													echo '<span class="badge bg-warning">Partialy Canceled</span>';
+												}
 											}else if($row->booking_status == 'C'){
 												echo '<span class="badge bg-danger">Cancelled </span>';
 												
@@ -177,6 +306,7 @@
                     </div>
                     <!--//app-card-body-->
                 </div>
+				<?php } ?>
             </div>
             <!--//container-fluid-->
         </div>

@@ -100,6 +100,7 @@ if (!function_exists('get_cancellation_details'))
 		$response['cancel_percent'] = $cancel_percent;
 		$response['cancel_charge'] = $cancel_charge;
 		$response['refund_amt'] = $refund_amt;
+		$response['basePrice'] = $basePrice;
 		
 		return $response;
 	}
