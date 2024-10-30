@@ -169,7 +169,7 @@
 				<div class="app-card app-card-settings shadow-sm mb-2">
 					<div class="app-card-body">
 						<div class="table-responsive">
-							<table class="table app-table-hover mb-0">
+							<table class="table app-table-hover mb-0 text-left" id="safari_booking_list_table">
 								<thead>
 									<tr>
 										<th class="cell">Booking No.</th>
@@ -234,7 +234,7 @@
                 <div class="app-card app-card-orders-table shadow-sm mb-5">
                     <div class="app-card-body">
                         <div class="table-responsive">
-                            <table class="table app-table-hover mb-0 text-left" id="accommodation_list_table">
+                            <table class="table app-table-hover mb-0 text-left" id="safari_booking_list_table">
                                 <thead>
                                     <tr>
                                     	<th class="cell">SL No.</th>
@@ -267,30 +267,25 @@
 												echo '<span class="badge bg-info">Initiate </span>';
 											}else if($row->booking_status == 'A'){
 												if($row->no_of_person == $row->booking_time_visitor_count){
-													echo '<span class="badge bg-success">Approved </span>';
+													echo '&nbsp;<span class="badge bg-success">Approved </span>';
 												}
 												else{
-													echo '<span class="badge bg-warning">Partialy Canceled</span>';
+													echo '&nbsp;<span class="badge bg-warning">Partialy Canceled</span>';
 												}
 											}else if($row->booking_status == 'C'){
-												echo '<span class="badge bg-danger">Cancelled </span>';
+												echo '&nbsp;<span class="badge bg-danger">Cancelled </span>';
 												
-												echo ($row->is_refunded == 1)?'<span class="badge bg-success">Refunded </span>':'<span class="badge bg-warning">Refund in process</span>'; 
+												echo ($row->is_refunded == 1)?'&nbsp;<span class="badge bg-success">Refunded </span>':'&nbsp;<span class="badge bg-warning">Refund in process</span>'; 
 	
 											}else if($row->booking_status == 'F'){
-												echo '<span class="badge bg-info">Payment Failed</span>';
+												echo '&nbsp;<span class="badge bg-info">Payment Failed</span>';
 											}
 										?> 
 										</td>
-                                        <td class="cell">
-                                        <?php
-                                            if(check_user_permission($menu_id, 'edit_flag')){
-                                        ?>
-                                            <!--<a class="btn-sm app-btn-primary" href="<?= base_url('admin/accommodation/editaccommodation/' . $accommodation['accommodation_id']) ?>">Edit</a>-->
-                                        </td>
-                                        <?php
-                                            }
-                                        ?>
+                                        <td class="text-center">
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">Button</a>&nbsp;
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i> Booking&nbsp;Slip</a>
+										</td>
                                     </tr>
                                     <?php } 
                                     }else{ ?>

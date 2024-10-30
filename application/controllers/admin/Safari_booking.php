@@ -8,7 +8,7 @@ class Safari_booking extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model(array('admin/msafari_service', 'mcommon', 'frontend/msafari_booking', 'frontend/query'));
-		$this->load->helper(array('gst'));
+		$this->load->helper(array('gst', 'email'));
 
 	}
 	
@@ -131,12 +131,10 @@ class Safari_booking extends MY_Controller
 				$data['visitorAges'] = implode(',', $ages);
 			}
 			
-			
-			//$data['cancellation_details'] = $this->mbooking->getCancellationDetails($diff_check_in_out_date);
-			//$data['cancellation_request_details'] = $this->mbooking->getCancellationRequestDetails($booking_id);
+			$data['cancellation_request_details'] = $this->mcommon->getDetailsOrder('cancel_request_tbl', ['cancel_source' => 'S', 'booking_id' => $booking_id, 'is_refunded' => 1], 'DATE(created_ts)', 'DESC');
 		}
 		
-		//print_r($data['booking_details']);die;
+		//echo "<pre>"; print_r($data['cancellation_request_details']);die;
 		$data['content'] = 'admin/safari_booking/safari_booking_details';
 		$this->load->view('admin/layouts/index', $data);
 	}
@@ -150,289 +148,288 @@ class Safari_booking extends MY_Controller
 
 		if (is_numeric($booking_id) && $booking_id > 0 && !empty($safari_booking_detail_ids) && !empty($visitor_ages)) {
 			$bookingData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $booking_id]);
-			if ($this->session->userdata('customer_id') == $bookingData['customer_id']) {
 
-				$visitorsData = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_status' => 1]);
-				if(!empty($visitorsData)){
-					foreach($visitorsData as $vrow){
-						$ages[] = $vrow['visitor_age'];
+			$visitorsData = $this->mcommon->getDetails('safari_booking_detail', ['booking_id' => $booking_id, 'is_status' => 1]);
+			if(!empty($visitorsData)){
+				foreach($visitorsData as $vrow){
+					$ages[] = $vrow['visitor_age'];
+				}
+			}
+			
+			if(count($ages) != count($this->input->post('visitor_ages'))){
+				
+				// Create a copy of $array1 for the new array
+				$newArray = $ages;
+				
+				// Loop through $array2 and remove each value once from $newArray
+				foreach ($this->input->post('visitor_ages') as $value) {
+					// Find the index of the value in $newArray
+					$index = array_search($value, $newArray);
+					if ($index !== false) {
+						// Remove the element from $newArray at the found index
+						unset($newArray[$index]);
 					}
 				}
 				
-				if(count($ages) != count($this->input->post('visitor_ages'))){
+				// Re-index new array to maintain sequential keys
+				$newArray = array_values($newArray);
+				//echo "<pre>"; print_r($newArray); die;
+				// Check if any value in the new array is greater than 18
+				$greaterThanOrEqualAdultAge = array_filter($newArray, function($value) {
+					return $value >= ADULT_AGE;
+				});
+				
+				if (!empty($greaterThanOrEqualAdultAge)) {
+					$furtherProceed = true;
+				} else {
+					$return_data = array('status' => false, 'msg' => 'No adults are present on this booking!!');
+					echo json_encode($return_data);
+					die;
+				}
+			}
+			
+			$result_decoded = array();
+			$cancel_request_data = array();
+			$booking_payment_details = $this->db->from('safari_booking_payment')->where('booking_id', $booking_id)->order_by('booking_payment_id', 'DESC')->limit(1)->get()->row_array();
+
+			if (!empty($booking_payment_details)) {
+
+				try {
+
+					$counts = array_count_values($this->input->post('is_free'));
+					$count_of_2 = isset($counts[2]) ? $counts[2] : 0;//paid visitor count
 					
-					// Create a copy of $array1 for the new array
-					$newArray = $ages;
+					$cancellation_details = get_cancellation_percentage($bookingData['booking_date']);
 					
-					// Loop through $array2 and remove each value once from $newArray
-					foreach ($this->input->post('visitor_ages') as $value) {
-						// Find the index of the value in $newArray
-						$index = array_search($value, $newArray);
-						if ($index !== false) {
-							// Remove the element from $newArray at the found index
-							unset($newArray[$index]);
-						}
+					$cancellationDetails = get_cancellation_details($booking_id, $cancellation_details, $count_of_2);
+					
+					//echo "<pre>"; print_r($cancellationDetails); die;
+				
+					$cancel_percent = 100;
+					$cancel_charge = $basePrice;
+					$refund_amt = 0;
+					
+					if (!empty($cancellationDetails)) {
+						//$cancel_percent = $cancellationDetails['cancel_percent'];
+						//$cancel_charge = $cancellationDetails['cancel_charge'];
+						//$refund_amt = $cancellationDetails['refund_amt'];
+						$cancel_percent = $this->input->post('cancel_percent');
+						$cancel_charge = $this->input->post('cancel_charge');
+						$refund_amt = $this->input->post('refund_amt');
+						$safari_net_amount = $cancellationDetails['basePrice'];
+						$actual_refund_amt = $cancellationDetails['refund_amt'];
 					}
 					
-					// Re-index new array to maintain sequential keys
-					$newArray = array_values($newArray);
-					//echo "<pre>"; print_r($newArray); die;
-					// Check if any value in the new array is greater than 18
-					$greaterThanOrEqualAdultAge = array_filter($newArray, function($value) {
-						return $value >= ADULT_AGE;
-					});
-					
-					if (!empty($greaterThanOrEqualAdultAge)) {
-						$furtherProceed = true;
+					//echo $refund_amt.'<br>'.$safari_net_amount.'<br>'.$actual_refund_amt; die;
+
+					if ($refund_amt > 0 && $refund_amt <= $safari_net_amount) {
+						
+						$keyId = RAZORPAY_KEY;
+						$keySecret = RAZORPAY_KEY_SECRET;
+						$url = RAZORPAY_REFUND_URL . $booking_payment_details['razorpay_payment_id'] . "/refund";
+						$refendAmtInPaisa = $refund_amt * 100;
+
+						$ch = curl_init($url);
+						curl_setopt($ch, CURLOPT_USERPWD, $keyId . ':' . $keySecret);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+						curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+
+						// Partial refund data (amount in paise)
+						$post_fields = json_encode(array(
+							'amount' => $refendAmtInPaisa
+						));
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+						
+						// Set headers for JSON data
+						curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+							'Content-Type: application/json'
+						));
+
+						$response = curl_exec($ch);
+
+						$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+						curl_close($ch);
+
+						$result = json_decode($response, true);
 					} else {
-						$return_data = array('status' => false, 'msg' => 'No adults are present on this booking!!');
+						$return_data = array('status' => false, 'msg' => 'The refund amount is more than the actual amount!!');
 						echo json_encode($return_data);
 						die;
 					}
-				}
+
+
+					if (!empty($result) && $http_status == 200) {
+
+						$this->db->trans_start(); # Starting Transaction
+
+						$cancel_remarks = $this->input->post('cancel_remarks');
+						$cancel_gst_percent = 5;
+						$cancel_request_data = array(
+							'cancel_source' => 'S',
+							'booking_id' => $booking_id,
+							'net_payble_amount' => $this->input->post('paid_amount'),
+							'paid_amount' => $bookingData['base_price'],
+							'cancel_percent' => $cancel_percent,
+							'cancel_charge' => $cancel_charge,
+							'cancel_gst_percent' => $cancel_gst_percent,
+							'cancel_gst' => number_format(($cancel_charge * $cancel_gst_percent) / 100, 2, ".", ""),
+							'refund_amt' => $refund_amt,
+							'refunded_amount' => $refund_amt,
+							'cancel_type' => $count_of_2 == $bookingData['no_of_person'] ? 'F' : 'P',
+							'created_by' => $this->admin_session_data['user_id'],
+							'created_user_type' => 'U',
+							'created_ts' => date('Y-m-d H:i:s'),
+							'is_refunded' => ($result['payment_id'] != '') ? 1 : 0,
+							'cancel_refund_request_id' => $result['id'],
+							'cancel_request_response' => json_encode($result),
+							'razorpay_payment_id' => $result['payment_id'],
+							'cancellation_remarks' => $cancel_remarks,
+							'no_of_person_cancelled' => $count_of_2
+
+						);
+
+						$this->db->insert('cancel_request_tbl', $cancel_request_data);
+						//echo nl2br($this->db->last_query()); die;
+						$booking_status = $count_of_2 == $bookingData['no_of_person'] ? 'C' : 'A';
+						$no_of_person = $count_of_2 == $bookingData['no_of_person'] ? $bookingData['booking_time_visitor_count'] : ($bookingData['no_of_person'] - $count_of_2);
+						//update header table
+						$this->db->update('safari_booking_header', array('no_of_person' => $no_of_person, 'booking_status' => $booking_status, 'is_refunded' => $cancel_request_data['is_refunded'], 'cancellation_remarks' => $cancel_remarks, 'updated_by' => $this->admin_session_data['user_id'], 'updated_ts' => date('Y-m-d H:i:s')), array('booking_id' => $booking_id));
+						//echo nl2br($this->db->last_query()); die;
+						//update detail table
+						foreach($safari_booking_detail_ids as $drow){
+							$this->mcommon->update('safari_booking_detail', ['safari_booking_detail_id' => $drow], ['is_status' => 2]);
+						}
+						
+						$this->db->trans_complete(); # Completing transaction
+
+						if ($this->db->trans_status() === FALSE) {
+							# Something went wrong.
+							$this->db->trans_rollback();
+							$return_data = array('status' => false, 'msg' => 'Oops!Something went wrong...');
+						} else {
+							# Everything is Perfect. 
+							# Committing data to the database.
+							$this->db->trans_commit();
+
+							/* Booking Cancellation Email Sending */
+
+							$refund_perc = (100 - $cancel_percent);
+
+							$config = email_config();
+							$email_from = $config['email_from'];
+							unset($config['email_from']);
+
+							$subject = 'PNR No.  ' . $bookingData['booking_number'] . ' has been cancelled.';
+
+							$message = '<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
+		<center style="width: 100%; background-color: #f1f1f1; font-family: Arial, Helvetica, sans-serif;">
+			<div style="max-width: 600px; margin: 0 auto;">
 				
-				$result_decoded = array();
-				$cancel_request_data = array();
-				$booking_payment_details = $this->db->from('safari_booking_payment')->where('booking_id', $booking_id)->order_by('booking_payment_id', 'DESC')->limit(1)->get()->row_array();
-
-				if (!empty($booking_payment_details)) {
-
-					try {
-
-						$counts = array_count_values($this->input->post('is_free'));
-						$count_of_2 = isset($counts[2]) ? $counts[2] : 0;//paid visitor count
-						
-						$cancellation_details = get_cancellation_percentage($bookingData['booking_date']);
-						
-						$cancellationDetails = get_cancellation_details($booking_id, $cancellation_details, $count_of_2);
-						
-						//echo "<pre>"; print_r($cancellationDetails); die;
+				<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
+					<tr style="background-color: #FFF;">
+						<td valign="top" style="padding: 1em; border: 1px solid #00bdd6;">
+							<table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom: 0px;">
+								<tr>
+									<td style="text-align: left;padding:10px; width: 68px;">
+										<img src="' . base_url('public/frontend_assets/assets/img/logo.png') . '" width="48" alt="..."></img>
+									</td>
+									<td style="text-align: center;">
+										<h3 style="margin-top:10px; font-size:14px;margin-bottom: 0px;line-height:1;font-weight:600;">' . COM_NAME . '</h3>
+										<p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</p>
+										<h2 style="text-align:center;font-size:12px;font-weight: 600; margin-top:10px; color: #00bdd6;">Email for cancellation initiated by the concerned party</h2>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
 					
-						$cancel_percent = 100;
-						$cancel_charge = $basePrice;
-						$refund_amt = 0;
-						
-						if (!empty($cancellationDetails)) {
-							//$cancel_percent = $cancellationDetails['cancel_percent'];
-							//$cancel_charge = $cancellationDetails['cancel_charge'];
-							//$refund_amt = $cancellationDetails['refund_amt'];
-							$cancel_percent = $this->input->post('cancel_percent');
-							$cancel_charge = $this->input->post('cancel_charge');
-							$refund_amt = $this->input->post('refund_amt');
-							$safari_net_amount = $cancellationDetails['basePrice'];
-							$actual_refund_amt = $cancellationDetails['refund_amt'];
+					<tr>
+						<td>
+							<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #FFF;border-left: 1px solid #00bdd6; border-right: 1px solid #00bdd6;">
+								<tr>
+									<td>
+										<div style="text-align: left; padding: 0 15px; font-size: 13px; line-height: 1.5;">
+											<p>Sir/Madam</p>
+											
+											<p style="margin-bottom:0;">
+												We have received your cancellation application for PNR No. ' . $bookingData['booking_number'] . ' and it has been accepted. ' . $refund_perc . '% of the booking amount (excluding GST) will be refunded within 15 days and will be credited to the concerned bank account through which payment has been made at the time of booking. For any further query please get in touch with us at 9734190119.
+											</p>
+											<p style="margin-bottom:0;">Thanks and Regards,</p>
+											<p style="margin-top:0;">WBSFDC</p>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+	
+				<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #e9e9e9;">
+					<tr>
+						<td style="text-align: left; color: #000000; padding: 15px; font-size: 12px; border: 1px solid #00bdd6;">
+							<p style="margin-top: 0; margin-bottom: 5px;">
+								<b>Address:</b>
+								<span>' . COM_ADDRESS . '</span>
+							</p>
+							<p style="margin-bottom: 5px; margin-top:0;">
+								<b>Phone:</b>
+								<span>' . COM_PHONE . '</span>
+							</p>
+							<p style="margin-bottom: 0;margin-top:0;">
+								<b>Email Us On:</b>
+								<span>' . COM_EMAIL . '</span>
+							</p>
+						</td>
+					</tr>
+				</table>
+	
+				<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #00bdd6;">
+					<tr>
+						<td style="text-align: center; color: #FFF; padding: 5px 15px; font-size: 12px;">
+							<p>
+								<span>© ' . date('Y') . ' ' . COM_NAME . '.All right reserved.
+								</span>
+							</p>
+						</td>
+					</tr>
+				</table>
+	
+			</div>
+		</center>
+	</body>';
+
+							$customer_details = $this->db->from('customer_master')->where('customer_id', $bookingData['customer_id'])->get()->row_array();
+
+							$this->load->library('email', $config);
+							$this->email->set_newline("\r\n");
+							$this->email->from($email_from, EMAIL_FROM_NAME); // change it to yours
+							$this->email->to($customer_details['email']); // change it to yours 
+
+							$this->email->subject($subject);
+							$this->email->message($message);
+							$this->email->send();
+
+							//$refundPer = $refund_perc . '%';
+							//payment_cancelled($booking_det['mobile'], $booking_det['booking_no'], $refundPer);
+
+							$return_data = array('status' => true, 'msg' => 'Booking has been cancelled successfully');
 						}
-						
-						//echo $cancel_percent.'<br>'.$cancel_charge.'<br>'.$refund_amt; die;
+					} else {
 
-						if ($refund_amt > 0 && $refund_amt <= $safari_net_amount && $refund_amt <= $actual_refund_amt) {
-							
-							$keyId = RAZORPAY_KEY;
-							$keySecret = RAZORPAY_KEY_SECRET;
-							$url = RAZORPAY_REFUND_URL . $booking_payment_details['razorpay_payment_id'] . "/refund";
-							$refendAmtInPaisa = $refund_amt * 100;
-
-							$ch = curl_init($url);
-							curl_setopt($ch, CURLOPT_USERPWD, $keyId . ':' . $keySecret);
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-
-							// Partial refund data (amount in paise)
-							$post_fields = json_encode(array(
-								'amount' => $refendAmtInPaisa
-							));
-							curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
-							
-							// Set headers for JSON data
-							curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-								'Content-Type: application/json'
-							));
-
-							$response = curl_exec($ch);
-
-							$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-							curl_close($ch);
-
-							$result = json_decode($response, true);
-						} else {
-							$return_data = array('status' => false, 'msg' => 'The refund amount is more than the actual amount!!');
-							echo json_encode($return_data);
-							die;
-						}
-
-
-						if (!empty($result) && $http_status == 200) {
-
-							$this->db->trans_start(); # Starting Transaction
-
-							$cancel_remarks = $this->input->post('cancel_remarks');
-							$cancel_gst_percent = 5;
-							$cancel_request_data = array(
-								'cancel_source' => 'S',
-								'booking_id' => $booking_id,
-								'net_payble_amount' => $this->input->post('paid_amount'),
-								'paid_amount' => $bookingData['base_price'],
-								'cancel_percent' => $cancel_percent,
-								'cancel_charge' => $cancel_charge,
-								'cancel_gst_percent' => $cancel_gst_percent,
-								'cancel_gst' => number_format(($cancel_charge * $cancel_gst_percent) / 100, 2, ".", ""),
-								'refund_amt' => $refund_amt,
-								'refunded_amount' => $refund_amt,
-								'cancel_type' => $count_of_2 == $bookingData['no_of_person'] ? 'F' : 'P',
-								'created_by' => $this->session->userdata('customer_id'),
-								'created_user_type' => 'C',
-								'created_ts' => date('Y-m-d H:i:s'),
-								'is_refunded' => ($result['payment_id'] != '') ? 1 : 0,
-								'cancel_refund_request_id' => $result['id'],
-								'cancel_request_response' => json_encode($result),
-								'razorpay_payment_id' => $result['payment_id'],
-								'cancellation_remarks' => $cancel_remarks
-
-							);
-
-							$this->db->insert('cancel_request_tbl', $cancel_request_data);
-							//echo nl2br($this->db->last_query()); die;
-							$booking_status = $count_of_2 == $bookingData['no_of_person'] ? 'C' : 'A';
-							$no_of_person = $count_of_2 == $bookingData['no_of_person'] ? $bookingData['booking_time_visitor_count'] : ($bookingData['no_of_person'] - $count_of_2);
-							//update header table
-							$this->db->update('safari_booking_header', array('no_of_person' => $no_of_person, 'booking_status' => $booking_status, 'is_refunded' => $cancel_request_data['is_refunded'], 'cancellation_remarks' => $cancel_remarks, 'updated_by' => $this->session->userdata('customer_id'), 'updated_ts' => date('Y-m-d H:i:s')), array('booking_id' => $booking_id));
-							//echo nl2br($this->db->last_query()); die;
-							//update detail table
-							foreach($safari_booking_detail_ids as $drow){
-								$this->mcommon->update('safari_booking_detail', ['safari_booking_detail_id' => $drow], ['is_status' => 2]);
-							}
-							
-							$this->db->trans_complete(); # Completing transaction
-
-							if ($this->db->trans_status() === FALSE) {
-								# Something went wrong.
-								$this->db->trans_rollback();
-								$return_data = array('status' => false, 'msg' => 'Oops!Something went wrong...');
-							} else {
-								# Everything is Perfect. 
-								# Committing data to the database.
-								$this->db->trans_commit();
-
-								/* Booking Cancellation Email Sending */
-
-								$refund_perc = (100 - $cancel_percent);
-
-								$config = email_config();
-								$email_from = $config['email_from'];
-								unset($config['email_from']);
-
-								$subject = 'PNR No.  ' . $bookingData['booking_number'] . ' has been cancelled.';
-
-								$message = '<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
-			<center style="width: 100%; background-color: #f1f1f1; font-family: Arial, Helvetica, sans-serif;">
-				<div style="max-width: 600px; margin: 0 auto;">
-					
-					<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-						<tr style="background-color: #FFF;">
-							<td valign="top" style="padding: 1em; border: 1px solid #00bdd6;">
-								<table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom: 0px;">
-									<tr>
-										<td style="text-align: left;padding:10px; width: 68px;">
-											<img src="' . base_url('public/frontend_assets/assets/img/logo.png') . '" width="48" alt="..."></img>
-										</td>
-										<td style="text-align: center;">
-											<h3 style="margin-top:10px; font-size:14px;margin-bottom: 0px;line-height:1;font-weight:600;">' . COM_NAME . '</h3>
-											<p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</p>
-											<h2 style="text-align:center;font-size:12px;font-weight: 600; margin-top:10px; color: #00bdd6;">Email for cancellation initiated by the concerned party</h2>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						
-						<tr>
-							<td>
-								<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #FFF;border-left: 1px solid #00bdd6; border-right: 1px solid #00bdd6;">
-									<tr>
-										<td>
-											<div style="text-align: left; padding: 0 15px; font-size: 13px; line-height: 1.5;">
-												<p>Sir/Madam</p>
-												
-												<p style="margin-bottom:0;">
-													We have received your cancellation application for PNR No. ' . $bookingData['booking_number'] . ' and it has been accepted. ' . $refund_perc . '% of the booking amount (excluding GST) will be refunded within 15 days and will be credited to the concerned bank account through which payment has been made at the time of booking. For any further query please get in touch with us at 9734190119.
-												</p>
-												<p style="margin-bottom:0;">Thanks and Regards,</p>
-												<p style="margin-top:0;">WBSFDC</p>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-		
-					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #e9e9e9;">
-						<tr>
-							<td style="text-align: left; color: #000000; padding: 15px; font-size: 12px; border: 1px solid #00bdd6;">
-								<p style="margin-top: 0; margin-bottom: 5px;">
-									<b>Address:</b>
-									<span>' . COM_ADDRESS . '</span>
-								</p>
-								<p style="margin-bottom: 5px; margin-top:0;">
-									<b>Phone:</b>
-									<span>' . COM_PHONE . '</span>
-								</p>
-								<p style="margin-bottom: 0;margin-top:0;">
-									<b>Email Us On:</b>
-									<span>' . COM_EMAIL . '</span>
-								</p>
-							</td>
-						</tr>
-					</table>
-		
-					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;background: #00bdd6;">
-						<tr>
-							<td style="text-align: center; color: #FFF; padding: 5px 15px; font-size: 12px;">
-								<p>
-									<span>© ' . date('Y') . ' ' . COM_NAME . '.All right reserved.
-									</span>
-								</p>
-							</td>
-						</tr>
-					</table>
-		
-				</div>
-			</center>
-		</body>';
-
-								$customer_details = $this->db->from('customer_master')->where('customer_id', $bookingData['customer_id'])->get()->row_array();
-
-								$this->load->library('email', $config);
-								$this->email->set_newline("\r\n");
-								$this->email->from($email_from, EMAIL_FROM_NAME); // change it to yours
-								$this->email->to($customer_details['email']); // change it to yours 
-
-								$this->email->subject($subject);
-								$this->email->message($message);
-								$this->email->send();
-
-								//$refundPer = $refund_perc . '%';
-								//payment_cancelled($booking_det['mobile'], $booking_det['booking_no'], $refundPer);
-
-								$return_data = array('status' => true, 'msg' => 'Booking has been cancelled successfully');
-							}
-						} else {
-
-							throw new Exception(curl_error($ch));
-						}
-					} catch (Exception $e) {
-						// this will not catch DB related errors. But it will include them, because this is more general. 
-						$return_data = array('status' => false, 'msg' => $e->getMessage());
+						throw new Exception(curl_error($ch));
 					}
-				} else {
-
-					$return_data = array('status' => false, 'msg' => 'Payment info not found');
+				} catch (Exception $e) {
+					// this will not catch DB related errors. But it will include them, because this is more general. 
+					$return_data = array('status' => false, 'msg' => $e->getMessage());
 				}
+			} else {
 
-				echo json_encode($return_data);
-				die;
+				$return_data = array('status' => false, 'msg' => 'Payment info not found');
 			}
+
+			echo json_encode($return_data);
+			die;
 		}
 
 	}

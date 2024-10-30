@@ -255,7 +255,7 @@ class Safari_booking extends CI_Controller
 						}
 					}
 					else{
-						$response = array('success' => false, 'msg' => 'Now no seat available for selected slot.');
+						$response = array('success' => false, 'msg' => 'Now '.$foundSlot['available_qty'].' seat available for selected slot.');
 					}
 					//echo $foundSlot['available_qty'];
 					//echo "<pre>"; print_r($foundSlot); die;

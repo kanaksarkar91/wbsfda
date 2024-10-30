@@ -51,7 +51,7 @@ color:#CC0000 !important;
                                 <table class="mb-3 w-100 table-sm table table-bordered">
                                     <tr>
                                         <th width="15%">Booking No.</th>
-                                        <td width="35%"><?=(isset($booking_details[0]['booking_no'])?$booking_details[0]['booking_no']:'')?></td>
+                                        <td width="35%"><?=(isset($booking_details[0]['booking_number'])?$booking_details[0]['booking_number']:'')?></td>
                                         <th width="15%">Booking Date</th>
                                         <td width="35%"><?=(isset($booking_details[0]['created_ts'])?date('d-m-Y h:i A',strtotime($booking_details[0]['created_ts'])):'')?></td>
                                     </tr>
@@ -117,7 +117,7 @@ color:#CC0000 !important;
 											<td><?= $row['visitor_gender'];?></td>
 											<td><?= $row['visitor_age'];?></td>
 											<td><?= $row['visitor_id_type'];?></td>
-											<td><?= $row['visitor_id_no'];?></td>
+											<td><?= str_pad(substr($row['visitor_id_no'], -4), strlen($row['visitor_id_no']), 'x', STR_PAD_LEFT); ?></td>
 											<td><?= $row['is_status'] == 1 ? '<span class="badge bg-success">Confirmed</span>' : '<span class="badge bg-danger">Cancelled</span>';?></td>
 											<?php if($booking_details[0]['booking_status'] === 'A' && $cancel_button_visible === "Yes" && $calcelButtonShowing === true){ ?>
 											<td style="text-align:center;">
@@ -155,7 +155,7 @@ color:#CC0000 !important;
 												<input type="hidden" id="safari_net_amount" name="safari_net_amount" value="<?=$basePrice;?>">
 												
 												<?php
-												if(isset($booking_details[0]['booking_status']) && !empty($booking_payment_details)){
+												if(isset($booking_details[0]['booking_status']) && !empty($booking_payment_details) && $booking_details[0]['booking_status'] === 'A' && $cancel_button_visible === "Yes" && $calcelButtonShowing === true){
 												?>
 												<input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;margin-top:10px; margin-right:10px;" value="Cancel Safari" class="btn app-btn-danger"> 
 												<?php } ?> 
@@ -174,23 +174,26 @@ color:#CC0000 !important;
                                 <table class="mb-3 w-100 table-sm table table-bordered">
                                     <tr>
                                         <th>Cancellation Date</th>
+										<th>No. of Person</th>
                                         <th>Cancellation Remarks</th>
                                         <th>Cancellation Percentage</th>
                                         <th>Cancellation Charge</th>
                                         <th>Refund Amount</th>
                                         <th>Refund Status</th>
                                     </tr>
-                                    
+                                    <?php foreach($cancellation_request_details as $crow) { ?>
                                     <tr>
                                         
-                                        <td><?=date('d-m-Y H:i:s',strtotime($cancellation_request_details['created_ts']))?></td>
-                                        <td><?=$booking_details[0]['cancellation_remarks']?></td>
-                                        <td><?=$cancellation_request_details['cancel_percent']?></td>
-                                        <td><?=$cancellation_request_details['cancel_charge']?></td>
-                                        <td><?=$cancellation_request_details['refund_amt']?></td>
-                                        <td><?= ($cancellation_request_details['is_refunded'] == '1') ? 'Refunded' :'Refund in process'?></td>
+                                        <td><?=date('d-m-Y h:i A',strtotime($crow['created_ts']));?></td>
+										<td><?=$crow['no_of_person_cancelled'];?></td>
+                                        <td><?=$crow['cancellation_remarks'];?></td>
+                                        <td class="text-end"><?=$crow['cancel_percent'].'%';?></td>
+                                        <td class="text-end"><?=formatIndianCurrency($crow['cancel_charge']);?></td>
+                                        <td class="text-end"><?=formatIndianCurrency($crow['refund_amt']);?></td>
+                                        <td><?= ($crow['is_refunded'] == '1') ? 'Refunded' :'Refund in process';?></td>
                                         
                                     </tr>
+									<?php } ?>
                                     
                                 </table>
                                 <?php } ?>
@@ -207,77 +210,6 @@ color:#CC0000 !important;
         </div>
         <!--//app-content-->
 		
-		
-        <!-- Modal -->
-        <div class="modal fade" id="bookingCancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Cancel Booking</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    <h6>Cancellation Information</h6><br>
-				<?php
-                
-                //if($booking_source == 'F'){
-					$cancel_percent = ($booking_details[0]['booking_status'] =='I')?0:$cancellation_details['cancellation_per'];
-					$cancel_charge = ($booking_details[0]['booking_status'] =='I')?0:intval((($booking_details[0]['room_price_before_tax'] * $cancellation_details['cancellation_per']) / 100) *100)/100;
-					$refund_amt = ($booking_details[0]['booking_status'] =='I')?0:intval(($booking_details[0]['room_price_before_tax'] - $cancel_charge)*100)/100;
-                //}
-				?>
-                <?php // if($booking_source == 'F'){ ?>
-                    <h6>Booking Amount Before GST (Rs.) : <?= $booking_details[0]['room_price_before_tax']; ?></h6>
-					<h6>Booking Amount After GST (Rs.) : <?= $booking_payment_detail['amount']; ?></h6>
-					<h6>Cancellation Charge (Rs.) : <input style="border:none;" readonly="" type="text" id="cancel_charge_show" value="<?=$cancel_charge?>"></h6>
-					<h6>GST (Rs.) : <input style="border:none;" readonly="" type="text" id="gst_charge_show" name="gst_charge_show" value="<?=$booking_details[0]['room_total_igst']?>"></h6>
-                    <h6>Refund Amount (Rs.) : <input type="text" id="refund_amt" name="refund_amt" value="<?=$refund_amt?>"></h6>
-                    
-					
-					<input type="hidden" id="net_payble_amount" name="net_payble_amount" value="<?=$booking_details[0]['room_price_before_tax']?>">
-                    <input type="hidden" id="paid_amount" name="paid_amount" value="<?=($booking_details[0]['booking_status'] =='I')?0:$booking_details[0]['room_price_before_tax']?>">
-                    <input type="hidden" id="cancel_percent" name="cancel_percent" value="<?=$cancel_percent?>">
-                    <input type="hidden" id="cancel_charge" name="cancel_charge" value="<?=$cancel_charge?>">
-					<input type="hidden" id="room_net_amount" name="room_net_amount" value="<?=$booking_payment_detail['amount'];?>">
-                    <?php /*?><input type="text" id="refund_amt" name="refund_amt" value="<?=$refund_amt?>"><?php */?>
-                <?php // } ?>
-                <input type="hidden" id="booking_source" name="booking_source" value="<?=$booking_source?>">
-                
-                        <textarea name="cancellation_reason" id="cancellation_reason" rows="4" style="width: 100%" placeholder="Cancellation Reason"></textarea>
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                        <button type="button" class="btn btn-primary" id="btn-booking-cancel-submit">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-		
-		
-		<!-- Admin cancel Modal -->
-        <div class="modal fade" id="bookingCancelModalAdmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Cancel Booking</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <textarea name="cancellation_reason_admin" id="cancellation_reason_admin" rows="4" style="width: 100%" placeholder="Cancellation Reason"></textarea>
-						
-						<input type="hidden" id="booking_source_admin" name="booking_source_admin" value="<?=$booking_details[0]['booking_source'];?>">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                        <button type="button" class="btn btn-primary" id="btn-booking-cancel-submit-admin">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 <script>
 const booking_id = <?= $booking_details[0]['booking_id'] ?>;
@@ -463,7 +395,7 @@ $(document).ready(function(){
 				// User confirmed, proceed with the AJAX call
 				$.ajax({
 					type: 'POST',
-					url: '<?= base_url('cancel-safari-booking'); ?>',
+					url: '<?= base_url('admin/safari_booking/cancelSafariBooking'); ?>',
 					data: {
 						csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
 						booking_id: booking_id,

@@ -866,7 +866,8 @@ class Profile extends CI_Controller
 								'cancel_refund_request_id' => $result['id'],
 								'cancel_request_response' => json_encode($result),
 								'razorpay_payment_id' => $result['payment_id'],
-								'cancellation_remarks' => $cancel_remarks
+								'cancellation_remarks' => $cancel_remarks,
+								'no_of_person_cancelled' => $count_of_2
 
 							);
 
