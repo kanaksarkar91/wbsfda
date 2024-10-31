@@ -94,8 +94,7 @@ $route['download-safari-booking-pdf/(:any)/(:any)/(:any)'] = 'admin/reports/down
 #----------------------------------------------
 
 $route['booking-payment-verify-cron'] = 'index/bookingPaymentVerify';
-$route['vendor-payment-response-cron'] = 'index/saveVendorPaymentResponse';
-$route['vendor-pay-file-generation-cron'] = 'index/generateVendorPayfile';
+$route['safari-booking-payment-verify-cron'] = 'frontend/safari_booking/safariBookingPaymentVerifyCron';
 #----------------------------------------------
 
 $route['proceed-to-payment'] = 'frontend/gymnasium/proceedPayment';

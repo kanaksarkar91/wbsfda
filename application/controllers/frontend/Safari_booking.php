@@ -651,6 +651,14 @@ class Safari_booking extends CI_Controller
 			
 			if($razorpay_posted_data['razorpay_payment_id'] != '' && $razorpay_posted_data['razorpay_order_id'] != ''){
 			
+				//Customer details set in session------------------------------
+				$user_data = $this->mcommon->getRow('customer_master', array('customer_id' => $bookingData['customer_id']));
+				$session_data = $user_data;
+				$session_data['user_type'] = 'frontend';
+				$session_data['logged_in'] = TRUE;
+				$this->session->set_userdata($session_data);
+				//end Customer details set in session--------------------------
+				
 				$generated_signature = hash_hmac('sha256', $bookingData['order_id'] ."|". $razorpay_posted_data['razorpay_payment_id'], $razorpay_posted_data['keySecret']);
 				
 				if($generated_signature == $razorpay_posted_data['razorpay_signature']){
@@ -707,6 +715,15 @@ class Safari_booking extends CI_Controller
 				//echo $responseMetadata['payment_id']; die;
 				$this->mcommon->update('safari_booking_payment', array('order_id' => $responseMetadata['order_id']), array('razorpay_payment_id' => $responseMetadata['payment_id']));
 				
+				//Customer details set in session------------------------------
+				$appData = $this->mcommon->getRow('safari_booking_header', array('order_id' => $responseMetadata['order_id']));
+				$user_data = $this->mcommon->getRow('customer_master', array('customer_id' => $appData['customer_id']));
+				$session_data = $user_data;
+				$session_data['user_type'] = 'frontend';
+				$session_data['logged_in'] = TRUE;
+				$this->session->set_userdata($session_data);
+				//end Customer details set in session--------------------------
+				
 				$data['redirect'] = base_url('frontend/safari_booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $responseMetadata['order_id'])))));
 				$data['content'] = 'frontend/safari_payment/safari_booking_confirmation';
 				$this->load->view('frontend/layouts/index', $data);
@@ -717,6 +734,15 @@ class Safari_booking extends CI_Controller
 			$responseMetadata = json_decode($razorpay_posted_data['error']['metadata'], true);
 			//echo $responseMetadata['payment_id']; die;
 			$this->mcommon->update('safari_booking_payment', array('order_id' => $responseMetadata['order_id']), array('razorpay_payment_id' => $responseMetadata['payment_id']));
+			
+			//Customer details set in session------------------------------
+			$appData = $this->mcommon->getRow('safari_booking_header', array('order_id' => $responseMetadata['order_id']));
+			$user_data = $this->mcommon->getRow('customer_master', array('customer_id' => $appData['customer_id']));
+			$session_data = $user_data;
+			$session_data['user_type'] = 'frontend';
+			$session_data['logged_in'] = TRUE;
+			$this->session->set_userdata($session_data);
+			//end Customer details set in session--------------------------
 				
 			$data['redirect'] = base_url('frontend/safari_booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $responseMetadata['order_id'])))));
 			$data['content'] = 'frontend/safari_payment/safari_booking_confirmation';
@@ -731,6 +757,15 @@ class Safari_booking extends CI_Controller
 		$responseMetadata = json_decode($razorpay_posted_data['error']['metadata'], true);
 		//echo $responseMetadata['payment_id']; die;
 		$this->mcommon->update('safari_booking_payment', array('order_id' => $responseMetadata['order_id']), array('razorpay_payment_id' => $responseMetadata['payment_id']));
+		
+		//Customer details set in session------------------------------
+		$appData = $this->mcommon->getRow('safari_booking_header', array('order_id' => $responseMetadata['order_id']));
+		$user_data = $this->mcommon->getRow('customer_master', array('customer_id' => $appData['customer_id']));
+		$session_data = $user_data;
+		$session_data['user_type'] = 'frontend';
+		$session_data['logged_in'] = TRUE;
+		$this->session->set_userdata($session_data);
+		//end Customer details set in session--------------------------
 			
 		$data['redirect'] = base_url('frontend/safari_booking/booking_payment_complete/' . base64_encode($this->encryption->encrypt(serialize(array('status' => 'FAILURE', 'payment_status' => $check_payment_status['status'], 'order_id' => $responseMetadata['order_id'])))));
 		$data['content'] = 'frontend/safari_payment/safari_booking_confirmation';
@@ -912,7 +947,7 @@ class Safari_booking extends CI_Controller
 	}
 	public function safariBookingPaymentVerifyCron(){
 		$param = array();
-		$payments = $this->msafari_booking->get_booking_payment(array("status IN ('PENDING','NOT-FOUND','FAILURE', 'Failure', 'FAILED','AWAITED','INITIATED','UNSUCCESSFUL','Aborted', 'TIMEOUT') OR status IS NULL" => NULL, "booking_header.booking_status IN ('I','F')" => NULL));
+		$payments = $this->msafari_booking->get_booking_payment(array("status IN ('PENDING','NOT-FOUND','FAILURE', 'Failure', 'FAILED','AWAITED','INITIATED','UNSUCCESSFUL','Aborted', 'TIMEOUT') OR status IS NULL" => NULL, "safari_booking_header.booking_status IN ('I','F')" => NULL));
 		//$payments = $this->mcommon->getDetails('payment_info', array('payment_id' => 46));
 		if ($payments->num_rows() > 0) {
 			foreach ($payments->result() as $payment) {
