@@ -131,7 +131,7 @@ class Safari_booking extends MY_Controller
 				$data['visitorAges'] = implode(',', $ages);
 			}
 			
-			$data['cancellation_request_details'] = $this->mcommon->getDetailsOrder('cancel_request_tbl', ['cancel_source' => 'S', 'booking_id' => $booking_id, 'is_refunded' => 1], 'DATE(created_ts)', 'DESC');
+			$data['cancellation_request_details'] = $this->msafari_service->get_safari_booking_cancellation_details(['a.cancel_source' => 'S', 'a.booking_id' => $booking_id, 'a.is_refunded' => 1]);
 		}
 		
 		//echo "<pre>"; print_r($data['cancellation_request_details']);die;
@@ -274,6 +274,7 @@ class Safari_booking extends MY_Controller
 							'cancel_charge' => $cancel_charge,
 							'cancel_gst_percent' => $cancel_gst_percent,
 							'cancel_gst' => number_format(($cancel_charge * $cancel_gst_percent) / 100, 2, ".", ""),
+							'actual_refund_amt' => $refund_amt,
 							'refund_amt' => $refund_amt,
 							'refunded_amount' => $refund_amt,
 							'cancel_type' => $count_of_2 == $bookingData['no_of_person'] ? 'F' : 'P',

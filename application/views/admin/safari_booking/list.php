@@ -220,8 +220,8 @@
 										?>
 										</td>
 										<td class="text-center">
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">Button</a>&nbsp;
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i>Booking&nbsp;Slip</a>
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">View</a>&nbsp;
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i> Booking&nbsp;Slip</a>
 										</td>
 									</tr>
 								<?php } } ?>

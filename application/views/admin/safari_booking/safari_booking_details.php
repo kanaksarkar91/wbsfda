@@ -146,6 +146,7 @@ color:#CC0000 !important;
 												<h4>Cancellation Information</h4><br>
 												<h6 id="cancelPercent"></h6>
 												<h6 id="cancelCharge"></h6>
+												<h6 id="actualRefundAmt"></h6>
 												<h6 id="refundAmt"></h6>
 												
 												<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="4" cols="50" style="width:100%;"></textarea><br>
@@ -174,9 +175,10 @@ color:#CC0000 !important;
                                 <table class="mb-3 w-100 table-sm table table-bordered">
                                     <tr>
                                         <th>Cancellation Date</th>
+										<th>Cancelled By</th>
 										<th>No. of Person</th>
                                         <th>Cancellation Remarks</th>
-                                        <th>Cancellation Percentage</th>
+                                        <th>Cancellation Rate(%)</th>
                                         <th>Cancellation Charge</th>
                                         <th>Refund Amount</th>
                                         <th>Refund Status</th>
@@ -185,12 +187,13 @@ color:#CC0000 !important;
                                     <tr>
                                         
                                         <td><?=date('d-m-Y h:i A',strtotime($crow['created_ts']));?></td>
+										<td><?=$crow['created_by_name'];?></td>
 										<td><?=$crow['no_of_person_cancelled'];?></td>
                                         <td><?=$crow['cancellation_remarks'];?></td>
-                                        <td class="text-end"><?=$crow['cancel_percent'].'%';?></td>
+                                        <td class="text-end"><?=$crow['cancel_percent'];?></td>
                                         <td class="text-end"><?=formatIndianCurrency($crow['cancel_charge']);?></td>
                                         <td class="text-end"><?=formatIndianCurrency($crow['refund_amt']);?></td>
-                                        <td><?= ($crow['is_refunded'] == '1') ? 'Refunded' :'Refund in process';?></td>
+                                        <td><?= ($crow['is_refunded'] == '1') ? '<span class="badge bg-success">Refunded</span>' :'<span class="badge bg-primary">Refund in process</span>';?></td>
                                         
                                     </tr>
 									<?php } ?>
@@ -242,13 +245,20 @@ $(document).ready(function(){
 			encode: true,
 			success:function(d){
 			  if(d.success){
-				$("#cancelPercent").html('Cancellation Percent (%) :'+ d.cancel_percent);
+				/*$("#cancelPercent").html('Cancellation Percent (%) :'+ d.cancel_percent);
 				$("#cancelCharge").html('Cancellation Charge (Rs.) :'+ d.cancel_charge);
-				$("#refundAmt").html('Refund Amount (Rs.) : <input type="text" class="form-control-refund-amt" style="width:10%;" id="refund_amt" name="refund_amt" value="'+d.refund_amt+'">');
+				$("#refundAmt").html('Refund Amount (Rs.) : <input type="text" class="form-control-refund-amt" style="width:10%;" id="refund_amt" name="refund_amt" value="'+d.refund_amt+'">');*/
+				$("#cancelPercent").html('Cancellation Rate (%) : 0');
+				$("#cancelCharge").html('Cancellation Charge (Rs.) : 0.00');
+				$("#actualRefundAmt").html('Actual Refund Amount (Rs.) :'+ d.basePrice);
+				$("#refundAmt").html('Refund Amount (Rs.) : <input type="text" class="form-control-refund-amt" style="width:10%;" id="refund_amt" name="refund_amt" value="'+d.basePrice+'">');
 				
-				$("#cancel_percent").val(d.cancel_percent);
+				/*$("#cancel_percent").val(d.cancel_percent);
 				$("#cancel_charge").val(d.cancel_charge);
-				$("#refund_amt").val(d.refund_amt);
+				$("#refund_amt").val(d.refund_amt);*/
+				$("#cancel_percent").val('0');
+				$("#cancel_charge").val('0.00');
+				$("#refund_amt").val(d.basePrice);
 				$("#safari_net_amount").val(d.basePrice);
 			  }else{
 				
@@ -267,7 +277,7 @@ $(document).ready(function(){
 		var temp_cancel_percentage = parseFloat((cancellation_amount_for_percentage / safari_net_amount) * 100).toFixed(2);
 		var cancel_percentage = (temp_cancel_percentage < 0) ? '0' : temp_cancel_percentage;
 		
-		$("#cancelPercent").html('Cancellation Percent (%) :'+ cancel_percentage);
+		$("#cancelPercent").html('Cancellation Rate (%) :'+ cancel_percentage);
 		$("#cancelCharge").html('Cancellation Charge (Rs.) :'+ cancellation_amount);
 				
 		$("#cancel_charge").val(cancellation_amount);

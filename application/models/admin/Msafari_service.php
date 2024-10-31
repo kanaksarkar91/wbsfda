@@ -262,5 +262,18 @@ class Msafari_service extends CI_Model {
 		//echo nl2br($this->db->last_query());die;
         return $query->row_array();
     }
+	function get_safari_booking_cancellation_details($where = []) {
+		$this->db->select('a.*, IF(a.created_user_type = "C", c.first_name, u.full_name) AS created_by_name');
+		$this->db->from('cancel_request_tbl a');
+		$this->db->join('customer_master c', 'a.created_user_type = "C" AND a.created_by = c.customer_id', 'LEFT');
+		$this->db->join('master_admin u', 'a.created_user_type = "U" AND a.created_by = u.user_id', 'LEFT');
+		if(!empty($where)){
+            $this->db->where($where);
+        }
+		$this->db->order_by('DATE(a.created_ts)','DESC');
+		$query=$this->db->get();
+		//echo nl2br($this->db->last_query());die;
+        return $query->result_array();
+    }
 
 }

@@ -856,6 +856,7 @@ class Profile extends CI_Controller
 								'cancel_charge' => $cancel_charge,
 								'cancel_gst_percent' => $cancel_gst_percent,
 								'cancel_gst' => number_format(($cancel_charge * $cancel_gst_percent) / 100, 2, ".", ""),
+								'actual_refund_amt' => $refund_amt,
 								'refund_amt' => $refund_amt,
 								'refunded_amount' => $refund_amt,
 								'cancel_type' => $count_of_2 == $bookingData['no_of_person'] ? 'F' : 'P',
