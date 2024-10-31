@@ -88,13 +88,17 @@
 										<th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Gender</th>
 										<th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">ID Card Type</th>
 										<th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">ID Card No.</th>
+										<th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;">Phone No.</th>
 										<th style="text-align: center; background-color: #f5f5f5; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;">Status</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
 									if (!empty($safariReservations[0]['details'])) {
-										foreach ($safariReservations[0]['details'] as $row) { ?>
+										foreach ($safariReservations[0]['details'] as $row) { 
+											$isFirstRow = ($currentBookingNo != $row['booking_number']);
+    										$currentBookingNo = $row['booking_number'];
+									?>
 											<tr>
 												<td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed#9e9e9e 1px solid;"><?= $row['booking_number']; ?></td>
 												<td style="text-align: left; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_name']; ?></td>
@@ -103,6 +107,7 @@
 												<td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_gender']; ?></td>
 												<td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= $row['visitor_id_type']; ?></td>
 												<td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= str_pad(substr($row['visitor_id_no'], -4), strlen($row['visitor_id_no']), 'x', STR_PAD_LEFT); ?></td>
+												<td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid; border-right: #e7e9ed 1px solid;"><?= ($isFirstRow ? $row['customer_mobile'] : ''); ?></td>
 												<td style="text-align: center; font-size:14px; padding: 6px 3px; border-bottom: #e7e9ed 1px solid;"><?= $row['is_status'] == 1 ? '<span style="color: #009e60;">Confirmed</span>' : '<span style="color: red;">Cancelled</span>';?></td>
 											</tr>
 										<?php }
