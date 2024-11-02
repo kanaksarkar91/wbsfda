@@ -11,7 +11,7 @@
     <style type="text/css">
         @page {
             size: A4;
-            margin: 0cm;
+            margin: .25cm;
         }
 		
 		.btn-print {
@@ -42,13 +42,13 @@
 </head>
 
 <body role="document">
-    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 90%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
+    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width:1140px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 5px;">
                     <tr>
                         <td colspan="3">
-                            <img src="<?= base_url('public/frontend_assets/assets/img/logo.png');?>" width="228" height="88" alt="..." />
+                            <img src="<?= base_url('public/frontend_assets/assets/img/logo.jpg');?>" width="228" height="88" alt="..." />
                         </td>
                     </tr>
                     <tr>
@@ -126,17 +126,19 @@
 								if($sBooking[0]['source'] == 'F'){
 							?>
 								<td style="padding: 2px;">
-								<h4>Cancellation Information</h4><br>
+                                    <div style="padding: 20px; text-align:left; max-width:720px;">
+								<h4 style="text-align:left;">Cancellation Information</h4>
 								<h6 id="cancelCharge"></h6>
 								<h6 id="refundAmt"></h6>
-								<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="4" cols="50" style="width:80%; margin-left:150px;"></textarea><br>
+								<textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancellation Reason" rows="3" cols="50" style="margin:0"></textarea><br>
 								<input type="hidden" id="paid_amount" name="paid_amount" value="<?=$sBooking[0]['base_price']?>">
 								<input type="hidden" id="cancel_percent" name="cancel_percent" value="<?=$cancel_percent?>">
 								<input type="hidden" id="cancel_charge" name="cancel_charge" value="<?=$cancel_charge?>">
 								<input type="hidden" id="refund_amt" name="refund_amt" value="<?=$refund_amt?>">
 								
 								
-								<input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;margin-top:10px; margin-right:10px;" value="Cancel Safari" class="btn btn-sm btn-danger">  
+								<input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;" value="Cancel Safari" class="btn btn-sm btn-danger">  
+                                </div>
 								</td>
 							<?php 
 								}
