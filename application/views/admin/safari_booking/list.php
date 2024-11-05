@@ -220,8 +220,8 @@
 										?>
 										</td>
 										<td class="text-center">
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">View</a>&nbsp;
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i> Booking&nbsp;Slip</a>
+											<div class="my-1"><a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">View</a></div>
+											<div class="my-1"><a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank">Download</a><!--<i class="fa fa-download"></i> Booking&nbsp;Slip--></div>
 										</td>
 									</tr>
 								<?php } } ?>
@@ -283,8 +283,8 @@
 										?> 
 										</td>
                                         <td class="text-center">
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">View</a>&nbsp;
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i> Booking&nbsp;Slip</a>
+											<div class="my-1"><a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">View</a>&nbsp;</div>
+											<div class="my-1"><a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank">Download</a><!--<i class="fa fa-download"></i> Booking&nbsp;Slip--></div>
 										</td>
                                     </tr>
                                     <?php } 
