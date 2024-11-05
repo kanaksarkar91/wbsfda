@@ -78,7 +78,7 @@
 							<div class="col-lg-4 col-sm-12 col-md-6">
 								<label for="property_zp" class="form-label">Safari <span class="asterisk"></span></label>
                                 <select name="safari_service_header_id" id="safari_service_header_id" class="form-select select2">
-									<option value="0">Select Safari</option>
+									<option value="0">All Safari</option>
 								</select>
 							</div>
 						<?php
@@ -88,7 +88,7 @@
 							<div class="col-lg-4 col-sm-12 col-md-6">
                                 <label for="property_zp" class="form-label">Safari <span class="asterisk"></span></label>
                                 <select name="safari_service_header_id" class="form-select select2">                               
-                                    <option value="0">All Safaris</option>
+                                    <option value="0">All Safari</option>
                                     <?php
                                     if ($userServices)
                                         foreach($userServices as $row) {
@@ -188,8 +188,8 @@
                                         <th class="cell">View File</th>
 										<th class="cell">Remarks</th>
 										<th class="cell">Blocked By</th>
-                                        <th class="cell">Block Revoked by</th>
-                                        <th class="cell">Revoked Date & Time</th>
+                                        <th class="cell">Unblocked by</th>
+                                        <th class="cell">Unblocked Date & Time</th>
                                         <th class="cell">Status</th>
                                         <th class="cell">Action</th>
                                     </tr>
@@ -214,13 +214,13 @@
                                         <td class="cell"><?= $row->archive_id > 0 ? $row->full_name : '';?></td>
                                         <td class="cell"><?= $row->archive_id > 0 ? date('d-m-Y h:i A', strtotime($row->archive_date)) : '';?></td>
                                         <td class="cell">
-										<?= $row->archive_id > 0 ? '<span class="badge bg-danger">Terminated </span>' : '<span class="badge bg-info">Active </span>';?> 
+										<?= $row->archive_id > 0 ? '<span class="badge bg-danger">Unblock </span>' : '<span class="badge bg-info">Block </span>';?> 
 										</td>
                                         <td class="cell">
 										<?php
 										if($row->block_date >= date('Y-m-d') && $row->archive_id == ''){
 										?>
-										<button class="btn-sm app-btn-primary" data-blockid="<?= encode_url($row->blocked_id);?>" id="terminateRecordBtn">Revoke</button>
+										<button class="btn-sm app-btn-primary" data-blockid="<?= encode_url($row->blocked_id);?>" id="terminateRecordBtn">Unblock</button>
 										<?php } ?>
 										</td>
                                     </tr>
@@ -252,8 +252,8 @@
 										<th class="cell">Booking Date</th>
 										<th class="cell">Time Slot</th>
                                         <th class="cell">No. of Seats</th>
-										<th class="cell">Block Revoked by</th>
-                                        <th class="cell">Revoked Date & Time</th>
+										<th class="cell">Unblocked by</th>
+                                        <th class="cell">Unblocked Date & Time</th>
                                         <th class="cell">Status</th>
                                         <th class="cell">Action</th>
                                     </tr>
@@ -274,13 +274,13 @@
 										<td class="cell"><?= $row->archive_id > 0 ? $row->full_name : '';?></td>
                                         <td class="cell"><?= $row->archive_id > 0 ? date('d-m-Y h:i A', strtotime($row->archive_date)) : '';?></td>
                                         <td class="cell">
-										<?= $row->archive_id > 0 ? '<span class="badge bg-danger">Terminated </span>' : '<span class="badge bg-info">Active </span>';?> 
+										<?= $row->archive_id > 0 ? '<span class="badge bg-danger">Unblock </span>' : '<span class="badge bg-info">Block </span>';?> 
 										</td>
                                         <td class="cell">
 										<?php
 										if($row->block_date >= date('Y-m-d') && $row->archive_id == ''){
 										?>
-										<button class="btn-sm app-btn-primary" data-blockid="<?= encode_url($row->blocked_id);?>" id="terminateRecordBtn">Revoke</button>
+										<button class="btn-sm app-btn-primary" data-blockid="<?= encode_url($row->blocked_id);?>" id="terminateRecordBtn">Unblock</button>
 										<?php } ?>
 										</td>
                                     </tr>
@@ -315,25 +315,37 @@ var safari_service_header_id = '<?= $safari_service_header_id;?>';
 		getServices();
 	});
 	
+	$('#block_list_table').DataTable( {
+       // "order": [[ 3, "desc" ]],
+       //"paging": false,
+       //"showNEntries" : false,
+       //"bPaginate": false,
+        //"bFilter": false,
+        "bInfo": false,
+		"pageLength": 50,
+       // "searching": false
+        
+    });
+	
 	$(document).on('click', "#terminateRecordBtn", function() {
 		var blocked_id = $(this).data('blockid');
 	
 		// Confirmation before making the AJAX call
 		Swal.fire({
-			title: 'Are you sure you want to revoke?',
+			title: 'Are you sure you want to unblock?',
 			text: "This action cannot be undone.",
 			icon: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, revoke it!',
+			confirmButtonText: 'Yes, unblock it!',
 			cancelButtonText: 'No, keep it',
 			allowOutsideClick: false,
 		}).then((result) => {
 			if (result.isConfirmed) {
 				
 				$("#terminateRecordBtn").prop('disabled',true);
-				$("#terminateRecordBtn").html('Revoking...');
+				$("#terminateRecordBtn").html('Unblocking...');
 				// User confirmed, proceed with the AJAX call
 				$.ajax({
 					type: 'POST',
@@ -345,7 +357,7 @@ var safari_service_header_id = '<?= $safari_service_header_id;?>';
 				.done(function(response) {
 					if (response.success) {
 						$("#terminateRecordBtn").prop('disabled',false);
-						$("#terminateRecordBtn").html('Revoke');
+						$("#terminateRecordBtn").html('Unblock');
 						Swal.fire({
 							icon: 'success',
 							title: response.message,
@@ -359,7 +371,7 @@ var safari_service_header_id = '<?= $safari_service_header_id;?>';
 						});
 					} else {
 						$("#terminateRecordBtn").prop('disabled',false);
-						$("#terminateRecordBtn").html('Revoke');
+						$("#terminateRecordBtn").html('Unblock');
 						
 						Swal.fire({
 							icon: 'error',
@@ -408,7 +420,7 @@ function getServices(){
 			});
 		}
 		else{
-			result +='<option value="">No Data found</option>'
+			result +='<option value="">All Safari</option>'
 		}
 		$("#safari_service_header_id").html(result);
 	});
