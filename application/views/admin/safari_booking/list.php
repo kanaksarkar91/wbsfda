@@ -66,8 +66,8 @@
 							
 							<div class="col-lg-4 col-sm-12 col-md-6">
 								<label for="property_zp" class="form-label">Safari <span class="asterisk"></span></label>
-                                <select name="safari_service_header_id" id="safari_service_header_id" class="form-control">
-									<option value="0">Select Safari</option>
+                                <select name="safari_service_header_id" id="safari_service_header_id" class="form-select select2">
+									<option value="0">All Safari</option>
 								</select>
 							</div>
 						<?php
@@ -111,7 +111,7 @@
 				<?php if($period_slot_dtl_id > 0){ ?>
 				<div class="app-card app-card-settings shadow-sm mb-2 p-3">
 					<div class="app-card-body">
-						<table class="table app-table-hover table-bordered">
+						<table class="table app-table-hover table-bordered" id="safari_booking_listing_table">
 							<tr>
 								<th>Division/National Park</th>						
 								<th>Safari Type</th>						
@@ -283,7 +283,7 @@
 										?> 
 										</td>
                                         <td class="text-center">
-											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">Button</a>&nbsp;
+											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/booking_details/'.encode_url($row->booking_id));?>">View</a>&nbsp;
 											<a class="btn-sm app-btn-primary" href="<?= base_url('admin/safari_booking/downloadSafariInvoice/'.encode_url($row->booking_id));?>" target="_blank"><i class="fa fa-download"></i> Booking&nbsp;Slip</a>
 										</td>
                                     </tr>
@@ -317,6 +317,18 @@ var safari_service_header_id = '<?= $safari_service_header_id;?>';
 	$("#safari_type_id").change(function(){ 
 		getServices();
 	});
+	
+	$('#safari_booking_list_table').DataTable( {
+       // "order": [[ 3, "desc" ]],
+       //"paging": false,
+       //"showNEntries" : false,
+       //"bPaginate": false,
+        //"bFilter": false,
+        "bInfo": false,
+		"pageLength": 50,
+       // "searching": false
+        
+    });
 	
 });
 
@@ -352,7 +364,7 @@ function getServices(){
 			});
 		}
 		else{
-			result +='<option value="">No Data found</option>'
+			result +='<option value="">All Safari</option>'
 		}
 		$("#safari_service_header_id").html(result);
 	});

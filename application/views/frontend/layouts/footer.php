@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <a href="" class="footer_logo"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/logo.png" alt=""></a>
+                    <a href="<?= base_url();?>" class="footer_logo"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/logo.png" alt=""></a>
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <h4>Quick Links</h4>
@@ -484,7 +484,14 @@ $(document).ready(function(){
                     }, 1000);
                 } else {
                     current_obj.prop('disabled', false);
-                    $('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+                    //$('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+					Swal.fire({
+					  icon: 'error',
+					  title: res.msg,
+					  confirmButtonText:'Ok',
+					  confirmButtonColor:'#69da68',
+					  allowOutsideClick: false,
+					});
 
                 }
 
@@ -505,7 +512,15 @@ $(document).ready(function(){
                 //location.reload();
                 console.log(res); //return;
                 if (res.error == 1) {
-                    $('#signup-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+                    
+					Swal.fire({
+					  icon: 'error',
+					  title: res.msg,
+					  confirmButtonText:'Ok',
+					  confirmButtonColor:'#69da68',
+					  allowOutsideClick: false,
+					});
+					//$('#signup-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
                     $('#signupBtn').prop('disabled', false);
                     $('html, body').animate({
                         scrollTop: $("#signup-modal-body").offset().top
@@ -615,7 +630,15 @@ $(document).ready(function(){
 
                 } else {
                     current_obj.prop('disabled', false);
-                    $('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+                    //$('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+					
+					Swal.fire({
+					  icon: 'error',
+					  title: res.msg,
+					  confirmButtonText:'Ok',
+					  confirmButtonColor:'#69da68',
+					  allowOutsideClick: false,
+					});
 
                 }
 
@@ -637,8 +660,16 @@ $(document).ready(function(){
                 //console.log(res); //return;
                 if (res.error == 1) {
                     $('#login-modal-body').find('.alert-danger').remove();
-                    $('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+                    //$('#login-modal-body').prepend(`<div class="alert alert-danger">` + res.msg + `</div>`);
+					Swal.fire({
+					  icon: 'error',
+					  title: res.msg,
+					  confirmButtonText:'Ok',
+					  confirmButtonColor:'#69da68',
+					  allowOutsideClick: false,
+					});
                     $('#loginBtn').prop('disabled', false);
+					$('#loginBtn').html('Login');
 
                 } else {
                     if ($("#booking_login").data('redirect') == "1") {

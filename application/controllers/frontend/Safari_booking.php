@@ -47,6 +47,7 @@ class Safari_booking extends CI_Controller
 		
 		$today = date('Y-m-d');
 		$curTime = date('H:i');
+		$curDateTime = date('Y-m-d H:i');
 		
 		if($saf_booking_date >= $today){
 			$slots = $this->msafari_booking->get_booking_slot_list($safari_type_id, $division_id, $safari_service_header_id, $saf_booking_date, $safari_cat_id);
@@ -108,22 +109,28 @@ class Safari_booking extends CI_Controller
 														
 														foreach($slots as $key => $row){
 															$checked = $key == 0 ? 'checked' : '';
-															$disable = ' style="cursor:pointer;"';
-															if($saf_booking_date == $today){
-																if($row['ticket_sale_closing_flag'] == 2){
-																	$disable = 'class="disabled" style="pointer-events: none;"';
-																}
-																else{
-																	$dateTime = new DateTime($row['ticket_sale_closing_time']);
-																	$closingTime = $dateTime->format('H:i');
-																	if($curTime > $closingTime){
-																		$disable = 'class="disabled" style="pointer-events: none;"';
-																	}
-																	else {
-																		$disable = ' style="cursor:pointer;"';
-																	}
-																}
+															
+															$dateTime = new DateTime($row['ticket_sale_closing_time']);
+															$closingTime = $dateTime->format('H:i');
+															
+															//Start Get Ticket Sale Closing Date & Time
+															if($row['ticket_sale_closing_flag'] == 2){//for previous day
+																$date = $saf_booking_date;
+																$dateObj = new DateTime($date);
+																$dateObj->modify('-1 day');
+																$PreviousDayDate = $dateObj->format('Y-m-d');
+																
+																$maxTicketSaleClosingDateTime = $PreviousDayDate.' '.$closingTime;
+																
+																
 															}
+															else {//for same day
+																$maxTicketSaleClosingDateTime = $saf_booking_date.' '.$closingTime;
+																
+															}
+															//End Get Ticket Sale Closing Date & Time
+															
+															$disable = ($maxTicketSaleClosingDateTime < $curDateTime) ? 'class="disabled" style="pointer-events: none;"' : ' style="cursor:pointer;"';
 															
 															$html .='<tr '.$disable.'>
 																<td class="ps-4">
@@ -217,6 +224,7 @@ class Safari_booking extends CI_Controller
 
 		$today = date('Y-m-d');
 		$curTime = date('H:i');
+		$curDateTime = date('Y-m-d H:i');
 		
 		if($no_of_visitor <= $max_no_visitor){
 			
@@ -235,24 +243,27 @@ class Safari_booking extends CI_Controller
 				
 				if ($foundSlot) {
 					if($foundSlot['available_qty'] >= $no_of_visitor){
-						if($saf_booking_date == $today){
-							if($foundSlot['ticket_sale_closing_flag'] == 2){
-								$response = array('success' => false, 'msg' => 'Online ticket selling time is over for selected date. Please choose another date.');
-							}
-							else{
-								$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
-								$closingTime = $dateTime->format('H:i');
-								if($curTime > $closingTime){
-									$response = array('success' => false, 'msg' => 'Online ticket selling time is over for selected date. Please choose another date.');
-								}
-								else {
-									$proceedToNextStep = true;
-								}
-							}
+						
+						$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
+						$closingTime = $dateTime->format('H:i');
+						
+						//Start Get Ticket Sale Closing Date & Time
+						if($foundSlot['ticket_sale_closing_flag'] == 2){//for previous day
+							$date = $saf_booking_date;
+							$dateObj = new DateTime($date);
+							$dateObj->modify('-1 day');
+							$PreviousDayDate = $dateObj->format('Y-m-d');
+							
+							$maxTicketSaleClosingDateTime = $PreviousDayDate.' '.$closingTime;
 						}
-						else {
-							$proceedToNextStep = true;
+						else {//for same day
+							$maxTicketSaleClosingDateTime = $saf_booking_date.' '.$closingTime;
 						}
+						//End Get Ticket Sale Closing Date & Time
+						
+						$response = ($maxTicketSaleClosingDateTime < $curDateTime) ? array('success' => false, 'msg' => 'Online ticket selling time is over for selected date. Please choose another date.') : '';
+						$proceedToNextStep = ($maxTicketSaleClosingDateTime < $curDateTime) ? false : true;
+						
 					}
 					else{
 						$response = array('success' => false, 'msg' => 'Now '.$foundSlot['available_qty'].' seat available for selected slot.');
@@ -395,27 +406,29 @@ class Safari_booking extends CI_Controller
 				$this->db->trans_start();
 				
 				if($foundSlot['available_qty'] >= $det_arr['no_of_visitor']){
+					$curDateTime = date('Y-m-d H:i');
+					$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
+					$closingTime = $dateTime->format('H:i');
 					
-					if($det_arr['saf_booking_date'] == $today){
-						if($foundSlot['ticket_sale_closing_flag'] == 2){
-							$this->session->set_flashdata('slot_avlbl_err', "Online ticket selling time is over for selected date. Please choose another date.");
-							redirect(base_url('safari-booking-information-entry/' . $param));
-						}
-						else{
-							$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
-							$closingTime = $dateTime->format('H:i');
-							if($curTime > $closingTime){
-								$this->session->set_flash_data('slot_avlbl_err', "Your selected slot are already booked. Please try again with different selection.");
-								redirect(base_url('safari-booking-information-entry/' . $param));
-							}
-							else {
-								$proceedToPayment = true;
-							}
-						}
+					//Start Get Ticket Sale Closing Date & Time
+					if($foundSlot['ticket_sale_closing_flag'] == 2){//for previous day
+						$date = $det_arr['saf_booking_date'];
+						$dateObj = new DateTime($date);
+						$dateObj->modify('-1 day');
+						$PreviousDayDate = $dateObj->format('Y-m-d');
+						
+						$maxTicketSaleClosingDateTime = $PreviousDayDate.' '.$closingTime;
 					}
-					else {
-						$proceedToPayment = true;
+					else {//for same day
+						$maxTicketSaleClosingDateTime = $det_arr['saf_booking_date'].' '.$closingTime;
 					}
+					//End Get Ticket Sale Closing Date & Time
+					
+					if($maxTicketSaleClosingDateTime < $curDateTime){
+						$this->session->set_flashdata('slot_avlbl_err', "Online ticket selling time is over for selected date. Please choose another date.");
+						redirect(base_url('safari-booking-information-entry/' . $param));
+					}
+					$proceedToPayment = ($maxTicketSaleClosingDateTime < $curDateTime) ? false : true;
 					
 					if($proceedToPayment == true){
 						
