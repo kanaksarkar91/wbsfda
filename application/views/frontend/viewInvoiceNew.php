@@ -19,13 +19,13 @@
     <style type="text/css">
         @page {
             size: A4;
-            margin: 0cm;
+            margin: .25cm;
         }
     </style>
 </head>
 
 <body role="document">
-    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
+    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width:1140px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 5px;">

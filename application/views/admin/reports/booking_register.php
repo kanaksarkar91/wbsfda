@@ -52,7 +52,7 @@
                             </select>
                         </div>
                         <div class="col-lg-3 col-sm-12 col-md-3 button-group">
-                            <label for="" class="form-label"></label><br />
+                            <label for="" class="form-label w-100">&nbsp;</label>
 							<button class="btn app-btn-primary">Search</button>
                             <a class="btn app-btn-primary" href="">Reset</a>
                         </div>

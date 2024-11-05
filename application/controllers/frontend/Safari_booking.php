@@ -98,7 +98,7 @@ class Safari_booking extends CI_Controller
 													<table class="table table-hover table-sm align-middle mb-0">
 														<thead>
 															<tr>
-																<th class="light-grn-bg">Select Slot</th>
+																<th class="text-center light-grn-bg">Select Slot</th>
 																<th class="light-grn-bg">Slot Time</th>
 																<th class="light-grn-bg">Reporting Time</th>
 																<th class="light-grn-bg text-center">Seat Available</th>
@@ -133,8 +133,8 @@ class Safari_booking extends CI_Controller
 															$disable = ($maxTicketSaleClosingDateTime < $curDateTime) ? 'class="disabled" style="pointer-events: none;"' : ' style="cursor:pointer;"';
 															
 															$html .='<tr '.$disable.'>
-																<td class="ps-4">
-																	<input class="form-check-input" type="radio" name="period_slot_dtl_id" id="slotType1" value="'.$row['period_slot_dtl_id'].'" autocomplete="off">
+																<td class="text-center bg-light">
+																	<input class="form-check-input table-input-check" type="radio" name="period_slot_dtl_id" id="slotType1" value="'.$row['period_slot_dtl_id'].'" autocomplete="off">
 																</td>
 																<td>'.$row['slot_desc'].': '.$row['start_time'].' to '.$row['end_time'].'</td>
 																<td>'.$row['reporting_time'].'</td>

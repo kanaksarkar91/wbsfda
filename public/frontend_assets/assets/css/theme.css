@@ -1959,6 +1959,11 @@ a.dropdown-item:active {
     object-fit: contain;
 }
 
+.table-input-check {
+    background-color: #ffffff;
+    border: 2px solid #009e60;
+}
+
 
 /********************************************************
 ********************************************************/
