@@ -391,6 +391,13 @@ class Safari_booking extends CI_Controller
 					);
 				}
 				
+				// Loop through visitor_id_type and visitor_id_no arrays to apply Aadhar validation only when needed
+				foreach ($this->input->post('visitor_id_type') as $i => $idType) {
+					if ($idType == 'Aadhar Card') {
+						$this->form_validation->set_rules("visitor_id_no[$i]", 'Aadhar Card Number', 'required|callback_validate_aadhar');
+					}
+				}
+				
 			}
 			
 			if (!empty($child_name) && !empty($child_gender)) {
@@ -998,6 +1005,16 @@ class Safari_booking extends CI_Controller
 		}
 		$this->form_validation->set_message('check_age', 'At least one visitor must be 18 years.');
 		return FALSE;
+	}
+	public function validate_aadhar($aadhar)
+	{
+		// Aadhar number should be 12 digits long and all digits
+		if (preg_match('/^\d{12}$/', $aadhar)) {
+			return true;
+		} else {
+			$this->form_validation->set_message('validate_aadhar', 'The {field} field must contain a valid 12-digit Aadhar number.');
+			return false;
+		}
 	}
 	
 }

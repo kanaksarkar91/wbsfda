@@ -275,7 +275,7 @@ function getServices(){
 			});
 		}
 		else{
-			result +='<option value="">No Data found</option>'
+			result +='<option value="">Select Safari</option>'
 		}
 		$("#safari_service_header_id").html(result);
 	});
@@ -308,7 +308,7 @@ function getSlots(){
 			});
 		}
 		else{
-			result +='<option value="">No Data found</option>'
+			result +='<option value="">Select Slots</option>'
 		}
 		$("#period_slot_dtl_id").html(result);
 	});

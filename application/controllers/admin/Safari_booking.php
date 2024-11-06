@@ -799,7 +799,7 @@ class Safari_booking extends MY_Controller
 						
 					$response = array(
 						'success' => TRUE,
-						'message' => 'Safari Revoked Successfully.',
+						'message' => 'Safari Unblock Successfully.',
 						'redirect' => base_url('admin/safari_booking/block/'.encode_url($row['safari_type_id']).'/'.encode_url($row['division_id']).'/'.encode_url($row['safari_service_header_id']).'/'.encode_url($row['block_date']).'/'.encode_url($row['period_slot_dtl_id']))
 					);
 				}
