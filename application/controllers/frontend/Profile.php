@@ -8,7 +8,7 @@ class Profile extends CI_Controller
 	{
 		parent::__construct();
 		if($this->session->userdata('logged_in') && $this->session->userdata('user_type') == 'frontend') {
-			$this->load->model(array('mcommon', 'frontend/query', 'admin/mbooking'));
+			$this->load->model(array('mcommon', 'frontend/query', 'admin/mbooking', 'frontend/msafari_booking'));
 		} else {
 			redirect(base_url());
 		}
@@ -58,13 +58,15 @@ class Profile extends CI_Controller
 	public function getSafariBookingHtml()
 	{
 		$data_list = [];
+		$det_arr = [];
 		$html = '';
 		$calcelButtonVisible = false;
 		if ($this->input->post()) {
 			$safari_type_id = $this->input->post('safari_type_id');
 			$booking_type = $this->input->post('booking_type');
 			if (is_numeric($safari_type_id) && $safari_type_id > 0) {
-				$condn = array('a.customer_id' => $this->session->userdata('customer_id'), "booking_status NOT IN('I','F')" => NULL);
+				//$condn = array('a.customer_id' => $this->session->userdata('customer_id'), "booking_status NOT IN('I','F')" => NULL);
+				$condn = array('a.customer_id' => $this->session->userdata('customer_id'));
 
 				if ($booking_type == '' || $booking_type == 'ALL')
 					$condn = $condn;
@@ -86,6 +88,59 @@ class Profile extends CI_Controller
 					foreach ($safari_booking_details as $row) {
 						$slotTiming = $row['slot_desc'] . ': ' . $row['start_time'] . ' to ' . $row['end_time'];
 						$bookingStatus = ($row['booking_status'] == 'I') ? '<span class="badge bg-primary">Initiate</span>' : (($row['booking_status'] == 'A') ? '<span class="badge bg-success">Approved</span>' : (($row['booking_status'] == 'C') ? '<span class="badge bg-danger">Cancelled</span>' : ''));
+						
+						//Start Re-Payment for Booking Status Initiate & Failed
+						if($row['booking_status'] == 'I' || $row['booking_status'] == 'F'){
+							$safariSlots = $this->msafari_booking->get_booking_slot_list($row['safari_type_id'], $row['division_id'], $row['safari_service_header_id'], $row['booking_date'], $row['safari_cat_id']);
+							
+							$foundSlot = null;
+							if(!empty($safariSlots)){
+								foreach ($safariSlots as $slot) {
+									if ($slot['period_slot_dtl_id'] == $row['period_slot_dtl_id']) {
+										$foundSlot = $slot;
+										break; // Exit the loop if found
+									}
+								}
+							}
+							
+							if($foundSlot){
+								if($foundSlot['available_qty'] >= $row['no_of_person']){
+									$curDateTime = date('Y-m-d H:i');
+									$dateTime = new DateTime($foundSlot['ticket_sale_closing_time']);
+									$closingTime = $dateTime->format('H:i');
+									
+									//Start Get Ticket Sale Closing Date & Time
+									if($foundSlot['ticket_sale_closing_flag'] == 2){//for previous day
+										$date = $row['booking_date'];
+										$dateObj = new DateTime($date);
+										$dateObj->modify('-1 day');
+										$PreviousDayDate = $dateObj->format('Y-m-d');
+										
+										$maxTicketSaleClosingDateTime = $PreviousDayDate.' '.$closingTime;
+									}
+									else {//for same day
+										$maxTicketSaleClosingDateTime = $row['booking_date'].' '.$closingTime;
+									}
+									//End  Re-Payment for Booking Status Initiate & Failed
+									
+									$det_arr = [
+										'period_slot_dtl_id' => $row['period_slot_dtl_id'],
+										'division_id' => $row['division_id'],
+										'safari_type_id' => $row['safari_type_id'],
+										'safari_service_header_id' => $row['safari_service_header_id'],
+										'saf_booking_date' => $row['booking_date'],
+										'safari_cat_id' => $row['safari_cat_id'],
+										'no_of_visitor' => $row['no_of_person'],
+										'slotData' => $foundSlot
+									];
+									
+									$data_record = array_merge($det_arr, array('booking_id' => $row['booking_id'], 'total_amount' => round($row['total_price'])));
+									
+									$proceedToPaymentButton = ($maxTicketSaleClosingDateTime < $curDateTime) ? '' : '<a class="btn btn-success btn-sm" href="' . base_url('frontend/safari_booking/booking_payment/' . base64_encode($this->encryption->encrypt(serialize($data_record)))) . '">Pay Now</a>';
+								}
+							}
+						}
+						//End  for Re-Payment
 
 						$date = $row['booking_date'];
 						// Create DateTime object
@@ -131,16 +186,18 @@ class Profile extends CI_Controller
                                                             <span class="thm-txt fw-normal me-3">Price:</span><span>₹ ' . formatIndianCurrency($row['total_price']) . '</span>
                                                         </div>
                                                         <div class="mt-3">';
-						if ($row['booking_status'] == 'A' && $calcelButtonVisible) {
+						if ($row['booking_status'] == 'A' && $calcelButtonVisible) {//Confirm Booking
 							$html .= '<a class="btn btn-sm btn-danger" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '/?type=cancel' . '" target="_blank">Cancel Safari</a>';
 						}
 						
-						$html .= '&nbsp;&nbsp;<a class="btn btn-dark btn-sm" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank">View Details</a>';
+						if($row['booking_status'] == 'A' || $row['booking_status'] == 'C'){//Confirm Booking & Cancel Booking
+							$html .= '&nbsp;&nbsp;<a class="btn btn-dark btn-sm" href="' . base_url('view-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank">View Details</a>';
+						}
 						
-						if($row['booking_status'] != 'C'){
+						if($row['booking_status'] == 'A'){//Confirm Booking
 							$html .= '&nbsp;&nbsp;<a class="btn btn-success btn-sm" href="' . base_url('download-safari-booking-invoice/' . encode_url($row['booking_id'])) . '" target="_blank"><i class="fa fa-download"></i> Download</a>';
 						}
-                                                       $html .= '</div>
+                                                       $html .= $proceedToPaymentButton.'</div>
                                                     </div>
                                                 </div>
                                             </div>

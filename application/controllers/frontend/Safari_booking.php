@@ -803,9 +803,9 @@ class Safari_booking extends CI_Controller
 		//$data['payment'] = $det['posted_data'];
 		$data['booking_det'] = $this->msafari_booking->get_booking_payment_info(array('a.order_id' => $det['order_id']));
 		
-		if(strtolower($data['booking_det']['status']) == 'failure'){ 
+		/*if(strtolower($data['booking_det']['status']) == 'failure'){ 
 			$this->msafari_booking->move_booking_to_failed($det['booking_id']);
-		}
+		}*/
 
 		$data['content'] = 'frontend/safari_payment/safari_booking_payment_complete';
 		$this->load->view('frontend/layouts/index', $data);
@@ -890,18 +890,27 @@ class Safari_booking extends CI_Controller
 						$this->mcommon->update('safari_booking_header', array('order_id' => $payment->order_id), $booking_header_condn);
 						
 						if($option['type'] == 'Cron'){
+							$safariBookingHeaderData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $getPaymentData['booking_id']]);
 							if($getPaymentData['payment_mode'] == 'NEFT'){//for NEFT mode
 								$start_date = strtotime($payment->created_ts);
 								$end_date = strtotime("+8 day", $start_date);
 								$last_date = date('Y-m-d', $end_date);
 										
 								if((date('Y-m-d') > $last_date) && ($payment->status != 'captured')){
+									$booking_failed_det = $this->msafari_booking->move_payment_to_failed($getPaymentData['booking_id'], $getPaymentData['order_id']);
+								}
+								
+								if(date('Y-m-d') > $safariBookingHeaderData['booking_date']){
 									$booking_failed_det = $this->msafari_booking->move_booking_to_failed($getPaymentData['booking_id']);
 								}
 							}
 							else{//for others mode
 								
 								if (((strtotime(date('Y-m-d H:i:s')) - strtotime($getPaymentData['created_ts'])) > 1020) && ($payment->status != 'captured')) {
+									$booking_failed_det = $this->msafari_booking->move_payment_to_failed($getPaymentData['booking_id'], $getPaymentData['order_id']);
+								}
+								
+								if(date('Y-m-d') > $safariBookingHeaderData['booking_date']){
 									$booking_failed_det = $this->msafari_booking->move_booking_to_failed($getPaymentData['booking_id']);
 								}
 							}
@@ -915,18 +924,27 @@ class Safari_booking extends CI_Controller
 			else{
 				
 				if($option['type'] == 'Cron'){
+					$safariBookingHeaderData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $getPaymentData['booking_id']]);
 					if($getPaymentData['payment_mode'] == 'NEFT'){//for NEFT mode
 						$start_date = strtotime($getPaymentData['created_ts']);
 						$end_date = strtotime("+8 day", $start_date);
 						$last_date = date('Y-m-d', $end_date);
 								
 						if(date('Y-m-d') > $last_date){
+							$booking_failed_det = $this->msafari_booking->move_payment_to_failed($getPaymentData['booking_id'], $getPaymentData['order_id']);
+						}
+						
+						if(date('Y-m-d') > $safariBookingHeaderData['booking_date']){
 							$booking_failed_det = $this->msafari_booking->move_booking_to_failed($getPaymentData['booking_id']);
 						}
 					}
 					else{//for others mode
 						
 						if (((strtotime(date('Y-m-d H:i:s')) - strtotime($getPaymentData['created_ts'])) > 1020)) {
+							$booking_failed_det = $this->msafari_booking->move_payment_to_failed($getPaymentData['booking_id'], $getPaymentData['order_id']);
+						}
+						
+						if(date('Y-m-d') > $safariBookingHeaderData['booking_date']){
 							$booking_failed_det = $this->msafari_booking->move_booking_to_failed($getPaymentData['booking_id']);
 						}
 					}
@@ -940,18 +958,27 @@ class Safari_booking extends CI_Controller
 		} catch (Exception $e) {
 			$getPaymentData = $this->mcommon->getRow('safari_booking_payment', array('order_id' => $option['order_id']));
 			if($option['type'] == 'Cron'){
+				$safariBookingHeaderData = $this->mcommon->getRow('safari_booking_header', ['booking_id' => $getPaymentData['booking_id']]);
 				if($getPaymentData['payment_mode'] == 'NEFT'){//for NEFT mode
 					$start_date = strtotime($getPaymentData['created_ts']);
 					$end_date = strtotime("+8 day", $start_date);
 					$last_date = date('Y-m-d', $end_date);
 							
 					if(date('Y-m-d') > $last_date){
+						$booking_failed_det = $this->msafari_booking->move_payment_to_failed($getPaymentData['booking_id'], $getPaymentData['order_id']);
+					}
+					
+					if(date('Y-m-d') > $safariBookingHeaderData['booking_date']){
 						$booking_failed_det = $this->msafari_booking->move_booking_to_failed($getPaymentData['booking_id']);
 					}
 				}
 				else{//for others mode
 					
 					if (((strtotime(date('Y-m-d H:i:s')) - strtotime($getPaymentData['created_ts'])) > 1020)) {
+						$booking_failed_det = $this->msafari_booking->move_payment_to_failed($getPaymentData['booking_id'], $getPaymentData['order_id']);
+					}
+					
+					if(date('Y-m-d') > $safariBookingHeaderData['booking_date']){
 						$booking_failed_det = $this->msafari_booking->move_booking_to_failed($getPaymentData['booking_id']);
 					}
 				}

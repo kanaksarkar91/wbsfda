@@ -64,6 +64,35 @@ class Msafari_booking extends CI_Model {
         //echo nl2br($this->db->last_query());die;
         return $query->row_array();
 	}
+	function move_payment_to_failed($booking_id, $order_id){
+		
+		$this->db->trans_start(); # Starting Transaction
+
+		$sql = "INSERT INTO safari_booking_payment_failed SELECT * FROM safari_booking_payment WHERE booking_id = '".$booking_id."' AND order_id = '".$order_id."' ";
+		$rs = $this->db->query($sql);
+		
+		if($rs){
+			$sql_del = "DELETE FROM safari_booking_payment WHERE booking_id = '".$booking_id."'  AND order_id = '".$order_id."' ";
+			$rs_del = $this->db->query($sql_del);
+		}
+		
+		$this->db->trans_complete(); # Completing transaction
+
+		if ($this->db->trans_status() === FALSE) {
+			# Something went wrong.
+			$this->db->trans_rollback();
+			return false;
+
+		} 
+		else { 
+			# Everything is Perfect. 
+			# Committing data to the database.
+			$this->db->trans_commit();
+			return true;
+		}
+
+		return false;
+	}
 	function move_booking_to_failed($booking_id){
 		
 		$this->db->trans_start(); # Starting Transaction
