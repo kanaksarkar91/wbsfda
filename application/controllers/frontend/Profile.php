@@ -140,6 +140,9 @@ class Profile extends CI_Controller
 								}
 							}
 						}
+						else{
+							$proceedToPaymentButton = '';
+						}
 						//End  for Re-Payment
 
 						$date = $row['booking_date'];

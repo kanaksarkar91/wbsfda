@@ -348,7 +348,7 @@
                         </td>
                     </tr>
                 </table>
-				<?php
+				<?php /*?><?php
 				if($_GET['type'] != 'cancel'){
 				?>
                 <table cellpadding="10" cellspacing="0" style="width:100%; border: #9e9e9e 1px solid; font-size: 11px;">
@@ -421,7 +421,7 @@
                         </tr>
                     </tbody>
                 </table>
-				<?php } ?>
+				<?php } ?><?php */?>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
                     <tr>
                         <td width="100%" style="text-align: left; font-size: 11px; padding: 6px 3px;">

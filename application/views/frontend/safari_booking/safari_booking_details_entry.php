@@ -72,7 +72,7 @@
 						<ul>
 							<li class="active"><span><i class="bi bi-check-lg"></i></span>Visitor Detail</li>
 							<li><span>2</span>Payment Information</li>
-							<li><span>3</span>Confirmation!</li>
+							<li><span>3</span>Confirmation</li>
 						</ul>
 					</div>
 
