@@ -5,7 +5,7 @@
                 <div class="col-lg-3 col-md-6">
                     <a href="<?= base_url();?>" class="footer_logo"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/logo.png" alt=""></a>
                 </div>
-                <div class="col-lg-2 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <h4>Quick Links</h4>
                     <ul class="footer_menu">
                         <li><a href="">Home </a></li>
@@ -16,7 +16,7 @@
                         <li><a href="">Contact Us</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <!--<div class="col-lg-4 col-md-6">
                     <h4>Related Links</h4>
                     <ul class="footer_menu">
                         <li><a href="">Wild Bengal </a></li>
@@ -28,11 +28,12 @@
                         <li><a href="">West Bengal State Forest Development Agency </a></li>
                         <li><a href="">Bengal Nature Trails</a></li>
                     </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 Contact_list">
+                </div>-->
+                <div class="col-lg-6 col-md-6 Contact_list">
                     <h4>Contact Us</h4>
                     <p class="map-ico"><img src="<?= base_url(); ?>public/frontend_assets/assets/img/map_ico.png" alt="">Aranya Bhavan,BLock LA-10A, Sector- III, Salt Lake, Kolkata, West Bengal 700106</p>
-                    <p><img src="<?= base_url(); ?>public/frontend_assets/assets/img/ph_ico.png" alt=""> <a href="tel:+918337066882">+91 8337066882</a></p>
+                    <p><img src="<?= base_url(); ?>public/frontend_assets/assets/img/ph_ico.png" alt=""> <a href="tel:+91 919734190119"> Jaldapara: +91 919734190119</a></p>
+					<p><img src="<?= base_url(); ?>public/frontend_assets/assets/img/ph_ico.png" alt=""> <a href="tel:+91 9933614174"> Gorumara: +91 9933614174</a></p>
                     <p><img src="<?= base_url(); ?>public/frontend_assets/assets/img/mail_ico.png" alt=""> <a href="mailto:wbsfdaecotourism@gmail.com">wbsfdaecotourism@gmail.com</a></p>
                 </div>
             </div>

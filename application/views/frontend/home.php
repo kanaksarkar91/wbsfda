@@ -185,7 +185,7 @@
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-booksafari-tab" data-bs-toggle="tab" data-bs-target="#nav-booksafari" type="button" role="tab" aria-controls="nav-booksafari" aria-selected="true">Car Safari</button>
-                            <button class="nav-link" id="nav-booksafari1-tab" data-bs-toggle="tab" data-bs-target="#nav-booksafari1" type="button" role="tab" aria-controls="nav-booksafari1" aria-selected="false">Elephant Safari</button>
+                            <button class="nav-link" id="nav-booksafari1-tab" data-bs-toggle="tab" data-bs-target="#nav-booksafari1" type="button" role="tab" aria-controls="nav-booksafari1" aria-selected="false">Elephant Ride</button>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -392,7 +392,16 @@
         //maxbookingdt.setMonth(today.getMonth() + 3);
 
         $("#saf_booking_date").datepicker({
-            minDate: new Date,
+            beforeShowDay: function(date) {
+				var day = date.getDay();
+				// Disable Thursday (day 4)
+				if (day === <?= CLOSED_DAY;?>) {
+					return [false, "", "Thursdays are disabled"];
+				} else {
+					return [true, "", ""];
+				}
+			},
+			minDate: new Date,
             maxDate: maxbookingdt,
             dateFormat: "dd-mm-yy"
         });

@@ -13,14 +13,30 @@ class Msafari_booking extends CI_Model {
         $result = $this->db->query($stored_procedure, $data);
 		//echo $this->db->last_query(); die;
 		
-        if ($result !== NULL) {
+        // Check if query execution was successful
+		if ($result === FALSE) {
+			// Log or handle the error as needed
+			log_message('error', 'Stored procedure execution failed: ' . $this->db->error()['message']);
+			return FALSE;
+		}
+	
+		// Check if the result has rows
+		if ($result->num_rows() > 0) {
 			$response = $result->result_array();
-			$result->free_result();
-			mysqli_next_result( $this->db->conn_id);
 			
-            return $response;
-        }
-        return FALSE;
+			// Free the result to allow for further queries
+			$result->free_result();
+			mysqli_next_result($this->db->conn_id);
+	
+			return $response;
+		}
+	
+		// Free the result if it's empty to avoid errors in subsequent queries
+		$result->free_result();
+		mysqli_next_result($this->db->conn_id);
+	
+		// Return an empty array if no rows were returned
+		return [];
 	}
 	
 	public function get_service_data($where = []){

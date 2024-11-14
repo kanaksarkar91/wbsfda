@@ -103,7 +103,7 @@
 														<?php } } ?>
 														<a class="btn btn-dark btn-sm" href="<?= base_url('view-invoice/' . encode_url($bd['booking_id'])) ?>" target="_blank">View Details</a>
 														<?php
-														if ($bd['booking_status'] == 'O') {
+														if ($bd['booking_status'] == 'A') {
 														?>
 														<a class="btn btn-sm btn-success" href="<?= base_url('download-invoice/' . encode_url($bd['booking_id'])) ?>" target="_blank"><i class="fa fa-download"></i> Download</a>
 															

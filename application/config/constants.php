@@ -99,11 +99,12 @@ define('SMS_ENTITY_ID','1201170124747205609');
 
 define('COM_NAME','WEST BENGAL STATE FOREST DEVELOPMENT AGENCY');
 define('COM_ADDRESS','Aranya Bhawan, Block LA-10A,sector - III, SaltLake City, Kolkata -700106,');
-define('COM_PHONE','8961494999');
-define('COM_EMAIL','wbsfda@gmail.com');
+define('COM_PHONE','+91 919734190119 / 9933614174');
+define('COM_EMAIL','wbsfdaecotourism@gmail.com');
 define('COM_WEBSITE','www.wbsfda.org');
 define('MAX_AGE_FOR_FREE_TICKET',5);
 define('ADULT_AGE',18);
+define('CLOSED_DAY',4); //4 means Thursday
 
 
 

@@ -393,23 +393,30 @@ class Profile extends CI_Controller
 		if ($data['booking_header']['booking_status'] == 'A') {
 			if ($data['booking_header']['created_user_type'] == 'C') {
 				$data['Initiated_by'] = $this->query->getCustomerData($data['booking_header']['created_by']);
-			} else if ($data['booking_header']['created_user_type'] == 'A') {
+			} else if ($data['booking_header']['created_user_type'] == 'U') {
 				$data['Initiated_by'] = $this->query->getUserData($data['booking_header']['created_by']);
 			}
 		}
 		$data['customer_details'] = $this->query->getBookingDetailsOfCustomer($booking_id);
 		$data['countries'] = $this->mcommon->getDetails('country_master', array());
 		$data['booking_details'] = $this->mcommon->getDetails('booking_listing_view', array('booking_id' => $booking_id));
-		$data['booking_payment_listing'] = $this->mcommon->getRow('booking_payment_listing_view', array('booking_id' => $booking_id, 'status' => 'Success'));
+		//$data['booking_payment_listing'] = $this->mcommon->getRow('booking_payment_listing_view', array('booking_id' => $booking_id, 'status' => 'Success'));
+		$data['booking_payment_listings'] = $this->mbooking->get_booking_payment_details($booking_id);
 		$data['property_details'] = $this->query->getPropertyDetails($booking_id);
-		$data['primary_guest_details'] = $this->query->getguestDetails($booking_id);
-		$data['gst_details'] = $this->query->getGstDetails($booking_id);
+
+		$check_in_date = date_create($data['booking_header']['check_in']);
+		$current_date = date_create(date('Y-m-d'));
+		//print_r($current_date);die;
+		$diff_check_in_out = date_diff($current_date, $check_in_date);
+		$diff_check_in_out_date = $diff_check_in_out->format("%R%a");
+		//echo $diff_check_in_out_date;die;
+		$data['cancellation_details'] = $this->query->getCancellationDetails($diff_check_in_out_date);
+		$data['cancellation_request_details'] = $this->query->getCancellationRequestDetails($booking_id, 'G');
 
 		//echo '<pre>';print_r($data['gst_details']);die;
 
-		$data['content'] = 'frontend/downloadInvoice';
 		$filename = 'booking-' . time() . '-' . $booking_id;
-		$html = $this->load->view('frontend/downloadInvoiceNew', $data, true);
+		$html = $this->load->view('frontend/downloadInvoice', $data, true);
 		// $this->pdf->create($html, $filename);
 		// echo $html;die;
 

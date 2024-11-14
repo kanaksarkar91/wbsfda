@@ -21,11 +21,11 @@
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 5px;">
-                    <tr>
+                    <!--<tr>
                         <td colspan="3" style="text-align:center;">
                             <img src="<?= base_url('public/frontend_assets/assets/img/logo.jpg');?>" width="228" height="88" alt="..." />
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td width="15%" style="text-align: right;padding-right:10px;">
                             <img src="<?= base_url('public/frontend_assets/assets/img/forest-2.jpg');?>" width="84" height="108" alt="..." style="margin-top:10px;" />

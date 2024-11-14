@@ -144,6 +144,15 @@ $(document).ready(function(){
 	//maxbookingdt.setMonth(today.getMonth() + 3);
 	
 	$("#saf_booking_date").datepicker({
+		beforeShowDay: function(date) {
+			var day = date.getDay();
+			// Disable Thursday (day 4)
+			if (day === <?= CLOSED_DAY;?>) {
+				return [false, "", "Thursdays are disabled"];
+			} else {
+				return [true, "", ""];
+			}
+		},
 		minDate: new Date,
 		maxDate: maxbookingdt,
 		dateFormat: "dd-mm-yy"

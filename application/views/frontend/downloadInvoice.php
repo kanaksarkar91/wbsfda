@@ -1,11 +1,3 @@
-<?php
-//echo '<pre>'; print_r($booking_payment_listing); die;
-?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/css/bootstrap.min.css" integrity="sha512-siwe/oXMhSjGCwLn+scraPOWrJxHlUgMBMZXdPe2Tnk3I0x3ESCoLz7WZ5NTH6SZrywMY+PB1cjyqJ5jAluCOg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" integrity="sha512-0V10q+b1Iumz67sVDL8LPFZEEavo6H/nBSyghr7mm9JEQkOAm91HNoZQRvQdjennBb/oEuW+8oZHVpIKq+d25g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js" integrity="sha512-zP5W8791v1A6FToy+viyoyUUyjCzx+4K8XZCKzW28AnCoepPNIXecxh9mvGuy3Rt78OzEsU+VCvcObwAMvBAww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Booking Acknowledgement</title>
+    <title>Booking Slip</title>
     <style type="text/css">
         @page {
             size: A4;
@@ -25,88 +17,40 @@
 </head>
 
 <body role="document">
-    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width:1140px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
+    <table id="printArea" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; font-size: 11px; padding: 0;text-align: center;color: #000;">
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom: 5px;">
+                    <!--<tr>
+                        <td colspan="3" style="text-align:center;">
+                            <img src="<?= base_url('public/frontend_assets/assets/img/logo.jpg');?>" width="228" height="88" alt="..." />
+                        </td>
+                    </tr>-->
                     <tr>
                         <td width="15%" style="text-align: right;padding-right:10px;">
-                            <img src="<?= base_url('public/frontend_assets/assets/img/forest-2.jpg'); ?>" width="84" height="84" alt="..." style="margin-top:20px;" />
+                            <img src="<?= base_url('public/frontend_assets/assets/img/forest-2.jpg');?>" width="84" height="108" alt="..." style="margin-top:10px;" />
                         </td>
                         <td width="70%" style="text-align: center;">
-                            <img src="<?= base_url('public/frontend_assets/assets/img/logo.png'); ?>" width="228" height="88" alt="..." />
-                            <h3 style="margin-top:5px; font-size:18px;margin-bottom: 0px;line-height:1;font-weight:600;">WESTBENGAL STATE FOREST DEVELOPMENT AGENCY</h3>
-                            <h3 style="margin-top:5px; font-size:16px;margin-bottom: 5px;line-height:1;font-weight:600;">Booking Acknowledgement</h3>
+                            <h3 style="margin-top:5px; font-size:16px;margin-bottom: 0px;line-height:1;font-weight:600;"><?= COM_NAME;?></h3>
+                            <h3 style="margin-top:5px; font-size:14px;margin-bottom: 5px;line-height:1;font-weight:600;">Govt.Notification No. 1130-FR/11M-19/2003, On 10th June -2014</h3>
+                            <h3 style="margin-top:0px; font-size:14px;margin-bottom: 5px;line-height:1;font-weight:600;">Reservation Slip for Car Safari / Elephant Ride</h3>
+                            <p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">Booking No.: <?= $booking_header['booking_no']; ?></p>
+                            <p style="font-size:12px; font-weight: 400;margin-bottom: 0;margin-top:0;font-weight:bold;">Contact No.: 9734190119</p>
+                            <p style="font-size:11px;">Kindly Note down the Booking No. for future reference</p>
                         </td>
                         <td width="15%" style="text-align: left; padding:10px;">
-                            <img src="<?= base_url('public/frontend_assets/assets/img/forest-1.jpg'); ?>" width="84" height="84" alt="..." style="margin-top:20px;" />
+                            <img src="<?= base_url('public/frontend_assets/assets/img/forest-1.jpg');?>" width="84" height="108" alt="..." style="margin-top:10px;" />
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
 
-        <?php
-        if ($_GET['type'] == 'cancel') {
-            if (!$this->admin_session_data['user_id']) {
-        ?>
-                <tr>
-                    <td>
-                        <table cellpadding="0" cellspacing="0" border="0" style="width: 1240px; margin: 10 auto; font-family: Verdana, Geneva, Tahoma, sans-serif;border:#9e9e9e 1px solid; padding: 15px;text-align: center;">
-                            <tr>
-                                <input type="hidden" id="booking_id" name="booking_id" value="<?= $booking_header['booking_id'] ?>">
-                                <?php
-                                if (($booking_header['booking_status'] == 'I' || $booking_header['booking_status'] == 'A') && strtotime($booking_header['check_in']) >= time()) {
-                                    if ($booking_header['booking_source'] == 'F') {
-                                ?>
-                                        <td style="padding: 10px;">
-                                            <h4>Cancellation Information</h4><br>
-                                            <?php
-                                            $cancel_percent = $cancellation_details['cancellation_per'];
-                                            $cancel_charge = intval((($booking_header['room_price_before_tax'] * $cancellation_details['cancellation_per']) / 100) * 100) / 100;
-                                            $refund_amt = intval(($booking_header['room_price_before_tax'] - $cancel_charge) * 100) / 100;
-                                            ?>
-                                            <h6>Cancellation Charge (Rs.) : <?= $cancel_charge ?></h6>
-                                            <h6>Refund Amount (Rs.) : <?= $refund_amt ?></h6>
-                                            <textarea type="text" class="form-control" id="cancel_remarks" name="cancel_remarks" placeholder="Cancel Remarks" rows="4" cols="50"></textarea>
-                                            <input type="hidden" id="paid_amount" name="paid_amount" value="<?= $booking_header['room_price_before_tax'] ?>">
-                                            <input type="hidden" id="cancel_percent" name="cancel_percent" value="<?= $cancel_percent ?>">
-                                            <input type="hidden" id="cancel_charge" name="cancel_charge" value="<?= $cancel_charge ?>">
-                                            <input type="hidden" id="refund_amt" name="refund_amt" value="<?= $refund_amt ?>">
-
-
-                                            <input type="button" id="cancel_booking_btn" style="float:right;margin-bottom:10px;margin-top:10px;" value="Cancel Booking" class="btn btn-danger">
-                                        </td>
-                                <?php
-                                    }
-                                }
-                                ?>
-                                <?php if ($booking_header['booking_status'] == 'C' && isset($booking_header['cancellation_remarks'])) { ?>
-                                    <td style="padding: 10px;">
-                                        <h4>Cancellation Information</h4><br>
-                                        <h6>Cancellation Percentage : <?= $cancellation_request_details['cancel_percent'] ?></h6>
-                                        <h6>Cancellation Charge (Rs.) : <?= $cancellation_request_details['cancel_charge'] ?></h6>
-                                        <h6>Refund Amount (Rs.) : <?= $cancellation_request_details['refund_amt'] ?></h6>
-                                        <h6>Refund Status : <?= ($cancellation_request_details['is_refunded'] == '1') ? 'Refunded' : 'Refund Initiated' ?></h6>
-
-                                        <textarea type="text" class="form-control" placeholder="Cancel Remarks" rows="4" cols="50" disabled><?= $booking_header['cancellation_remarks'] ?></textarea>
-                                    </td>
-                                <?php } ?>
-
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-        <?php
-            }
-        }
-        ?>
-
         <tr>
             <td>
-                <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:center;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width:91%; margin-right:27px;  padding: 0; border: #9e9e9e 1px solid; text-align:center;">
                     <tr>
-                        <td width="16%" style="font-size:12px; background-color: #f5f5f5; padding: 6px 3px; border-right: #9e9e9e 1px solid; border-bottom: #9e9e9e 1px solid;"><b>Booking ID</b></td>
+                        <td width="16%" style="font-size:12px; background-color: #f5f5f5; padding: 6px 3px; border-right: #9e9e9e 1px solid; border-bottom: #9e9e9e 1px solid;"><b>Booking No.</b></td>
                         <td width="16%" style="font-size:12px;  border-right: #9e9e9e 1px solid;padding: 6px 3px; text-align: left; border-bottom: #9e9e9e 1px solid;"><?= $booking_header['booking_no']; ?></td>
                         <td width="16%" style="font-size:12px; background-color: #f5f5f5; padding: 6px 3px; border-right: #9e9e9e 1px solid; border-bottom: #9e9e9e 1px solid;"><b>Transaction Date</b></td>
                         <td width="16%" style="font-size:12px;  border-right: #9e9e9e 1px solid;padding: 6px 3px; text-align: left; border-bottom: #9e9e9e 1px solid;"><?= date('d/m/Y H:i:s A', strtotime($booking_header['created_ts'])) ?></td>
@@ -139,7 +83,7 @@
 
         <tr>
             <td>
-                <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border: #9e9e9e 1px solid; text-align:center;margin-top: 3px;">
+                <table cellpadding="0" cellspacing="0" border="0" style="width:94.4%;border: #9e9e9e 1px solid; text-align:center;margin-top: 3px;">
                     <tr>
                         <td width="16%" style="font-size:12px; background-color: #f5f5f5; padding: 6px 3px; border-right: #9e9e9e 1px solid; border-bottom: #9e9e9e 1px solid;"><b>Booked for</b></td>
                         <td colspan="3" width="48%" style="font-size:12px;  border-right: #9e9e9e 1px solid;padding: 6px 3px; text-align: left; border-bottom: #9e9e9e 1px solid;"><?= ($booking_header['first_name'] != '') ? $booking_header['customer_title'] . ' ' . $booking_header['first_name'] . ' ' . $booking_header['middle_name'] . ' ' . $booking_header['last_name'] : $booking_header['company_name'] ?></td>
@@ -240,7 +184,7 @@
                         <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">SGST<br>(Amount)</th>
                         <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">GST<br>(%)</th>
                         <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">GST<br>(Amount)</th>
-                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid;">Price after GST<br>(per Day/Night)</th>
+                        <th width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;">Price after GST<br>(per Day/Night)</th>
                     </tr>
                     <?php
                     $totalAdult = $totalChild = $totalRoomRate = $totalExtraBedRate = $totalRoomBasePrice = $totalRoomDiscount = $totalRoomPriceBeforeTax = $totalGSTAmount = $totalPayableAmount = 0;
@@ -258,7 +202,7 @@
                                 <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= number_format($booking_detail['room_gst_amt'] / 2, 2) ?></td>
                                 <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= (($booking_detail['gst_perc'] > 0) ? $booking_detail['gst_perc'] . '%' : 'N/A') ?></td>
                                 <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= number_format($booking_detail['room_gst_amt'],2) ?></td>
-                                <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid;"><?= $booking_detail['room_net_amount'] ?></td>
+                                <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= $booking_detail['room_net_amount'] ?></td>
                             </tr>
                     <?php
                             $totalAdult += ($booking_detail['is_hall'] == 1) ? 0 : $booking_detail['adults'];
@@ -286,7 +230,7 @@
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; background-color: #f5f5f5; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"></td>
                         <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= number_format((float)$totalGSTAmount, 2, '.', '') ?></td>
-                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid;"><?= number_format((float)$totalPayableAmount, 2, '.', '') ?></td>
+                        <td width="" style="font-size:12px; padding: 6px 3px; text-align: center; border-top: #9e9e9e 1px solid; border-right: #9e9e9e 1px solid;"><?= number_format((float)$totalPayableAmount, 2, '.', '') ?></td>
                     </tr>
                 </table>
             </td>
@@ -410,7 +354,7 @@
                 ?>
                 <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
                     <tr>
-                        <td width="100%" style="text-align: center; font-size: 14px; border-top: #9e9e9e 1px solid;padding: 5px 0;">
+                        <td width="100%" style="text-align: center; font-size: 12px; border-top: #9e9e9e 1px solid;padding: 5px 0;">
                             <p style="margin:3px 0;">For more information please contact</p>
                             <p style="margin:3px 0;"><?= COM_NAME; ?></p>
                             <p style="margin:3px 0;"><?= COM_ADDRESS; ?></p>
@@ -421,115 +365,6 @@
             </td>
         </tr>
     </table>
-
-
-    <script>
-        function printpart() {
-            $('#print_button').hide();
-            var printwin = window.open("");
-            printwin.document.write(document.getElementById("printArea").innerHTML);
-            printwin.stop();
-            printwin.print();
-            printwin.close();
-        }
-
-        $(document).on('click', "#cancel_booking_btn", function() {
-
-
-
-
-            var booking_id = $("#booking_id").val();
-            var cancel_remarks = $("#cancel_remarks").val();
-            var paid_amount = $("#paid_amount").val();
-            var cancel_percent = $("#cancel_percent").val();
-            var cancel_charge = $("#cancel_charge").val();
-            var refund_amt = $("#refund_amt").val();
-            if (!cancel_remarks) {
-
-                $.alert({
-                    title: 'Alert!',
-                    content: 'Please enter cancellation reason',
-                    type: 'red',
-                    typeAnimated: true,
-                })
-                return false;
-            }
-
-            $.confirm({
-                type: 'red',
-                title: 'Confirm',
-                content: 'Do you want to cancel this booking?',
-                buttons: {
-
-                    confirm: {
-                        action: function() {
-                            $("#cancel_booking_btn").prop('disabled', true);
-                            $("#cancel_booking_btn").val('Processing...');
-
-                            $.ajax({
-                                url: '<?= base_url("frontend/profile/cancel_booking"); ?>',
-                                method: 'post',
-                                data: {
-                                    csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>',
-                                    booking_id: booking_id,
-                                    cancel_remarks: cancel_remarks,
-                                    paid_amount: paid_amount,
-                                    cancel_percent: cancel_percent,
-                                    cancel_charge: cancel_charge,
-                                    refund_amt: refund_amt,
-                                },
-                                dataType: 'json',
-                                async: false,
-                                success: function(response) {
-                                    if (response.status) {
-                                        $("#cancel_booking_btn").prop('disabled', false);
-                                        $("#cancel_booking_btn").val('Cancel Booking');
-
-                                        $.confirm({
-                                            type: 'green',
-                                            title: 'Success!',
-                                            content: response.msg,
-                                            buttons: {
-
-                                                OK: {
-                                                    btnClass: 'btn-default',
-                                                    action: function() {
-
-
-                                                        window.location.href = "<?= base_url('my-booking') ?>";
-                                                    }
-
-                                                }
-                                            }
-                                        })
-
-                                    } else {
-                                        $("#cancel_booking_btn").prop('disabled', false);
-                                        $("#cancel_booking_btn").val('Cancel Booking');
-
-                                        $.alert({
-                                            title: 'Alert!',
-                                            content: response.msg,
-                                            type: 'red',
-                                            typeAnimated: true,
-                                        })
-                                    }
-                                }
-                            })
-
-                        }
-
-                    },
-                    cancel: {
-                        btnClass: 'btn-default',
-                        action: function() {
-
-                        }
-                    }
-                }
-            })
-        })
-    </script>
 </body>
 
 </html>
