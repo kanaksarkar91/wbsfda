@@ -140,7 +140,8 @@
 $(document).ready(function(){
 	var today = new Date();
 	var maxbookingdt = new Date();
-	maxbookingdt.setMonth(today.getMonth() + 3);
+	maxbookingdt.setDate(today.getDate() + 89);
+	//maxbookingdt.setMonth(today.getMonth() + 3);
 	
 	$("#saf_booking_date").datepicker({
 		minDate: new Date,

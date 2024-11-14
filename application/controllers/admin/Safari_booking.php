@@ -290,7 +290,7 @@ class Safari_booking extends MY_Controller
 
 						);
 
-						$this->db->insert('cancel_request_tbl', $cancel_request_data);
+						$insertRecord = $this->mcommon->insert('cancel_request_tbl', $cancel_request_data);
 						//echo nl2br($this->db->last_query()); die;
 						$booking_status = $count_of_2 == $bookingData['no_of_person'] ? 'C' : 'A';
 						$no_of_person = $count_of_2 == $bookingData['no_of_person'] ? $bookingData['booking_time_visitor_count'] : ($bookingData['no_of_person'] - $count_of_2);
@@ -299,7 +299,7 @@ class Safari_booking extends MY_Controller
 						//echo nl2br($this->db->last_query()); die;
 						//update detail table
 						foreach($safari_booking_detail_ids as $drow){
-							$this->mcommon->update('safari_booking_detail', ['safari_booking_detail_id' => $drow], ['is_status' => 2]);
+							$this->mcommon->update('safari_booking_detail', ['safari_booking_detail_id' => $drow], ['is_status' => 2, 'cancel_request_id' => $insertRecord]);
 						}
 						
 						$this->db->trans_complete(); # Completing transaction
@@ -321,7 +321,7 @@ class Safari_booking extends MY_Controller
 							$email_from = $config['email_from'];
 							unset($config['email_from']);
 
-							$subject = 'PNR No.  ' . $bookingData['booking_number'] . ' has been cancelled.';
+							$subject = 'Booking No.  ' . $bookingData['booking_number'] . ' has been cancelled.';
 
 							$message = '<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
 		<center style="width: 100%; background-color: #f1f1f1; font-family: Arial, Helvetica, sans-serif;">
@@ -354,7 +354,7 @@ class Safari_booking extends MY_Controller
 											<p>Sir/Madam</p>
 											
 											<p style="margin-bottom:0;">
-												We have received your cancellation application for PNR No. ' . $bookingData['booking_number'] . ' and it has been accepted. ' . $refund_perc . '% of the booking amount (excluding GST) will be refunded within 15 days and will be credited to the concerned bank account through which payment has been made at the time of booking. For any further query please get in touch with us at 9734190119.
+												We have received your cancellation application for Booking No. ' . $bookingData['booking_number'] . ' and it has been accepted. ' . $refund_perc . '% of the booking amount (excluding GST) will be refunded within 15 days and will be credited to the concerned bank account through which payment has been made at the time of booking. For any further query please get in touch with us at 9734190119.
 											</p>
 											<p style="margin-bottom:0;">Thanks and Regards,</p>
 											<p style="margin-top:0;">WBSFDC</p>

@@ -1426,6 +1426,52 @@ class Reports extends MY_Controller
 		}
 		
 	}
+	
+	public function safari_booking_register_booking_date_wise() {
+		$data = array('menu_id'=> 76);
+		
+		$data['division_id']= $this->input->post('division_id') != '' ? $this->input->post('division_id') : 0; 
+		$data['start_date']= $this->input->post('start_date') != '' ? date('Y-m-d', strtotime($this->input->post('start_date'))) : date('Y-m-d',strtotime("-1 days")); 
+		$data['end_date']= $this->input->post('end_date') != '' ? date('Y-m-d', strtotime($this->input->post('end_date'))) : date('Y-m-d');
+		$data['safari_type_id']= $this->input->post('safari_type_id') != '' ? $this->input->post('safari_type_id') : 0; 
+		$data['safari_service_header_id']= $this->input->post('safari_service_header_id') != '' ? $this->input->post('safari_service_header_id') : 0; 
+
+		$data['divisions'] = $this->mcommon->getDetailsOrder('division_master', array('is_active' => 1, 'state_id' => 41), 'division_name', 'ASC');
+		$data['safariTypes'] = $this->mcommon->getDetailsOrder('safari_type_master', array('is_active' => 1), 'type_name', 'ASC');
+		
+		if($this->admin_session_data['role_id'] != ROLE_SUPERADMIN){
+			$safari_service_header_ids =  $this->mcommon->get_user_service(array('user_id' => $this->admin_session_data['user_id']));
+		}
+		$data['serviceDefinitions'] = $this->admin_session_data['role_id'] == ROLE_SUPERADMIN ? $this->mcommon->getDetailsOrder('safari_service_header', ['service_status' => 1], 'service_definition', 'ASC') : $this->msafari_service->get_user_wise_service($safari_service_header_ids);
+		
+		if($this->input->post()){
+			if($this->input->post('division_id')){
+				$where['a.division_id ='] = $this->input->post('division_id');
+			}
+			if($this->input->post('safari_type_id')){
+				$where['a.safari_type_id ='] = $this->input->post('safari_type_id');
+			}
+			if($this->input->post('safari_service_header_id')){
+				$where['a.safari_service_header_id ='] = $this->input->post('safari_service_header_id');
+			}
+		}
+		
+		$where['DATE(a.created_ts) >='] = date('Y-m-d', strtotime($data['start_date']));
+		$where['DATE(a.created_ts) <='] = date('Y-m-d', strtotime($data['end_date']));
+		$where['a.booking_status = '] = 'A';
+		
+		$order_by = 'DATE(a.created_ts) ASC, service_definition ASC';
+		
+		$data['safariReservations'] = array();
+		if($this->admin_session_data['role_id'] == ROLE_SUPERADMIN || check_user_permission($data['menu_id'], 'delete_flag') || 1){
+			$data['safariReservations'] = $this->mreport->getSafariBookingData($where, $safari_service_header_ids, $order_by);
+		}
+		
+		//echo nl2br($this->db->last_query()); die;
+		//echo "<pre>"; print_r($data['reservations']); die;
+		$data['content'] = 'admin/reports/safari_booking_register_booking_date_wise';
+		$this->load->view('admin/layouts/index', $data);
+	}
 
 
 }

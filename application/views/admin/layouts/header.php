@@ -33,6 +33,7 @@
     <!-- summernote -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/summernote/summernote-bs4.min.css') ?>" />
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/css/jquery.dataTables.min.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/css/buttons.dataTables.min.css') ?>" />
 
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/admin_assets/css/jquery.datetimepicker.css') ?>" />
     <link rel="stylesheet" type="text/css" href=<?= base_url('public/admin_assets/css/main.min.css') ?> />

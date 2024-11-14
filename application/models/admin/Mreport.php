@@ -902,5 +902,33 @@ LEFT JOIN harbour_products_master hpm ON rt.harbour_product_id = hpm.harbour_pro
 			}
 		}
     }
+	
+	function getSafariBookingData($where=[], $safari_service_header_ids = [], $order_by = ''){
+		$this->db->select("b.*, a.*, d.division_name, st.type_name, sh.service_definition, a.created_ts created_ts_header, c.slot_desc, c.start_time, c.end_time, cm.mobile AS customer_mobile, sc.cat_name, IF(crt.created_user_type = 'C', cu.first_name, u.full_name) AS created_by_name, crt.created_ts AS cancelled_on, crt.cancel_charge, crt.no_of_person_cancelled, crt.refunded_amount");
+		$this->db->from('safari_booking_detail b');
+		$this->db->join('safari_booking_header a', 'b.booking_id = a.booking_id', 'LEFT');
+		$this->db->join('division_master d', 'a.division_id = d.division_id', 'LEFT');
+		$this->db->join('safari_type_master st', 'a.safari_type_id = st.safari_type_id', 'LEFT');
+		$this->db->join('safari_service_header sh', 'a.safari_service_header_id = sh.safari_service_header_id', 'LEFT');
+		$this->db->join('safari_service_period_slot_detail c', 'a.period_slot_dtl_id = c.period_slot_dtl_id', 'LEFT');
+		$this->db->join('customer_master cm', 'a.customer_id = cm.customer_id', 'LEFT');
+		$this->db->join('safari_category_master sc', 'a.safari_cat_id = sc.safari_cat_id', 'LEFT');
+		$this->db->join('cancel_request_tbl crt', 'b.cancel_request_id = crt.cancel_request_id', 'LEFT');
+		$this->db->join('customer_master cu', 'crt.created_user_type = "C" AND crt.created_by = cu.customer_id', 'LEFT');
+		$this->db->join('master_admin u', 'crt.created_user_type = "U" AND crt.created_by = u.user_id', 'LEFT');
+		if(!empty($where)){
+			$this->db->where($where);
+		}
+		if(!empty($safari_service_header_ids)){
+            $this->db->where_in('a.safari_service_header_id', $safari_service_header_ids, false);
+        }
+		if(!empty($order_by)){
+            $this->db->order_by($order_by,null);
+        }
+        $query=$this->db->get();
+		//echo nl2br($this->db->last_query()); die;		
+        return $query->result_array();
+
+    }
 
 }
